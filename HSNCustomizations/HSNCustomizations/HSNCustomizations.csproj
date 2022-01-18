@@ -1,0 +1,143 @@
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HSNCustomizations</RootNamespace>
+    <AssemblyName>HSNCustomizations</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <WarningLevel>3</WarningLevel>
+    <FileVersion>20.210.0044</FileVersion>
+    <InformationalVersion>20.210.0044</InformationalVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PX.Common">
+      <HintPath>..\..\..\..\Bin\PX.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PX.Common.Std, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Bin\PX.Common.Std.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.CS.Contracts">
+      <HintPath>..\..\..\..\Bin\PX.CS.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.Data">
+      <HintPath>..\..\..\..\Bin\PX.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PX.Data.BQL.Fluent">
+      <HintPath>..\..\..\..\Bin\PX.Data.BQL.Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.Objects">
+      <HintPath>..\..\..\..\Bin\PX.Objects.DLL</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PX.Objects.FS">
+      <HintPath>..\..\..\..\Bin\PX.Objects.FS.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.SiteMap, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Bin\PX.SiteMap.dll</HintPath>
+    </Reference>
+    <Reference Include="PX.Web.UI.Frameset, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3b136cac2f602b8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Bin\PX.Web.UI.Frameset.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DAC\v_APRegisterUDFAttir.cs" />
+    <Compile Include="DAC\LUMAutoWorkflowStage.cs" />
+    <Compile Include="DAC\LumINTran.cs" />
+    <Compile Include="DAC\LUMOpprTermCond.cs" />
+    <Compile Include="DAC\LumProcessCitiBankPaymentFile.cs" />
+    <Compile Include="DAC\LumProcessSCBPaymentFile.cs" />
+    <Compile Include="DAC\LUMSrvEventHistory.cs" />
+    <Compile Include="DAC\LumStageControl.cs" />
+    <Compile Include="DAC\LUMTermsConditions.cs" />
+    <Compile Include="DAC_Extension\APPaymentExtensions.cs" />
+    <Compile Include="DAC_Extension\CROpportunityExtensions.cs" />
+    <Compile Include="DAC_Extension\CROpportunityProductsExtensions.cs" />
+    <Compile Include="DAC_Extension\FSServiceOrderExtensions.cs" />
+    <Compile Include="DAC_Extension\FSSrvOrdTypeExtensions.cs" />
+    <Compile Include="Descriptor\FSStageControlHandler.cs" />
+    <Compile Include="Descriptor\FSWorkflowStageHandler.cs" />
+    <Compile Include="Descriptor\HSNMessages.cs" />
+    <Compile Include="Descriptor\InvoicingFuncations2.cs" />
+    <Compile Include="Descriptor\LUMAttribute.cs" />
+    <Compile Include="Descriptor\LUMGetAvailablePaymentsAttribute.cs" />
+    <Compile Include="Descriptor\LUMTransferPurposeType.cs" />
+    <Compile Include="Graph\ClossPrepaymentProcess.cs" />
+    <Compile Include="Graph\PrintTransferPickingList.cs" />
+    <Compile Include="Graph\PrintTransferDeliveryOrder.cs" />
+    <Compile Include="Graph\ProcessCitiBankOutsourceCheckMaint.cs" />
+    <Compile Include="Graph\ProcessCitiBankReturnCheckMaint.cs" />
+    <Compile Include="Graph\ProcessCitiBankTTPaymentMaint.cs" />
+    <Compile Include="Graph\ProcessSCBPaymentMaint.cs" />
+    <Compile Include="Graph_Extension\APPaymentEntry.cs" />
+    <Compile Include="Graph_Extension\ARPaymentEntry.cs" />
+    <Compile Include="Graph_Extension\CADepositEntry.cs" />
+    <Compile Include="Graph_Extension\CREmailActivityMaint.cs" />
+    <Compile Include="Graph_Extension\CustomerClassMaint.cs" />
+    <Compile Include="Graph_Extension\INTransferEntry.cs" />
+    <Compile Include="Graph_Extension\OpportunityMaint.cs" />
+    <Compile Include="Graph_Extension\QuoteMaint.cs" />
+    <Compile Include="Graph_Extension\SM_SOInvoiceEntry.cs" />
+    <Compile Include="Graph_Extension\SOInvoiceEntry.cs" />
+    <Compile Include="Graph_Extension\SvrOrdTypeMaint.cs" />
+    <Compile Include="DAC\LUMAppEventHistory.cs" />
+    <Compile Include="Graph_Extension\AppointmentEntry.cs" />
+    <Compile Include="DAC\LUMHSNSetup.cs" />
+    <Compile Include="DAC_Extension\INRegisterExtensions.cs" />
+    <Compile Include="DAC_Extension\INTranExtensions.cs" />
+    <Compile Include="LUMHSNSetupMaint.cs" />
+    <Compile Include="Graph_Extension\SMEquipmentMaint.cs" />
+    <Compile Include="Graph_Extension\INReceiptEntry.cs" />
+    <Compile Include="DAC\LUMBranchWarehouse.cs" />
+    <Compile Include="Graph_Extension\ServiceOrderEntry.cs" />
+    <Compile Include="DAC_Extension\FSAppointmentDetExtensions.cs" />
+    <Compile Include="DAC_Extension\FSSODetExtensions.cs" />
+    <Compile Include="DAC_Extension\FSAppointmentExtensions.cs" />
+    <Compile Include="DAC_Extension\CustomerClassExtensions.cs" />
+    <Compile Include="Graph\PrintTransferProcess.cs" />
+    <Compile Include="DAC_Extension\INSiteExtensions.cs" />
+    <Compile Include="Graph_Extension\INSiteMaint.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
