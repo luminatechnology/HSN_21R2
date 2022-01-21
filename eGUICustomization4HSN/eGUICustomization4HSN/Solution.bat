@@ -1,0 +1,1 @@
+"C:\Program Files\Acumatica ERP\HSN_2021R2\App_Data\Projects\eGUICustomization4HSN\eGUICustomization4HSN\eGUICustomization4HSN.sln"

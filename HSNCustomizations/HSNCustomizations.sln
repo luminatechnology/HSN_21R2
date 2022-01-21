@@ -27,15 +27,44 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HSN_2021R2", "..\..\..\", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSNCustomizations", "HSNCustomizations\HSNCustomizations.csproj", "{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eGUIEnhancement4HSN", "..\eGUIEnhancement4HSN\eGUIEnhancement4HSN\eGUIEnhancement4HSN.csproj", "{D1D8896A-AF53-4E00-BAFD-74323669A0D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSNHighcareCistomizations", "..\HSNHighcareCistomizations\HSNHighcareCistomizations\HSNHighcareCistomizations.csproj", "{C0028E71-6A85-446E-BEBB-CB27FA8C5E3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSNFinance", "..\HSNFinance\HSNFinance\HSNFinance.csproj", "{A19C0620-9634-4F5C-8302-715A844A8224}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eGUICustomization4HSN", "..\eGUICustomization4HSN\eGUICustomization4HSN\eGUICustomization4HSN\eGUICustomization4HSN.csproj", "{55F681C3-5945-40EB-84B3-0E45A569D677}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1D8896A-AF53-4E00-BAFD-74323669A0D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D8896A-AF53-4E00-BAFD-74323669A0D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D8896A-AF53-4E00-BAFD-74323669A0D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D8896A-AF53-4E00-BAFD-74323669A0D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0028E71-6A85-446E-BEBB-CB27FA8C5E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0028E71-6A85-446E-BEBB-CB27FA8C5E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0028E71-6A85-446E-BEBB-CB27FA8C5E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0028E71-6A85-446E-BEBB-CB27FA8C5E3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A19C0620-9634-4F5C-8302-715A844A8224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A19C0620-9634-4F5C-8302-715A844A8224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A19C0620-9634-4F5C-8302-715A844A8224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A19C0620-9634-4F5C-8302-715A844A8224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -144,7 +144,7 @@ namespace PX.Objects.FS
 
         #region Action
         public PXMenuAction<FSServiceOrder> lumStages;
-        [PXUIField(DisplayName = "STAGES", MapEnableRights = PXCacheRights.Select)]
+        [PXUIField(DisplayName = "STAGES", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton(MenuAutoOpen = true, CommitChanges = true)]
         public virtual void LumStages() { }
         #endregion
@@ -206,12 +206,15 @@ namespace PX.Objects.FS
                         }
                         return adapter.Get();
                     },
-                    new PXEventSubscriberAttribute[] { new PXButtonAttribute() { CommitChanges = true } }
+                    new PXEventSubscriberAttribute[] { new PXButtonAttribute() { CommitChanges = true, MenuAutoOpen = false } }
                 );
                 actionLst.Add(temp);
             }
-            foreach (var a in actionLst)
-                this.lumStages.AddMenuAction(a);
+            foreach (var act in actionLst)
+            {
+                act.SetDisplayOnMainToolbar(false);
+                this.lumStages.AddMenuAction(act);
+            }
         }
 
         /// <summary> Setting Stage Button Status </summary>
@@ -232,12 +235,13 @@ namespace PX.Objects.FS
                                                                                    .View.Select(Base, row.SrvOrdType, row.WFStageID).ToList();
 
                 var btn = this.lumStages.GetState(null) as PXButtonState;
-                
+
                 if (btn.Menus != null)
                 {
                     foreach (ButtonMenu btnMenu in btn.Menus)
                     {
-                        this.lumStages.SetVisible(btnMenu.Command, lists.Exists(x => (!(x.GetItem<LumStageControl>().AdminOnly ?? false) || ((x.GetItem<LumStageControl>().AdminOnly ?? false) && isAdmin ? true : false)) && FSWorkflowStageHandler.GetStageName(x.GetItem<LumStageControl>().ToStage) == btnMenu.Command));
+                        var isVisible = lists.Exists(x => (!(x.GetItem<LumStageControl>().AdminOnly ?? false) || ((x.GetItem<LumStageControl>().AdminOnly ?? false) && isAdmin ? true : false)) && FSWorkflowStageHandler.GetStageName(x.GetItem<LumStageControl>().ToStage) == btnMenu.Command);
+                        this.lumStages.SetVisible(btnMenu.Command, isVisible);
                     }
                 }
             }

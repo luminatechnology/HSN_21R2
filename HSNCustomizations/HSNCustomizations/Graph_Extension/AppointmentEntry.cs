@@ -592,9 +592,10 @@ namespace PX.Objects.FS
                 );
                 actionLst.Add(temp);
             }
-            foreach (var a in actionLst)
+            foreach (var act in actionLst)
             {
-                this.lumStages.AddMenuAction(a);
+                act.SetDisplayOnMainToolbar(false);
+                this.lumStages.AddMenuAction(act);
             }
         }
 
@@ -619,7 +620,8 @@ namespace PX.Objects.FS
                 {
                     foreach (ButtonMenu btnMenu in btn.Menus)
                     {
-                        this.lumStages.SetVisible(btnMenu.Command, lists.Exists(x => (!(x.GetItem<LumStageControl>().AdminOnly ?? false) || ((x.GetItem<LumStageControl>().AdminOnly ?? false) && isAdmin ? true : false)) && FSWorkflowStageHandler.GetStageName(x.GetItem<LumStageControl>().ToStage) == btnMenu.Command));
+                        var isVisible = lists.Exists(x => (!(x.GetItem<LumStageControl>().AdminOnly ?? false) || ((x.GetItem<LumStageControl>().AdminOnly ?? false) && isAdmin ? true : false)) && FSWorkflowStageHandler.GetStageName(x.GetItem<LumStageControl>().ToStage) == btnMenu.Command);
+                        this.lumStages.SetVisible(btnMenu.Command, isVisible);
                     }
                 }
             }
