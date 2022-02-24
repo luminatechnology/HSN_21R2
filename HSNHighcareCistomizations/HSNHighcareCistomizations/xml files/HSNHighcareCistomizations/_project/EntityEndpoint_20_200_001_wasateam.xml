@@ -20,6 +20,17 @@
                 <Mapping field="CustomerName">
                     <To object="CurrentCustomer" field="AcctName" />
                 </Mapping>
+                <Mapping field="MainContact">
+                    <Mapping field="Email">
+                        <To object="DefContact" field="EMail" />
+                    </Mapping>
+                    <Mapping field="Phone1">
+                        <To object="DefContact" field="Phone1" />
+                    </Mapping>
+                    <Mapping field="Phone1Type">
+                        <To object="DefContact" field="Phone1Type" />
+                    </Mapping>
+                </Mapping>
                 <Mapping field="PriceClass">
                     <To object="DefLocation: 2" field="CPriceClassID" />
                 </Mapping>
@@ -42,17 +53,6 @@
                 </Mapping>
                 <Mapping field="Status">
                     <To object="BAccount" field="Status" />
-                </Mapping>
-                <Mapping field="MainContact">
-                    <Mapping field="Email">
-                        <To object="DefContact" field="EMail" />
-                    </Mapping>
-                    <Mapping field="Phone1">
-                        <To object="DefContact" field="Phone1" />
-                    </Mapping>
-                    <Mapping field="Phone1Type">
-                        <To object="DefContact" field="Phone1Type" />
-                    </Mapping>
                 </Mapping>
             </Mappings>
             <Actions>
@@ -186,6 +186,26 @@
                 <Field name="Vehicle" type="BooleanValue" />
             </Fields>
             <Mappings>
+                <Mapping field="Attributes">
+                    <Mapping field="AttributeDescription">
+                        <To object="Answers" field="AttributeID_description" />
+                    </Mapping>
+                    <Mapping field="AttributeID">
+                        <To object="Answers" field="AttributeID$value" />
+                    </Mapping>
+                    <Mapping field="RefNoteID">
+                        <To object="Answers" field="RefNoteID" />
+                    </Mapping>
+                    <Mapping field="Required">
+                        <To object="Answers" field="IsRequired" />
+                    </Mapping>
+                    <Mapping field="Value">
+                        <To object="Answers" field="Value$value" />
+                    </Mapping>
+                    <Mapping field="ValueDescription">
+                        <To object="Answers" field="Value" />
+                    </Mapping>
+                </Mapping>
                 <Mapping field="OwnerType">
                     <To object="EquipmentRecords" field="OwnerType" />
                 </Mapping>
@@ -211,26 +231,6 @@
                 </Mapping>
                 <Mapping field="Vehicle">
                     <To object="EquipmentRecords" field="IsVehicle" />
-                </Mapping>
-                <Mapping field="Attributes">
-                    <Mapping field="AttributeID">
-                        <To object="Answers" field="AttributeID$value" />
-                    </Mapping>
-                    <Mapping field="Required">
-                        <To object="Answers" field="IsRequired" />
-                    </Mapping>
-                    <Mapping field="RefNoteID">
-                        <To object="Answers" field="RefNoteID" />
-                    </Mapping>
-                    <Mapping field="Value">
-                        <To object="Answers" field="Value$value" />
-                    </Mapping>
-                    <Mapping field="ValueDescription">
-                        <To object="Answers" field="Value" />
-                    </Mapping>
-                    <Mapping field="AttributeDescription">
-                        <To object="Answers" field="AttributeID_description" />
-                    </Mapping>
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
@@ -283,24 +283,33 @@
                 <Mapping field="CustomerID">
                     <To object="Filter" field="CustomerID" />
                 </Mapping>
+                <Mapping field="HighcareClass">
+                    <To object="Filter" field="HighcareClass" />
+                </Mapping>
                 <Mapping field="HighcareServiceHistoryDetails">
                     <Mapping field="CustomerID">
                         <To object="Results" field="cust_acctCD" />
                     </Mapping>
-                    <Mapping field="NonStockItem">
-                        <To object="Results" field="LUMServiceScope_inventoryID" />
-                    </Mapping>
-                    <Mapping field="ItemPriceClass">
-                        <To object="Results" field="LUMServiceScope_priceClassID" />
-                    </Mapping>
-                    <Mapping field="RemainingCount">
-                        <To object="Results" field="LUMServiceScope_Formula72af522e9afb4a69bede149ce8457b15" />
+                    <Mapping field="ServiceDescription">
+                        <To object="Results" field="LUMServiceScope_description" />
                     </Mapping>
                     <Mapping field="UsedCount">
                         <To object="Results" field="t_Count06ab5d620e774c3abcc3bb49d578d391" />
                     </Mapping>
+                    <Mapping field="EndDate">
+                        <To object="Results" field="LUMCustomerPINCode_endDate" />
+                    </Mapping>
                     <Mapping field="HighcareClass">
                         <To object="Results" field="LUMCustomerPINCode_cPriceClassID" />
+                    </Mapping>
+                    <Mapping field="ItemPriceClass">
+                        <To object="Results" field="LUMServiceScope_priceClassID" />
+                    </Mapping>
+                    <Mapping field="LimitedCount">
+                        <To object="Results" field="LUMServiceScope_Formulafc11436be6524ed8a343aa4f7782a466" />
+                    </Mapping>
+                    <Mapping field="NonStockItem">
+                        <To object="Results" field="LUMServiceScope_inventoryID" />
                     </Mapping>
                     <Mapping field="PinCode">
                         <To object="Results" field="LUMCustomerPINCode_pin" />
@@ -308,18 +317,9 @@
                     <Mapping field="PriceClassID">
                         <To object="Results" field="LUMServiceScope_CPriceClassID" />
                     </Mapping>
-                    <Mapping field="ServiceDescription">
-                        <To object="Results" field="LUMServiceScope_description" />
+                    <Mapping field="RemainingCount">
+                        <To object="Results" field="LUMServiceScope_Formula72af522e9afb4a69bede149ce8457b15" />
                     </Mapping>
-                    <Mapping field="LimitedCount">
-                        <To object="Results" field="LUMServiceScope_limitedCount" />
-                    </Mapping>
-                    <Mapping field="EndDate">
-                        <To object="Results" field="LUMCustomerPINCode_endDate" />
-                    </Mapping>
-                </Mapping>
-                <Mapping field="HighcareClass">
-                    <To object="Filter" field="HighcareClass" />
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
@@ -329,7 +329,7 @@
                 <Field name="EndDate" type="DateTimeValue" />
                 <Field name="HighcareClass" type="StringValue" />
                 <Field name="ItemPriceClass" type="StringValue" />
-                <Field name="LimitedCount" type="IntValue" />
+                <Field name="LimitedCount" type="StringValue" />
                 <Field name="NonStockItem" type="StringValue" />
                 <Field name="PinCode" type="StringValue" />
                 <Field name="PriceClassID" type="StringValue" />

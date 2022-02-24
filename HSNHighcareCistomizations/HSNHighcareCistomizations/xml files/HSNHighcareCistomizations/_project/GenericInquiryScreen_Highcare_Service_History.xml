@@ -1,6 +1,6 @@
 ﻿<GenericInquiryScreen>
     <data-set>
-        <relations format-version="3" relations-version="20201014" main-table="GIDesign" stable-sharing="True" file-name="(Name)">
+        <relations format-version="3" relations-version="20210225" main-table="GIDesign" stable-sharing="True" file-name="(Name)">
             <link from="GIFilter (DesignID)" to="GIDesign (DesignID)" />
             <link from="GIGroupBy (DesignID)" to="GIDesign (DesignID)" />
             <link from="GIMassAction (DesignID)" to="GIDesign (DesignID)" />
@@ -167,7 +167,7 @@
                         <GIResult LineNbr="7" SortOrder="7" IsActive="1" Field="=IIF(MAX([LUMServiceScope.LimitedCount]) = 0,'-',IIF(MAX([LUMServiceScope.LimitedCount]) - COUNT([t.InventoryID]) &lt; 0 ,'0' , CSTR(MAX([LUMServiceScope.LimitedCount]) - COUNT([t.InventoryID]))))" Caption="Remaining Count" IsVisible="1" DefaultNav="1" QuickFilter="0" FastFilter="1" RowID="72af522e-9afb-4a69-bede-149ce8457b15">
                             <GIResultKvExt FieldName="CaptionEN" ValueText="Remaining Count" />
                         </GIResult>
-                        <GIResult LineNbr="6" SortOrder="6" IsActive="1" Field="limitedCount" Caption="Limited Count" IsVisible="1" DefaultNav="1" AggregateFunction="MAX" QuickFilter="0" FastFilter="1" RowID="fc11436b-e652-4ed8-a343-aa4f7782a466">
+                        <GIResult LineNbr="6" SortOrder="6" IsActive="1" Field="=IIF([LUMServiceScope.LimitedCount] = 0, '-',CSTR([LUMServiceScope.LimitedCount]))" Caption="Limited Count" IsVisible="1" DefaultNav="1" AggregateFunction="MAX" QuickFilter="0" FastFilter="0" RowID="fc11436b-e652-4ed8-a343-aa4f7782a466">
                             <GIResultKvExt FieldName="CaptionEN" ValueText="Limited Count" />
                         </GIResult>
                         <GIResult LineNbr="2" SortOrder="3" IsActive="1" Field="description" Caption="Service Description" IsVisible="1" DefaultNav="1" QuickFilter="0" FastFilter="1" RowID="7b76a1f3-7e8d-485c-b3a8-e7d51df64849">
@@ -198,7 +198,7 @@
                     <GIWhere LineNbr="1" IsActive="1" DataFieldName="cust.acctCD" Condition="E " IsExpression="0" Value1="[CustomerID]" Operation="A" />
                     <SiteMap linkname="toDesignById">
                         <row Title="Highcare Service History" Url="~/GenericInquiry/GenericInquiry.aspx?id=4c2d09d9-f4d1-45d5-b008-d5001b82e3fd" ScreenID="GI770077" NodeID="89c632af-9109-42c2-a98b-a0b8fd4135c5" ParentID="00000000-0000-0000-0000-000000000000">
-                            <MUIScreen IsPortal="0" WorkspaceID="00000000-0000-0000-0000-000000000000" Order="700" SubcategoryID="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" />
+                            <MUIScreen IsPortal="0" WorkspaceID="00000000-0000-0000-0000-000000000000" Order="642022" SubcategoryID="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" />
                         </row>
                     </SiteMap>
                 </row>
