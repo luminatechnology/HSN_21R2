@@ -18,7 +18,8 @@ namespace PX.Objects.FS
             if (row != null && (e.Operation == PXDBOperation.Insert || e.Operation == PXDBOperation.Update) )
             {
                 bool duplicate = SelectFrom<FSEquipment>.Where<FSEquipment.serialNumber.IsEqual<@P.AsString>
-                                                               .And<FSEquipment.equipmentTypeID.IsEqual<@P.AsInt>>>.View.Select(new PXGraph(), row.SerialNumber ?? string.Empty, row.EquipmentTypeID).Count > 0;
+                                                          .And<FSEquipment.equipmentTypeID.IsEqual<@P.AsInt>>
+                                                          .And<FSEquipment.refNbr.IsNotEqual<@P.AsString>>>.View.Select(new PXGraph(), row.SerialNumber ?? string.Empty, row.EquipmentTypeID, row.RefNbr).Count > 0;
 
                 if (!string.IsNullOrEmpty(row.SerialNumber) && SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst?.EnableUniqSerialNbrByEquipType == true && duplicate == true)
                 {
