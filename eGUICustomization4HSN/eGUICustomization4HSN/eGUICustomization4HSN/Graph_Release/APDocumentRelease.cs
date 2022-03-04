@@ -1,12 +1,8 @@
-using System.Collections.Generic;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
-using PX.Objects.CM;
 using PX.Objects.GL;
-using PX.Objects.CS;
 using PX.Objects.TX;
-using PX.Objects.IN;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
@@ -16,12 +12,12 @@ namespace PX.Objects.AP
 {
     public class APReleaseProcess_Extension : PXGraphExtension<APReleaseProcess>
     {
-        #region Select
+        #region Selects
         public SelectFrom<TWNGUITrans>
                           .Where<TWNGUITrans.orderNbr.IsEqual<APInvoice.refNbr.FromCurrent>>.View ViewGUITrans;
         #endregion
 
-        #region Delegate Funcation
+        #region Delegate Methods
         public delegate void PersistDelegate();
         [PXOverride]
         public void Persist(PersistDelegate baseMethod)
@@ -118,39 +114,39 @@ namespace PX.Objects.AP
             ViewGUITrans.Cache.Persisted(false);
         }
 
-        public delegate List<APRegister> ReleaseInvoiceDelegate(JournalEntry je, ref APRegister doc, 
-                                                                PXResult<APInvoice, CurrencyInfo, Terms, Vendor> res, 
-                                                                bool isPrebooking, out List<INRegister> inDocs);
-        [PXOverride]
-        public List<APRegister> ReleaseInvoice(JournalEntry je, ref APRegister doc,
-                                               PXResult<APInvoice, CurrencyInfo, Terms, Vendor> res,
-                                               bool isPrebooking, out List<INRegister> inDocs,
-                                               ReleaseInvoiceDelegate baseMethod)
-        {
-            var ret = baseMethod(je, ref doc, res, isPrebooking, out inDocs);
+        //public delegate List<APRegister> ReleaseInvoiceDelegate(JournalEntry je, ref APRegister doc, 
+        //                                                        PXResult<APInvoice, CurrencyInfo, Terms, Vendor> res, 
+        //                                                        bool isPrebooking, out List<INRegister> inDocs);
+        //[PXOverride]
+        //public List<APRegister> ReleaseInvoice(JournalEntry je, ref APRegister doc,
+        //                                       PXResult<APInvoice, CurrencyInfo, Terms, Vendor> res,
+        //                                       bool isPrebooking, out List<INRegister> inDocs,
+        //                                       ReleaseInvoiceDelegate baseMethod)
+        //{
+        //    var ret = baseMethod(je, ref doc, res, isPrebooking, out inDocs);
 
-            if (Base.APTaxTran_TranType_RefNbr.Current != null)
-            {
-                Tax tax = SelectTax(Base, Base.APTran_TranType_RefNbr.Current.TaxID);
+        //    if (Base.APTaxTran_TranType_RefNbr.Current != null)
+        //    {
+        //        Tax tax = SelectTax(Base, Base.APTran_TranType_RefNbr.Current.TaxID);
 
-                foreach (GLTran gLTran in je.GLTranModuleBatNbr.Cache.Inserted)
-                {
-                    if (tax != null && (tax.PurchTaxAcctID.Equals(gLTran.AccountID) || tax.SalesTaxAcctID.Equals(gLTran.AccountID) ))
-                    {
-                        gLTran.TranDesc = string.Format("{0} / {1}", PXCache<APRegister>.GetExtension<APRegisterExt>(doc).UsrVATINCODE,
-                                                                     PXCache<APRegister>.GetExtension<APRegisterExt>(doc).UsrGUINO);
-                    }
+        //        foreach (GLTran gLTran in je.GLTranModuleBatNbr.Cache.Inserted)
+        //        {
+        //            if (tax != null && (tax.PurchTaxAcctID.Equals(gLTran.AccountID) || tax.SalesTaxAcctID.Equals(gLTran.AccountID) ))
+        //            {
+        //                gLTran.TranDesc = string.Format("{0} / {1}", PXCache<APRegister>.GetExtension<APRegisterExt>(doc).UsrVATINCODE,
+        //                                                             PXCache<APRegister>.GetExtension<APRegisterExt>(doc).UsrGUINO);
+        //            }
 
-                    //if (gLTran.ProjectID == ProjectDefaultAttribute.NonProject())
-                    //{
-                    //    gLTran.ProjectID = doc.ProjectID;
-                    //    gLTran.TaskID    = Base.APTran_TranType_RefNbr.Current.TaskID;
-                    //}
-                }
-            }
+        //            //if (gLTran.ProjectID == ProjectDefaultAttribute.NonProject())
+        //            //{
+        //            //    gLTran.ProjectID = doc.ProjectID;
+        //            //    gLTran.TaskID    = Base.APTran_TranType_RefNbr.Current.TaskID;
+        //            //}
+        //        }
+        //    }
 
-            return ret;
-        }
+        //    return ret;
+        //}
         #endregion
 
         #region Static Methods
