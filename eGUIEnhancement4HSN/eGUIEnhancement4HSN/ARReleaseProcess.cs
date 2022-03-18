@@ -16,6 +16,7 @@ using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.Graph;
 using eGUICustomization4HSN.StringList;
 using eGUICustomization4HSN.Graph_Release;
+using PX.Common.Collection;
 
 namespace PX.Objects.AR
 {
@@ -153,7 +154,6 @@ namespace PX.Objects.AR
                             PXGraph.CreateInstance<eGUIInquiry2>().PrintReport(Base.ARTran_TranType_RefNbr.Select(doc.DocType, doc.RefNbr), rp.ViewGUITrans.Current, false);
                         }
                     }
-
                     // Triggering after save events.
                     Base1.ViewGUITrans.Cache.Persisted(false);
                     
@@ -164,9 +164,6 @@ namespace PX.Objects.AR
                     }
                 }
 
-                Base1.skipPersist = true;
-
-                baseMethod();
             }
             catch (Exception e)
             {
