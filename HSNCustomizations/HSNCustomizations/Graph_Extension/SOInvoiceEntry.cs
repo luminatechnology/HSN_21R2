@@ -28,7 +28,7 @@ namespace PX.Objects.SO
             if (tranRows != null)
             {
                 var fsARTran = FSARTran.PK.Find(Base, doc.DocType, doc.RefNbr, tranRows.LineNbr);
-                if (!string.IsNullOrEmpty(fsARTran.AppointmentRefNbr) && !string.IsNullOrEmpty(fsARTran.ServiceOrderRefNbr) && !string.IsNullOrEmpty(fsARTran.SrvOrdType))
+                if (!string.IsNullOrEmpty(fsARTran?.AppointmentRefNbr) && !string.IsNullOrEmpty(fsARTran?.ServiceOrderRefNbr) && !string.IsNullOrEmpty(fsARTran?.SrvOrdType))
                     UpdateAppointmentStageManual(fsARTran.AppointmentRefNbr, fsARTran.ServiceOrderRefNbr, fsARTran.SrvOrdType);
             }
             return releaseResult;

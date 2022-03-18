@@ -16,6 +16,7 @@ using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.Graph;
 using eGUICustomization4HSN.StringList;
 using eGUICustomization4HSN.Graph_Release;
+using PX.Common.Collection;
 
 namespace PX.Objects.AR
 {
@@ -153,20 +154,22 @@ namespace PX.Objects.AR
                             PXGraph.CreateInstance<eGUIInquiry2>().PrintReport(Base.ARTran_TranType_RefNbr.Select(doc.DocType, doc.RefNbr), rp.ViewGUITrans.Current, false);
                         }
                     }
-
                     // Triggering after save events.
                     Base1.ViewGUITrans.Cache.Persisted(false);
-                    
-                    if (docExt.UsrCreditAction == TWNCreditAction.NO)
-                    {
-                        Base.ARDocument.Cache.SetValue<ARRegisterExt.usrGUINo>(doc, docExt.UsrGUINo);
-                        Base.ARDocument.Cache.MarkUpdated(doc);
-                    }
                 }
 
                 Base1.skipPersist = true;
 
                 baseMethod();
+                if (docExt.UsrCreditAction == TWNCreditAction.NO)
+                {
+                    PXUpdate<Set<ARRegisterExt.usrGUINo, Required<ARRegisterExt.usrGUINo>>,
+                             ARRegister,
+                             Where<ARRegister.docType, Equal<Required<ARRegister.docType>>,
+                               And<ARRegister.refNbr, Equal<Required<ARRegister.refNbr>>>>>
+                            .Update(new PXGraph(), docExt.UsrGUINo, doc.DocType, doc.RefNbr);
+                }
+
             }
             catch (Exception e)
             {
