@@ -160,7 +160,7 @@ namespace PX.Objects.AR
                     if (docExt.UsrCreditAction == TWNCreditAction.NO)
                     {
                         Base.ARDocument.Cache.SetValue<ARRegisterExt.usrGUINo>(doc, docExt.UsrGUINo);
-                        Base.ARDocument.Cache.MarkUpdated(doc);
+                        Base.ARDocument.Cache.Update(doc);
                     }
                 }
 
