@@ -163,7 +163,8 @@ namespace PX.Objects.AR
                         Base.ARDocument.Cache.Update(doc);
                     }
                 }
-
+                Base1.skipPersist = true;
+                baseMethod();
             }
             catch (Exception e)
             {
