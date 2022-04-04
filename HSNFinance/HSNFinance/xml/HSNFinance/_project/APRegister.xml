@@ -1,3 +1,0 @@
-﻿<Table TableName="APRegister">
-    <Column TableName="APRegister" ColumnName="UsrInvoiceDate" ColumnType="date" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
-</Table>
