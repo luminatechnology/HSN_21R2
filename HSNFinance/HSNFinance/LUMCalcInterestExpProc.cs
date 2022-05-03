@@ -187,10 +187,8 @@ namespace HSNFinance
                             je.GLTranModuleBatNbr.Cache.Update(tran);
                         }
 
-                        je.BatchModule.SetValueExt<Batch.hold>(je.BatchModule.Current, false);
-
                         je.Save.Press();
-
+                        je.releaseFromHold.Press();
                         je.release.Press();
 
                         Batch batch = je.BatchModule.Current;
