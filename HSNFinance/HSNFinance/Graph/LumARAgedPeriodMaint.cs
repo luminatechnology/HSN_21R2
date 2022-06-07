@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using HSNFinance.DAC;
 using PX.Data;
 using PX.Data.BQL.Fluent;
@@ -71,11 +72,16 @@ namespace HSNFinance.Graph
         #region Delegate DataView
         public IEnumerable detailsView()
         {
-            List<object> result = new List<object>();
+            List<LumARAgedPeriod> result = new List<LumARAgedPeriod>();
+
             var periodID = ((LumARAgedPeriodFilter)this.Caches[typeof(LumARAgedPeriodFilter)].Current)?.FinPeriodID;
             var curLumARAgedPeriod = SelectFrom<LumARAgedPeriod>.OrderBy<Asc<LumARAgedPeriod.lineNbr>>.View.Select(this);
 
-            if (periodID != null && curLumARAgedPeriod != null && curLumARAgedPeriod.TopFirst?.ConditionPeriodID == periodID) return SelectFrom<LumARAgedPeriod>.OrderBy<Asc<LumARAgedPeriod.lineNbr>>.View.Select(this);
+            if (periodID != null && curLumARAgedPeriod != null && curLumARAgedPeriod.TopFirst?.ConditionPeriodID == periodID)
+            {
+                result = SelectFrom<LumARAgedPeriod>.OrderBy<Asc<LumARAgedPeriod.lineNbr>>.View.Select(this).RowCast<LumARAgedPeriod>().ToList();
+            }
+
             return result;
         }
         #endregion
@@ -86,14 +92,12 @@ namespace HSNFinance.Graph
         public class LumARAgedPeriodFilter : IBqlTable
         {
             #region FinPeriodID
-            [FinPeriodID()]
+            [FinPeriodNonLockedSelector()]
             [PXUIField(DisplayName = "Financial Period", Visibility = PXUIVisibility.SelectorVisible)]
-            [PXSelector(typeof(Search<FinPeriod2.finPeriodID, Where<FinPeriod2.closed.IsEqual<False>.And<FinPeriod2.active.IsEqual<True>>>, OrderBy<Desc<FinPeriod2.finPeriodID>>>), typeof(FinPeriod2.finPeriodID))]
             public virtual string FinPeriodID { get; set; }
             public abstract class finPeriodID : PX.Data.BQL.BqlString.Field<finPeriodID> { }
             #endregion
         }
         #endregion
-
     }
 }
