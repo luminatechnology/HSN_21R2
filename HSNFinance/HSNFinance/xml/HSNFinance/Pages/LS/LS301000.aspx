@@ -27,7 +27,7 @@
 	<px:PXSplitContainer runat="server" Orientation="Horizontal" SplitterPosition="400" ID="splitConditions">
 		<AutoSize Container="Window" Enabled="true" ></AutoSize>
 		<Template1>
-			<px:PXGrid ScrollBars="Always" AllowPaging="True" Caption="Ledger Source" CaptionVisible="True" runat="server" SyncPosition="True" Height="300px" SkinID="Primary" TabIndex="700" Width="100%" ID="grdScanMaster" DataSourceID="ds" AdjustPageSize="Auto" NoteIndicator="false" FilesIndicator="false">
+			<px:PXGrid ScrollBars="Always" AllowPaging="True" Caption="Ledger Source" CaptionVisible="True" runat="server" SyncPosition="True" Height="250px" SkinID="Primary" TabIndex="500" Width="100%" ID="grdScanMaster" DataSourceID="ds" AdjustPageSize="Auto" NoteIndicator="false" FilesIndicator="false">
 				<AutoSize Enabled="True" ></AutoSize>
 				<Levels>
 					<px:PXGridLevel DataMember="GLTranDebit">
@@ -40,7 +40,9 @@
 							<px:PXGridColumn DataField="SubID" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="RefNbr" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryDebitAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryCreditAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="CreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngDebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngCreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrSetldDebitAmt" Width="100" CommitChanges="True" ></px:PXGridColumn>
@@ -67,7 +69,9 @@
 							<px:PXGridColumn DataField="SubID" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="RefNbr" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryDebitAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryCreditAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="CreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngDebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngCreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrSetldDebitAmt" Width="100" CommitChanges="True" ></px:PXGridColumn>
