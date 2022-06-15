@@ -103,12 +103,12 @@ namespace HSNFinance
         protected void _(Events.CacheAttached<GLTran.referenceID> e) { }
 
         [PXMergeAttributes(Method = MergeMethod.Merge)]
-        [PXUIField(DisplayName = "Tran Debit Amt.", Enabled = false)]
-        protected void _(Events.CacheAttached<GLTran.debitAmt> e) { }
+        [PXUIField(DisplayName = "Tran Cur. Debit Amt.", Enabled = false)]
+        protected void _(Events.CacheAttached<GLTran.curyDebitAmt> e) { }
 
         [PXMergeAttributes(Method = MergeMethod.Merge)]
-        [PXUIField(DisplayName = "Tran Credit Amt.", Enabled = false)]
-        protected void _(Events.CacheAttached<GLTran.creditAmt> e) { }
+        [PXUIField(DisplayName = "Tran Cur. Credit Amt.", Enabled = false)]
+        protected void _(Events.CacheAttached<GLTran.curyCreditAmt> e) { }
         #endregion
 
         #region Event Handlers
