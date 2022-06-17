@@ -6,6 +6,10 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.IN;
 using HSNCustomizations.DAC;
+using System.Collections.Generic;
+using PX.CS;
+using PX.Data.BQL;
+using System.Linq;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -32,14 +36,14 @@ namespace HSNCustomizations.Descriptor
 
     public class WorkflowRuleSelectorAttribute : PXCustomSelectorAttribute
     {
-		public WorkflowRuleSelectorAttribute() : base(typeof(LUMWorkflowRule.ruleID),
+        public WorkflowRuleSelectorAttribute() : base(typeof(LUMWorkflowRule.ruleID),
                                                       typeof(LUMWorkflowRule.ruleID),
                                                       typeof(LUMWorkflowRule.descr))
-		{
-			DescriptionField = typeof(LUMWorkflowRule.descr);
-		}
+        {
+            DescriptionField = typeof(LUMWorkflowRule.descr);
+        }
 
-		public override void FieldVerifying(PXCache sender, PXFieldVerifyingEventArgs e) { }
+        public override void FieldVerifying(PXCache sender, PXFieldVerifyingEventArgs e) { }
 
         public static string[] WFRuleDescr =
         {
@@ -60,18 +64,18 @@ namespace HSNCustomizations.Descriptor
         };
 
         protected virtual IEnumerable GetRecords()
-		{
-			foreach (string wFRule in Enum.GetNames(typeof(WFRule)))
+        {
+            foreach (string wFRule in Enum.GetNames(typeof(WFRule)))
             {
                 LUMWorkflowRule wfRule = new LUMWorkflowRule()
-				{
+                {
                     RuleID = wFRule,
-                    Descr  = WFRuleDescr[(int)Enum.Parse(typeof(WFRule), wFRule)]
-				};
+                    Descr = WFRuleDescr[(int)Enum.Parse(typeof(WFRule), wFRule)]
+                };
 
-				yield return wfRule;
-			}
-		}
+                yield return wfRule;
+            }
+        }
 
         #region Unbound DAC
         [PXHidden]
@@ -129,10 +133,10 @@ namespace HSNCustomizations.Descriptor
     {
         public override void RowPersisting(PXCache sender, PXRowPersistingEventArgs e)
         {
-            string  docType  = (string)sender.GetValue<INTran.docType>(e.Row);
+            string docType = (string)sender.GetValue<INTran.docType>(e.Row);
             decimal totalQty = (decimal)sender.GetValue<INTran.qty>(e.Row);
 
-            if (e.Operation != PXDBOperation.Delete && docType.IsIn(INDocType.Receipt, INDocType.Issue, INDocType.Transfer) && 
+            if (e.Operation != PXDBOperation.Delete && docType.IsIn(INDocType.Receipt, INDocType.Issue, INDocType.Transfer) &&
                 SelectFrom<LUMHSNSetup>.View.Select(sender.Graph).TopFirst?.EnablePartReqInAppt == true && totalQty <= 0)
             {
                 sender.RaiseExceptionHandling<INTran.qty>(e.Row, totalQty, new PXSetPropertyException(HSNMessages.TotalQtyIsZero, PXErrorLevel.Error));
@@ -140,4 +144,27 @@ namespace HSNCustomizations.Descriptor
         }
     }
     #endregion
+
+    public class LUMCSAttributeListAttribute : PXStringListAttribute
+    {
+        public string _attribtueID;
+
+        public LUMCSAttributeListAttribute(string attributeID) : base()
+        {
+            _attribtueID = attributeID;
+        }
+
+        public override void CacheAttached(PXCache sender)
+        {
+            base.CacheAttached(sender);
+            var data = SelectFrom<CSAttributeDetail>
+                       .Where<CSAttributeDetail.attributeID.IsEqual<P.AsString>>
+                       .View.Select(new PXGraph(), this._attribtueID).RowCast<CSAttributeDetail>();
+            if (data != null)
+            {
+                this._AllowedLabels = data.Select(x => x.Description).ToArray();
+                this._AllowedValues = data.Select(x => x.ValueID).ToArray();
+            }
+        }
+    }
 }

@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
+using PX.Objects.CR;
 
 namespace PX.Objects.FS
 {
@@ -205,6 +206,29 @@ namespace PX.Objects.FS
                 throw new PXException("Please maintain the prepayment account for this customer");
             return Base.InvoiceAppointment(adapter);
         }
+        #endregion
+
+        #region Override DAC
+        [PXDBInt]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Contact")]
+        [PXSelector(typeof(
+                   SelectFrom<Contact>
+                   .InnerJoin<BAccount>.On<Contact.bAccountID.IsEqual<BAccount.bAccountID>>
+                   .Where<Contact.contactType.IsNotEqual<ContactTypesAttribute.bAccountProperty>
+                     .And<BAccount.type.IsEqual<BAccountType.customerType>.Or<BAccount.type.IsEqual<BAccountType.prospectType>.Or<BAccount.type.IsEqual<BAccountType.combinedType>>>>
+                     .And<BAccount.bAccountID.IsEqual<FSServiceOrder.customerID.FromCurrent>.Or<FSServiceOrder.customerID.FromCurrent.IsEqual<Null>>>>
+                   .SearchFor<Contact.contactID>),
+           typeof(Contact.contactID),
+           typeof(Contact.displayName),
+           typeof(Contact.fullName),
+           typeof(Contact.title),
+           typeof(Contact.eMail),
+           typeof(Contact.phone1),
+           typeof(Contact.contactType),
+           DescriptionField = typeof(Contact.displayName))]
+        [PXMergeAttributes(Method = MergeMethod.Replace)]
+        public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
         #endregion
 
         #region Event Handlers

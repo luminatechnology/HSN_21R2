@@ -1,0 +1,3 @@
+﻿<Table TableName="FSManufacturerModel">
+    <Column TableName="FSManufacturerModel" ColumnName="ManufacturerModelCD" ColumnType="string" MaxLength="20" DecimalPrecision="0" DecimalLength="0" IsUnicode="True" />
+</Table>

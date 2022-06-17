@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HSNCustomizations.DAC;
+using HSNCustomizations.Descriptor;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
@@ -21,7 +22,7 @@ namespace HSNCustomizations.Graph
         //public PXSave<TransferFilter> Save;
         public PXCancel<TransferFilter> Cancel;
         public PXFilteredProcessing<INRegister, TransferFilter> TransferRecords;
-        
+
         public PXFilter<TransferFilter> MasterView;
         [PXFilterable]
         public SelectFrom<INRegister>.OrderBy<Desc<INRegister.refNbr>>.View DetailsView;
@@ -60,13 +61,13 @@ namespace HSNCustomizations.Graph
                 //}
                 //else
                 //{
-                    var TrackingNbrTop = list.Where(x => x.GetExtension<INRegisterExt>().UsrPickingListNumber != null).FirstOrDefault();
-                    if (TrackingNbrTop != null) _countPickingNbr = list.Where(x => x.GetExtension<INRegisterExt>().UsrPickingListNumber != TrackingNbrTop.GetExtension<INRegisterExt>().UsrPickingListNumber).Count();
-                    else _countPickingNbr = 0;
-                    if (_countPickingNbr > 0) throw new PXException("Cannot print the Delivery Order which including two or more Picking Number.");
+                var TrackingNbrTop = list.Where(x => x.GetExtension<INRegisterExt>().UsrPickingListNumber != null).FirstOrDefault();
+                if (TrackingNbrTop != null) _countPickingNbr = list.Where(x => x.GetExtension<INRegisterExt>().UsrPickingListNumber != TrackingNbrTop.GetExtension<INRegisterExt>().UsrPickingListNumber).Count();
+                else _countPickingNbr = 0;
+                if (_countPickingNbr > 0) throw new PXException("Cannot print the Delivery Order which including two or more Picking Number.");
 
-                    _countPrinted = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber != null).Count();
-                    _countUnprinted = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber == null).Count();
+                _countPrinted = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber != null).Count();
+                _countUnprinted = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber == null).Count();
                 //}
                 if (_countPrinted > 0 && _countUnprinted > 0) throw new PXException("Cannot print the report which including both printed and unprinted transactions.");
 
@@ -98,8 +99,8 @@ namespace HSNCustomizations.Graph
                     //else
                     //{
                     var currentTrackingNbr = list.Where(x => x.GetExtension<INRegisterExt>().UsrTrackingNbr != null).FirstOrDefault();
-                        if (currentTrackingNbr != null) _trackingNbr = list.Where(x => x.GetExtension<INRegisterExt>().UsrTrackingNbr != null).FirstOrDefault().GetExtension<INRegisterExt>().UsrTrackingNbr;
-                        else throw new PXException("Please enter a Tracking Number.");
+                    if (currentTrackingNbr != null) _trackingNbr = list.Where(x => x.GetExtension<INRegisterExt>().UsrTrackingNbr != null).FirstOrDefault().GetExtension<INRegisterExt>().UsrTrackingNbr;
+                    else throw new PXException("Please enter a Tracking Number.");
                     //}
 
                     foreach (PXResult<INTran, INRegister> line in result)
@@ -175,8 +176,8 @@ namespace HSNCustomizations.Graph
                 //}
                 //else
                 //{
-                    _coutinue = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber == null).Count() > 0 ? false : true;
-                    _errorMsg = "Delivery Order Number cannot be empty.";
+                _coutinue = list.Where(x => x.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber == null).Count() > 0 ? false : true;
+                _errorMsg = "Delivery Order Number cannot be empty.";
                 //}
                 if (!_coutinue) throw new PXException(_errorMsg);
 
@@ -207,12 +208,12 @@ namespace HSNCustomizations.Graph
                     //}
                     //else
                     //{
-                        rows = SelectFrom<INTran>
-                               .LeftJoin<INRegister>.On<INRegister.docType.IsEqual<INTran.docType>.And<INRegister.refNbr.IsEqual<INTran.refNbr>>>
-                               .Where<INRegisterExt.usrDeliveryOrderNumber.IsEqual<@P.AsString>>
-                               .View.Select(this, transfer.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber);
+                    rows = SelectFrom<INTran>
+                           .LeftJoin<INRegister>.On<INRegister.docType.IsEqual<INTran.docType>.And<INRegister.refNbr.IsEqual<INTran.refNbr>>>
+                           .Where<INRegisterExt.usrDeliveryOrderNumber.IsEqual<@P.AsString>>
+                           .View.Select(this, transfer.GetExtension<INRegisterExt>().UsrDeliveryOrderNumber);
                     //}
-                       
+
 
                     foreach (PXResult<INTran, INRegister> row in rows)
                     {
@@ -262,35 +263,55 @@ namespace HSNCustomizations.Graph
             var currentSearchStartDate = transferFilter?.StartDate;
             var currentSearchEndDate = transferFilter?.EndDate;
             var currentFromWarehouse = transferFilter?.SiteID;
+            var bqlResult = new PXResultset<INRegister>();
 
             // Default: DocType = T, Released = 1
             if (currentFromWarehouse == null)
             {
                 if (currentSearchStartDate == null)
-                    return SelectFrom<INRegister>
-                            .Where<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>>
-                            .View.Select(this, currentSearchEndDate, "T");
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>>
+                                .View.Select(this, currentSearchEndDate, "T");
                 else if (currentSearchStartDate != null && currentSearchEndDate != null)
-                    return SelectFrom<INRegister>
-                            .Where<INRegister.tranDate.IsGreaterEqual<@P.AsDateTime>.And<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>>>
-                            .View.Select(this, currentSearchStartDate, currentSearchEndDate, "T");
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.tranDate.IsGreaterEqual<@P.AsDateTime>.And<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>>>
+                                .View.Select(this, currentSearchStartDate, currentSearchEndDate, "T");
                 else
-                    return SelectFrom<INRegister>.Where<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>
-                            .View.Select(this, "T");
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.released.IsEqual<True>>>
+                                .View.Select(this, "T");
             }
             else
             {
                 if (currentSearchStartDate == null)
-                    return SelectFrom<INRegister>
-                            .Where<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
-                            .View.Select(this, currentSearchEndDate, "T", currentFromWarehouse);
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
+                                .View.Select(this, currentSearchEndDate, "T", currentFromWarehouse);
                 else if (currentSearchStartDate != null && currentSearchEndDate != null)
-                    return SelectFrom<INRegister>
-                            .Where<INRegister.tranDate.IsGreaterEqual<@P.AsDateTime>.And<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>>>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
-                            .View.Select(this, currentSearchStartDate, currentSearchEndDate, "T", currentFromWarehouse);
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.tranDate.IsGreaterEqual<@P.AsDateTime>.And<INRegister.tranDate.IsLessEqual<@P.AsDateTime>.And<INRegister.docType.IsEqual<@P.AsString>>>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
+                                .View.Select(this, currentSearchStartDate, currentSearchEndDate, "T", currentFromWarehouse);
                 else
-                    return SelectFrom<INRegister>.Where<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
-                            .View.Select(this, "T", currentFromWarehouse);
+                    bqlResult = SelectFrom<INRegister>
+                                .LeftJoin<INRegisterKvExt>.On<INRegister.noteID.IsEqual<INRegisterKvExt.recordID>>
+                                .Where<INRegister.docType.IsEqual<@P.AsString>.And<INRegister.siteID.IsEqual<@P.AsInt>.And<INRegister.released.IsEqual<True>>>>
+                                .View.Select(this, "T", currentFromWarehouse);
+            }
+
+            foreach (var item in bqlResult)
+            {
+                if (!string.IsNullOrEmpty(transferFilter?.Brand))
+                {
+                    if (item.GetItem<INRegisterKvExt>()?.ValueString == transferFilter?.Brand)
+                        yield return item;
+                }
+                else
+                    yield return item;
             }
         }
         #endregion
@@ -331,6 +352,13 @@ namespace HSNCustomizations.Graph
             [PX.Objects.IN.Site(DisplayName = "From Warehouse", DescriptionField = typeof(INSite.descr))]
             public virtual Int32? SiteID { get; set; }
             public abstract class siteID : PX.Data.BQL.BqlInt.Field<siteID> { }
+            #endregion
+
+            #region Brand
+            [LUMCSAttributeListAttribute("BRAND")]
+            [PXUIField(DisplayName = "Brand")]
+            public virtual string Brand { get; set; }
+            public abstract class brand : PX.Data.BQL.BqlString.Field<brand> { }
             #endregion
         }
         #endregion
