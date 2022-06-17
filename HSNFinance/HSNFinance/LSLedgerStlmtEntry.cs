@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
@@ -103,6 +101,14 @@ namespace HSNFinance
         [PXMergeAttributes(Method = MergeMethod.Merge)]
         [PXUIField(DisplayName = "Customer/Vendor", Enabled = false, Visible = true)]
         protected void _(Events.CacheAttached<GLTran.referenceID> e) { }
+
+        [PXMergeAttributes(Method = MergeMethod.Merge)]
+        [PXUIField(DisplayName = "Tran Cur. Debit Amt.", Enabled = false)]
+        protected void _(Events.CacheAttached<GLTran.curyDebitAmt> e) { }
+
+        [PXMergeAttributes(Method = MergeMethod.Merge)]
+        [PXUIField(DisplayName = "Tran Cur. Credit Amt.", Enabled = false)]
+        protected void _(Events.CacheAttached<GLTran.curyCreditAmt> e) { }
         #endregion
 
         #region Event Handlers
@@ -130,8 +136,8 @@ namespace HSNFinance
         {
             if (e.Row != null)
             {
-                PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldDebitAmt>(e.Cache, e.Row, e.Row.CuryDebitAmt != 0m);
-                PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldCreditAmt>(e.Cache, e.Row, e.Row.CuryCreditAmt != 0m);
+                PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldDebitAmt>(e.Cache, e.Row, e.Row.DebitAmt != 0m);
+                PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldCreditAmt>(e.Cache, e.Row, e.Row.CreditAmt != 0m);
             }
         }
 
@@ -151,10 +157,10 @@ namespace HSNFinance
                                                                                   .AggregateTo<Sum<LSLedgerSettlement.settledCreditAmt,
                                                                                                    Sum<LSLedgerSettlement.settledDebitAmt>>>.View.Select(this, row.Module, row.BatchNbr, row.LineNbr);
 
-                    tranExt.UsrRmngDebitAmt   = row.CuryDebitAmt - (settlement?.SettledDebitAmt ?? 0m);
-                    tranExt.UsrRmngCreditAmt  = row.CuryCreditAmt - (settlement?.SettledCreditAmt ?? 0m);
-                    tranExt.UsrSetldDebitAmt  = tranExt.UsrRmngDebitAmt  == 0m ? row.CuryDebitAmt : tranExt.UsrRmngDebitAmt;
-                    tranExt.UsrSetldCreditAmt = tranExt.UsrRmngCreditAmt == 0m ? row.CuryCreditAmt : tranExt.UsrRmngCreditAmt;
+                    tranExt.UsrRmngDebitAmt   = row.DebitAmt - (settlement?.SettledDebitAmt ?? 0m);
+                    tranExt.UsrRmngCreditAmt  = row.CreditAmt - (settlement?.SettledCreditAmt ?? 0m);
+                    tranExt.UsrSetldDebitAmt  = tranExt.UsrRmngDebitAmt  == 0m ? row.DebitAmt : tranExt.UsrRmngDebitAmt;
+                    tranExt.UsrSetldCreditAmt = tranExt.UsrRmngCreditAmt == 0m ? row.CreditAmt : tranExt.UsrRmngCreditAmt;
 
                     Filter.Current.BalanceAmt = (Filter.Current.BalanceAmt ?? 0m) + tranExt.UsrSetldDebitAmt - tranExt.UsrSetldCreditAmt;
                 }
