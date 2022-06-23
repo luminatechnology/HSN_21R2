@@ -10,6 +10,7 @@ using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
 using PX.SM;
 using PX.Common;
+using System.Collections;
 
 namespace PX.Objects.FS
 {
@@ -126,7 +127,7 @@ namespace PX.Objects.FS
            typeof(Contact.contactType),
            DescriptionField = typeof(Contact.displayName))]
         [PXMergeAttributes(Method = MergeMethod.Replace)]
-        public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { } 
+        public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
         #endregion
 
         #region Event Handlers
@@ -163,6 +164,38 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "STAGES", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
         [PXButton(MenuAutoOpen = true, CommitChanges = true)]
         public virtual void LumStages() { }
+
+        /// <summary>
+        /// [Taiwan-Phase2] 修復改了Service Order Details中 CuryUnitPrice後，Create Appointment CuryUntiPrice會不正確問題
+        /// </summary>
+        /// <param name="adapter"></param>
+        /// <returns></returns>
+        [PXUIField(DisplayName = "Create Appointment", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXButton(OnClosingPopup = PXSpecialButtonType.Cancel)]
+        public virtual IEnumerable ScheduleAppointment(PXAdapter adapter)
+        {
+            try
+            {
+                Base.ScheduleAppointment(adapter);
+            }
+            catch (PXRedirectRequiredException ex)
+            {
+                var graphAppointmentEntry = ex.Graph as AppointmentEntry;
+                var srvDet = Base.ServiceOrderDetails.Cache.Cached.RowCast<FSSODet>();
+                foreach (FSAppointmentDet item in graphAppointmentEntry.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>())
+                {
+                    var currentDetailLine = srvDet.FirstOrDefault(x => x.LineRef == item.LineRef && x.InventoryID == item.InventoryID);
+                    if (currentDetailLine.CuryUnitPrice != item.CuryUnitPrice)
+                    {
+                        graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.manualPrice>(item, true);
+                        graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.curyUnitPrice>(item, currentDetailLine.CuryUnitPrice);
+                    }
+                }
+                throw new PXRedirectRequiredException(graphAppointmentEntry, null);
+            }
+            return adapter.Get<FSServiceOrder>().ToList();
+        }
+
         #endregion
 
         #region Methods

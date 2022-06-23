@@ -20,9 +20,9 @@ namespace PX.Objects.FS
     {
         #region Constant String & Classes
         public const string TransferScr = "IN304000";
-        public const string ReceiptScr  = "IN301000";
-        public const string RMAReqAttr  = "RMAREQ";
-        public const string BrandAttr   = "BRAND";
+        public const string ReceiptScr = "IN301000";
+        public const string RMAReqAttr = "RMAREQ";
+        public const string BrandAttr = "BRAND";
 
         public class rMAReqAttrID : PX.Data.BQL.BqlString.Constant<rMAReqAttrID>
         {
@@ -204,6 +204,15 @@ namespace PX.Objects.FS
             var customerInfo = Customer.PK.Find(Base, doc.CustomerID);
             if (prepeymentInfo?.SOPrepaymentRemaining > 0 && (customerInfo == null || !customerInfo.PrepaymentAcctID.HasValue || !customerInfo.PrepaymentSubID.HasValue))
                 throw new PXException("Please maintain the prepayment account for this customer");
+
+            // [All-Phase2] Add a Validation for Qty Available by Warehouse and Location
+            var details = Base.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>().Where(x => x.LineType == "SLPRO");
+            foreach (var item in details)
+            {
+                var qtyOnHand = INSiteStatus.PK.Find(Base, item.InventoryID, item.SubItemID, item.SiteID)?.QtyOnHand ?? 0;
+                if (item.ActualQty > qtyOnHand)
+                    throw new PXException($"Inventory quantity for {item.InventoryCD} in warehouse will go negative.");
+            }
             return Base.InvoiceAppointment(adapter);
         }
         #endregion
@@ -394,13 +403,13 @@ namespace PX.Objects.FS
 
             bool isRMA = descrType == HSNMessages.RMAReturned;
 
-            register.TransferType      = INTransferType.TwoStep;
-            register.ExtRefNbr         = $"{appointment.SrvOrdType} | {apptEntry.ServiceOrderRelated.Current?.CustWorkOrderRefNbr} | {apptEntry.ServiceOrderRelated.Current?.CustPORefNbr}";
-            register.TranDesc          = descrType + " | " + appointment.DocDesc;
-            regisExt.UsrSrvOrdType     = appointment.SrvOrdType;
+            register.TransferType = INTransferType.TwoStep;
+            register.ExtRefNbr = $"{appointment.SrvOrdType} | {apptEntry.ServiceOrderRelated.Current?.CustWorkOrderRefNbr} | {apptEntry.ServiceOrderRelated.Current?.CustPORefNbr}";
+            register.TranDesc = descrType + " | " + appointment.DocDesc;
+            regisExt.UsrSrvOrdType = appointment.SrvOrdType;
             regisExt.UsrAppointmentNbr = appointment.RefNbr;
-            regisExt.UsrSORefNbr       = appointment.SORefNbr;
-            regisExt.UsrTransferPurp   = isRMA ? LUMTransferPurposeType.RMARetu : LUMTransferPurposeType.PartReq;
+            regisExt.UsrSORefNbr = appointment.SORefNbr;
+            regisExt.UsrTransferPurp = isRMA ? LUMTransferPurposeType.RMARetu : LUMTransferPurposeType.PartReq;
 
             if (apptEntry.ServiceOrderTypeSelected.Current?.GetExtension<FSSrvOrdTypeExt>().UsrBringBrandAttr2Txfr == true)
             {
@@ -454,12 +463,12 @@ namespace PX.Objects.FS
             INRegister register = receiptEntry.CurrentDocument.Cache.CreateInstance() as INRegister;
             INRegisterExt regisExt = register.GetExtension<INRegisterExt>();
 
-            register.ExtRefNbr         = $"{appointment.SrvOrdType} | {apptEntry.ServiceOrderRelated.Current?.CustWorkOrderRefNbr} | {apptEntry.ServiceOrderRelated.Current?.CustPORefNbr}";
-            register.TranDesc          = $"{(!string.IsNullOrEmpty(transferNbr) ? HSNMessages.PartReceive : HSNMessages.RMAInitiated)} | {appointment.DocDesc}";
-            regisExt.UsrSrvOrdType     = appointment.SrvOrdType;
+            register.ExtRefNbr = $"{appointment.SrvOrdType} | {apptEntry.ServiceOrderRelated.Current?.CustWorkOrderRefNbr} | {apptEntry.ServiceOrderRelated.Current?.CustPORefNbr}";
+            register.TranDesc = $"{(!string.IsNullOrEmpty(transferNbr) ? HSNMessages.PartReceive : HSNMessages.RMAInitiated)} | {appointment.DocDesc}";
+            regisExt.UsrSrvOrdType = appointment.SrvOrdType;
             regisExt.UsrAppointmentNbr = appointment.RefNbr;
-            regisExt.UsrSORefNbr       = appointment.SORefNbr;
-            regisExt.UsrTransferPurp   = !string.IsNullOrEmpty(transferNbr) ? LUMTransferPurposeType.PartRcv : LUMTransferPurposeType.RMAInit;
+            regisExt.UsrSORefNbr = appointment.SORefNbr;
+            regisExt.UsrTransferPurp = !string.IsNullOrEmpty(transferNbr) ? LUMTransferPurposeType.PartRcv : LUMTransferPurposeType.RMAInit;
 
             if (apptEntry.ServiceOrderTypeSelected.Current?.GetExtension<FSSrvOrdTypeExt>().UsrBringBrandAttr2Txfr == true)
             {
@@ -531,7 +540,7 @@ namespace PX.Objects.FS
         /// <param name="graph"></param>
         /// <param name="fromType"></param>
         /// <param name="toType"></param>
-        public static void SyncNoteApptOrSrvOrd(PXGraph graph, System.Type fromType, System.Type toType) => PXNoteAttribute.CopyNoteAndFiles(graph.Caches[fromType], graph.Caches[fromType].Current, 
+        public static void SyncNoteApptOrSrvOrd(PXGraph graph, System.Type fromType, System.Type toType) => PXNoteAttribute.CopyNoteAndFiles(graph.Caches[fromType], graph.Caches[fromType].Current,
                                                                                                                                              graph.Caches[toType], graph.Caches[toType].Current, true, false);
 
         /// <summary>
