@@ -184,11 +184,11 @@ namespace PX.Objects.FS
                 var srvDet = Base.ServiceOrderDetails.Cache.Cached.RowCast<FSSODet>();
                 foreach (FSAppointmentDet item in graphAppointmentEntry.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>())
                 {
-                    var currentDetailLine = srvDet.FirstOrDefault(x => x.LineRef == item.LineRef && x.InventoryID == item.InventoryID);
-                    if (currentDetailLine.CuryUnitPrice != item.CuryUnitPrice)
+                    var currentDetailLine = srvDet.FirstOrDefault(x => x.InventoryID == item.InventoryID);
+                    if (currentDetailLine != null && currentDetailLine?.CuryUnitPrice != item?.CuryUnitPrice)
                     {
                         graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.manualPrice>(item, true);
-                        graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.curyUnitPrice>(item, currentDetailLine.CuryUnitPrice);
+                        graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.curyUnitPrice>(item, currentDetailLine?.CuryUnitPrice);
                     }
                 }
                 throw new PXRedirectRequiredException(graphAppointmentEntry, null);
