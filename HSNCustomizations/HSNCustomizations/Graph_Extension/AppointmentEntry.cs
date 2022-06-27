@@ -209,7 +209,9 @@ namespace PX.Objects.FS
             var details = Base.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>().Where(x => x.LineType == "SLPRO");
             foreach (var item in details)
             {
-                var qtyOnHand = INSiteStatus.PK.Find(Base, item.InventoryID, item.SubItemID, item.SiteID)?.QtyOnHand ?? 0;
+                if (item.LocationID == null)
+                    throw new PXException($"LocationID can not be empty (InventoryID: {item.InventoryCD})");
+                var qtyOnHand = INLocationStatus.PK.Find(Base, item.InventoryID, item.SubItemID, item.SiteID, item.LocationID)?.QtyOnHand ?? 0;
                 if (item.ActualQty > qtyOnHand)
                     throw new PXException($"Inventory quantity for {item.InventoryCD} in warehouse will go negative.");
             }

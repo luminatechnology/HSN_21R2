@@ -22,6 +22,23 @@ namespace PX.Objects.SO
         [PXOverride]
         public virtual IEnumerable Release(PXAdapter adapter, ReleaseDelegate baseMethod)
         {
+
+            #region [All-Phase2] Add a Validation for Qty Available by Warehouse and Location
+            foreach (ARTran item in Base.Transactions.Cache.Cached.RowCast<ARTran>())
+            {
+                var inventoryItem = PX.Objects.IN.InventoryItem.PK.Find(Base, item.InventoryID);
+                var itemclass = PX.Objects.IN.INItemClass.PK.Find(Base, inventoryItem.ItemClassID);
+                if (itemclass.StkItem ?? false)
+                {
+                    if (item.LocationID == null)
+                        throw new PXException($"LocationID can not be empty (InventoryID: {inventoryItem.InventoryCD})");
+                    var qtyOnHand = PX.Objects.IN.INLocationStatus.PK.Find(Base, item.InventoryID, item.SubItemID, item.SiteID, item.LocationID)?.QtyOnHand ?? 0;
+                    if (item.Qty > qtyOnHand)
+                        throw new PXException($"Inventory quantity for {inventoryItem.InventoryCD} in warehouse will go negative.");
+                }
+            } 
+            #endregion
+
             var releaseResult = baseMethod.Invoke(adapter);
             var doc = Base.Document.Current;
             var tranRows = Base.Transactions.Select().RowCast<ARTran>().ToList().FirstOrDefault();
