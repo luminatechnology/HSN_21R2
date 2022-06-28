@@ -13,6 +13,7 @@ namespace HSNCustomizations.Descriptor
         public const string InitiateRMA        = "Initiate RMA";
         public const string RMAInitiated       = "RMA Initiated";
         public const string ReturnRMA          = "Return RMA";
+        public const string ToggleRMA          = "Toggle RMA";
         public const string RMAReturned        = "RMA Returned";
         public const string RMAReceipted       = "RMA Received";
         public const string NonUniqueSerNbr    = "The Serial Number Isn't Unique For This Equipment Type.";
@@ -30,5 +31,6 @@ namespace HSNCustomizations.Descriptor
         public const string NoPartRequest      = "All Parts Requested Have Been Submitted.";
         public const string WHLocDiffFromAppt  = "The Warehouse / Warehouse Location Is Different Between The Receipts And Appointment Details.";
         public const string StartApptNoStaff   = "You Cannot Start Appointment Without Staff Assigned";
+        public const string NoRMARequired      = "No Record Of RMA Required.";
     }
 }
