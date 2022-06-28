@@ -40,8 +40,8 @@
 							<px:PXGridColumn DataField="SubID" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="RefNbr" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryDebitAmt" Width="100" ></px:PXGridColumn>
-							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryCreditAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngDebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngCreditAmt" Width="100" ></px:PXGridColumn>
@@ -69,8 +69,8 @@
 							<px:PXGridColumn DataField="SubID" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="RefNbr" Width="140" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryDebitAmt" Width="100" ></px:PXGridColumn>
-							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CuryCreditAmt" Width="100" ></px:PXGridColumn>
+							<px:PXGridColumn DataField="DebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="CreditAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngDebitAmt" Width="100" ></px:PXGridColumn>
 							<px:PXGridColumn DataField="UsrRmngCreditAmt" Width="100" ></px:PXGridColumn>
