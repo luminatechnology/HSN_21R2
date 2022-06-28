@@ -6,13 +6,13 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.IN;
 using PX.Objects.CS;
+using PX.Objects.CR;
 using PX.Objects.CR.Standalone;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
-using PX.Objects.CR;
 
 namespace PX.Objects.FS
 {
@@ -41,7 +41,7 @@ namespace PX.Objects.FS
         public SelectFrom<LUMHSNSetup>.View HSNSetupView;
         #endregion
 
-        #region Override Method
+        #region Override Methods
         public override void Initialize()
         {
             base.Initialize();
@@ -50,12 +50,14 @@ namespace PX.Objects.FS
             Base.menuDetailActions.AddMenuAction(openPartReceive);
             Base.menuDetailActions.AddMenuAction(openInitiateRMA);
             Base.menuDetailActions.AddMenuAction(openReturnRMA);
+            Base.menuDetailActions.AddMenuAction(toggleRMA);
+
             FSWorkflowStageHandler.InitStageList();
             AddAllStageButton();
         }
         #endregion
 
-        #region Delegate Method
+        #region Delegate Methods
         public delegate void PersistDelegate();
         [PXOverride]
         public void Persist(PersistDelegate baseMethod)
@@ -162,14 +164,17 @@ namespace PX.Objects.FS
         [PXOverride]
         public IEnumerable CloseAppointment(PXAdapter adapter, CloseAppointmentDelegate baseMethod)
         {
-            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true).Count() > 0)
+            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true && 
+                                                                                       x.Status != FSAppointmentDet.status.CANCELED).Count() > 0)
             {
-                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt && x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit).Count() <= 0)
+                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt && 
+                                                                                  x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit).Count() <= 0)
                 {
                     throw new PXException(HSNMessages.NoInitRMARcpt);
                 }
 
-                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Transfer && x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() <= 0)
+                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Transfer && 
+                                                                                  x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() <= 0)
                 {
                     throw new PXException(HSNMessages.MustReturnRMA);
                 }
@@ -252,22 +257,30 @@ namespace PX.Objects.FS
             LUMHSNSetup hSNSetup = HSNSetupView.Select();
 
             bool activePartRequest = hSNSetup?.EnablePartReqInAppt == true;
-            bool activeRMAProcess = hSNSetup?.EnableRMAProcInAppt == true;
+            bool activeRMAProcess  = hSNSetup?.EnableRMAProcInAppt == true;
             bool activeWFStageCtrl = hSNSetup?.EnableWFStageCtrlInAppt == true;
 
             openPartRequest.SetEnabled(activePartRequest);
             openPartReceive.SetEnabled(activePartRequest);
             openInitiateRMA.SetEnabled(activeRMAProcess);
-            openReturnRMA.SetEnabled(activeRMAProcess);
+            openReturnRMA  .SetEnabled(activeRMAProcess);
+            toggleRMA      .SetEnabled(activeRMAProcess);
 
             Base.menuDetailActions.SetVisible(nameof(OpenPartRequest), activePartRequest);
             Base.menuDetailActions.SetVisible(nameof(OpenPartReceive), activePartRequest);
             Base.menuDetailActions.SetVisible(nameof(OpenInitiateRMA), activeRMAProcess);
-            Base.menuDetailActions.SetVisible(nameof(OpenReturnRMA), activeRMAProcess);
+            Base.menuDetailActions.SetVisible(nameof(OpenReturnRMA),   activeRMAProcess);
+            Base.menuDetailActions.SetVisible(nameof(ToggleRMA),       activeRMAProcess);
+
+            openPartRequest.SetDisplayOnMainToolbar(false);
+            openPartReceive.SetDisplayOnMainToolbar(false);
+            openInitiateRMA.SetDisplayOnMainToolbar(false);
+            openReturnRMA  .SetDisplayOnMainToolbar(false);
+            toggleRMA      .SetDisplayOnMainToolbar(false);
 
             lumStages.SetVisible(activeWFStageCtrl);
 
-            EventHistory.AllowSelect = activeWFStageCtrl;
+            EventHistory.AllowSelect   = activeWFStageCtrl;
             INRegisterView.AllowSelect = activePartRequest;
 
             PXUIFieldAttribute.SetVisible<FSAppointmentExt.usrTransferToHQ>(e.Cache, e.Row, hSNSetup?.DisplayTransferToHQ ?? false);
@@ -358,6 +371,11 @@ namespace PX.Objects.FS
         [PXButton]
         public virtual void OpenInitiateRMA()
         {
+            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(w => w.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true).Count() <= 0)
+            {
+                throw new PXException(HSNMessages.NoRMARequired);
+            }
+
             INReceiptEntry receiptEntry = PXGraph.CreateInstance<INReceiptEntry>();
 
             InitReceiptEntry(ref receiptEntry, Base);
@@ -388,6 +406,37 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "STAGES", MapEnableRights = PXCacheRights.Select)]
         [PXButton(MenuAutoOpen = true, CommitChanges = true)]
         public virtual void LumStages() { }
+
+        public PXAction<FSAppointment> toggleRMA;
+        [PXUIField(DisplayName = HSNMessages.ToggleRMA, MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXButton]
+        public virtual void ToggleRMA()
+        {
+            var apptDetauls = Base.AppointmentDetails.Current;
+
+            if (apptDetauls.LineType != ID.LineType_ALL.INVENTORY_ITEM)
+            {
+                throw new PXSetPropertyException<FSAppointmentDetExt.usrRMARequired>(HSNMessages.ApptLineTypeInvt);
+            }
+
+            bool rMAReq = apptDetauls.GetExtension<FSAppointmentDetExt>().UsrRMARequired ?? false;
+
+            if (apptDetauls.Status != FSAppointmentDet.status.CANCELED)
+            {
+                Base.AppointmentDetails.Cache.SetValue<FSAppointmentDetExt.usrRMARequired>(apptDetauls, !rMAReq);
+                Base.AppointmentDetails.Update(apptDetauls);
+
+                FSWorkflowStageHandler.apptEntry = Base;
+                FSWorkflowStageHandler.InsertEventHistory(nameof(AppointmentEntry), new LUMAutoWorkflowStage()
+                {
+                    WFRule = PX.Objects.Common.Messages.Actions,
+                    Descr = HSNMessages.ToggleRMA + " To " + (rMAReq == true ? "Unchecked" : "Checked"),
+                    CurrentStage = Base.AppointmentRecords.Current?.WFStageID
+                });
+
+                Base.Save.Press();
+            }
+        }
         #endregion
 
         #region Static Methods
@@ -422,7 +471,7 @@ namespace PX.Objects.FS
 
             PXView view = new PXView(apptEntry, true, apptEntry.AppointmentDetails.View.BqlSelect);
 
-            var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM);
+            var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM && x.GetExtension<FSAppointmentDetExt>().UsrRMARequired != true);
 
             if (isRMA == true)
             {
@@ -558,7 +607,7 @@ namespace PX.Objects.FS
         }
         #endregion
 
-        #region Method
+        #region Methods
         /// <summary>Check Status Is Drity </summary>
         public (bool IsDirty, string oldValue, string newValue) CheckStatusIsDirty(FSAppointment row)
         {
