@@ -180,6 +180,8 @@ namespace HSNFinance
 
         protected void _(Events.FieldUpdated<GLTranExt.usrSetldDebitAmt> e)
         {
+            var row = e.Row as GLTran;
+
             decimal? calcAmt = 0m;
 
             foreach (GLTran tran in GLTranDebit.Cache.Updated)
@@ -189,7 +191,8 @@ namespace HSNFinance
                     GLTranExt tranExt = tran.GetExtension<GLTranExt>();
 
                     ///<remarks> Because we need to update the unbound fields and check this field and then add verification in this event. </remarks>
-                    if (tran.CuryDebitAmt > 0m && (decimal)e.NewValue > tranExt.UsrRmngDebitAmt)
+                    if (tran.CuryDebitAmt > 0m && (decimal)e.NewValue > tranExt.UsrRmngDebitAmt &&
+                        row.Module == tran.Module && row.BatchNbr == tran.BatchNbr && row.LineNbr == tran.LineNbr)
                     {
                         throw new PXSetPropertyException<GLTranExt.usrSetldDebitAmt>(steldAmtExceedRmngAmt);
                     }
@@ -203,6 +206,8 @@ namespace HSNFinance
 
         protected void _(Events.FieldUpdated<GLTranExt.usrSetldCreditAmt> e)
         {
+            var row = e.Row as GLTran;
+
             decimal? calcAmt = 0m;
 
             foreach (GLTran tran in GLTranCredit.Cache.Updated)
@@ -212,9 +217,10 @@ namespace HSNFinance
                     GLTranExt tranExt = tran.GetExtension<GLTranExt>();
 
                     ///<remarks> Because we need to update the unbound fields and check this field and then add verification in this event. </remarks>
-                    if (tran.CuryCreditAmt > 0m && (decimal)e.NewValue > tranExt.UsrRmngCreditAmt)
+                    if (tran.CuryCreditAmt > 0m && (decimal)e.NewValue > tranExt.UsrRmngCreditAmt && 
+                        row.Module == tran.Module && row.BatchNbr == tran.BatchNbr && row.LineNbr == tran.LineNbr)
                     {
-                        throw new PXSetPropertyException<GLTranExt.usrSetldDebitAmt>(steldAmtExceedRmngAmt);
+                        throw new PXSetPropertyException<GLTranExt.usrSetldCreditAmt>(steldAmtExceedRmngAmt);
                     }
 
                     calcAmt += (tranExt.UsrSetldDebitAmt - tranExt.UsrSetldCreditAmt);
