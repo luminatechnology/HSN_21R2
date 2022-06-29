@@ -5,6 +5,7 @@ using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.GL;
 using HSNFinance.DAC;
+using PX.Objects.IN;
 
 namespace HSNFinance
 {
@@ -90,8 +91,12 @@ namespace HSNFinance
         [PXUIField(DisplayName = "Line Nbr.", Visibility = PXUIVisibility.Visible, Visible = true, Enabled = false)]
         protected void _(Events.CacheAttached<GLTran.lineNbr> e) { }
         
-        [PXMergeAttributes(Method = MergeMethod.Merge)]
-        [PX.Objects.IN.Inventory(Enabled = false, Visible = true)]
+        [PXRemoveBaseAttribute(typeof(PX.Objects.IN.InventoryAttribute))]
+        [PXDBInt]
+        [PXUIField(DisplayName = "Inventory ID")]
+        [PXDimensionSelector(InventoryAttribute.DimensionName, 
+                             typeof(Search<InventoryItem.inventoryID>),
+                             typeof(InventoryItem.inventoryCD))]
         protected void _(Events.CacheAttached<GLTran.inventoryID> e) { }
 
         [PXMergeAttributes(Method = MergeMethod.Merge)]

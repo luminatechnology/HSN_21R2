@@ -137,7 +137,12 @@ namespace HSNFinance.DAC
         #endregion
 
         #region InventoryID
-        [Inventory()]
+        //[Inventory()]
+        [PXDBInt]
+        [PXUIField(DisplayName = "Inventory ID")]
+        [PXDimensionSelector(InventoryAttribute.DimensionName,
+                             typeof(Search<InventoryItem.inventoryID>),
+                             typeof(InventoryItem.inventoryCD))]
         [PXForeignReference(typeof(Field<inventoryID>.IsRelatedTo<InventoryItem.inventoryID>))]
         public virtual int? InventoryID { get; set; }
         public abstract class inventoryID : PX.Data.BQL.BqlInt.Field<inventoryID> { }
