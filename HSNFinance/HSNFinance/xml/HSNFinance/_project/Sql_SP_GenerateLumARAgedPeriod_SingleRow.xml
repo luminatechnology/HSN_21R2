@@ -24,12 +24,9 @@ CREATE PROCEDURE [dbo].[SP_GenerateLumARAgedPeriod_SingleRow]
 
 	--Current
 	UPDATE LumARAgedPeriod SET
-		[Current] = (select SUM(ARReOrigDocAmtBasedOnDocType)
-					from Func_LumARAgedPeriod(@PeriodID, @CompanyID)
-					where (convertARReDueDate >= @PeriodID and DiffDays <= 0
-					and convertARReDocDate <= @PeriodID
-					or (ARReDocType <> 'INV' and ARReStatus <> 'C' and ARPaymentAdjDate <= DateAdd(day, -1, DateAdd(month, 1 ,Convert(date, @PeriodID + '01'))))
-					or (ARReDocType = 'CRM' and ARPaymentAdjDate <= DateAdd(day, -1, DateAdd(month, 1 ,Convert(date, @PeriodID + '01'))) and ARPaymentAdjFinPeriodID = @PeriodID)))
+		[Current] = (SELECT SUM(ARBalance)
+					 FROM Func_LumARAgedPeriod(@PeriodID, @CompanyID)
+					 WHERE DiffDays <= 0)
 	WHERE [CompanyID] = @CompanyID and [ConditionPeriodID] = @PeriodID and [LineNbr] = @RepeatTimes
 	/*
 	or (ARReDocType <> 'INV' and ARReDocType <> 'CRM' and ARPaymentAdjDate <= DateAdd(day, -1, DateAdd(month, 1 ,Convert(date, @PeriodID + '01'))))
@@ -38,21 +35,21 @@ CREATE PROCEDURE [dbo].[SP_GenerateLumARAgedPeriod_SingleRow]
 	--Others
 	UPDATE LumARAgedPeriod SET
 			--[OneMDays] 1 - 30 Days
-			[OneMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 0 and DiffDays <= 30), 0),
+			[OneMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 0 and DiffDays <= 30), 0),
 			--[TwoMDays] 31 - 60 Days
-			[TwoMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 30 and DiffDays <= 60), 0),
+			[TwoMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 30 and DiffDays <= 60), 0),
 			--[ThreeMDays] 61 - 90 Days
-			[ThreeMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 60 and DiffDays <= 90), 0),
+			[ThreeMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 60 and DiffDays <= 90), 0),
 			--[FourMDays] 91 - 120 Days
-			[FourMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 90 and DiffDays <= 120), 0),
+			[FourMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 90 and DiffDays <= 120), 0),
 			--[FiveMDays] 121 - 150 Days
-			[FiveMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 120 and DiffDays <= 150), 0),
+			[FiveMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 120 and DiffDays <= 150), 0),
 			--[SixMDays] 151 - 180 Days
-			[SixMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 150 and DiffDays <= 180), 0),
+			[SixMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 150 and DiffDays <= 180), 0),
 			--[SevenMDays] 181 - 210 Days
-			[SevenMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 180 and DiffDays <= 210), 0),
+			[SevenMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 180 and DiffDays <= 210), 0),
 			--[OverSevenMDays] Over 210 Days
-			[OverSevenMDays] = IsNull((select SUM(ARReOrigDocAmtBasedOnDocType) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 210), 0)
+			[OverSevenMDays] = IsNull((select SUM(ARBalance) from Func_LumARAgedPeriod(@PeriodID, @CompanyID) where DiffDays > 210), 0)
 	WHERE [CompanyID] = @CompanyID and [ConditionPeriodID] = @PeriodID and [LineNbr] = @RepeatTimes
 
 	--Total
