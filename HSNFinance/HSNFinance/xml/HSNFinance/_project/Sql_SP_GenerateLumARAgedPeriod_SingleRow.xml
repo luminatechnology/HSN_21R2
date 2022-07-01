@@ -24,7 +24,7 @@ CREATE PROCEDURE [dbo].[SP_GenerateLumARAgedPeriod_SingleRow]
 
 	--Current
 	UPDATE LumARAgedPeriod SET
-		[Current] = (SELECT SUM(ARBalance)
+		[Current] = (SELECT ISNULL(SUM(ARBalance),0)
 					 FROM Func_LumARAgedPeriod(@PeriodID, @CompanyID)
 					 WHERE DiffDays <= 0)
 	WHERE [CompanyID] = @CompanyID and [ConditionPeriodID] = @PeriodID and [LineNbr] = @RepeatTimes
