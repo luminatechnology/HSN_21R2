@@ -184,7 +184,8 @@ namespace PX.Objects.FS
                 var srvDet = Base.ServiceOrderDetails.Cache.Cached.RowCast<FSSODet>();
                 foreach (FSAppointmentDet item in graphAppointmentEntry.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>())
                 {
-                    var currentDetailLine = srvDet.FirstOrDefault(x => x.InventoryID == item.InventoryID);
+                    // 找出Service order Det & Appointment Det 對應的那筆資料
+                    var currentDetailLine = srvDet.FirstOrDefault(x => x.InventoryID == item.InventoryID && x.LineNbr == item.OrigLineNbr);
                     if (currentDetailLine != null && currentDetailLine?.CuryUnitPrice != item?.CuryUnitPrice)
                     {
                         graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.manualPrice>(item, true);
