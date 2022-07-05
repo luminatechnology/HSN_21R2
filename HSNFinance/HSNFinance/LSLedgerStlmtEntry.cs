@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using System.Collections;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.GL;
-using HSNFinance.DAC;
 using PX.Objects.IN;
+using HSNFinance.DAC;
 
 namespace HSNFinance
 {
@@ -80,6 +81,40 @@ namespace HSNFinance
 
             return adapter.Get();
         }
+
+        public PXAction<LedgerTranFilter> ToggleSource;
+        [PXButton()]
+        [PXUIField(DisplayName = "Toggle Source Selection", MapEnableRights = PXCacheRights.Select)]
+        public IEnumerable toggleSource(PXAdapter adapter)
+        {
+            bool hasSelected = !GLTranDebit.View.SelectMulti().ToList().RowCast<GLTran>().First().Selected.GetValueOrDefault();
+
+            foreach (GLTran tran in GLTranDebit.View.SelectMulti().RowCast<GLTran>())
+            {
+                tran.Selected = hasSelected;
+
+                GLTranDebit.Cache.Update(tran);
+            }
+            
+            return adapter.Get();
+        }
+
+        public PXAction<LedgerTranFilter> ToggleSettlement;
+        [PXButton()]
+        [PXUIField(DisplayName = "Toggle Settlement Selection", MapEnableRights = PXCacheRights.Select)]
+        public IEnumerable toggleSettlement(PXAdapter adapter)
+        {
+            bool hasSelected = !GLTranCredit.View.SelectMulti().ToList().RowCast<GLTran>().First().Selected.GetValueOrDefault();//.Cache.Cached.RowCast<GLTran>().First().Selected.GetValueOrDefault();
+
+            foreach (GLTran tran in GLTranCredit.View.SelectMulti().RowCast<GLTran>())
+            {
+                tran.Selected = hasSelected;
+
+                GLTranCredit.Cache.Update(tran);
+            }
+
+            return adapter.Get();
+        }
         #endregion
 
         #region Cache Attached
@@ -144,6 +179,9 @@ namespace HSNFinance
                 PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldDebitAmt>(e.Cache, e.Row, e.Row.DebitAmt != 0m);
                 PXUIFieldAttribute.SetEnabled<GLTranExt.usrSetldCreditAmt>(e.Cache, e.Row, e.Row.CreditAmt != 0m);
             }
+
+            ToggleSource.SetEnabled(e.Row != null);
+            ToggleSettlement.SetEnabled(e.Row != null);
         }
 
         protected void _(Events.FieldUpdated<GLTran.selected> e)
