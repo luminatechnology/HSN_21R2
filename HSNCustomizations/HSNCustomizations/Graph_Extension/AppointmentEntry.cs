@@ -165,7 +165,7 @@ namespace PX.Objects.FS
         public IEnumerable CloseAppointment(PXAdapter adapter, CloseAppointmentDelegate baseMethod)
         {
             if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true && 
-                                                                                       x.Status != FSAppointmentDet.status.CANCELED).Count() > 0)
+                                                                                        x.Status != FSAppointmentDet.status.CANCELED).Count() > 0)
             {
                 if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt && 
                                                                                   x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit).Count() <= 0)
@@ -371,7 +371,7 @@ namespace PX.Objects.FS
         [PXButton]
         public virtual void OpenInitiateRMA()
         {
-            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(w => w.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true).Count() <= 0)
+            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList().RemoveAll(r => r.GetExtension<FSAppointmentDetExt>()?.UsrRMARequired != true || r.Status == FSAppointmentDet.status.CANCELED) <= 0)
             {
                 throw new PXException(HSNMessages.NoRMARequired);
             }
@@ -412,25 +412,25 @@ namespace PX.Objects.FS
         [PXButton]
         public virtual void ToggleRMA()
         {
-            var apptDetauls = Base.AppointmentDetails.Current;
+            var apptDetails = Base.AppointmentDetails.Current;
 
-            if (apptDetauls.LineType != ID.LineType_ALL.INVENTORY_ITEM)
+            if (apptDetails.LineType != ID.LineType_ALL.INVENTORY_ITEM)
             {
                 throw new PXSetPropertyException<FSAppointmentDetExt.usrRMARequired>(HSNMessages.ApptLineTypeInvt);
             }
 
-            bool rMAReq = apptDetauls.GetExtension<FSAppointmentDetExt>().UsrRMARequired ?? false;
+            bool rMAReq = apptDetails.GetExtension<FSAppointmentDetExt>().UsrRMARequired ?? false;
 
-            if (apptDetauls.Status != FSAppointmentDet.status.CANCELED)
+            if (apptDetails.Status != FSAppointmentDet.status.CANCELED)
             {
-                Base.AppointmentDetails.Cache.SetValue<FSAppointmentDetExt.usrRMARequired>(apptDetauls, !rMAReq);
-                Base.AppointmentDetails.Update(apptDetauls);
+                Base.AppointmentDetails.Cache.SetValue<FSAppointmentDetExt.usrRMARequired>(apptDetails, !rMAReq);
+                Base.AppointmentDetails.Update(apptDetails);
 
                 FSWorkflowStageHandler.apptEntry = Base;
                 FSWorkflowStageHandler.InsertEventHistory(nameof(AppointmentEntry), new LUMAutoWorkflowStage()
                 {
                     WFRule = PX.Objects.Common.Messages.Actions,
-                    Descr = HSNMessages.ToggleRMA + " To " + (rMAReq == true ? "Unchecked" : "Checked"),
+                    Descr = HSNMessages.ToggleRMA + " [" + apptDetails.InventoryCD + "] To " + (rMAReq == true ? "Unchecked" : "Checked"),
                     CurrentStage = Base.AppointmentRecords.Current?.WFStageID
                 });
 
@@ -532,7 +532,7 @@ namespace PX.Objects.FS
             {
                 PXView view = new PXView(apptEntry, true, apptEntry.AppointmentDetails.View.BqlSelect);
 
-                var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM && x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true);
+                var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM && x.Status != FSAppointmentDet.status.CANCELED && x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true);
 
                 foreach (FSAppointmentDet row in list)
                 {
