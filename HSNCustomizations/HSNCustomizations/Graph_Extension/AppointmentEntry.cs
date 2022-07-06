@@ -1,4 +1,4 @@
-using PX.SM;
+﻿using PX.SM;
 using PX.Common;
 using PX.Data;
 using PX.Data.BQL;
@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
+using PX.Objects.AP;
 
 namespace PX.Objects.FS
 {
@@ -94,6 +95,11 @@ namespace PX.Objects.FS
             // Set UsrLastSatusModDate if Stage is dirty
             if (wfStageDirtyResult.IsDirty)
                 Base.AppointmentRecords.Current.GetExtension<FSAppointmentExt>().UsrLastSatusModDate = PXTimeZoneInfo.Now;
+
+            // 記錄刪除的Details資料[Phase II]
+            var detailDeleteRecord = new List<FSAppointmentDet>();
+            detailDeleteRecord.AddRange(Base.AppointmentDetails.Cache.Deleted.RowCast<FSAppointmentDet>());
+
             baseMethod();
             try
             {
@@ -150,7 +156,29 @@ namespace PX.Objects.FS
 
                     #endregion
 
+                    // 執行Base Persisted
                     baseMethod();
+
+                    #region [All-Phase2]Sync Delete Details Record with Service Order Details
+                    // 判斷Primary Current是否存在(刪除整張單) 並同步Service Order Details
+                    if (Base.AppointmentRecords.Current != null && detailDeleteRecord.Count > 0)
+                    {
+                        PXTrace.WriteInformation($"Delete Service Order Details (count: {detailDeleteRecord.Count})");
+                        var srvGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
+                        srvGraph.ServiceOrderRecords.Current = srvGraph.ServiceOrderRecords.Search<FSServiceOrder.refNbr>(Base.AppointmentRecords.Current.SORefNbr, Base.AppointmentRecords.Current.SrvOrdType);
+                        if (srvGraph.ServiceOrderRecords.Current != null)
+                        {
+                            foreach (var deletedItem in detailDeleteRecord)
+                            {
+                                var currentLine = srvGraph.ServiceOrderDetails.Select().RowCast<FSSODet>().FirstOrDefault(x => x.LineNbr == deletedItem.OrigLineNbr && x.InventoryID == deletedItem.InventoryID);
+                                if (currentLine != null)
+                                    srvGraph.ServiceOrderDetails.Cache.Delete(currentLine);
+                            }
+                            srvGraph.Save.Press();
+                        }
+                    }
+                    #endregion
+
                     ts.Complete();
                 }
             }
@@ -164,16 +192,16 @@ namespace PX.Objects.FS
         [PXOverride]
         public IEnumerable CloseAppointment(PXAdapter adapter, CloseAppointmentDelegate baseMethod)
         {
-            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true && 
+            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true &&
                                                                                         x.Status != FSAppointmentDet.status.CANCELED).Count() > 0)
             {
-                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt && 
+                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt &&
                                                                                   x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit).Count() <= 0)
                 {
                     throw new PXException(HSNMessages.NoInitRMARcpt);
                 }
 
-                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Transfer && 
+                if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Transfer &&
                                                                                   x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() <= 0)
                 {
                     throw new PXException(HSNMessages.MustReturnRMA);
@@ -245,6 +273,15 @@ namespace PX.Objects.FS
            DescriptionField = typeof(Contact.displayName))]
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
+
+
+        //[PXDBInt]
+        //[PXDefault]
+        //[LUMGetStaff]
+        //[PXUIField(DisplayName = "GGr", TabOrder = 0)]
+        //[PXMergeAttributes(Method = MergeMethod.Replace)]
+        //public virtual void _(Events.CacheAttached<FSAppointmentEmployee.employeeID> e) { }
+
         #endregion
 
         #region Event Handlers
@@ -257,30 +294,30 @@ namespace PX.Objects.FS
             LUMHSNSetup hSNSetup = HSNSetupView.Select();
 
             bool activePartRequest = hSNSetup?.EnablePartReqInAppt == true;
-            bool activeRMAProcess  = hSNSetup?.EnableRMAProcInAppt == true;
+            bool activeRMAProcess = hSNSetup?.EnableRMAProcInAppt == true;
             bool activeWFStageCtrl = hSNSetup?.EnableWFStageCtrlInAppt == true;
 
             openPartRequest.SetEnabled(activePartRequest);
             openPartReceive.SetEnabled(activePartRequest);
             openInitiateRMA.SetEnabled(activeRMAProcess);
-            openReturnRMA  .SetEnabled(activeRMAProcess);
-            toggleRMA      .SetEnabled(activeRMAProcess);
+            openReturnRMA.SetEnabled(activeRMAProcess);
+            toggleRMA.SetEnabled(activeRMAProcess);
 
             Base.menuDetailActions.SetVisible(nameof(OpenPartRequest), activePartRequest);
             Base.menuDetailActions.SetVisible(nameof(OpenPartReceive), activePartRequest);
             Base.menuDetailActions.SetVisible(nameof(OpenInitiateRMA), activeRMAProcess);
-            Base.menuDetailActions.SetVisible(nameof(OpenReturnRMA),   activeRMAProcess);
-            Base.menuDetailActions.SetVisible(nameof(ToggleRMA),       activeRMAProcess);
+            Base.menuDetailActions.SetVisible(nameof(OpenReturnRMA), activeRMAProcess);
+            Base.menuDetailActions.SetVisible(nameof(ToggleRMA), activeRMAProcess);
 
             openPartRequest.SetDisplayOnMainToolbar(false);
             openPartReceive.SetDisplayOnMainToolbar(false);
             openInitiateRMA.SetDisplayOnMainToolbar(false);
-            openReturnRMA  .SetDisplayOnMainToolbar(false);
-            toggleRMA      .SetDisplayOnMainToolbar(false);
+            openReturnRMA.SetDisplayOnMainToolbar(false);
+            toggleRMA.SetDisplayOnMainToolbar(false);
 
             lumStages.SetVisible(activeWFStageCtrl);
 
-            EventHistory.AllowSelect   = activeWFStageCtrl;
+            EventHistory.AllowSelect = activeWFStageCtrl;
             INRegisterView.AllowSelect = activePartRequest;
 
             PXUIFieldAttribute.SetVisible<FSAppointmentExt.usrTransferToHQ>(e.Cache, e.Row, hSNSetup?.DisplayTransferToHQ ?? false);
@@ -325,6 +362,7 @@ namespace PX.Objects.FS
                 ServiceOrderEntry_Extension.SetSrvContactInfo(Base.ServiceOrder_Contact.Cache, e.Row.ContactID, e.Row.ServiceOrderContactID);
             }
         }
+
         #endregion
 
         #region Actions
