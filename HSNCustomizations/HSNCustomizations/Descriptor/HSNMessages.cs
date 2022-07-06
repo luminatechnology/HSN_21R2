@@ -32,5 +32,6 @@ namespace HSNCustomizations.Descriptor
         public const string WHLocDiffFromAppt  = "The Warehouse / Warehouse Location Is Different Between The Receipts And Appointment Details.";
         public const string StartApptNoStaff   = "You Cannot Start Appointment Without Staff Assigned";
         public const string NoRMARequired      = "No Record Of RMA Required.";
+        public const string CannotToggleRMA    = "Initiate RMA / Return RMA Already Exists, Cannot Toggle RMA.";
     }
 }
