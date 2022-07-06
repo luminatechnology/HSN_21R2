@@ -138,6 +138,9 @@ namespace PX.Objects.IN
                             {
                                 apptEntry.AppointmentRecords.Current = result;
 
+                                apptEntry.AppointmentRecords.Current.MustUpdateServiceOrder = true;
+                                apptEntry.AppointmentRecords.UpdateCurrent();
+
                                 FSAppointmentDet newLine = PXCache<FSAppointmentDet>.CreateCopy(apptEntry.AppointmentDetails.Insert(new FSAppointmentDet()));
 
                                 newLine.InventoryID  = row.InventoryID;
@@ -147,12 +150,12 @@ namespace PX.Objects.IN
                                 newLine = PXCache<FSAppointmentDet>.CreateCopy(apptEntry.AppointmentDetails.Update(newLine));
 
                                 newLine.EquipmentAction = apptLine.EquipmentAction;
-                                newLine.OrigLineNbr     = apptLine.OrigLineNbr;
+                                //newLine.OrigLineNbr     = apptLine.OrigLineNbr;
                                 newLine.CuryUnitPrice   = apptLine.CuryUnitPrice;
                                 // Per YJ's request to include the following two fields
                                 newLine.SiteID          = apptLine.SiteID;
                                 newLine.SiteLocationID  = apptLine.SiteLocationID;
-                                newLine.LineRef         = row.GetExtension<INTranExt>().UsrApptLineRef;
+                                //newLine.LineRef         = row.GetExtension<INTranExt>().UsrApptLineRef;
 
                                 apptEntry.AppointmentDetails.Update(newLine);
 

@@ -371,7 +371,11 @@ namespace PX.Objects.FS
         [PXButton]
         public virtual void OpenInitiateRMA()
         {
-            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList().RemoveAll(r => r.GetExtension<FSAppointmentDetExt>()?.UsrRMARequired != true || r.Status == FSAppointmentDet.status.CANCELED) <= 0)
+            var details = Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList();
+            
+            details.RemoveAll(r => r.GetExtension<FSAppointmentDetExt>()?.UsrRMARequired != true || r.Status == FSAppointmentDet.status.CANCELED);
+
+            if (details.Count <= 0)
             {
                 throw new PXException(HSNMessages.NoRMARequired);
             }
@@ -417,6 +421,12 @@ namespace PX.Objects.FS
             if (apptDetails.LineType != ID.LineType_ALL.INVENTORY_ITEM)
             {
                 throw new PXSetPropertyException<FSAppointmentDetExt.usrRMARequired>(HSNMessages.ApptLineTypeInvt);
+            }
+
+            if (INRegisterView.Select().RowCast<INRegister>().Where(w => w.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit || 
+                                                                         w.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() > 0)
+            {
+                throw new PXException(HSNMessages.CannotToggleRMA);
             }
 
             bool rMAReq = apptDetails.GetExtension<FSAppointmentDetExt>().UsrRMARequired ?? false;
