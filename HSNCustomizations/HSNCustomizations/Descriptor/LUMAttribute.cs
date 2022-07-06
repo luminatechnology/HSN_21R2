@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using PX.CS;
 using PX.Data.BQL;
 using System.Linq;
+using PX.Objects.FS;
+using PX.Objects.AP;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -164,6 +166,71 @@ namespace HSNCustomizations.Descriptor
             {
                 this._AllowedLabels = data.Select(x => x.Description).ToArray();
                 this._AllowedValues = data.Select(x => x.ValueID).ToArray();
+            }
+        }
+    }
+
+    public class LUMGetStaffAttribute : PXCustomSelectorAttribute
+    {
+        public LUMGetStaffAttribute() : base(typeof(BAccountStaffMember.acctCD),
+                           typeof(BAccountStaffMember.acctName),
+                           typeof(BAccountStaffMember.type),
+                           typeof(BAccountStaffMember.status),
+                           typeof(PX.Objects.EP.EPEmployeePosition.positionID))
+        {
+            DescriptionField = typeof(BAccountStaffMember.acctName);
+        }
+
+        protected virtual IEnumerable GetRecords()
+        {
+            #region Standard BQL (Select Staff)
+            PXSelectBase<BAccountStaffMember> paymentSelect =
+                   new PXSelectJoin<BAccountStaffMember,
+                          LeftJoin<Vendor,
+                          On<
+                              Vendor.bAccountID, Equal<BAccountStaffMember.bAccountID>,
+                           And<Vendor.vStatus, NotEqual<VendorStatus.inactive>>>,
+                          LeftJoin<PX.Objects.EP.EPEmployee,
+                          On<
+                              PX.Objects.EP.EPEmployee.bAccountID, Equal<BAccountStaffMember.bAccountID>,
+                           And<PX.Objects.EP.EPEmployee.vStatus, NotEqual<VendorStatus.inactive>>>,
+                          LeftJoin<PX.Objects.PM.PMProject,
+                          On<
+                              PX.Objects.PM.PMProject.contractID, Equal<Current<FSServiceOrder.projectID>>>,
+                          LeftJoin<PX.Objects.EP.EPEmployeeContract,
+                          On<
+                              PX.Objects.EP.EPEmployeeContract.contractID, Equal<PX.Objects.PM.PMProject.contractID>,
+                              And<PX.Objects.EP.EPEmployeeContract.employeeID, Equal<BAccountStaffMember.bAccountID>>>,
+                          LeftJoin<PX.Objects.EP.EPEmployeePosition,
+                          On<
+                              PX.Objects.EP.EPEmployeePosition.employeeID, Equal<PX.Objects.EP.EPEmployee.bAccountID>,
+                              And<PX.Objects.EP.EPEmployeePosition.isActive, Equal<True>>>>>>>>,
+                          Where<
+                              PX.Objects.PM.PMProject.isActive, Equal<True>,
+                          And<
+                              PX.Objects.PM.PMProject.baseType, Equal<PX.Objects.CT.CTPRType.project>,
+                          And<
+                              Where2<
+                                  Where<
+                                      FSxVendor.sDEnabled, Equal<True>>,
+                                  Or<
+                                      Where<
+                                          FSxEPEmployee.sDEnabled, Equal<True>,
+                                      And<
+                                          Where<
+                                              PX.Objects.PM.PMProject.restrictToEmployeeList, Equal<False>,
+                                          Or<
+                                              PX.Objects.EP.EPEmployeeContract.employeeID, IsNotNull>>>>>>>>>,
+                          OrderBy<
+                              Asc<BAccountStaffMember.acctCD>>>(this._Graph); 
+            #endregion
+            var appCurrent = this._Graph.Caches[typeof(FSAppointment)].Current as FSAppointment;
+            foreach (PXResult<BAccountStaffMember, Vendor, PX.Objects.EP.EPEmployee, PX.Objects.PM.PMProject, PX.Objects.EP.EPEmployeeContract, PX.Objects.EP.EPEmployeePosition> it in paymentSelect.Select())
+            {
+                
+                BAccountStaffMember staff = it;
+                PX.Objects.EP.EPEmployeePosition post = it;
+                yield return it;
             }
         }
     }

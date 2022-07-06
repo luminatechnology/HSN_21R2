@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
+using PX.Objects.AP;
 
 namespace PX.Objects.FS
 {
@@ -95,7 +96,7 @@ namespace PX.Objects.FS
             if (wfStageDirtyResult.IsDirty)
                 Base.AppointmentRecords.Current.GetExtension<FSAppointmentExt>().UsrLastSatusModDate = PXTimeZoneInfo.Now;
 
-            // ����Details �Q�R�������[Phase II]
+            // 記錄刪除的Details資料[Phase II]
             var detailDeleteRecord = new List<FSAppointmentDet>();
             detailDeleteRecord.AddRange(Base.AppointmentDetails.Cache.Deleted.RowCast<FSAppointmentDet>());
 
@@ -155,15 +156,16 @@ namespace PX.Objects.FS
 
                     #endregion
 
-                    // ����Base Persisted
+                    // 執行Base Persisted
                     baseMethod();
 
                     #region [All-Phase2]Sync Delete Details Record with Service Order Details
-                    // �p�GPrimary Current����٦b(���O��i��R��) �B ���R��Details
+                    // 判斷Primary Current是否存在(刪除整張單) 並同步Service Order Details
                     if (Base.AppointmentRecords.Current != null && detailDeleteRecord.Count > 0)
                     {
+                        PXTrace.WriteInformation($"Delete Service Order Details (count: {detailDeleteRecord.Count})");
                         var srvGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
-                        srvGraph.ServiceOrderRecords.Current = srvGraph.ServiceOrderRecords.Search<FSServiceOrder.srvOrdType, FSServiceOrder.refNbr>(Base.AppointmentRecords.Current.SrvOrdType, Base.AppointmentRecords.Current.SORefNbr);
+                        srvGraph.ServiceOrderRecords.Current = srvGraph.ServiceOrderRecords.Search<FSServiceOrder.refNbr>(Base.AppointmentRecords.Current.SORefNbr, Base.AppointmentRecords.Current.SrvOrdType);
                         if (srvGraph.ServiceOrderRecords.Current != null)
                         {
                             foreach (var deletedItem in detailDeleteRecord)
@@ -190,7 +192,7 @@ namespace PX.Objects.FS
         [PXOverride]
         public IEnumerable CloseAppointment(PXAdapter adapter, CloseAppointmentDelegate baseMethod)
         {
-            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true && 
+            if (Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Where(x => x.GetExtension<FSAppointmentDetExt>().UsrRMARequired == true &&
                                                                                         x.Status != FSAppointmentDet.status.CANCELED).Count() > 0)
             {
                 if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Receipt &&
@@ -271,6 +273,15 @@ namespace PX.Objects.FS
            DescriptionField = typeof(Contact.displayName))]
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
+
+
+        //[PXDBInt]
+        //[PXDefault]
+        //[LUMGetStaff]
+        //[PXUIField(DisplayName = "GGr", TabOrder = 0)]
+        //[PXMergeAttributes(Method = MergeMethod.Replace)]
+        //public virtual void _(Events.CacheAttached<FSAppointmentEmployee.employeeID> e) { }
+
         #endregion
 
         #region Event Handlers
