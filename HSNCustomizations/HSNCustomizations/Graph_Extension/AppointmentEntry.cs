@@ -58,6 +58,61 @@ namespace PX.Objects.FS
         }
         #endregion
 
+        public void _(Events.FieldUpdated<FSAppointmentDet.staffID> e)
+        {
+
+        }
+
+        public void _(Events.FieldSelecting<FSAppointmentDet.staffID> e)
+        {
+
+        }
+
+        public void _(Events.FieldUpdated<FSAppointmentEmployee.employeeID> e)
+        {
+
+        }
+
+        #region Delegate DataView
+
+        protected virtual IEnumerable staffRecords()
+        {
+            var staffReuslt = StaffSelectionHelper.StaffRecordsDelegate(Base.AppointmentServiceEmployees,
+                                                             Base.SkillGridFilter,
+                                                             Base.LicenseTypeGridFilter,
+                                                             Base.StaffSelectorFilter);
+            // 是否篩選Staff
+            var isFilter = Base.AppointmentRecords.Current == null ? false : (FSSrvOrdType.PK.Find(Base, Base.AppointmentRecords.Current.SrvOrdType)?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByBranch ?? false);
+            // Appointment Record
+            var apptCurrent = Base.AppointmentRecords.Current;
+            // Appointment Branch LocationID
+            var branchLocationID = FSServiceOrder.PK.Find(Base, apptCurrent?.SrvOrdType, apptCurrent?.SORefNbr)?.BranchLocationID;
+            // BranchLocationID 實際的BranchID
+            var currentBranchID = FSBranchLocation.PK.Find(Base, branchLocationID)?.BranchID;
+            foreach (BAccountStaffMember staffItem in staffReuslt)
+            {
+                // 需要篩選Staff 或 Appointment Current Record != null
+                if (isFilter && apptCurrent != null)
+                {
+                    // Employee Info
+                    var employeeInfo = EPEmployee.PK.Find(Base, staffItem.BAccountID);
+                    if (employeeInfo != null)
+                    {
+                        // Find Employee Branch
+                        var staffBranchID = SelectFrom<PX.Objects.GL.Branch>
+                                       .Where<PX.Objects.GL.Branch.bAccountID.IsEqual<P.AsInt>>
+                                       .View.SelectSingleBound(Base, null, employeeInfo.ParentBAccountID)
+                                       .TopFirst?.BranchID;
+                        if (staffBranchID == currentBranchID)
+                            yield return staffItem;
+                    }
+                }
+                else
+                    yield return staffItem;
+            }
+        }
+        #endregion
+
         #region Delegate Methods
         public delegate void PersistDelegate();
         [PXOverride]
@@ -275,12 +330,18 @@ namespace PX.Objects.FS
         public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
 
 
-        //[PXDBInt]
-        //[PXDefault]
-        //[LUMGetStaff]
-        //[PXUIField(DisplayName = "GGr", TabOrder = 0)]
-        //[PXMergeAttributes(Method = MergeMethod.Replace)]
-        //public virtual void _(Events.CacheAttached<FSAppointmentEmployee.employeeID> e) { }
+        [PXDBInt]
+        [PXDefault]
+        [LUMGetStaffByBranch]
+        [PXUIField(DisplayName = "Staff Member", TabOrder = 0)]
+        [PXMergeAttributes(Method = MergeMethod.Replace)]
+        public virtual void _(Events.CacheAttached<FSAppointmentEmployee.employeeID> e) { }
+
+        [PXDBInt]
+        [LUMGetStaffByBranch]
+        [PXUIField(DisplayName = "Staff Member ID 2")]
+        [PXMergeAttributes(Method = MergeMethod.Replace)]
+        public virtual void _(Events.CacheAttached<FSAppointmentDet.staffID> e) { }
 
         #endregion
 
@@ -410,7 +471,7 @@ namespace PX.Objects.FS
         public virtual void OpenInitiateRMA()
         {
             var details = Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList();
-            
+
             details.RemoveAll(r => r.GetExtension<FSAppointmentDetExt>()?.UsrRMARequired != true || r.Status == FSAppointmentDet.status.CANCELED);
 
             if (details.Count <= 0)
@@ -461,7 +522,7 @@ namespace PX.Objects.FS
                 throw new PXSetPropertyException<FSAppointmentDetExt.usrRMARequired>(HSNMessages.ApptLineTypeInvt);
             }
 
-            if (INRegisterView.Select().RowCast<INRegister>().Where(w => w.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit || 
+            if (INRegisterView.Select().RowCast<INRegister>().Where(w => w.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMAInit ||
                                                                          w.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() > 0)
             {
                 throw new PXException(HSNMessages.CannotToggleRMA);

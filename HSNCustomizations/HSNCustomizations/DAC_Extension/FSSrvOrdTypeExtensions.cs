@@ -24,5 +24,12 @@ namespace PX.Objects.FS
 		public virtual bool? UsrBringBrandAttr2Txfr { get; set; }
 		public abstract class usrBringBrandAttr2Txfr : PX.Data.BQL.BqlBool.Field<usrBringBrandAttr2Txfr> { }
 		#endregion
+
+		#region UsrStaffFilterByBranch
+		[PXDBBool()]
+		[PXUIField(DisplayName = "Enable Staff Selection by Branch")]
+		public virtual bool? UsrStaffFilterByBranch { get; set; }
+		public abstract class usrStaffFilterByBranch : PX.Data.BQL.BqlBool.Field<usrStaffFilterByBranch> { }
+		#endregion
 	}
 }

@@ -170,21 +170,80 @@ namespace HSNCustomizations.Descriptor
         }
     }
 
-    public class LUMGetStaffAttribute : PXCustomSelectorAttribute
+    #region LUMGetStaffByBranchAttribute
+    // [All-Phase2] Add a Control to enable the staff selection by Branch in Appointments
+    public class LUMGetStaffByBranchAttribute : PXCustomSelectorAttribute
     {
-        public LUMGetStaffAttribute() : base(typeof(BAccountStaffMember.acctCD),
-                           typeof(BAccountStaffMember.acctName),
-                           typeof(BAccountStaffMember.type),
-                           typeof(BAccountStaffMember.status),
-                           typeof(PX.Objects.EP.EPEmployeePosition.positionID))
+        public class StaffProviderRec : IBqlTable
         {
-            DescriptionField = typeof(BAccountStaffMember.acctName);
+            #region BAccountID
+            [PXDBInt]
+            [PXUIField(DisplayName = "BAccountID", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual int? BAccountID { get; set; }
+            public abstract class bAccountID : PX.Data.IBqlField { }
+
+            #endregion
+
+            #region AcctCD
+            [PXDBString(128, InputMask = "", IsUnicode = true)]
+            [PXUIField(DisplayName = "AcctCD", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual string AcctCD { get; set; }
+            public abstract class acctCD : PX.Data.IBqlField { }
+
+            #endregion
+
+            #region AcctName
+            [PXDBString(128, InputMask = "", IsUnicode = true)]
+            [PXUIField(DisplayName = "AcctName", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual string AcctName { get; set; }
+            public abstract class acctName : PX.Data.IBqlField { }
+            #endregion
+
+            #region Type
+            [EmployeeType.List()]
+            [PXDBString(2, IsFixed = true)]
+            [PXUIField(DisplayName = "Type", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
+            public virtual string Type { get; set; }
+            public abstract class type : PX.Data.IBqlField { }
+            #endregion
+
+            #region Status
+            [PXDBString(1, IsFixed = true)]
+            [PXUIField(DisplayName = "Status", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual string Status { get; set; }
+            public abstract class status : PX.Data.IBqlField { }
+            #endregion
+
+            #region PositionID
+            [PXDBString(10, IsUnicode = true)]
+            [PXUIField(DisplayName = "Position", Visibility = PXUIVisibility.SelectorVisible)]
+            public virtual string PositionID { get; set; }
+            public abstract class positionID : PX.Data.IBqlField { }
+            #endregion
+
         }
+
+        public LUMGetStaffByBranchAttribute() : base(
+                           typeof(StaffProviderRec.bAccountID),
+                           new Type[]
+            {
+                           typeof(StaffProviderRec.acctCD),
+                           typeof(StaffProviderRec.acctName),
+                           typeof(StaffProviderRec.type),
+                           typeof(StaffProviderRec.status),
+                           typeof(StaffProviderRec.positionID)
+            })
+        {
+            DescriptionField = typeof(StaffProviderRec.acctName);
+            SubstituteKey = typeof(StaffProviderRec.acctCD);
+        }
+
+        public override void FieldVerifying(PXCache sender, PXFieldVerifyingEventArgs e) { }
 
         protected virtual IEnumerable GetRecords()
         {
             #region Standard BQL (Select Staff)
-            PXSelectBase<BAccountStaffMember> paymentSelect =
+            PXSelectBase<BAccountStaffMember> staffSelect =
                    new PXSelectJoin<BAccountStaffMember,
                           LeftJoin<Vendor,
                           On<
@@ -193,7 +252,7 @@ namespace HSNCustomizations.Descriptor
                           LeftJoin<PX.Objects.EP.EPEmployee,
                           On<
                               PX.Objects.EP.EPEmployee.bAccountID, Equal<BAccountStaffMember.bAccountID>,
-                           And<PX.Objects.EP.EPEmployee.vStatus, NotEqual<VendorStatus.inactive>>>,
+                              And<PX.Objects.EP.EPEmployee.vStatus, NotEqual<VendorStatus.inactive>>>,
                           LeftJoin<PX.Objects.PM.PMProject,
                           On<
                               PX.Objects.PM.PMProject.contractID, Equal<Current<FSServiceOrder.projectID>>>,
@@ -222,16 +281,63 @@ namespace HSNCustomizations.Descriptor
                                           Or<
                                               PX.Objects.EP.EPEmployeeContract.employeeID, IsNotNull>>>>>>>>>,
                           OrderBy<
-                              Asc<BAccountStaffMember.acctCD>>>(this._Graph); 
+                              Asc<BAccountStaffMember.acctCD>>>(this._Graph);
             #endregion
-            var appCurrent = this._Graph.Caches[typeof(FSAppointment)].Current as FSAppointment;
-            foreach (PXResult<BAccountStaffMember, Vendor, PX.Objects.EP.EPEmployee, PX.Objects.PM.PMProject, PX.Objects.EP.EPEmployeeContract, PX.Objects.EP.EPEmployeePosition> it in paymentSelect.Select())
+
+            // Appointment Record
+            var apppintmentRecord = this._Graph.Caches[typeof(FSAppointment)].Current as FSAppointment;
+            // Appointment Branch LocationID
+            var branchLocationID = FSServiceOrder.PK.Find(this._Graph, apppintmentRecord?.SrvOrdType, apppintmentRecord?.SORefNbr)?.BranchLocationID;
+            // BranchLocationID 實際的BranchID
+            var currentBranchID = FSBranchLocation.PK.Find(this._Graph, branchLocationID)?.BranchID;
+            // 是否篩選Staff
+            var isFilter = apppintmentRecord == null ? false : (FSSrvOrdType.PK.Find(this._Graph, apppintmentRecord.SrvOrdType)?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByBranch ?? false);
+            Dictionary<string, string> statusDic = new Dictionary<string, string>()
             {
-                
+                {"R","Prospect"},
+                {"A","Active" },
+                {"H","Hold" },
+                {"C","CreditHold" },
+                {"T","OneTime" },
+                {"I","Inactive" }
+            };
+            foreach (PXResult<BAccountStaffMember, Vendor, PX.Objects.EP.EPEmployee, PX.Objects.PM.PMProject, PX.Objects.EP.EPEmployeeContract, PX.Objects.EP.EPEmployeePosition> it in staffSelect.Select())
+            {
                 BAccountStaffMember staff = it;
                 PX.Objects.EP.EPEmployeePosition post = it;
-                yield return it;
+                PX.Objects.EP.EPEmployee employee = it;
+                var staffBranchID = SelectFrom<PX.Objects.GL.Branch>
+                               .Where<PX.Objects.GL.Branch.bAccountID.IsEqual<P.AsInt>>
+                               .View.SelectSingleBound(this._Graph, null, employee.ParentBAccountID)
+                               .TopFirst?.BranchID;
+
+                // 只回傳Branch ID相同的(需篩選)
+                if (apppintmentRecord != null && isFilter)
+                {
+                    if (staffBranchID == currentBranchID)
+                        yield return new StaffProviderRec
+                        {
+                            AcctCD = staff.AcctCD,
+                            BAccountID = staff.BAccountID,
+                            AcctName = staff.AcctName,
+                            Type = staff.Type,
+                            Status = statusDic[staff.Status],
+                            PositionID = post.PositionID
+                        };
+                }
+                // 如果找不到Appointment header or 不需要篩選則回傳標準
+                else
+                    yield return new StaffProviderRec
+                    {
+                        AcctCD = staff.AcctCD,
+                        BAccountID = staff.BAccountID,
+                        AcctName = staff.AcctName,
+                        Type = staff.Type,
+                        Status = statusDic[staff.Status],
+                        PositionID = post.PositionID
+                    };
             }
         }
     }
+    #endregion
 }
