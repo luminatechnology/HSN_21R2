@@ -58,23 +58,9 @@ namespace PX.Objects.FS
         }
         #endregion
 
-        public void _(Events.FieldUpdated<FSAppointmentDet.staffID> e)
-        {
-
-        }
-
-        public void _(Events.FieldSelecting<FSAppointmentDet.staffID> e)
-        {
-
-        }
-
-        public void _(Events.FieldUpdated<FSAppointmentEmployee.employeeID> e)
-        {
-
-        }
-
         #region Delegate DataView
 
+        // [All-Phase2] Add a Control to enable the staff selection by Branch in Appointments
         protected virtual IEnumerable staffRecords()
         {
             var staffReuslt = StaffSelectionHelper.StaffRecordsDelegate(Base.AppointmentServiceEmployees,
@@ -339,7 +325,7 @@ namespace PX.Objects.FS
 
         [PXDBInt]
         [LUMGetStaffByBranch]
-        [PXUIField(DisplayName = "Staff Member ID 2")]
+        [PXUIField(DisplayName = "Staff Member ID")]
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSAppointmentDet.staffID> e) { }
 
