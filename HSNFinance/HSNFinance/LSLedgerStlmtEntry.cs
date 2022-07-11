@@ -154,7 +154,7 @@ namespace HSNFinance
         #region Event Handlers
 
         #region LedgerTranFilter
-        protected void _(Events.RowSelected<LedgerTranFilter> e)
+        protected virtual void _(Events.RowSelected<LedgerTranFilter> e)
         {
             Match.SetEnabled(e.Row.BalanceAmt == decimal.Zero);
 
@@ -169,10 +169,15 @@ namespace HSNFinance
             PXUIFieldAttribute.SetEnabled<GLTran.taskID>(GLTranDebit.Cache, null, false);
             PXUIFieldAttribute.SetEnabled<GLTran.costCodeID>(GLTranDebit.Cache, null, false);
         }
+
+        protected virtual void _(Events.FieldUpdated<LedgerTranFilter.stlmtAcctID> e)
+        {
+            (e.Row as LedgerTranFilter).BalanceAmt = null;
+        }
         #endregion
 
         #region GLTran
-        protected void _(Events.RowSelected<GLTran> e)
+        protected virtual void _(Events.RowSelected<GLTran> e)
         {
             if (e.Row != null)
             {
@@ -184,7 +189,7 @@ namespace HSNFinance
             ToggleSettlement.SetEnabled(e.Row != null);
         }
 
-        protected void _(Events.FieldUpdated<GLTran.selected> e)
+        protected virtual void _(Events.FieldUpdated<GLTran.selected> e)
         {
             var row = e.Row as GLTran;
 
@@ -216,7 +221,7 @@ namespace HSNFinance
             }
         }
 
-        protected void _(Events.FieldUpdated<GLTranExt.usrSetldDebitAmt> e)
+        protected virtual void _(Events.FieldUpdated<GLTranExt.usrSetldDebitAmt> e)
         {
             var row = e.Row as GLTran;
 
@@ -242,7 +247,7 @@ namespace HSNFinance
             Filter.Current.BalanceAmt = calcAmt;
         }
 
-        protected void _(Events.FieldUpdated<GLTranExt.usrSetldCreditAmt> e)
+        protected virtual void _(Events.FieldUpdated<GLTranExt.usrSetldCreditAmt> e)
         {
             var row = e.Row as GLTran;
 
