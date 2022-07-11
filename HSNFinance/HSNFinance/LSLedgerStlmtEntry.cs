@@ -172,6 +172,7 @@ namespace HSNFinance
 
         protected virtual void _(Events.FieldUpdated<LedgerTranFilter.stlmtAcctID> e)
         {
+            // Reset the unbound fields after changing the filter for the parameter Account.
             (e.Row as LedgerTranFilter).BalanceAmt = null;
         }
         #endregion
