@@ -52,5 +52,12 @@ namespace HSNFinance
             return adapter.Get();
         }
         #endregion
+
+        #region Event Handlers
+        protected virtual void _(Events.RowSelected<LSLedgerSettlement> e)
+        {
+            LedgerStlmt.Cache.AllowDelete = LedgerStlmt.AllowUpdate = LedgerStlmt.AllowInsert = false;
+        }
+        #endregion
     }
 }
