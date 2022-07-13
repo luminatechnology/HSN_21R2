@@ -1,0 +1,42 @@
+﻿<EntityEndpoint>
+    <Endpoint xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="VerifoneEndpoint" version="20.200.001" systemContractVersion="4" xmlns="http://www.acumatica.com/entity/maintenance/5.31">
+        <ExtendsEndpoint name="Default" version="20.200.001" />
+        <Detail name="Acquirer">
+            <Fields>
+                <Field name="AcquirerName" type="StringValue" />
+                <Field name="LineNbr" type="IntValue" />
+                <Field name="MerchantID" type="StringValue" />
+                <Field name="OrderNbr" type="StringValue" />
+                <Field name="OrderType" type="StringValue" />
+                <Field name="TerminaID" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="SalesOrder" screen="SO301000">
+            <Fields>
+                <Field name="Acquirers" type="Acquirer[]" />
+            </Fields>
+            <Mappings>
+                <Mapping field="Acquirers">
+                    <Mapping field="AcquirerName">
+                        <To object="AcquirerItemList" field="AcquirerName" />
+                    </Mapping>
+                    <Mapping field="LineNbr">
+                        <To object="AcquirerItemList" field="LineNbr" />
+                    </Mapping>
+                    <Mapping field="MerchantID">
+                        <To object="AcquirerItemList" field="MerchantID" />
+                    </Mapping>
+                    <Mapping field="OrderNbr">
+                        <To object="AcquirerItemList" field="OrderNbr" />
+                    </Mapping>
+                    <Mapping field="OrderType">
+                        <To object="AcquirerItemList" field="OrderType" />
+                    </Mapping>
+                    <Mapping field="TerminaID">
+                        <To object="AcquirerItemList" field="TerminaID" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+    </Endpoint>
+</EntityEndpoint>
