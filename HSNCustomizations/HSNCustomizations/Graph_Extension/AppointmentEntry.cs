@@ -580,7 +580,7 @@ namespace PX.Objects.FS
 
             PXView view = new PXView(apptEntry, true, apptEntry.AppointmentDetails.View.BqlSelect);
 
-            var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM && x.GetExtension<FSAppointmentDetExt>().UsrRMARequired != true);
+            var list = view.SelectMulti().RowCast<FSAppointmentDet>().Where(x => x.LineType == ID.LineType_ALL.INVENTORY_ITEM);
 
             if (isRMA == true)
             {
