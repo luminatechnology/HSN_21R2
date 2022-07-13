@@ -58,21 +58,6 @@ namespace PX.Objects.FS
         }
         #endregion
 
-        public void _(Events.FieldUpdated<FSAppointmentDet.staffID> e)
-        {
-
-        }
-
-        public void _(Events.FieldSelecting<FSAppointmentDet.staffID> e)
-        {
-
-        }
-
-        public void _(Events.FieldUpdated<FSAppointmentEmployee.employeeID> e)
-        {
-
-        }
-
         #region Delegate DataView
 
         protected virtual IEnumerable staffRecords()
