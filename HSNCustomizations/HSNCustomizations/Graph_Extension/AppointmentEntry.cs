@@ -324,7 +324,7 @@ namespace PX.Objects.FS
 
         [PXDBInt]
         [LUMGetStaffByBranch]
-        [PXUIField(DisplayName = "Staff Member ID 2")]
+        [PXUIField(DisplayName = "Staff Member ID")]
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSAppointmentDet.staffID> e) { }
 
