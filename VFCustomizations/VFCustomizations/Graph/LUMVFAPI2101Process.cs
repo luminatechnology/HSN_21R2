@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VFCustomizations.DAC;
 using VFCustomizations.Descriptor;
+using VFCustomizations.Json_Entity.FTP21;
 
 namespace VFCustomizations.Graph
 {

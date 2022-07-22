@@ -62,12 +62,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAC\INRegisterKvExt.cs" />
     <Compile Include="DAC\LUMAcquirerItems.cs" />
+    <Compile Include="DAC\SOShipmentKvExt.cs" />
+    <Compile Include="DAC_Extension\INTranExtension.cs" />
     <Compile Include="Descriptor\VFApiHelper.cs" />
     <Compile Include="Graph\LUMVFAPI2101Process.cs" />
+    <Compile Include="Graph\LUMVFAPI3001Process.cs" />
+    <Compile Include="Graph\LUMVFAPI6001Process.cs" />
     <Compile Include="Graph_Extension\SOOrderEntryExt.cs" />
     <Compile Include="DAC\LUMVFApisetupResult.cs" />
     <Compile Include="Graph_Extension\SOShipmentEntryExt.cs" />
+    <Compile Include="Json Entity\VFFTP21Entity.cs" />
+    <Compile Include="Json Entity\VFFTP3Entity.cs" />
+    <Compile Include="Json Entity\VFFTP6Entity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -38,5 +38,81 @@
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
+        <TopLevelEntity name="Receipts" screen="IN301000">
+            <Fields>
+                <Field name="Date" type="DateTimeValue" />
+                <Field name="Description" type="StringValue" />
+                <Field name="Details" type="ReceiptDetails[]" />
+                <Field name="ExternalRef" type="StringValue" />
+                <Field name="PostPeriod" type="StringValue" />
+                <Field name="ReferenceNbr" type="StringValue" />
+                <Field name="Status" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="ExternalRef">
+                    <To object="receipt" field="ExtRefNbr" />
+                </Mapping>
+                <Mapping field="PostPeriod">
+                    <To object="receipt" field="FinPeriodID" />
+                </Mapping>
+                <Mapping field="ReferenceNbr">
+                    <To object="receipt" field="RefNbr" />
+                </Mapping>
+                <Mapping field="Status">
+                    <To object="receipt" field="Status" />
+                </Mapping>
+                <Mapping field="Date">
+                    <To object="receipt" field="TranDate" />
+                </Mapping>
+                <Mapping field="Description">
+                    <To object="receipt" field="TranDesc" />
+                </Mapping>
+                <Mapping field="Details">
+                    <Mapping field="JobNo">
+                        <To object="transactions" field="UsrJobNo" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="transactions" field="InventoryID" />
+                    </Mapping>
+                    <Mapping field="Allocations">
+                        <Mapping field="LotSerialNbr">
+                            <To object="splits" field="LotSerialNbr" />
+                        </Mapping>
+                        <Mapping field="Qty">
+                            <To object="splits" field="Qty" />
+                        </Mapping>
+                        <Mapping field="InventoryID">
+                            <To object="splits" field="InventoryID" />
+                        </Mapping>
+                    </Mapping>
+                    <Mapping field="PhoneNo">
+                        <To object="transactions" field="UsrPhoneNo" />
+                    </Mapping>
+                    <Mapping field="QtySend">
+                        <To object="transactions" field="UsrQtySend" />
+                    </Mapping>
+                    <Mapping field="Warehouse">
+                        <To object="transactions" field="SiteID" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="ReceiptDetails">
+            <Fields>
+                <Field name="Allocations" type="ReceiptDetailsAllocations[]" />
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="JobNo" type="StringValue" />
+                <Field name="PhoneNo" type="StringValue" />
+                <Field name="QtySend" type="DecimalValue" />
+                <Field name="Warehouse" type="StringValue" />
+            </Fields>
+        </Detail>
+        <Detail name="ReceiptDetailsAllocations">
+            <Fields>
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="LotSerialNbr" type="StringValue" />
+                <Field name="Qty" type="DecimalValue" />
+            </Fields>
+        </Detail>
     </Endpoint>
 </EntityEndpoint>
