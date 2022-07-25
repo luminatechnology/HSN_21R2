@@ -3,23 +3,11 @@
 
 <%@ MasterType VirtualPath="~/MasterPages/FormDetail.master" %>
 <asp:Content ID="cont1" ContentPlaceHolderID="phDS" runat="Server">
-	<px:PXDataSource ID="ds"  UDFTypeField="TranType" EnableAttributes="true" runat="server" Visible="True" Width="100%" PrimaryView="Document" TypeName="PX.Objects.CA.CADepositEntry">
-		<CallbackCommands>
-			<px:PXDSCallbackCommand Name="Insert" PostData="Self" />
-			<px:PXDSCallbackCommand CommitChanges="True" Name="Save" />
-			<px:PXDSCallbackCommand Name="First" PostData="Self" StartNewGroup="true" />
-			<px:PXDSCallbackCommand Name="Last" PostData="Self" />
-			<px:PXDSCallbackCommand StartNewGroup="True" CommitChanges="true" Name="Release" />
-			<px:PXDSCallbackCommand Name="VoidDocument" />
-			<px:PXDSCallbackCommand StartNewGroup="True" Name="AddPayment" CommitChanges="true" Visible="false" />
-			<px:PXDSCallbackCommand StartNewGroup="True" Name="ViewBatch" Visible="false" />
-			<px:PXDSCallbackCommand Name="ViewDocument" DependOnGrid="grid"  Visible="false" />
-			<px:PXDSCallbackCommand Visible="False" Name="CurrencyView" />
-		</CallbackCommands>
+	<px:PXDataSource ID="ds"  UDFTypeField="TranType" EnableAttributes="true" runat="server" Visible="True" Width="100%" PrimaryView="Document" TypeName="PX.Objects.CA.CADepositEntry" HeaderDescriptionField="FormCaptionDescription">
 	</px:PXDataSource>
 
 	<px:PXSmartPanel ID="PanelAddPayment" runat="server" Key="AvailablePayments" Caption="Add Payment to Deposit" CaptionVisible="True" LoadOnDemand="True" AutoCallBack-Command="Refresh" 
-		AutoCallBack-Target="frmPaymentFilter1" Width = "900px" Height = "500px" DesignView="Content">
+		AutoCallBack-Target="frmPaymentFilter1" Width = "1100px" Height = "500px" DesignView="Content">
 		<px:PXFormView ID="frmPaymentFilter1" runat="server" Caption="Payment Selection" CaptionVisible="False" DataMember="filter" DataSourceID="ds" SkinID="Transparent" TabIndex="2900">
 			<Template>
 				<px:PXLayoutRule ID="PXLayoutRule111" runat="server" ControlSize="XM" LabelsWidth="SM" StartColumn="True" />
@@ -28,13 +16,16 @@
 				<px:PXLayoutRule ID="PXLayoutRule2" runat="server" ControlSize="s" LabelsWidth="sm" StartColumn="True" />
 				<px:PXDateTimeEdit ID="edStartDate" runat="server" CommitChanges="True" DataField="StartDate" />
 				<px:PXDateTimeEdit ID="edEndDate" runat="server" CommitChanges="True" DataField="EndDate" />
+				<px:PXLayoutRule ID="PXLayoutRule3" runat="server" ControlSize="s" LabelsWidth="sm" StartColumn="True" />
+				<px:PXNumberEdit ID="edSelectionTotal" runat="server" DataField="SelectionTotal" CommitChanges="True" />
+				<px:PXNumberEdit ID="edNumberOfDocuments" runat="server" CommitChanges="True" DataField="NumberOfDocuments" />
 			</Template>
 		</px:PXFormView>
-		<px:PXGrid ID="gridOL1" runat="server" AllowPaging="True" BatchUpdate="True" DataSourceID="ds" SkinID="Details" TabIndex="3100" Width="100%">
+		<px:PXGrid ID="gridOL1" runat="server" AllowPaging="True" DataSourceID="ds" SkinID="Details" TabIndex="3100" Width="100%">
 			<Levels>
 				<px:PXGridLevel DataKeyNames="DocType,RefNbr" DataMember="AvailablePayments">
 					<Columns>
-						<px:PXGridColumn AllowCheckAll="True" AllowNull="False" DataField="Selected" TextAlign="Center" Type="CheckBox" />
+						<px:PXGridColumn AllowCheckAll="True" AllowNull="False" DataField="Selected" TextAlign="Center" Type="CheckBox" CommitChanges="true"/>
 						<px:PXGridColumn DataField="Module"/>
 						<px:PXGridColumn DataField="DocType" MatrixMode="True" />
 						<px:PXGridColumn DataField="RefNbr" />
@@ -73,17 +64,16 @@
 			<px:PXDropDown ID="edTranType" runat="server" AllowNull="False" DataField="TranType" Size="S"/>
 			<px:PXSelector ID="edRefNbr" runat="server" DataField="RefNbr" DataSourceID="ds" Size="S"/>
 			<px:PXSegmentMask CommitChanges="True" ID="edCashAccountID" runat="server" DataField="CashAccountID" DataSourceID="ds"/>
-			<pxa:PXCurrencyRate DataField="CuryID" ID="edCury" runat="server" DataSourceID="ds" RateTypeView="_CADeposit_CurrencyInfo_" DataMember="_Currency_"></pxa:PXCurrencyRate>
+			<pxa:PXCurrencyRate DataField="CuryID" ID="edCury" runat="server" DataSourceID="ds" RateTypeView="CurrencyInfo" DataMember="_Currency_"></pxa:PXCurrencyRate>
 			<px:PXDropDown ID="edStatus" runat="server" DataField="Status" Enabled="False" AllowNull="False" Size="S"/>
-			<px:PXCheckBox CommitChanges="True" ID="chkHold" runat="server" DataField="Hold" Size="S"/>
+			<px:PXLayoutRule ID="PXLayoutRule6" runat="server" ColumnSpan="2" />
+            <px:PXTextEdit ID="edTranDesc" runat="server" DataField="TranDesc" />
 			<px:PXLayoutRule ID="PXLayoutRule5" runat="server" StartColumn="True" LabelsWidth="S" ControlSize="XM" />
 			<px:PXDateTimeEdit CommitChanges="True" ID="edTranDate" runat="server" DataField="TranDate" Size="S"/>
 			<px:PXSelector CommitChanges="True" ID="edFinPeriodID" runat="server" DataField="FinPeriodID" DataSourceID="ds" AutoRefresh="True" Size="S"/>
 			<px:PXTextEdit ID="edExtRefNbr" runat="server" DataField="ExtRefNbr" />
 			<px:PXSegmentMask CommitChanges="True" ID="edExtraCashAccountID" runat="server" DataField="ExtraCashAccountID" AutoRefresh="True" DataSourceID="ds" />
 			<px:PXNumberEdit Size="S" CommitChanges="True" ID="edCuryExtraCashTotal" runat="server" DataField="CuryExtraCashTotal" />
-			<px:PXLayoutRule ID="PXLayoutRule6" runat="server" ColumnSpan="2" />
-			<px:PXTextEdit ID="edTranDesc" runat="server" DataField="TranDesc" />
 			<px:PXLayoutRule ID="PXLayoutRule7" runat="server" StartColumn="True" LabelsWidth="s" ControlSize="s" />
 			<px:PXNumberEdit ID="edCuryDetailTotal" runat="server" DataField="CuryDetailTotal" Enabled="False" />
 			<px:PXNumberEdit ID="edCuryChargeTotal" runat="server" DataField="CuryChargeTotal" Enabled="False" />
@@ -98,7 +88,7 @@
 			<px:PXTabItem Text="Payments">
 				<Template>
 					<px:PXGrid ID="grid" runat="server" DataSourceID="ds" Width="100%" ActionsPosition="Top" BorderWidth="0px"
-						SkinID="Details" AddCommandName="AddPayment">
+						SkinID="Details" AddCommandName="AddPayment" SyncPosition="true">
 						<Levels>
 							<px:PXGridLevel DataMember="DepositPayments">
 								<RowTemplate>
@@ -107,7 +97,6 @@
 									<px:PXSegmentMask ID="edPaymentInfo__BAccountID" runat="server" DataField="PaymentInfo__BAccountID" />
 									<px:PXSegmentMask ID="edPaymentInfo__LocationID" runat="server" DataField="PaymentInfo__LocationID" />
 									<px:PXSegmentMask ID="edAccountID1" runat="server" DataField="AccountID" />
-									<px:PXSelector ID="edOrigRefNbr2" runat="server" DataField="OrigRefNbr" CommitChanges="true" FilterByAllFields="true" AutoRefresh="true" />									
 									<px:PXSelector ID="edOrigCuryID" runat="server" DataField="OrigCuryID" Enabled="False" />
 									<px:PXNumberEdit ID="edCuryTranAmt" runat="server" AllowNull="False" DataField="CuryTranAmt" />
 									<px:PXTextEdit ID="edPaymentInfo__PaymentMethodID" runat="server" DataField="PaymentInfo__PaymentMethodID" Enabled="False" />
