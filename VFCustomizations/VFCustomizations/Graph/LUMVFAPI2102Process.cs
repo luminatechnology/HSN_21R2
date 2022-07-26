@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using PX.Data;
-using PX.Data.BQL.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using VFCustomizations.DAC;
 using VFCustomizations.Descriptor;
-using VFCustomizations.Json_Entity.FTP21;
+using VFCustomizations.Json_Entity.FTP22;
 
 namespace VFCustomizations.Graph
 {
-    public class LUMVFAPI2101Process : PXGraph<LUMVFAPI2101Process>
+    public class LUMVFAPI2102Process : PXGraph<LUMVFAPI2102Process>
     {
-        public PXSave<LUMVFApisetupResult> Save;
-        public PXCancel<LUMVFApisetupResult> Cancel;
+        public PXSave<LUMVFAPISetupHoldResult> Save;
+        public PXCancel<LUMVFAPISetupHoldResult> Cancel;
 
-        public PXProcessing<LUMVFApisetupResult, Where<LUMVFApisetupResult.isProcessed, Equal<False>, Or<LUMVFApisetupResult.isProcessed, IsNull>>> Transactions;
+        public PXProcessing<LUMVFAPISetupHoldResult, Where<LUMVFAPISetupHoldResult.processed, Equal<False>, Or<LUMVFAPISetupHoldResult.processed, IsNull>>> Transactions;
 
-        public LUMVFAPI2101Process()
+        public LUMVFAPI2102Process()
         {
             this.Transactions.AllowUpdate = true;
-            this.Transactions.SetProcessDelegate(delegate (List<LUMVFApisetupResult> list)
+            this.Transactions.SetProcessDelegate(delegate (List<LUMVFAPISetupHoldResult> list)
             {
                 GoProcessing(list);
             });
@@ -30,16 +29,16 @@ namespace VFCustomizations.Graph
 
         #region Method
 
-        public static void GoProcessing(List<LUMVFApisetupResult> list)
+        public static void GoProcessing(List<LUMVFAPISetupHoldResult> list)
         {
-            var baseGraph = CreateInstance<LUMVFAPI2101Process>();
-            baseGraph.SendDataToAPI2101(list, baseGraph);
+            var baseGraph = CreateInstance<LUMVFAPI2102Process>();
+            baseGraph.SendDataToAPI2102(list, baseGraph);
         }
 
-        public virtual void SendDataToAPI2101(List<LUMVFApisetupResult> selectedList, LUMVFAPI2101Process baseGraph)
+        public virtual void SendDataToAPI2102(List<LUMVFAPISetupHoldResult> selectedList, LUMVFAPI2102Process baseGraph)
         {
-            PXUIFieldAttribute.SetEnabled<LUMVFApisetupResult.isProcessed>(this.Transactions.Cache, null, true);
-            PXUIFieldAttribute.SetEnabled<LUMVFApisetupResult.processedDateTime>(this.Transactions.Cache, null, true);
+            PXUIFieldAttribute.SetEnabled<LUMVFAPISetupHoldResult.previousCommitDate>(this.Transactions.Cache, null, true);
+            PXUIFieldAttribute.SetEnabled<LUMVFAPISetupHoldResult.processedDateTime>(this.Transactions.Cache, null, true);
             VFApiHelper helper = new VFApiHelper();
             // Get Access Token
             var apiTokenObj = helper.GetAccessToken();
@@ -48,17 +47,18 @@ namespace VFCustomizations.Graph
             foreach (var item in selectedList)
             {
                 var errorMsg = string.Empty;
-                VFFTP21Entity entity = new VFFTP21Entity();
+                VFFTP22Entity entity = new VFFTP22Entity();
                 try
                 {
                     PXProcessing.SetCurrentItem(item);
                     entity.JobNo = item.JobNo.Trim();
-                    entity.TerminalID = item.TerminalID;
-                    entity.SerialNo = item.SerialNo;
-                    entity.StartDateTime = item.StartDateTime.Value.ToString("yyyy-MM-dd HH:mm");
-                    entity.FinishDateTime = item.FinishDateTime.Value.ToString("yyyy-MM-dd HH:mm");
-                    entity.SetupReason = item.SetupReason;
-                    var ftpResponse = helper.CallFTP21(entity, apiTokenObj);
+                    entity.IncidentCatalogName = item.IncidentCatalogName;
+                    entity.CommitDate = item.CommitDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.PreviousCommitDate = item.PreviousCommitDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.HoldReason = item.HoldReason;
+                    entity.HoldDate = item.HoldDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.HoldStatus = item.HoldSatus;
+                    var ftpResponse = helper.CallFTP22(entity, apiTokenObj);
                     if (ftpResponse == null)
                         throw new Exception("Call API FTP fail");
                     if (ftpResponse.ResponseCode != "0")
@@ -76,7 +76,7 @@ namespace VFCustomizations.Graph
                 {
                     item.ProcessedDateTime = DateTime.Now;
                     if (string.IsNullOrEmpty(errorMsg))
-                        item.IsProcessed = true;
+                        item.Processed = true;
                     else
                     {
                         PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, item, errorMsg + "  " + JsonConvert.SerializeObject(entity));
@@ -90,6 +90,5 @@ namespace VFCustomizations.Graph
         }
 
         #endregion
-
     }
 }

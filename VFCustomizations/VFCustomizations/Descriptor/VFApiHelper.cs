@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using VFCustomizations.Json_Entity.FTP21;
+using VFCustomizations.Json_Entity.FTP22;
 using VFCustomizations.Json_Entity.FTP3;
 using VFCustomizations.Json_Entity.FTP6;
 
@@ -57,6 +58,28 @@ namespace VFCustomizations.Descriptor
             }
         }
 
+        /// <summary> Call Verifone API FTP 2101 </summary>
+        public VFFTPResponseEntity CallFTP22(VFFTP22Entity entity, VFApiTokenEntity accessEntity)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th/api/ftp/ftp22");
+                    //JsonConvert.SerializeObject(model).Dump();
+                    request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
+                    var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
+                    return result;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
         /// <summary> Call Verifone API FTP 3001(FTP3) </summary>
         public VFFTPResponseEntity CallFTP3(VFFTP3Entity entity, VFApiTokenEntity accessEntity)
         {
@@ -86,7 +109,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th/api/ftp/ftp6");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp6");
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
                     var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);

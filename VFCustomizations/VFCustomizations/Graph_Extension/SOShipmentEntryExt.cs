@@ -19,6 +19,11 @@ namespace VFCustomizations.Graph_Extension
                    .And<LUMVFApisetupResult.shipmentType.IsEqual<SOShipment.shipmentType.FromCurrent>>>
                .View ApiSetupResult;
 
+        public SelectFrom<LUMVFAPISetupHoldResult>
+               .Where<LUMVFAPISetupHoldResult.shipmentNbr.IsEqual<SOShipment.shipmentNbr.FromCurrent>
+                   .And<LUMVFAPISetupHoldResult.shipmentType.IsEqual<SOShipment.shipmentType.FromCurrent>>>
+               .View ApiHoldResult;
+
         public SelectFrom<SOOrder>
                .Where<SOOrder.orderNbr.IsEqual<SOOrder.orderNbr.AsOptional>
                  .And<SOOrder.orderType.IsEqual<SOOrder.orderType.AsOptional>>>
@@ -33,13 +38,14 @@ namespace VFCustomizations.Graph_Extension
             var locationInfo = SelectFrom<Location>
                      .Where<Location.bAccountID.IsEqual<P.AsInt>>
                      .View.SelectSingleBound(Base, null, organizationID?.BAccountID).TopFirst;
-            this.ApiSetupResult.AllowSelect = locationInfo?.CAvalaraExemptionNumber == "VF";
+            this.ApiSetupResult.AllowSelect = this.ApiHoldResult.AllowSelect = locationInfo?.CAvalaraExemptionNumber == "VF";
         }
 
         #endregion
 
         #region Events
 
+        #region SETUP
         public virtual void _(Events.RowSelected<LUMVFApisetupResult> e)
         {
             if (e.Row != null)
@@ -93,6 +99,77 @@ namespace VFCustomizations.Graph_Extension
                 e.NewValue = attr?.Value;
             }
         }
+
+        #endregion
+
+        #region HOLD
+        public virtual void _(Events.RowSelected<LUMVFAPISetupHoldResult> e)
+        {
+            if (e.Row != null)
+            {
+                if (string.IsNullOrEmpty(e.Row.JobNo))
+                {
+                    object newJobNo;
+                    e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.jobNo>(e.Row, out newJobNo);
+                    e.Row.JobNo = (string)newJobNo;
+                }
+
+                if (!e.Row.PreviousCommitDate.HasValue)
+                {
+                    object newPreviousCommitDate;
+                    e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.previousCommitDate>(e.Row, out newPreviousCommitDate);
+                    e.Row.PreviousCommitDate = (DateTime?)newPreviousCommitDate;
+                }
+
+                if(!e.Row.HoldDate.HasValue)
+                {
+                    object newHoldDate;
+                    e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.holdDate>(e.Row, out newHoldDate);
+                    e.Row.HoldDate = (DateTime?)newHoldDate;
+                }
+            }
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.lineNbr> e)
+        {
+            var currentList = this.ApiHoldResult.Select().RowCast<LUMVFAPISetupHoldResult>();
+            var maxLineNbr = currentList.Count() == 0 ? 0 : currentList.Max(x => x?.LineNbr ?? 0);
+            e.NewValue = maxLineNbr + 1;
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.jobNo> e)
+        {
+            var current = Base.Document.Current;
+            if (current != null)
+            {
+                var orderShipmentInfo = GetSOOrderShipmentInfo(current);
+                if (orderShipmentInfo == null)
+                    return;
+                var orderInfo = SOOrder.PK.Find(Base, orderShipmentInfo?.OrderType, orderShipmentInfo?.OrderNbr);
+                e.NewValue = orderInfo?.CustomerOrderNbr;
+            }
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.previousCommitDate> e)
+        {
+            var current = Base.Document.Current;
+            if (current != null)
+            {
+                var orderShipmentInfo = GetSOOrderShipmentInfo(current);
+                if (orderShipmentInfo == null)
+                    return;
+                SOOrder soData = soOrderData.Select(orderShipmentInfo?.OrderNbr, orderShipmentInfo?.OrderType);
+                var attr = soOrderData.Cache.GetValueExt(soData, PX.Objects.CS.Messages.Attribute + "COMMITDATE") as PXFieldState;
+                e.NewValue = attr?.Value;
+            }
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.holdDate> e)
+        {
+            e.NewValue = DateTime.Now;
+        } 
+        
+        #endregion
 
         #endregion
 

@@ -5,8 +5,8 @@ using PX.Objects.SO;
 namespace VFCustomizations.DAC
 {
     [Serializable]
-    [PXCacheName("LUMVFApisetupResult")]
-    public class LUMVFApisetupResult : IBqlTable
+    [PXCacheName("LUMVFAPISetupHoldResult")]
+    public class LUMVFAPISetupHoldResult : IBqlTable
     {
         #region Selected
         [PXBool()]
@@ -17,7 +17,7 @@ namespace VFCustomizations.DAC
 
         #region ShipmentNbr
         [PXDBString(15, IsKey = true, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Shipment Nbr", Visible = false, Enabled = false)]
+        [PXUIField(DisplayName = "Shipment Nbr", Visible = false)]
         [PXDefault(typeof(SOShipment.shipmentNbr))]
         public virtual string ShipmentNbr { get; set; }
         public abstract class shipmentNbr : PX.Data.BQL.BqlString.Field<shipmentNbr> { }
@@ -25,7 +25,7 @@ namespace VFCustomizations.DAC
 
         #region ShipmentType
         [PXDBString(1, IsKey = true, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Shipment Type", Visible = false, Enabled = false)]
+        [PXUIField(DisplayName = "Shipment Type", Visible = false)]
         [PXDefault(typeof(SOShipment.shipmentType))]
         public virtual string ShipmentType { get; set; }
         public abstract class shipmentType : PX.Data.BQL.BqlString.Field<shipmentType> { }
@@ -33,7 +33,7 @@ namespace VFCustomizations.DAC
 
         #region LineNbr
         [PXDBInt(IsKey = true)]
-        [PXUIField(DisplayName = "Line Nbr", Visible = false, Enabled = false)]
+        [PXUIField(DisplayName = "Line Nbr", Visible = false)]
         [PXDefault]
         public virtual int? LineNbr { get; set; }
         public abstract class lineNbr : PX.Data.BQL.BqlInt.Field<lineNbr> { }
@@ -41,69 +41,77 @@ namespace VFCustomizations.DAC
 
         #region JobNo
         [PXDBString(16, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Job No")]
+        [PXUIField(DisplayName = "JobNo")]
         [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
         public virtual string JobNo { get; set; }
         public abstract class jobNo : PX.Data.BQL.BqlString.Field<jobNo> { }
         #endregion
 
-        #region StartDateTime
+        #region PreviousCommitDate
         [PXDBDateAndTime()]
-        [PXUIField(DisplayName = "Start DateTime")]
-        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
-        public virtual DateTime? StartDateTime { get; set; }
-        public abstract class startDateTime : PX.Data.BQL.BqlDateTime.Field<startDateTime> { }
+        [PXUIField(DisplayName = "Previous CommitDate")]
+        [PXDefault]
+        public virtual DateTime? PreviousCommitDate { get; set; }
+        public abstract class previousCommitDate : PX.Data.BQL.BqlDateTime.Field<previousCommitDate> { }
         #endregion
 
-        #region FinishDateTime
+        #region CommitDate
         [PXDBDateAndTime()]
-        [PXUIField(DisplayName = "Finish DateTime")]
+        [PXUIField(DisplayName = "CommitDate")]
         [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
-        public virtual DateTime? FinishDateTime { get; set; }
-        public abstract class finishDateTime : PX.Data.BQL.BqlDateTime.Field<finishDateTime> { }
+        public virtual DateTime? CommitDate { get; set; }
+        public abstract class commitDate : PX.Data.BQL.BqlDateTime.Field<commitDate> { }
         #endregion
 
-        #region TerminalID
-        [PXDBString(10, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Terminal ID")]
-        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
-        public virtual string TerminalID { get; set; }
-        public abstract class terminalID : PX.Data.BQL.BqlString.Field<terminalID> { }
-        #endregion
-
-        #region SerialNo
+        #region HoldReason
         [PXDBString(30, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Serial Number")]
+        [PXUIField(DisplayName = "Hold Reason")]
         [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
-        public virtual string SerialNo { get; set; }
-        public abstract class serialNo : PX.Data.BQL.BqlString.Field<serialNo> { }
+        public virtual string HoldReason { get; set; }
+        public abstract class holdReason : PX.Data.BQL.BqlString.Field<holdReason> { }
         #endregion
 
-        #region SetupReason
+        #region HoldDate
+        [PXDBDate()]
+        [PXUIField(DisplayName = "Hold Date")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
+        public virtual DateTime? HoldDate { get; set; }
+        public abstract class holdDate : PX.Data.BQL.BqlDateTime.Field<holdDate> { }
+        #endregion
+
+        #region HoldSatus
         [PXDBString(30, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Setup Reason")]
-        public virtual string SetupReason { get; set; }
-        public abstract class setupReason : PX.Data.BQL.BqlString.Field<setupReason> { }
+        [PXUIField(DisplayName = "Hold Satus")]
+        public virtual string HoldSatus { get; set; }
+        public abstract class holdSatus : PX.Data.BQL.BqlString.Field<holdSatus> { }
         #endregion
 
-        #region IsProcessed
+        #region IncidentCatalogName
+        [PXDBString(256, IsUnicode = true)]
+        [PXUIField(DisplayName = "IncidentCatalog Name")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
+        public virtual string IncidentCatalogName { get; set; }
+        public abstract class incidentCatalogName : PX.Data.BQL.BqlString.Field<incidentCatalogName> { }
+        #endregion
+
+        #region Processed
         [PXDBBool()]
-        [PXUIField(DisplayName = "Is Processed", Enabled = false)]
-        public virtual bool? IsProcessed { get; set; }
-        public abstract class isProcessed : PX.Data.BQL.BqlBool.Field<isProcessed> { }
+        [PXUIField(DisplayName = "Processed", Enabled = false)]
+        public virtual bool? Processed { get; set; }
+        public abstract class processed : PX.Data.BQL.BqlBool.Field<processed> { }
         #endregion
 
         #region ProcessedDateTime
-        [PXDBDateAndTime()]
+        [PXDBDate()]
         [PXUIField(DisplayName = "Processed Date Time", Enabled = false)]
         public virtual DateTime? ProcessedDateTime { get; set; }
         public abstract class processedDateTime : PX.Data.BQL.BqlDateTime.Field<processedDateTime> { }
         #endregion
 
-        #region NoteID
+        #region Noteid
         [PXNote()]
-        public virtual Guid? NoteID { get; set; }
-        public abstract class noteID : PX.Data.BQL.BqlGuid.Field<noteID> { }
+        public virtual Guid? Noteid { get; set; }
+        public abstract class noteid : PX.Data.BQL.BqlGuid.Field<noteid> { }
         #endregion
 
         #region CreatedByID
