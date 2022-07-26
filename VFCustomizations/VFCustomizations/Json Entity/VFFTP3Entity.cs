@@ -9,7 +9,7 @@ namespace VFCustomizations.Json_Entity.FTP3
     public class Item
     {
         public string PartNo { get; set; }
-        public string Serial { get; set; }
+        public string SerialNo { get; set; }
         public object PhoneNo { get; set; }
         public int QTY { get; set; }
         public string TLACondition { get; set; }

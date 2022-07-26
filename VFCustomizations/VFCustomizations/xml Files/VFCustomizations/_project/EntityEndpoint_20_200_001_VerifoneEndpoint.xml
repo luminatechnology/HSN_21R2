@@ -43,13 +43,13 @@
                 <Field name="Date" type="DateTimeValue" />
                 <Field name="Description" type="StringValue" />
                 <Field name="Details" type="ReceiptDetails[]" />
-                <Field name="ExternalRef" type="StringValue" />
+                <Field name="ExtRefNbr" type="StringValue" />
                 <Field name="PostPeriod" type="StringValue" />
                 <Field name="ReferenceNbr" type="StringValue" />
                 <Field name="Status" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="ExternalRef">
+                <Mapping field="ExtRefNbr">
                     <To object="receipt" field="ExtRefNbr" />
                 </Mapping>
                 <Mapping field="PostPeriod">
@@ -94,6 +94,9 @@
                     <Mapping field="Warehouse">
                         <To object="transactions" field="SiteID" />
                     </Mapping>
+                    <Mapping field="Location">
+                        <To object="transactions" field="LocationID" />
+                    </Mapping>
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
@@ -102,6 +105,7 @@
                 <Field name="Allocations" type="ReceiptDetailsAllocations[]" />
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="JobNo" type="StringValue" />
+                <Field name="Location" type="StringValue" />
                 <Field name="PhoneNo" type="StringValue" />
                 <Field name="QtySend" type="DecimalValue" />
                 <Field name="Warehouse" type="StringValue" />

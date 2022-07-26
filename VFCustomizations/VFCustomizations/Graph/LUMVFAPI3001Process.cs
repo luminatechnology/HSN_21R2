@@ -20,7 +20,7 @@ namespace VFCustomizations.Graph
         public PXSave<SOShipment> Save;
         public PXCancel<SOShipment> Cancel;
 
-        public PXProcessing<SOShipment, Where<SOShipment.status, Equal<SOShipmentStatus.completed>, And<SOShipment.operation, Equal<SOOperation.issue>>>> Transactions;
+        public PXProcessing<SOShipment, Where<SOShipment.status, Equal<SOShipmentStatus.confirmed>, And<SOShipment.operation, Equal<SOOperation.issue>>>> Transactions;
         public SelectFrom<SOOrder>
                .Where<SOOrder.orderType.IsEqual<SOOrder.orderType.AsOptional>
                    .And<SOOrder.orderNbr.IsEqual<SOOrder.orderNbr.AsOptional>>>
@@ -127,7 +127,7 @@ namespace VFCustomizations.Graph
                             {
                                 PartNo = inventoryInfo.InventoryCD.Trim(),
                                 QTY = (int)(soLine.Qty ?? 0),
-                                Serial = shiplineSplit?.LotSerialNbr,
+                                SerialNo = shiplineSplit?.LotSerialNbr,
                                 PhoneNo = soLine.AlternateID,
                                 TLACondition = string.IsNullOrEmpty(shiplineSplit?.LotSerialNbr) ? null :
                                                string.IsNullOrEmpty(shipLine.ReasonCode) ? "New" : shipLine.ReasonCode

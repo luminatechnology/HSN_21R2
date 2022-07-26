@@ -55,7 +55,7 @@ namespace VFCustomizations.Graph_Extension
                 {
                     object newTerminalID;
                     e.Cache.RaiseFieldDefaulting<LUMVFApisetupResult.terminalID>(e.Row, out newTerminalID);
-                    e.Row.JobNo = (string)newTerminalID;
+                    e.Row.TerminalID = (string)newTerminalID;
                 }
             }
         }

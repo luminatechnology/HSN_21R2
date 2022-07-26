@@ -40,7 +40,7 @@ namespace VFCustomizations.DAC
         #endregion
 
         #region JobNo
-        [PXDBString(10, IsFixed = true, IsUnicode = true, InputMask = "")]
+        [PXDBString(16, IsFixed = true, IsUnicode = true, InputMask = "")]
         [PXUIField(DisplayName = "Job No")]
         [PXDefault]
         public virtual string JobNo { get; set; }

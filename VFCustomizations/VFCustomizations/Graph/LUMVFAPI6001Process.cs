@@ -1,4 +1,5 @@
-﻿using PX.Data;
+﻿using Newtonsoft.Json;
+using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.IN;
@@ -70,22 +71,27 @@ namespace VFCustomizations.Graph
             foreach (var selectedItem in selectedList)
             {
                 var errorMsg = string.Empty;
+                VFFTP6Entity entity = new VFFTP6Entity();
                 try
                 {
                     PXProcessing.SetCurrentItem(selectedItem);
-
-                    VFFTP6Entity entity = new VFFTP6Entity();
                     entity.DeliveryNo = selectedItem.ExtRefNbr;
                     entity.ETDDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
-                    // Get Attribute SHIPTO
-                    var attrSHIPTO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTO") as PXFieldState;
-                    entity.ShipTo = (string)attrSHIPTO.Value;
                     // Get Attribute AWBNO
                     var attrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)attrAWBNO.Value;
                     // Get Attribute AWBNO
                     var attrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
                     entity.Forwarder = (string)attrFORWARDER.Value;
+                    entity.WarehouseLocation = "RMA";
+                    entity.ShipToCode = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState)?.Value;
+                    entity.ShipToName = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTONAME") as PXFieldState)?.Value;
+                    entity.ShipToAddress = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTOADDR") as PXFieldState)?.Value;
+                    entity.ShipToContact = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTOCONT") as PXFieldState)?.Value;
+                    entity.ShipFromCode = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPFRCODE") as PXFieldState)?.Value;
+                    entity.ShipFromName = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPFRNAME") as PXFieldState)?.Value;
+                    entity.ShipFromAddress = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPFRADDR") as PXFieldState)?.Value;
+                    entity.ShipFromContact = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPFRCONT") as PXFieldState)?.Value;
                     entity.JobItems = new List<JobItem>();
 
                     // Details
@@ -107,7 +113,7 @@ namespace VFCustomizations.Graph
                             _jobItem.Items.Add(new Item()
                             {
                                 PartNo = inventoryInfo.InventoryCD.Trim(),
-                                Serial = intranSplit.LotSerialNbr,
+                                SerialNo = intranSplit?.LotSerialNbr,
                                 PhoneNo = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrPhoneNo,
                                 QTYSend = (int)(item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrQtySend ?? 0),
                                 QTYReceive = (int)(item.Qty ?? 0),
@@ -145,7 +151,7 @@ namespace VFCustomizations.Graph
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
                     {
-                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg);
+                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                         PXProcessing.SetError("errorMsg");
                     }
                     baseGraph.Actions.PressSave();
