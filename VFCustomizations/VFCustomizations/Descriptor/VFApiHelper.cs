@@ -44,7 +44,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th/api/ftp/ftp21");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp21");
                     //JsonConvert.SerializeObject(model).Dump();
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
@@ -66,7 +66,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th/api/ftp/ftp22");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp22");
                     //JsonConvert.SerializeObject(model).Dump();
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
@@ -88,7 +88,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th/api/ftp/ftp3");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp3");
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
                     var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
