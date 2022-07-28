@@ -481,7 +481,7 @@ namespace HSNCustomizations.Descriptor
 
             if (searchINAvailQty == true && string.IsNullOrEmpty(lotSerialNbr) == false)
             {
-                INLotSerialStatus lotSerialStatus = IN.INLotSerialStatus.PK.Find(graphToQuery, apptLine.InventoryID, apptLine.SubItemID, apptLine.SiteID, apptLine.LocationID, lotSerialNbr);
+                INLotSerialStatus lotSerialStatus = PX.Objects.IN.INLotSerialStatus.PK.Find(graphToQuery, apptLine.InventoryID, apptLine.SubItemID, apptLine.SiteID, apptLine.LocationID, lotSerialNbr);
 
                 if (lotSerialStatus != null)
                 {
