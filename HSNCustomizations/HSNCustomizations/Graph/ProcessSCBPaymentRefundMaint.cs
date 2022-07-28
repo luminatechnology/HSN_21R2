@@ -27,7 +27,7 @@ namespace HSNCustomizations.Graph
 
         [PXFilterable]
         public PXFilteredProcessing<ARPayment, LumProcessSCBPaymentRefundFilter,
-            Where<ARPayment.status, Equal<ARDocStatus.open>,
+            Where<ARPayment.status, Equal<ARDocStatus.closed>,
               And<ARPayment.docType, Equal<ARPaymentType.refund>,
               And<ARPayment.adjDate, Equal<Current<LumProcessSCBPaymentRefundFilter.adjDate>>,
               And<ARPayment.cashAccountID, Equal<Current<LumProcessSCBPaymentRefundFilter.payAccountID>>,
@@ -45,7 +45,7 @@ namespace HSNCustomizations.Graph
         public IEnumerable arpaymentList()
         {
             foreach (PXResult<ARPayment> doc in PXSelect<ARPayment,
-                     Where<ARPayment.status, Equal<ARDocStatus.open>,
+                     Where<ARPayment.status, Equal<ARDocStatus.closed>,
                        And<ARPayment.docType, Equal<ARPaymentType.refund>,
                        And<ARPayment.adjDate, Equal<Current<LumProcessSCBPaymentRefundFilter.adjDate>>,
                        And<ARPayment.cashAccountID, Equal<Current<LumProcessSCBPaymentRefundFilter.payAccountID>>,
@@ -56,7 +56,7 @@ namespace HSNCustomizations.Graph
                 row.GetExtension<ARPaymentExt>().UsrBankAccnamattributes = (string)((this.ARPaymentList.Cache.GetValueExt(row, PX.Objects.CS.Messages.Attribute + "BANKACCNAM") as PXFieldState)?.Value);
                 row.GetExtension<ARPaymentExt>().UsrBankSwiftAttributes = (string)((this.ARPaymentList.Cache.GetValueExt(row, PX.Objects.CS.Messages.Attribute + "BANKSWIFT") as PXFieldState)?.Value);
                 row.GetExtension<ARPaymentExt>().UsrBankAccNbrttributes = (string)((this.ARPaymentList.Cache.GetValueExt(row, PX.Objects.CS.Messages.Attribute + "BANKACCNBR") as PXFieldState)?.Value);
-                if (!row.GetExtension<ARPaymentExt>().UsrSCBPaymentRefundExported ?? false)
+                if (!(row.GetExtension<ARPaymentExt>().UsrSCBPaymentRefundExported ?? false))
                     yield return row;
             }
         }
