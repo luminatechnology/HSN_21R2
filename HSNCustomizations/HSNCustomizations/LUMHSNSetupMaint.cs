@@ -38,6 +38,8 @@ namespace HSNCustomizations
             { "PrintTransferProcess", "LM501000" },
             { "PrintTransferPickingList", "LM502000" },
             { "PrintTransferDeliveryOrder", "LM502010" },
+            //[Phase II] - SCB Refund
+            { "SCBPaymentRefund","LM505002"},
             //Reports
             { "PrintPrepaymentReceipt", "LM602000" },
             { "Quote-MY", "LM604500" },
@@ -87,11 +89,15 @@ namespace HSNCustomizations
             {
                 updateSiteMap(newGUID, newGUID, dicProcesses["SCBPayment"]);
                 updateSiteMap(newGUID, newGUID, dicProcesses["PrintRegisterDetailed"]);
+                //[Phase II] - SCB Refund
+                updateSiteMap(newGUID, newGUID, dicProcesses["SCBPaymentRefund"]);
             }
             else
             {
                 updateSiteMap(payablesGuid, processGuid, dicProcesses["SCBPayment"]);
                 updateSiteMap(payablesGuid, reportGiud, dicProcesses["PrintRegisterDetailed"]);
+                //[Phase II] - SCB Refund
+                updateSiteMap(payablesGuid, processGuid, dicProcesses["SCBPaymentRefund"]);
             }
             //CitiTTPayment
             if (!curLumLUMHSNSetup?.EnableCitiPaymentFile == true) updateSiteMap(newGUID, newGUID, dicProcesses["CitiTTPayment"]);
@@ -118,7 +124,7 @@ namespace HSNCustomizations
                 updateSiteMap(opportunitiesGuid, printedForms, dicProcesses["Quote-MY"]);
                 updateSiteMap(opportunitiesGuid, printedForms, dicProcesses["Quote-MY2"]);
             }
-            
+
 
             //clear cache
             PageCacheControl.InvalidateCache();
