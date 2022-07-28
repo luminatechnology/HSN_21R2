@@ -1,0 +1,4 @@
+﻿<Table TableName="ARPayment">
+    <Column TableName="ARPayment" ColumnName="UsrSCBPaymentRefundDateTime" ColumnType="date" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="ARPayment" ColumnName="UsrSCBPaymentRefundExported" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+</Table>
