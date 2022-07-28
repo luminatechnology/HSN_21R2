@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using PX.Common;
 using PX.Data;
+using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.IN;
-using HSNCustomizations.DAC;
-using System.Collections.Generic;
-using PX.CS;
-using PX.Data.BQL;
-using System.Linq;
 using PX.Objects.FS;
 using PX.Objects.AP;
+using PX.Objects.SO;
+using HSNCustomizations.DAC;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -147,6 +147,7 @@ namespace HSNCustomizations.Descriptor
     }
     #endregion
 
+    #region LUMCSAttributeListAttribute
     public class LUMCSAttributeListAttribute : PXStringListAttribute
     {
         public string _attribtueID;
@@ -159,9 +160,9 @@ namespace HSNCustomizations.Descriptor
         public override void CacheAttached(PXCache sender)
         {
             base.CacheAttached(sender);
-            var data = SelectFrom<CSAttributeDetail>
-                       .Where<CSAttributeDetail.attributeID.IsEqual<P.AsString>>
-                       .View.Select(new PXGraph(), this._attribtueID).RowCast<CSAttributeDetail>();
+            var data = SelectFrom<PX.CS.CSAttributeDetail>
+                       .Where<PX.CS.CSAttributeDetail.attributeID.IsEqual<P.AsString>>
+                       .View.Select(new PXGraph(), this._attribtueID).RowCast<PX.CS.CSAttributeDetail>();
             if (data != null)
             {
                 this._AllowedLabels = data.Select(x => x.Description).ToArray();
@@ -169,6 +170,7 @@ namespace HSNCustomizations.Descriptor
             }
         }
     }
+    #endregion
 
     #region LUMGetStaffByBranchAttribute
     // [All-Phase2] Add a Control to enable the staff selection by Branch in Appointments
@@ -336,6 +338,200 @@ namespace HSNCustomizations.Descriptor
                         Status = statusDic[staff.Status],
                         PositionID = post.PositionID
                     };
+            }
+        }
+    }
+    #endregion
+
+    #region FSApptLotSerialNbrAttribute2
+    public class FSApptLotSerialNbrAttribute2 : SOShipLotSerialNbrAttribute
+    {
+        public FSApptLotSerialNbrAttribute2(Type SiteID, Type InventoryType, Type SubItemType, Type LocationType) : base(SiteID, InventoryType, SubItemType, LocationType)
+        {
+            CreateCustomSelector(SiteID, InventoryType, SubItemType, LocationType);
+        }
+
+        public FSApptLotSerialNbrAttribute2(Type SiteID, Type InventoryType, Type SubItemType, Type LocationType, Type ParentLotSerialNbrType) : base(SiteID, InventoryType, SubItemType, LocationType, ParentLotSerialNbrType)
+        {
+            CreateCustomSelector(SiteID, InventoryType, SubItemType, LocationType);
+        }
+
+        protected virtual void CreateCustomSelector(Type SiteID, Type InventoryType, Type SubItemType, Type LocationType)
+        {
+            var customSelector = new FSINLotSerialNbrAttribute(SiteID, InventoryType, SubItemType, LocationType, SrvOrdLineID: null);
+
+            _Attributes[_SelAttrIndex] = customSelector;
+        }
+
+        public override void CacheAttached(PXCache sender)
+        {
+            base.CacheAttached(sender);
+            sender.Graph.FieldUpdated.AddHandler<FSApptLineSplit.lotSerialNbr>(LotSerialNumberUpdated);
+        }
+
+        protected override void LotSerialNumberUpdated(PXCache sender, PXFieldUpdatedEventArgs e)
+        {
+            FSApptLineSplit row = e.Row as FSApptLineSplit;
+
+            FSAppointmentDet parentLine = PXParentAttribute.SelectParent(sender, e.Row, typeof(FSAppointmentDet)) as FSAppointmentDet;
+
+            if (row == null || string.IsNullOrEmpty(row.LotSerialNbr) || parentLine == null || parentLine.IsLotSerialRequired != true) { return; }
+
+            // Because the service order don't go through sales order -> shipment, try setting the default operation is Receipt to bypass standard quantity validation.
+            sender.SetValueExt<FSApptLineSplit.operation>(row, SOOperation.Receipt);
+
+            if (row.LocationID == null)
+            {
+                PXResultset<INLotSerialStatus> res = PXSelect<INLotSerialStatus, Where<INLotSerialStatus.inventoryID, Equal<Required<INLotSerialStatus.inventoryID>>,
+                                                                                       And<INLotSerialStatus.subItemID, Equal<Required<INLotSerialStatus.subItemID>>,
+                                                                                           And<INLotSerialStatus.siteID, Equal<Required<INLotSerialStatus.siteID>>,
+                                                                                               And<INLotSerialStatus.lotSerialNbr, Equal<Required<INLotSerialStatus.lotSerialNbr>>,
+                                                                                                   And<INLotSerialStatus.qtyHardAvail, Greater<Zero>>>>>>>
+                                                                                 .SelectWindowed(sender.Graph, 0, 1, row.InventoryID, row.SubItemID, row.SiteID, row.LotSerialNbr);
+                if (res.Count == 1)
+                {
+                    sender.SetValueExt<FSApptLineSplit.locationID>(row, ((INLotSerialStatus)res).LocationID);
+                }
+            }
+        }
+
+        public override void RowSelected(PXCache sender, PXRowSelectedEventArgs e)
+        {
+            base.RowSelected(sender, e);
+        }
+
+        public override void FieldSelecting(PXCache sender, PXFieldSelectingEventArgs e) { }
+
+        // TODO:
+        [Obsolete("This method will be deleted in the next major release.")]
+        public virtual void GetLotSerialAvailability(PXGraph graphToQuery, FSAppointmentDet apptLine, int? soDetID, int? apptDetID, string lotSerialNbr, out decimal lotSerialAvailQty, out decimal lotSerialUsedQty, out bool foundServiceOrderAllocation)
+        => GetLotSerialAvailabilityInt(graphToQuery, apptLine, soDetID, apptDetID, lotSerialNbr, out lotSerialAvailQty, out lotSerialUsedQty, out foundServiceOrderAllocation);
+
+        public virtual void GetLotSerialAvailability(PXGraph graphToQuery, FSAppointmentDet apptLine, string lotSerialNbr, bool ignoreUseByApptLine, out decimal lotSerialAvailQty, out decimal lotSerialUsedQty, out bool foundServiceOrderAllocation)
+        => GetLotSerialAvailabilityInt(graphToQuery, apptLine, lotSerialNbr, ignoreUseByApptLine, out lotSerialAvailQty, out lotSerialUsedQty, out foundServiceOrderAllocation);
+
+        // TODO:
+        [Obsolete("This method will be deleted in the next major release.")]
+        public static void GetLotSerialAvailabilityInt(PXGraph graphToQuery, FSAppointmentDet apptLine, int? soDetID, int? apptDetID, string lotSerialNbr, out decimal lotSerialAvailQty, out decimal lotSerialUsedQty, out bool foundServiceOrderAllocation)
+        {
+            GetLotSerialAvailabilityInt(graphToQuery, apptLine, lotSerialNbr, true, out lotSerialAvailQty, out lotSerialUsedQty, out foundServiceOrderAllocation);
+        }
+
+        // TODO: Rename this method to GetLotSerialAvailabilityStatic
+        public static void GetLotSerialAvailabilityInt(PXGraph graphToQuery, FSAppointmentDet apptLine, string lotSerialNbr, bool ignoreUseByApptLine, out decimal lotSerialAvailQty, out decimal lotSerialUsedQty, out bool foundServiceOrderAllocation)
+        {
+            GetLotSerialAvailabilityStatic(graphToQuery, apptLine, lotSerialNbr, null, ignoreUseByApptLine, out lotSerialAvailQty, out lotSerialUsedQty, out foundServiceOrderAllocation);
+        }
+
+        public static void GetLotSerialAvailabilityStatic(PXGraph graphToQuery, FSAppointmentDet apptLine, string lotSerialNbr, int? splitLineNbr, bool ignoreUseByApptLine, out decimal lotSerialAvailQty, out decimal lotSerialUsedQty, out bool foundServiceOrderAllocation)
+        {
+            lotSerialAvailQty = 0m;
+            lotSerialUsedQty = 0m;
+            foundServiceOrderAllocation = false;
+
+            if (string.IsNullOrEmpty(lotSerialNbr) == true && splitLineNbr == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(lotSerialNbr) == false)
+            {
+                splitLineNbr = null;
+            }
+
+            bool searchINAvailQty = true;
+            FSSODetSplit soDetSplit = null;
+
+            if (apptLine.SODetID != null && apptLine.SODetID > 0)
+            {
+                FSSODet fsSODetRow = FSSODet.UK.Find(graphToQuery, apptLine.SODetID);
+
+                if (fsSODetRow != null)
+                {
+                    BqlCommand bqlCommand = new Select<FSSODetSplit,
+                                    Where<
+                                        FSSODetSplit.srvOrdType, Equal<Required<FSSODetSplit.srvOrdType>>,
+                                        And<FSSODetSplit.refNbr, Equal<Required<FSSODetSplit.refNbr>>,
+                                    And<FSSODetSplit.lineNbr, Equal<Required<FSSODetSplit.lineNbr>>>>>>();
+
+                    List<object> parameters = new List<object>();
+                    parameters.Add(fsSODetRow.SrvOrdType);
+                    parameters.Add(fsSODetRow.RefNbr);
+                    parameters.Add(fsSODetRow.LineNbr);
+
+                    if (splitLineNbr == null)
+                    {
+                        bqlCommand = bqlCommand.WhereAnd(typeof(Where<FSSODetSplit.lotSerialNbr, Equal<Required<FSSODetSplit.lotSerialNbr>>>));
+                        parameters.Add(lotSerialNbr);
+                    }
+                    else
+                    {
+                        bqlCommand = bqlCommand.WhereAnd(typeof(Where<FSSODetSplit.splitLineNbr, Equal<Required<FSSODetSplit.splitLineNbr>>>));
+                        parameters.Add(splitLineNbr);
+                    }
+
+                    soDetSplit = (FSSODetSplit)new PXView(graphToQuery, false, bqlCommand).SelectSingle(parameters.ToArray());
+
+                    if (soDetSplit != null)
+                    {
+                        searchINAvailQty = false;
+                    }
+                }
+            }
+
+            if (searchINAvailQty == true && string.IsNullOrEmpty(lotSerialNbr) == false)
+            {
+                INLotSerialStatus lotSerialStatus = IN.INLotSerialStatus.PK.Find(graphToQuery, apptLine.InventoryID, apptLine.SubItemID, apptLine.SiteID, apptLine.LocationID, lotSerialNbr);
+
+                if (lotSerialStatus != null)
+                {
+                    lotSerialAvailQty = (decimal)lotSerialStatus.QtyAvail;
+                }
+            }
+            else if (soDetSplit != null)
+            {
+                lotSerialAvailQty = (decimal)soDetSplit.Qty;
+
+                BqlCommand bqlCommand = new Select4<FSApptLineSplit,
+                                                     Where<
+                                                         FSApptLineSplit.origSrvOrdType, Equal<Required<FSApptLineSplit.origSrvOrdType>>,
+                                                         And<FSApptLineSplit.origSrvOrdNbr, Equal<Required<FSApptLineSplit.origSrvOrdNbr>>,
+                                And<FSApptLineSplit.origLineNbr, Equal<Required<FSApptLineSplit.origLineNbr>>>>>,
+                                                     Aggregate<
+                                                         Sum<FSApptLineSplit.qty>>>();
+
+                List<object> parameters = new List<object>();
+                parameters.Add(soDetSplit.SrvOrdType);
+                parameters.Add(soDetSplit.RefNbr);
+                parameters.Add(soDetSplit.LineNbr);
+
+                if (splitLineNbr == null)
+                {
+                    bqlCommand = bqlCommand.WhereAnd(typeof(Where<FSApptLineSplit.lotSerialNbr, Equal<Required<FSApptLineSplit.lotSerialNbr>>>));
+                    parameters.Add(soDetSplit.LotSerialNbr);
+                }
+                else
+                {
+                    bqlCommand = bqlCommand.WhereAnd(typeof(Where<FSApptLineSplit.origSplitLineNbr, Equal<Required<FSApptLineSplit.origSplitLineNbr>>>));
+                    parameters.Add(soDetSplit.SplitLineNbr);
+                }
+
+                if (ignoreUseByApptLine == true)
+                {
+                    bqlCommand = bqlCommand.WhereAnd(typeof(Where<
+                                                                 FSApptLineSplit.srvOrdType, NotEqual<Required<FSApptLineSplit.srvOrdType>>,
+                                                                 Or<FSApptLineSplit.apptNbr, NotEqual<Required<FSApptLineSplit.apptNbr>>,
+                                                                 Or<FSApptLineSplit.lineNbr, NotEqual<Required<FSApptLineSplit.lineNbr>>>>>));
+                    parameters.Add(apptLine.SrvOrdType);
+                    parameters.Add(apptLine.RefNbr);
+                    parameters.Add(apptLine.LineNbr);
+                }
+
+                FSApptLineSplit otherSplitsSum = (FSApptLineSplit)new PXView(graphToQuery, false, bqlCommand).SelectSingle(parameters.ToArray());
+
+                decimal? usedQty = otherSplitsSum != null ? otherSplitsSum.Qty : 0m;
+                lotSerialUsedQty = usedQty != null ? (decimal)usedQty : 0m;
+                foundServiceOrderAllocation = true;
             }
         }
     }

@@ -8,12 +8,12 @@ using PX.Objects.IN;
 using PX.Objects.CS;
 using PX.Objects.CR;
 using PX.Objects.CR.Standalone;
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
-using PX.Objects.AP;
 
 namespace PX.Objects.FS
 {
@@ -296,9 +296,744 @@ namespace PX.Objects.FS
             }
             return Base.InvoiceAppointment(adapter);
         }
+
+        #region Mandatory overwriting and copying of standard methods, future upgrades and modifications must be followed up
+        public delegate bool UpdateServiceOrderWithoutErrorHandlerdelegate(FSAppointment fsAppointmentRow, AppointmentEntry graphAppointmentEntry,
+                                                                           object rowInProcessing, PXDBOperation operation, PXTranStatus? tranStatus);
+        [PXOverride]
+        public bool UpdateServiceOrderWithoutErrorHandler(FSAppointment fsAppointmentRow, AppointmentEntry graphAppointmentEntry,
+                                                          object rowInProcessing, PXDBOperation operation, PXTranStatus? tranStatus,
+                                                          UpdateServiceOrderWithoutErrorHandlerdelegate baseMethod)
+        {
+            if (serviceOrderIsAlreadyUpdated == true || Base.SkipServiceOrderUpdate == true || fsAppointmentRow == null || fsAppointmentRow.MustUpdateServiceOrder != true)
+            {
+                return true;
+            }
+
+            // tranStatus is null when the caller is a RowPersisting event.
+            if (tranStatus != null && tranStatus == PXTranStatus.Aborted)
+            {
+                return false;
+            }
+
+            bool deletingAppointment = false;
+            bool forceAppointmentCheckings = false;
+            PXEntryStatus appointmentRowEntryStatus = graphAppointmentEntry.AppointmentRecords.Cache.GetStatus(fsAppointmentRow);
+
+            if (appointmentRowEntryStatus == PXEntryStatus.Deleted)
+            {
+                // When the Appointment is being deleted, the ServiceOrder is not updated in any RowPersisting event
+                // but in the RowPersisted event of FSAppointment.
+                if (tranStatus == null
+                    || tranStatus != PXTranStatus.Completed
+                    || operation != PXDBOperation.Delete
+                    || (rowInProcessing is FSAppointment) == false)
+                {
+                    return true;
+                }
+                else
+                {
+                    deletingAppointment = true;
+                }
+            }
+
+            ServiceOrderEntry _ServiceOrderEntryGraph = null;
+
+            if (_ServiceOrderEntryGraph == null)
+            {
+                _ServiceOrderEntryGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
+            }
+            else if (_ServiceOrderEntryGraph.RunningPersist == false)
+            {
+                _ServiceOrderEntryGraph.Clear();
+            }
+
+            if (_ServiceOrderEntryGraph.RunningPersist == false)
+            {
+                _ServiceOrderEntryGraph.RecalculateExternalTaxesSync = true;
+                _ServiceOrderEntryGraph.GraphAppointmentEntryCaller = Base;
+            }
+
+            ServiceOrderEntry graphServiceOrderEntry = _ServiceOrderEntryGraph;
+
+            // Variables with short names
+            ServiceOrderEntry soGraph = graphServiceOrderEntry;
+            AppointmentEntry apptGraph = graphAppointmentEntry;
+
+            FSServiceOrder fsServiceOrderRow = null;
+
+            if (graphServiceOrderEntry.RunningPersist == false)
+            {
+                graphServiceOrderEntry.ServiceOrderRecords.Current = graphServiceOrderEntry.ServiceOrderRecords
+                        .Search<FSServiceOrder.refNbr>(fsAppointmentRow.SORefNbr, fsAppointmentRow.SrvOrdType);
+            }
+
+            fsServiceOrderRow = graphServiceOrderEntry.ServiceOrderRecords.Current;
+
+            if (fsServiceOrderRow == null
+                || fsServiceOrderRow.SrvOrdType != fsAppointmentRow.SrvOrdType
+                || fsServiceOrderRow.RefNbr != fsAppointmentRow.SORefNbr)
+            {
+                throw new PXException(TX.Error.RECORD_X_NOT_FOUND, DACHelper.GetDisplayName(typeof(FSServiceOrder)));
+            }
+
+            if (deletingAppointment == false)
+            {
+                if (appointmentRowEntryStatus != PXEntryStatus.Inserted)
+                {
+                    bool? oldNotStarted = (bool?)graphAppointmentEntry.AppointmentRecords.Cache.GetValueOriginal<FSAppointment.notStarted>(fsAppointmentRow);
+                    bool? oldInProcess = (bool?)graphAppointmentEntry.AppointmentRecords.Cache.GetValueOriginal<FSAppointment.inProcess>(fsAppointmentRow);
+
+                    forceAppointmentCheckings = (oldNotStarted == true || oldInProcess == true) != (fsAppointmentRow.NotStarted == true || fsAppointmentRow.InProcess == true);
+
+                    if (fsAppointmentRow.Finished != (bool?)graphAppointmentEntry.AppointmentRecords.Cache.GetValueOriginal<FSAppointment.finished>(fsAppointmentRow))
+                    {
+                        forceAppointmentCheckings = true;
+                    }
+                }
+                else
+                {
+                    if ((fsAppointmentRow.NotStarted == true || fsAppointmentRow.InProcess == true) && fsAppointmentRow.Finished == false)
+                    {
+                        forceAppointmentCheckings = true;
+                    }
+                }
+
+                if (forceAppointmentCheckings == false)
+                {
+                    forceAppointmentCheckings = IsThereAnySODetReferenceBeingDeleted<FSAppointmentDet.sODetID>(graphAppointmentEntry.AppointmentDetails.Cache);
+                }
+            }
+
+            if (graphServiceOrderEntry.ServiceOrderRecords.Current.CuryInfoID < 0)
+            {
+                graphServiceOrderEntry.ServiceOrderRecords.Cache.SetValueExt<FSServiceOrder.curyInfoID>(graphServiceOrderEntry.ServiceOrderRecords.Current, fsAppointmentRow.CuryInfoID);
+            }
+
+            PXEntryStatus serviceOrderStatus = Base.ServiceOrderRelated.Cache.GetStatus(Base.ServiceOrderRelated.Current);
+            if (deletingAppointment == true
+                || forceAppointmentCheckings == true
+                || serviceOrderStatus != PXEntryStatus.Notchanged)
+            {
+                // There is not need to copy ServiceOrderRelated's current values
+                // to graphServiceOrderEntry.ServiceOrderRecords' current
+                // because this graph (AppointmentEntry) just finished persisting the ServiceOrderRelated record.
+                // However we mark the graphServiceOrderEntry.ServiceOrderRecords' current record as Updated
+                // in order to graphServiceOrderEntry runs all its validations.
+                graphServiceOrderEntry.ServiceOrderRecords.Cache.SetStatus(fsServiceOrderRow, PXEntryStatus.Updated);
+                graphServiceOrderEntry.ServiceOrderRecords.Cache.IsDirty = true;
+            }
+
+            Base.UpdateRelatedApptSummaryFieldsByDeletedLines(soGraph, graphAppointmentEntry);
+
+            if (deletingAppointment == true)
+            {
+                // Save the ServiceOrder to persist the new related appointment summary values.
+                try
+                {
+                    graphServiceOrderEntry.GraphAppointmentEntryCaller = null;
+                    graphServiceOrderEntry.ForceAppointmentCheckings = true;
+
+                    graphServiceOrderEntry.Save.Press();
+
+                    serviceOrderIsAlreadyUpdated = true;
+                }
+                catch (Exception ex)
+                {
+                    ReplicateServiceOrderExceptions(graphAppointmentEntry, graphServiceOrderEntry, ex);
+
+                    Base.VerifyIfTransactionWasAborted(graphServiceOrderEntry, ex);
+
+                    return false;
+                }
+                finally
+                {
+                    graphServiceOrderEntry.ForceAppointmentCheckings = false;
+                }
+            }
+            else
+            {
+                PXResultset<FSAppointmentDet> apptLines = graphAppointmentEntry.AppointmentDetails.Select();
+                List<FSApptLineSplit> processedApptSplits = new List<FSApptLineSplit>();
+                graphServiceOrderEntry.SkipTaxCalcTotals = true;
+
+                if (serviceOrderStatus == PXEntryStatus.Inserted
+                    && graphAppointmentEntry.AppointmentRecords.Current.BillServiceContractID != null)
+                {
+                    graphServiceOrderEntry.ServiceOrderRecords.Cache.SetValueExt<FSServiceOrder.billServiceContractID>
+                            (graphServiceOrderEntry.ServiceOrderRecords.Current, graphAppointmentEntry.AppointmentRecords.Current.BillServiceContractID);
+                }
+
+                foreach (FSAppointmentDet fsAppointmentDetRow in apptLines.Where(x => ((FSAppointmentDet)x).LineType != ID.LineType_ALL.PICKUP_DELIVERY))
+                {
+                    PXEntryStatus lineStatus = graphAppointmentEntry.AppointmentDetails.Cache.GetStatus(fsAppointmentDetRow);
+
+                    if (lineStatus != PXEntryStatus.Inserted
+                            && lineStatus != PXEntryStatus.Updated)
+                    {
+                        continue;
+                    }
+
+                    apptGraph.AppointmentDetails.Current = fsAppointmentDetRow;
+
+                    InsertUpdateSODet(graphAppointmentEntry.AppointmentDetails.Cache, fsAppointmentDetRow, graphServiceOrderEntry.ServiceOrderDetails, fsAppointmentRow);
+
+                    List<FSApptLineSplit> apptSplits = apptGraph.Splits.Select().RowCast<FSApptLineSplit>().Where(r => string.IsNullOrEmpty(r.LotSerialNbr) == false).ToList();
+
+                    UpdateSrvOrdSplits(apptGraph, fsAppointmentDetRow, apptSplits, soGraph);
+
+                    processedApptSplits.AddRange(apptSplits);
+
+                    graphServiceOrderEntry.UpdateRelatedApptSummaryFields(Base.AppointmentDetails.Cache, fsAppointmentDetRow, graphServiceOrderEntry.ServiceOrderDetails.Cache, fsAppointmentDetRow.FSSODetRow);
+                }
+
+                try
+                {
+                    graphServiceOrderEntry.GraphAppointmentEntryCaller = graphAppointmentEntry;
+                    graphServiceOrderEntry.ForceAppointmentCheckings = forceAppointmentCheckings;
+
+                    if (insertingServiceOrder == true)
+                    {
+                        graphServiceOrderEntry.Answers.Select();
+                        graphServiceOrderEntry.Answers.CopyAttributes(graphServiceOrderEntry, graphServiceOrderEntry.ServiceOrderRecords.Current, graphAppointmentEntry, graphAppointmentEntry.AppointmentRecords.Current, true);
+                        insertingServiceOrder = false;
+                    }
+
+                    if (graphServiceOrderEntry.ForceAppointmentCheckings == true || graphServiceOrderEntry.IsDirty == true)
+                    {
+                        graphServiceOrderEntry.SkipTaxCalcTotals = false;
+                        ServiceOrderEntry.SalesTax salesExtSrvOrd = graphServiceOrderEntry.GetExtension<ServiceOrderEntry.SalesTax>();
+                        salesExtSrvOrd.CalcTaxes();
+
+                        if (graphServiceOrderEntry.RunningPersist == false)
+                        {
+                            graphServiceOrderEntry.SelectTimeStamp();
+                            graphServiceOrderEntry.SkipTaxCalcAndSave();
+                            graphServiceOrderEntry.RecalculateExternalTaxes();
+                        }
+                    }
+
+                    serviceOrderIsAlreadyUpdated = true;
+                }
+                catch (Exception ex)
+                {
+                    ReplicateServiceOrderExceptions(graphAppointmentEntry, graphServiceOrderEntry, ex);
+                    Base.VerifyIfTransactionWasAborted(graphServiceOrderEntry, ex);
+                    return false;
+                }
+                finally
+                {
+                    graphServiceOrderEntry.GraphAppointmentEntryCaller = null;
+                    graphServiceOrderEntry.ForceAppointmentCheckings = false;
+                    graphServiceOrderEntry.SkipTaxCalcTotals = false;
+                }
+
+                // Fill the dictionary to update FSAppointmentDet with FSSODet values in its RowPersisting event
+                if (ApptLinesWithSrvOrdLineUpdated == null)
+                {
+                    ApptLinesWithSrvOrdLineUpdated = new Dictionary<FSAppointmentDet, FSSODet>();
+                }
+                else
+                {
+                    ApptLinesWithSrvOrdLineUpdated.Clear();
+                }
+
+                foreach (FSAppointmentDet fsAppointmentDetRow in apptLines)
+                {
+                    if (fsAppointmentDetRow.FSSODetRow != null)
+                    {
+                        ApptLinesWithSrvOrdLineUpdated[fsAppointmentDetRow] = fsAppointmentDetRow.FSSODetRow;
+                    }
+                }
+
+                // Fill the dictionary to update FSApptLineSplit with FSSODetSplit values in its RowPersisting event
+                if (ApptSplitsWithSrvOrdSplitUpdated == null)
+                {
+                    ApptSplitsWithSrvOrdSplitUpdated = new Dictionary<FSApptLineSplit, FSSODetSplit>();
+                }
+                else
+                {
+                    ApptSplitsWithSrvOrdSplitUpdated.Clear();
+                }
+
+                foreach (FSApptLineSplit apptSplit in processedApptSplits)
+                {
+                    if (apptSplit.FSSODetSplitRow != null)
+                    {
+                        ApptSplitsWithSrvOrdSplitUpdated[apptSplit] = apptSplit.FSSODetSplitRow;
+                    }
+                }
+            }
+
+            if (deletingAppointment == false)
+            {
+                // Update the ServiceOrderRelated values with the new Service Order values.
+                if (Base.ServiceOrderRelated.Current != null && graphServiceOrderEntry.ServiceOrderRecords.Current != null
+                    && Base.ServiceOrderRelated.Current.SOID == graphServiceOrderEntry.ServiceOrderRecords.Current.SOID)
+                {
+                    foreach (var fieldName in Base.ServiceOrderRelated.Cache.Fields)
+                    {
+                        if (fieldName == nameof(Base.ServiceOrderRelated.Current.AppointmentsCompletedCntr) ||
+                            fieldName == nameof(Base.ServiceOrderRelated.Current.AppointmentsCompletedOrClosedCntr))
+                        {
+                            continue;
+                        }
+
+                        Base.ServiceOrderRelated.Cache.SetValue(Base.ServiceOrderRelated.Current, fieldName,
+                                                                graphServiceOrderEntry.ServiceOrderRecords.Cache.GetValue(graphServiceOrderEntry.ServiceOrderRecords.Current, fieldName));
+                    }
+                }
+            }
+
+            return true;
+        }
+        public bool serviceOrderIsAlreadyUpdated = false, insertingServiceOrder = false;
+
+        private Dictionary<FSAppointmentDet, FSSODet> _ApptLinesWithSrvOrdLineUpdated = null;
+        protected Dictionary<FSAppointmentDet, FSSODet> ApptLinesWithSrvOrdLineUpdated
+        {
+            get
+            {
+                return _ApptLinesWithSrvOrdLineUpdated;
+            }
+            set
+            {
+                _ApptLinesWithSrvOrdLineUpdated = value;
+            }
+        }
+
+        private Dictionary<FSApptLineSplit, FSSODetSplit> _ApptSplitsWithSrvOrdSplitUpdated = null;
+        protected Dictionary<FSApptLineSplit, FSSODetSplit> ApptSplitsWithSrvOrdSplitUpdated
+        {
+            get
+            {
+                return _ApptSplitsWithSrvOrdSplitUpdated;
+            }
+            set
+            {
+                _ApptSplitsWithSrvOrdSplitUpdated = value;
+            }
+        }
+
+        public int ReplicateServiceOrderExceptions(AppointmentEntry graphAppointmentEntry, ServiceOrderEntry graphServiceOrderEntry, Exception exception)
+        {
+            int errorCount = 0;
+
+            errorCount += SharedFunctions.ReplicateCacheExceptions(graphAppointmentEntry.AppointmentRecords.Cache,
+                                                                   graphAppointmentEntry.AppointmentRecords.Current,
+                                                                   graphAppointmentEntry.ServiceOrderRelated.Cache,
+                                                                   graphAppointmentEntry.ServiceOrderRelated.Current,
+                                                                   graphServiceOrderEntry.ServiceOrderRecords.Cache,
+                                                                   graphServiceOrderEntry.ServiceOrderRecords.Current);
+
+            foreach (FSAppointmentDet fsAppointmentDetRow in graphAppointmentEntry.AppointmentDetails.Select())
+            {
+                if (fsAppointmentDetRow.FSSODetRow != null)
+                {
+                    errorCount += SharedFunctions.ReplicateCacheExceptions(graphAppointmentEntry.AppointmentDetails.Cache,
+                                                                           fsAppointmentDetRow,
+                                                                           graphServiceOrderEntry.ServiceOrderDetails.Cache,
+                                                                           fsAppointmentDetRow.FSSODetRow);
+                }
+            }
+
+            if (errorCount == 0)
+            {
+                throw PXException.PreserveStack(exception);
+            }
+
+            return errorCount;
+        }
+
+        public bool IsThereAnySODetReferenceBeingDeleted<SODetIDType>(PXCache cache) where SODetIDType : IBqlField
+        {
+            // Check if some line is being deleted.
+            foreach (object row in cache.Deleted)
+            {
+                return true;
+            }
+
+            // Check if some line is changing its SODet reference.
+            foreach (object row in cache.Updated)
+            {
+                if ((int?)cache.GetValue<SODetIDType>(row) != (int?)cache.GetValueOriginal<SODetIDType>(row))
+                {
+                    return true;
+                }
+            }
+
+            // Check if some line is changing its SODet reference.
+            foreach (object row in cache.Inserted)
+            {
+                if ((int?)cache.GetValue<SODetIDType>(row) != (int?)cache.GetValueOriginal<SODetIDType>(row))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void InsertUpdateSODet(PXCache cacheAppointmentDet, FSAppointmentDet fsAppointmentDetRow, PXSelectBase<FSSODet> viewSODet, FSAppointment apptRow)
+        {
+            PXEntryStatus lineStatus = cacheAppointmentDet.GetStatus(fsAppointmentDetRow);
+
+            if (lineStatus != PXEntryStatus.Inserted
+                    && lineStatus != PXEntryStatus.Updated)
+            {
+                return;
+            }
+
+            FSSODet fsSODetRow = null;
+
+            if (fsAppointmentDetRow.SODetID != null)
+            {
+                fsSODetRow = FSSODet.UK.Find(viewSODet.Cache.Graph, fsAppointmentDetRow.SODetID);
+
+                if (fsSODetRow == null || fsSODetRow.SODetID != fsAppointmentDetRow.SODetID)
+                {
+                    throw new PXException(TX.Error.RECORD_X_NOT_FOUND, DACHelper.GetDisplayName(typeof(FSSODet)));
+                }
+            }
+
+            bool insertedUpdated = false;
+
+            if (fsSODetRow == null)
+            {
+                fsSODetRow = new FSSODet();
+
+                try
+                {
+                    fsSODetRow.SkipUnitPriceCalc = true;
+                    fsSODetRow.AlreadyCalculatedUnitPrice = fsAppointmentDetRow.CuryUnitPrice;
+
+                    fsSODetRow = AppointmentEntry.InsertDetailLine<FSSODet, FSAppointmentDet>(viewSODet.Cache,
+                                                                                 fsSODetRow,
+                                                                                 cacheAppointmentDet,
+                                                                                 fsAppointmentDetRow,
+                                                                                 noteID: null,
+                                                                                 soDetID: null,
+                                                                                 copyTranDate: true,
+                                                                                 tranDate: fsAppointmentDetRow.TranDate,
+                                                                                 SetValuesAfterAssigningSODetID: true,
+                                                                                 copyingFromQuote: false);
+
+                    fsAppointmentDetRow.SODetCreate = true;
+                    insertedUpdated = true;
+                }
+                finally
+                {
+                    fsSODetRow.SkipUnitPriceCalc = false;
+                    fsSODetRow.AlreadyCalculatedUnitPrice = null;
+                }
+
+                fsAppointmentDetRow.FSSODetRow = fsSODetRow;
+            }
+            else
+            {
+                fsSODetRow = (FSSODet)viewSODet.Cache.CreateCopy(fsSODetRow);
+
+                if (fsSODetRow.BranchID != fsAppointmentDetRow.BranchID)
+                {
+                    viewSODet.Cache.SetValue<FSSODet.branchID>(fsSODetRow, fsAppointmentDetRow.BranchID);
+                    insertedUpdated = true;
+                }
+
+                if (fsSODetRow.SiteID != fsAppointmentDetRow.SiteID)
+                {
+                    fsSODetRow.SiteID = fsAppointmentDetRow.SiteID;
+                    insertedUpdated = true;
+                }
+
+                if (fsSODetRow.SiteLocationID != fsAppointmentDetRow.SiteLocationID)
+                {
+                    fsSODetRow.SiteLocationID = fsAppointmentDetRow.SiteLocationID;
+                    insertedUpdated = true;
+                }
+
+                if (fsAppointmentDetRow.SODetCreate == true)
+                {
+                    fsSODetRow.TranDesc = fsAppointmentDetRow.TranDesc;
+                    insertedUpdated = true;
+                }
+
+                if (fsSODetRow.CuryUnitCost != fsAppointmentDetRow.CuryUnitCost
+                    && fsSODetRow.ApptCntr <= 1)
+                {
+                    fsSODetRow.CuryUnitCost = fsAppointmentDetRow.CuryUnitCost;
+                    insertedUpdated = true;
+                }
+
+                if (Base.CanEditSrvOrdLineValues(cacheAppointmentDet, fsAppointmentDetRow, fsSODetRow) == true)
+                {
+                    if (fsSODetRow.POCreate != fsAppointmentDetRow.EnablePO)
+                    {
+                        fsSODetRow.POCreate = fsAppointmentDetRow.EnablePO;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.POSource != fsAppointmentDetRow.POSource)
+                    {
+                        fsSODetRow.POSource = fsAppointmentDetRow.POSource;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.POVendorID != fsAppointmentDetRow.POVendorID)
+                    {
+                        fsSODetRow.POVendorID = fsAppointmentDetRow.POVendorID;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.POVendorLocationID != fsAppointmentDetRow.POVendorLocationID)
+                    {
+                        fsSODetRow.POVendorLocationID = fsAppointmentDetRow.POVendorLocationID;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.ManualCost != fsAppointmentDetRow.ManualCost)
+                    {
+                        fsSODetRow.ManualCost = fsAppointmentDetRow.ManualCost;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.EstimatedQty != fsAppointmentDetRow.EstimatedQty)
+                    {
+                        fsSODetRow.EstimatedQty = fsAppointmentDetRow.EstimatedQty;
+                        insertedUpdated = true;
+                    }
+                }
+
+                if (fsAppointmentDetRow.IsExpenseReceiptItem == true)
+                {
+                    if (fsSODetRow.CuryUnitCost != fsAppointmentDetRow.CuryUnitCost)
+                    {
+                        fsSODetRow.CuryUnitCost = fsAppointmentDetRow.CuryUnitCost;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.CuryUnitPrice != fsAppointmentDetRow.CuryUnitPrice)
+                    {
+                        fsSODetRow.CuryUnitPrice = fsAppointmentDetRow.CuryUnitPrice;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.EstimatedQty != fsAppointmentDetRow.EstimatedQty)
+                    {
+                        fsSODetRow.EstimatedQty = fsAppointmentDetRow.EstimatedQty;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.UOM != fsAppointmentDetRow.UOM)
+                    {
+                        fsSODetRow.UOM = fsAppointmentDetRow.UOM;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.IsBillable != fsAppointmentDetRow.IsBillable)
+                    {
+                        fsSODetRow.IsBillable = fsAppointmentDetRow.IsBillable;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.CostCodeID != fsAppointmentDetRow.CostCodeID)
+                    {
+                        fsSODetRow.CostCodeID = fsAppointmentDetRow.CostCodeID;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.ProjectTaskID != fsAppointmentDetRow.ProjectTaskID)
+                    {
+                        fsSODetRow.ProjectTaskID = fsAppointmentDetRow.ProjectTaskID;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.CuryExtCost != fsAppointmentDetRow.CuryExtCost)
+                    {
+                        fsSODetRow.CuryExtCost = fsAppointmentDetRow.CuryExtCost;
+                        insertedUpdated = true;
+                    }
+
+                    if (fsSODetRow.CuryBillableExtPrice != fsAppointmentDetRow.CuryBillableExtPrice)
+                    {
+                        fsSODetRow.CuryBillableExtPrice = fsAppointmentDetRow.CuryBillableExtPrice;
+                        insertedUpdated = true;
+                    }
+                }
+
+                if (insertedUpdated)
+                {
+                    fsSODetRow = viewSODet.Update(fsSODetRow);
+                }
+            }
+
+            if (fsSODetRow.LineType == ID.LineType_ALL.SERVICE
+                && ID.Status_SODet.CanBeScheduled(fsSODetRow.Status) == true
+                    &&
+                        (apptRow.NotStarted == true
+                        || apptRow.InProcess == true)
+                    )
+            {
+                // Inserting or updating, this SODet line is being Scheduled in this Appointment.
+                if (fsSODetRow.Scheduled != true)
+                {
+                    viewSODet.Cache.SetValue<FSSODet.scheduled>(fsSODetRow, true);
+                    insertedUpdated = true;
+                }
+            }
+
+            if (insertedUpdated == true)
+            {
+                fsSODetRow = viewSODet.Update(fsSODetRow);
+            }
+
+            fsAppointmentDetRow.FSSODetRow = fsSODetRow;
+        }
+
+        public void UpdateSrvOrdSplits(AppointmentEntry apptGraph, FSAppointmentDet apptLine, List<FSApptLineSplit> apptSplits, ServiceOrderEntry soGraph)
+        {
+            if (apptLine.SODetID != null && apptLine.SODetID != apptLine.FSSODetRow.SODetID)
+            {
+                throw new PXArgumentException();
+            }
+
+            FSSODet soLine = soGraph.ServiceOrderDetails.Search<FSSODet.sODetID>(apptLine.FSSODetRow.SODetID);
+            if (soLine == null || soLine.SODetID != apptLine.FSSODetRow.SODetID)
+            {
+                throw new PXException(TX.Error.RECORD_X_NOT_FOUND, DACHelper.GetDisplayName(typeof(FSSODet)));
+            }
+
+            apptLine.FSSODetRow = soGraph.ServiceOrderDetails.Current = soLine;
+
+            decimal origEstimatedQty = (decimal)soLine.EstimatedQty;
+            int insertedSplitCount = 0;
+            FSSODetSplit firstInsertedSplit = null;
+
+            // Insert splits in Service Order with new LotSerialNbrs
+            foreach (FSApptLineSplit apptSplit in apptSplits)
+            {
+                FSSODetSplit soSplit = soGraph.Splits.Select().RowCast<FSSODetSplit>().Where(r => r.LotSerialNbr == apptSplit.LotSerialNbr).FirstOrDefault();
+                if (soSplit == null)
+                {
+                    var newSOSplit = new FSSODetSplit();
+
+                    newSOSplit = (FSSODetSplit)soGraph.Splits.Cache.CreateCopy(soGraph.Splits.Insert(newSOSplit));
+
+                    newSOSplit.LotSerialNbr = apptSplit.LotSerialNbr;
+                    newSOSplit.Qty = apptSplit.Qty;
+                    newSOSplit.BaseQty = INUnitAttribute.ConvertToBase(soGraph.Splits.Cache, newSOSplit.InventoryID, newSOSplit.UOM, newSOSplit.Qty.Value, INPrecision.QUANTITY);
+                    // Because the service order don't go through sales order -> shipment, try setting the default operation comes from appt line split to bypass standard quantity validation.
+                    newSOSplit.Operation = apptSplit.Operation;
+
+                    newSOSplit = soGraph.Splits.Update(newSOSplit);
+
+                    Dictionary<string, string> errors = PXUIFieldAttribute.GetErrors(soGraph.Splits.Cache, newSOSplit, PXErrorLevel.Error, PXErrorLevel.RowError, PXErrorLevel.Undefined);
+
+                    if (errors == null) { return; }
+
+                    string localizedActionMessage = PXMessages.LocalizeFormatNoPrefix(TX.Action.InsertingLotSerialInServiceOrder, apptSplit.LotSerialNbr, apptLine.LineRef);
+
+                    List<string> uiFields = SharedFunctions.GetUIFields(apptGraph.Splits.Cache, apptSplit);
+                    bool fieldWithoutMapping = false;
+
+                    foreach (KeyValuePair<string, string> entry in errors)
+                    {
+                        Exception exception = new PXSetPropertyException(TX.Error.XErrorOccurredDuringActionY, PXErrorLevel.Error,
+                                                                        entry.Value, localizedActionMessage);
+
+                        if (uiFields.Any(e => e.Equals(entry.Key, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            apptGraph.Splits.Cache.RaiseExceptionHandling(entry.Key, apptSplit, null, exception);
+                        }
+                        else
+                        {
+                            fieldWithoutMapping = true;
+                        }
+                    }
+
+                    if (errors.Count > 0)
+                    {
+                        if (fieldWithoutMapping == false)
+                        {
+                            throw new ServiceOrderUpdateException(errors,
+                                                                  apptGraph.Splits.Cache.Graph.GetType(),
+                                                                  apptSplit,
+                                                                  TX.Action.InsertingLotSerialInServiceOrder,
+                                                                  apptSplit.LotSerialNbr, apptLine.LineRef);
+                        }
+                        else
+                        {
+                            throw new PXOuterException(errors,
+                                                       apptGraph.Splits.Cache.Graph.GetType(),
+                                                       apptSplit,
+                                                       TX.Action.InsertingLotSerialInServiceOrder,
+                                                       apptSplit.LotSerialNbr, apptLine.LineRef);
+                        }
+                    }
+
+                    insertedSplitCount++;
+
+                    soSplit = newSOSplit;
+                }
+
+                apptSplit.FSSODetSplitRow = soSplit;
+
+                if (firstInsertedSplit == null)
+                {
+                    firstInsertedSplit = soSplit;
+                }
+            }
+
+            // Decrease the Qty on the uncompleted splits without LotSerialNbr to restore the original EstimatedQty
+            decimal surplusQuantity = (decimal)soLine.EstimatedQty > origEstimatedQty ? (decimal)soLine.EstimatedQty - origEstimatedQty : 0m;
+            while (surplusQuantity > 0m)
+            {
+                FSSODetSplit soSplit = soGraph.Splits.Select().RowCast<FSSODetSplit>().Where(r => string.IsNullOrEmpty(r.LotSerialNbr) == true && r.Completed == false).FirstOrDefault();
+                if (soSplit != null)
+                {
+                    FSSODetSplit soSplitCopy = (FSSODetSplit)soGraph.Splits.Cache.CreateCopy(soSplit);
+
+                    if (soSplitCopy.Qty >= surplusQuantity)
+                    {
+                        soSplitCopy.Qty -= surplusQuantity;
+                        surplusQuantity = 0m;
+                    }
+                    else
+                    {
+                        surplusQuantity -= (decimal)soSplitCopy.Qty;
+                        soSplitCopy.Qty = 0m;
+                    }
+
+                    if (soSplitCopy.Qty == 0m)
+                    {
+                        soGraph.Splits.Delete(soSplit);
+                    }
+                    else
+                    {
+                        soSplitCopy.BaseQty = INUnitAttribute.ConvertToBase(soGraph.Splits.Cache, soSplitCopy.InventoryID, soSplitCopy.UOM, soSplitCopy.Qty.Value, INPrecision.QUANTITY);
+                        soSplitCopy = soGraph.Splits.Update(soSplitCopy);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (origEstimatedQty != (decimal)soLine.EstimatedQty)
+            {
+                Exception exception = new PXSetPropertyException(TX.Error.UpdatingTheServiceOrderLotSerialsEndedInAnAttemptToIncreaseTheLineQty, PXErrorLevel.Error);
+
+                apptGraph.AppointmentDetails.Cache.RaiseExceptionHandling<FSAppointmentDet.lotSerialNbr>(apptLine, null, exception);
+                throw new ServiceOrderUpdateException2(TX.Error.UpdatingTheServiceOrderLotSerialsEndedInAnAttemptToIncreaseTheLineQty);
+            }
+
+            apptLine.FSSODetRow = soGraph.ServiceOrderDetails.Current;
+        }
         #endregion
 
-        #region Override DAC
+        #endregion
+
+        #region Override DAC (Cache Attached)
         [PXDBInt]
         [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         [PXUIField(DisplayName = "Contact")]
@@ -320,7 +1055,6 @@ namespace PX.Objects.FS
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSServiceOrder.contactID> e) { }
 
-
         [PXDBInt]
         [PXDefault]
         [LUMGetStaffByBranch]
@@ -334,6 +1068,10 @@ namespace PX.Objects.FS
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         public virtual void _(Events.CacheAttached<FSAppointmentDet.staffID> e) { }
 
+        [PXRemoveBaseAttribute(typeof(FSApptLotSerialNbrAttribute))]
+        [FSApptLotSerialNbrAttribute2(typeof(FSApptLineSplit.siteID), typeof(FSApptLineSplit.inventoryID), typeof(FSApptLineSplit.subItemID),
+                                      typeof(FSApptLineSplit.locationID), typeof(FSAppointmentDet.lotSerialNbr), FieldClass = "LotSerial")]
+        protected void _(Events.CacheAttached<FSApptLineSplit.lotSerialNbr> e) { }
         #endregion
 
         #region Event Handlers
@@ -379,6 +1117,31 @@ namespace PX.Objects.FS
             SettingStageButton();
         }
 
+        protected void _(Events.RowUpdated<FSServiceOrder> e, PXRowUpdated baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+
+            if (e.OldRow.ContactID != e.Row.ContactID)
+            {
+                ServiceOrderEntry_Extension.SetSrvContactInfo(Base.ServiceOrder_Contact.Cache, e.Row.ContactID, e.Row.ServiceOrderContactID);
+            }
+        }
+
+        protected void _(Events.RowDeleting<FSAppointment> e, PXRowDeleting baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+
+            ///<remarks>
+            /// We need to add foreign keys to strengthen the relationship between Appointments and tables of Inventory Transactions. 
+            /// If any inventory transactions with any status exist, users are only allowed to cancel the Appointment instead of deletion. 
+            /// If deletion is needed, users have to remove all the related inventory transactions first. 
+            ///</remarks>
+            if (INRegisterView.Select().Count > 0)
+            {
+                throw new PXException(HSNMessages.ApptHasInvetTrans);
+            }
+        }
+
         protected void _(Events.FieldUpdated<FSAppointmentExt.usrTransferToHQ> e)
         {
             if (e.NewValue != null && (bool)e.NewValue == true)
@@ -404,17 +1167,6 @@ namespace PX.Objects.FS
                     Base.AppointmentSelected.SetValueExt<FSAppointment.actualDateTimeEnd>(row, null);
             }
         }
-
-        protected void _(Events.RowUpdated<FSServiceOrder> e, PXRowUpdated baseHandler)
-        {
-            baseHandler?.Invoke(e.Cache, e.Args);
-
-            if (e.OldRow.ContactID != e.Row.ContactID)
-            {
-                ServiceOrderEntry_Extension.SetSrvContactInfo(Base.ServiceOrder_Contact.Cache, e.Row.ContactID, e.Row.ServiceOrderContactID);
-            }
-        }
-
         #endregion
 
         #region Actions
@@ -585,15 +1337,18 @@ namespace PX.Objects.FS
             foreach (FSAppointmentDet row in list)
             {
                 if (row.Status != ID.Status_AppointmentDet.CANCELED &&
-                    (row.GetExtension<FSAppointmentDetExt>().UsrIsDOA == true ||
-                     isRMA == true ||
-                     SelectFrom<INRegister>.InnerJoin<INTran>.On<INTran.docType.IsEqual<INRegister.docType>
-                                                                 .And<INTran.refNbr.IsEqual<INRegister.refNbr>>>
-                                           .Where<INRegister.docType.IsEqual<INDocType.transfer>
-                                                  .And<INRegisterExt.usrSrvOrdType.IsEqual<@P.AsString>
-                                                       .And<INRegisterExt.usrAppointmentNbr.IsEqual<@P.AsString>
-                                                            .And<INRegisterExt.usrTransferPurp.IsEqual<LUMTransferPurposeType.partReq>
-                                                                 .And<INTran.inventoryID.IsEqual<@P.AsInt>>>>>>.View.Select(apptEntry, appointment.SrvOrdType, appointment.RefNbr, row.InventoryID).Count <= 0))
+                    (row.GetExtension<FSAppointmentDetExt>().UsrIsDOA == true || isRMA == true ||
+
+                    SelectFrom<INRegister>.InnerJoin<INTran>.On<INTran.docType.IsEqual<INRegister.docType>
+                                                                .And<INTran.refNbr.IsEqual<INRegister.refNbr>>>
+                                          .Where<INRegister.docType.IsEqual<INDocType.transfer>
+                                                 .And<INRegisterExt.usrSrvOrdType.IsEqual<@P.AsString>
+                                                      .And<INRegisterExt.usrAppointmentNbr.IsEqual<@P.AsString>
+                                                           .And<INRegisterExt.usrTransferPurp.IsEqual<LUMTransferPurposeType.partReq>
+                                                                .And<INTran.inventoryID.IsEqual<@P.AsInt>
+                                                                     .And<INTranExt.usrApptLineRef.IsEqual<@P.AsString>>>>>>>.View
+                                          .Select(apptEntry, appointment.SrvOrdType, appointment.RefNbr, row.InventoryID, row.LineRef).Count <= 0)
+                    )
                 {
                     CreateINTran(transferEntry, row, false, isRMA == false);
                 }

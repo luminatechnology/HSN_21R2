@@ -33,5 +33,6 @@ namespace HSNCustomizations.Descriptor
         public const string StartApptNoStaff   = "You Cannot Start Appointment Without Staff Assigned";
         public const string NoRMARequired      = "No Record Of RMA Required.";
         public const string CannotToggleRMA    = "Initiate RMA / Return RMA Already Exists, Cannot Toggle RMA.";
+        public const string ApptHasInvetTrans  = "The Appointment Has At Least One Related Inventory Transaction. Delete It First Or Cancal The Appointment.";
     }
 }
