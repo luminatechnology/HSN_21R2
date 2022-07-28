@@ -111,7 +111,7 @@ namespace HSNCustomizations.Graph
                             var DESCRIPTN = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "DESCRIPTN") as PXFieldState)?.Value);
                             content[20] = DESCRIPTN?.Length >= 30 ? DESCRIPTN?.Substring(0,30) : DESCRIPTN;
                             // 22.Left(Customer.atttribute BANKACTML,30)
-                            var BANKACTML = (string)((this.CustomerView.Cache.GetValueExt(customerInfo, PX.Objects.CS.Messages.Attribute + "BANKACTML") as PXFieldState)?.Value);
+                            var BANKACTML = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "BANKACTML") as PXFieldState)?.Value);
                             content[21] = BANKACTML?.Length >= 30 ? BANKACTML?.Substring(0,30) : BANKACTML;
                             // 23.Left(ARPayment.Customer.Address.State,30)
                             content[22] = customerAddress?.State?.Length >= 30 ? customerAddress?.State?.Substring(0,30) : customerAddress?.State;
