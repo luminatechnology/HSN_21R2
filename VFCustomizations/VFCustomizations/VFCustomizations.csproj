@@ -71,6 +71,7 @@
     <Compile Include="Graph\LUMVFAPI2102Process.cs" />
     <Compile Include="Graph\LUMVFAPI3001Process.cs" />
     <Compile Include="Graph\LUMVFAPI6001Process.cs" />
+    <Compile Include="Graph\LUMVFPreferenceMaint.cs" />
     <Compile Include="Graph_Extension\SOOrderEntryExt.cs" />
     <Compile Include="DAC\LUMVFApisetupResult.cs" />
     <Compile Include="Graph_Extension\SOShipmentEntryExt.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Json Entity\VFFTP3Entity.cs" />
     <Compile Include="Json Entity\VFFTP6Entity.cs" />
     <Compile Include="DAC\LUMVFAPISetupHoldResult.cs" />
+    <Compile Include="DAC\LUMVerifonePreference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

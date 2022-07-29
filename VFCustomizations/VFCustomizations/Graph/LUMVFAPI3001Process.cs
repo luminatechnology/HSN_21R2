@@ -84,6 +84,8 @@ namespace VFCustomizations.Graph
                                        .Where<SOShipLine.shipmentNbr.IsEqual<P.AsString>
                                          .And<SOShipLine.shipmentType.IsEqual<P.AsString>>>
                                        .View.Select(baseGraph, selectedItem.ShipmentNbr, selectedItem.ShipmentType).RowCast<SOShipLine>();
+                    var shipAddress = SOShippingAddress.PK.Find(baseGraph, selectedItem?.ShipAddressID);
+                    var shipContact = SOShippingContact.PK.Find(baseGraph,selectedItem?.ShipContactID);
                     // Get First SO Record
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
@@ -94,6 +96,13 @@ namespace VFCustomizations.Graph
                     // SalesOrder Attribute SHIPTOCODE
                     var soAttrShipToCode = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState;
                     entity.ShipToCode = (string)soAttrShipToCode.Value;
+                    entity.ShipToAddress = shipAddress?.AddressLine1 + shipAddress?.AddressLine2;
+                    entity.ShipToContact = shipContact?.Attention;
+                    entity.ShipToName = shipContact?.FullName;
+                    entity.ShipFromCode = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCODE") as PXFieldState)?.Value;
+                    entity.ShipFromName = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRNAME") as PXFieldState)?.Value;
+                    entity.ShipFromAddress = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRADDR") as PXFieldState)?.Value;
+                    entity.ShipFromContact = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCONT") as PXFieldState)?.Value;
                     // Shipment Attribute AWBNO
                     var shipmentAttrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)shipmentAttrAWBNO.Value;

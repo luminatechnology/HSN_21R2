@@ -19,6 +19,18 @@
                     <Prop Key="Width" Value="100" />
                 </PXGridColumn>
             </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrSymptom" />
+                    <Prop Key="Width" Value="280" />
+                </PXGridColumn>
+            </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrResolution" />
+                    <Prop Key="Width" Value="280" />
+                </PXGridColumn>
+            </AddItem>
         </Children>
     </PXGridLevel>
 </Page>

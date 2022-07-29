@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PX.Data.BQL.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using VFCustomizations.DAC;
 using VFCustomizations.Json_Entity.FTP21;
 using VFCustomizations.Json_Entity.FTP22;
 using VFCustomizations.Json_Entity.FTP3;
@@ -22,8 +24,9 @@ namespace VFCustomizations.Descriptor
             {
                 try
                 {
-                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://som.inisis.co.th/token");
-                    requestMessage.Content = new StringContent($"username=hsnapis&password=QzwV8otChu#ZHqIKpRVee&grant_type=password", Encoding.UTF8);
+                    var preference = GetVFPreference();
+                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, preference?.AccessTokenURL);
+                    requestMessage.Content = new StringContent($"username={preference?.Username}&password={preference?.Password}&grant_type=password", Encoding.UTF8);
                     requestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
                     HttpResponseMessage response = client.SendAsync(requestMessage).GetAwaiter().GetResult();
                     var result = JsonConvert.DeserializeObject<VFApiTokenEntity>(response.Content.ReadAsStringAsync().Result);
@@ -44,7 +47,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp21");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api2101url);
                     //JsonConvert.SerializeObject(model).Dump();
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
@@ -66,7 +69,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp22");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api2102url);
                     //JsonConvert.SerializeObject(model).Dump();
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
@@ -88,7 +91,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp3");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api3001url);
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
                     var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
@@ -109,7 +112,7 @@ namespace VFCustomizations.Descriptor
                 try
                 {
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, @"https://som.inisis.co.th:8888/api/ftp/ftp6");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api6001url);
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
                     var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
@@ -121,6 +124,10 @@ namespace VFCustomizations.Descriptor
                 }
             }
         }
+
+        private LUMVerifonePreference GetVFPreference()
+            => SelectFrom<LUMVerifonePreference>.View.Select(new PX.Data.PXGraph()).TopFirst;
+
     }
 
     public class VFApiTokenEntity
