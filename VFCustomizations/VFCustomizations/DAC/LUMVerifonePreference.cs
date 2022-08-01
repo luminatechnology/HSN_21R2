@@ -15,7 +15,8 @@ namespace VFCustomizations.DAC
         #endregion
 
         #region Password
-        [PXDBString(200, IsUnicode = true, InputMask = "")]
+        [PXRSACryptString(200, IsUnicode = true)]
+        //[PXDBString(200, IsUnicode = true, InputMask = "")]
         [PXUIField(DisplayName = "Password")]
         public virtual string Password { get; set; }
         public abstract class password : PX.Data.BQL.BqlString.Field<password> { }
