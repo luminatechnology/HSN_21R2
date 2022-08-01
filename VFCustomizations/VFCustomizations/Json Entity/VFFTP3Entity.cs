@@ -37,7 +37,7 @@ namespace VFCustomizations.Json_Entity.FTP3
         public string ForwarderName { get; set; }
         public object ShipVia { get; set; }
         public string PackingNo { get; set; }
-        public object ETA { get; set; }
+        public string ETA { get; set; }
         public string ExportDate { get; set; }
         public List<JobItem> JobItems { get; set; }
     }

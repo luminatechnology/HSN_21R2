@@ -66,6 +66,7 @@
     <Compile Include="DAC\LUMAcquirerItems.cs" />
     <Compile Include="DAC\SOShipmentKvExt.cs" />
     <Compile Include="DAC_Extension\INTranExtension.cs" />
+    <Compile Include="DAC_Extension\SOShipLineExtension.cs" />
     <Compile Include="Descriptor\VFApiHelper.cs" />
     <Compile Include="Graph\LUMVFAPI2101Process.cs" />
     <Compile Include="Graph\LUMVFAPI2102Process.cs" />

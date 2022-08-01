@@ -127,6 +127,13 @@ namespace VFCustomizations.Graph_Extension
                     e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.holdDate>(e.Row, out newHoldDate);
                     e.Row.HoldDate = (DateTime?)newHoldDate;
                 }
+
+                if(string.IsNullOrEmpty(e.Row.IncidentCatalogName))
+                {
+                    object newIncidentCatalogName;
+                    e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.incidentCatalogName>(e.Row, out newIncidentCatalogName);
+                    e.Row.IncidentCatalogName = (string)newIncidentCatalogName;
+                }
             }
         }
 
@@ -168,6 +175,20 @@ namespace VFCustomizations.Graph_Extension
         {
             e.NewValue = DateTime.Now;
         } 
+
+        public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.incidentCatalogName> e)
+        {
+            var current = Base.Document.Current;
+            if (current != null)
+            {
+                var orderShipmentInfo = GetSOOrderShipmentInfo(current);
+                if (orderShipmentInfo == null)
+                    return;
+                SOOrder soData = soOrderData.Select(orderShipmentInfo?.OrderNbr, orderShipmentInfo?.OrderType);
+                var attr = soOrderData.Cache.GetValueExt(soData, PX.Objects.CS.Messages.Attribute + "SRVCATALOG") as PXFieldState;
+                e.NewValue = attr?.Value;
+            }
+        }
         
         #endregion
 

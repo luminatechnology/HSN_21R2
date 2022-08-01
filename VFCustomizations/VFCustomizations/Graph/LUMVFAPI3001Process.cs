@@ -12,6 +12,7 @@ using PX.Data.BQL.Fluent;
 using PX.Data.BQL;
 using PX.Objects.IN;
 using VFCustomizations.DAC;
+using VFCustomizations.DAC_Extension;
 
 namespace VFCustomizations.Graph
 {
@@ -137,7 +138,7 @@ namespace VFCustomizations.Graph
                                 PartNo = inventoryInfo.InventoryCD.Trim(),
                                 QTY = (int)(soLine.Qty ?? 0),
                                 SerialNo = shiplineSplit?.LotSerialNbr,
-                                PhoneNo = soLine.AlternateID,
+                                PhoneNo = string.IsNullOrEmpty(shipLine.GetExtension<SOShipLineExtension>()?.UsrPhoneNo) ? soLine?.AlternateID : shipLine.GetExtension<SOShipLineExtension>()?.UsrPhoneNo,
                                 TLACondition = string.IsNullOrEmpty(shiplineSplit?.LotSerialNbr) ? null :
                                                string.IsNullOrEmpty(shipLine.ReasonCode) ? "New" : shipLine.ReasonCode
                             });
@@ -146,17 +147,17 @@ namespace VFCustomizations.Graph
                     }
                     // Shipment Attribute PACKINGNO
                     var shipmentAttrPACKINGNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "PACKINGNO") as PXFieldState;
-                    entity.PackingNo = (string)shipmentAttrPACKINGNO.Value;
+                    entity.PackingNo = (string)shipmentAttrPACKINGNO?.Value;
                     // Shipment Attribute ETA
                     var shipmentAttrETA = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "ETA") as PXFieldState;
-                    entity.ETA = shipmentAttrETA.Value;
+                    entity.ETA = ((DateTime?)shipmentAttrETA?.Value)?.ToString("dd/MM/yyyy HH:mm");
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
-                    entity.ShipVia = soAttributeSHIPVIA.Value;
+                    entity.ShipVia = soAttributeSHIPVIA?.Value;
                     entity.ShipToName = shipContactInfo?.FullName;
                     // Shipment Attribute FORWARDER
                     var shipmentAttrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
-                    entity.ForwarderName = (string)shipmentAttrFORWARDER.Value;
+                    entity.ForwarderName = (string)shipmentAttrFORWARDER?.Value;
 
                     var ftpResponse = helper.CallFTP3(entity, apiTokenObj);
                     if (ftpResponse == null)
@@ -220,11 +221,11 @@ namespace VFCustomizations.Graph
             if (kvextInfo.Any(x => x.FieldName == PX.Objects.CS.Messages.Attribute + "API3001DT"))
             {
                 // Update
-                PXUpdate<Set<SOShipmentKvExt.valueNumeric, Required<SOShipmentKvExt.valueDate>>,
+                PXUpdate<Set<SOShipmentKvExt.valueDate, Required<SOShipmentKvExt.valueDate>>,
                     SOShipmentKvExt,
                     Where<SOShipmentKvExt.recordID, Equal<Required<SOShipmentKvExt.recordID>>,
                       And<SOShipmentKvExt.fieldName, Equal<Required<SOShipmentKvExt.fieldName>>>>>
-                    .Update(baseGraph, DateTime.Now, noteid, PX.Objects.CS.Messages.Attribute + "API3001");
+                    .Update(baseGraph, DateTime.Now, noteid, PX.Objects.CS.Messages.Attribute + "API3001DT");
             }
             else
             {
