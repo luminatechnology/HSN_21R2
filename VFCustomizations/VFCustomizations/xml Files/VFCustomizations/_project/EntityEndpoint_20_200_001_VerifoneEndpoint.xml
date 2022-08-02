@@ -71,6 +71,12 @@
                     <Mapping field="JobNo">
                         <To object="transactions" field="UsrJobNo" />
                     </Mapping>
+                    <Mapping field="LotSerialNbr">
+                        <To object="transactions" field="LotSerialNbr" />
+                    </Mapping>
+                    <Mapping field="Quantity">
+                        <To object="transactions" field="Qty" />
+                    </Mapping>
                     <Mapping field="InventoryID">
                         <To object="transactions" field="InventoryID" />
                     </Mapping>
@@ -112,8 +118,10 @@
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="JobNo" type="StringValue" />
                 <Field name="Location" type="StringValue" />
+                <Field name="LotSerialNbr" type="StringValue" />
                 <Field name="PhoneNo" type="StringValue" />
                 <Field name="QtySend" type="DecimalValue" />
+                <Field name="Quantity" type="DecimalValue" />
                 <Field name="Resolution" type="StringValue" />
                 <Field name="Symptom" type="StringValue" />
                 <Field name="Warehouse" type="StringValue" />

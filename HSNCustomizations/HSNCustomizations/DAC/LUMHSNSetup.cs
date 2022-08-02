@@ -145,6 +145,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableCitiOutSourceCheckFile : PX.Data.BQL.BqlBool.Field<enableCitiOutSourceCheckFile> { }
         #endregion
 
+        #region EnableModificationofTaxAmount
+        [PXDBBool()]
+        [PXUIField(DisplayName = "Enable Modification of Tax Amount Copied to Invoices")]
+        public virtual bool? EnableModificationofTaxAmount { get; set; }
+        public abstract class enableModificationofTaxAmount : PX.Data.BQL.BqlBool.Field<enableModificationofTaxAmount> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

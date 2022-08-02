@@ -1,5 +1,5 @@
 ﻿<Report Name="lm644005.rpx">
-    <Report Name="report1" version="20200826">
+    <Report version="20201103" Name="report1">
         <CommonSettings>
             <ViewPdf>True</ViewPdf>
         </CommonSettings>
@@ -11,6 +11,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <Name>icon_warning</Name>
             </EmbeddedImage>
         </EmbeddedImages>
+        <ExportFileName>=[@ExportFileName]</ExportFileName>
         <Filters>
             <FilterExp>
                 <Condition>Less</Condition>
@@ -71,6 +72,13 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <Nullable>True</Nullable>
                 <Prompt>Reference Number</Prompt>
                 <ViewName>=Report.GetFieldSchema('INRegister.RefNbr,DocType')</ViewName>
+            </ReportParameter>
+            <ReportParameter>
+                <DefaultValue>PickListReport</DefaultValue>
+                <Name>ExportFileName</Name>
+                <Nullable>True</Nullable>
+                <Prompt>ExportFileName</Prompt>
+                <Visible>False</Visible>
             </ReportParameter>
         </Parameters>
         <Relations>
@@ -154,7 +162,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <ParentName>LumINTran</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/AcumaticaHSN</SchemaUrl>
+        <SchemaUrl>http://localhost/HSN_2021R2/</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>LumINTran.RefNbr</DataField>
@@ -2920,6 +2928,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <FullName>HSNCustomizations.DAC.LumINTran</FullName>
             </ReportTable>
         </Tables>
+        <Version>20201103</Version>
         <Sections>
             <PageHeader Name="pageHeaderSection1">
                 <Height>1.69312cm</Height>
@@ -2992,7 +3001,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 </Items>
             </PageHeader>
             <Detail Name="detailSection1">
-                <Height>0.63492cm</Height>
+                <Height>0.84656cm</Height>
                 <Variables>
                     <ReportVariable>
                         <Name>LineNbr</Name>
@@ -3003,7 +3012,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <Items>
                     <Line Name="line2">
                         <LineStyle>Dotted</LineStyle>
-                        <Location>0.16667in, 0.16667in</Location>
+                        <Location>16.00032px, 22px</Location>
                         <Size>1000px, 0.08333in</Size>
                     </Line>
                     <TextBox Name="textBox12">
@@ -3032,8 +3041,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox17">
                         <CanGrow>True</CanGrow>
-                        <Location>736px, 0px</Location>
-                        <Size>160px, 16px</Size>
+                        <Location>744px, 0px</Location>
+                        <Size>152px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3043,7 +3052,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     <TextBox Name="textBox27">
                         <CanGrow>True</CanGrow>
                         <Location>656px, 0px</Location>
-                        <Size>72px, 16px</Size>
+                        <Size>80px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3189,7 +3198,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                 <Items>
                                     <TextBox Name="textBox26">
                                         <Location>640px, 0px</Location>
-                                        <Size>72px, 14px</Size>
+                                        <Size>80px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
@@ -3212,8 +3221,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>Qty.</Value>
                                     </TextBox>
                                     <TextBox Name="textBox58">
-                                        <Location>720px, 0px</Location>
-                                        <Size>160px, 14px</Size>
+                                        <Location>728px, 0px</Location>
+                                        <Size>152px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>

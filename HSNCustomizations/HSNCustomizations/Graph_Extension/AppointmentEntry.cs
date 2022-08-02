@@ -6,6 +6,7 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.IN;
 using PX.Objects.CS;
+using PX.Objects.SO;
 using PX.Objects.CR;
 using PX.Objects.CR.Standalone;
 using System;
@@ -282,7 +283,7 @@ namespace PX.Objects.FS
             var details = Base.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>().Where(x => x.LineType == "SLPRO");
             foreach (var item in details)
             {
-                var inventoryInfo = InventoryItem.PK.Find(Base,item?.InventoryID);
+                var inventoryInfo = InventoryItem.PK.Find(Base, item?.InventoryID);
                 var itemclass = INItemClass.PK.Find(Base, inventoryInfo?.ItemClassID);
                 // Line Status != "Cancel" && Stock Item 才做檢核
                 if (item?.Status != "CC" && (itemclass?.StkItem ?? false))
@@ -295,6 +296,44 @@ namespace PX.Objects.FS
                 }
             }
             return Base.InvoiceAppointment(adapter);
+        }
+
+        // [All-Phase2] Enable the modification of TAX Amt in Appointment
+        public delegate void OpenPostingDocumentDelegate();
+        [PXOverride]
+        public virtual void openPostingDocument(OpenPostingDocumentDelegate baseMethod)
+        {
+            try
+            {
+                baseMethod();
+            }
+            catch (PXRedirectRequiredException ex)
+            {
+                // [All-Phase2] Enable the modification of TAX Amt in Appointment
+                var hsnSetup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+                if (ex.Graph is SOInvoiceEntry && (hsnSetup?.EnableModificationofTaxAmount ?? false))
+                {
+                    var invoiceGraph = ex.Graph as SOInvoiceEntry;
+                    var currentDoc = invoiceGraph.Document.Current;
+                    var apptTaxTotal = Base.AppointmentRecords.Current?.CuryTaxTotal;
+                    if (currentDoc != null && currentDoc?.Status == ARDocStatus.Hold && apptTaxTotal != null )
+                    {
+                        // setting Tax
+                        invoiceGraph.Taxes.Current = invoiceGraph.Taxes.Select();
+                        // System Tax
+                        var systemTax = invoiceGraph.Taxes.Current?.CuryTaxAmt ?? 0;
+                        invoiceGraph.Taxes.SetValueExt<ARTaxTran.curyTaxAmt>(invoiceGraph.Taxes.Current, apptTaxTotal);
+                        invoiceGraph.Taxes.Cache.MarkUpdated(invoiceGraph.Taxes.Current);
+                        // setting Document
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyTaxTotal>(invoiceGraph.Document.Current, apptTaxTotal);
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyDocBal>(invoiceGraph.Document.Current, invoiceGraph.Document.Current.CuryDocBal + (apptTaxTotal ?? 0) - systemTax);
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyOrigDocAmt>(invoiceGraph.Document.Current, invoiceGraph.Document.Current.CuryOrigDocAmt + (apptTaxTotal ?? 0) - systemTax);
+                        invoiceGraph.Document.Update(invoiceGraph.Document.Current);
+                        invoiceGraph.Save.Press();
+                    }
+                }
+                throw ex;
+            }
         }
 
         #region Mandatory overwriting and copying of standard methods, future upgrades and modifications must be followed up
