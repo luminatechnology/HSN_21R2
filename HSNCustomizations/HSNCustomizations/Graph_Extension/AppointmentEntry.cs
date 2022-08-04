@@ -41,6 +41,11 @@ namespace PX.Objects.FS
                                                  .And<INRegisterExt.usrAppointmentNbr.IsEqual<FSAppointment.refNbr.FromCurrent>>>>.View INRegisterView;
 
         public SelectFrom<LUMHSNSetup>.View HSNSetupView;
+
+        public SelectFrom<LUMCustomerStaffMapping>
+               .Where<LUMCustomerStaffMapping.customerID.IsEqual<FSServiceOrder.customerID.FromCurrent>
+                   .And<LUMCustomerStaffMapping.locationID.IsEqual<FSServiceOrder.locationID.FromCurrent>>>
+               .View CustomerStaffMappingView;
         #endregion
 
         #region Override Methods
@@ -316,7 +321,7 @@ namespace PX.Objects.FS
                     var invoiceGraph = ex.Graph as SOInvoiceEntry;
                     var currentDoc = invoiceGraph.Document.Current;
                     var apptTaxTotal = Base.AppointmentRecords.Current?.CuryTaxTotal;
-                    if (currentDoc != null && currentDoc?.Status == ARDocStatus.Hold && apptTaxTotal != null )
+                    if (currentDoc != null && currentDoc?.Status == ARDocStatus.Hold && apptTaxTotal != null)
                     {
                         // setting Tax
                         invoiceGraph.Taxes.Current = invoiceGraph.Taxes.Select();
@@ -1206,6 +1211,21 @@ namespace PX.Objects.FS
                     Base.AppointmentSelected.SetValueExt<FSAppointment.actualDateTimeEnd>(row, null);
             }
         }
+
+        public void _(Events.FieldUpdated<FSAppointmentDet.inventoryID> e, PXFieldUpdated baseHandler)
+        {
+            //[Phase II - Staff Selection for Customer Locations]
+            baseHandler?.Invoke(e.Cache, e.Args);
+            SetStaffByCustomer((FSAppointmentDet)e.Row);
+        }
+
+        public void _(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e, PXFieldUpdated baseHandler)
+        {
+            //[Phase II - Staff Selection for Customer Locations]
+            baseHandler?.Invoke(e.Cache, e.Args);
+            SetStaffByCustomer((FSAppointmentDet)e.Row);
+        }
+
         #endregion
 
         #region Actions
@@ -1606,6 +1626,33 @@ namespace PX.Objects.FS
             {
                 if (item.LineType == "SERVI" && !item.SMEquipmentID.HasValue)
                     throw new PXException("Target Equipment ID cannot be blank for service");
+            }
+        }
+
+        /// <summary> Set Staff by Customer </summary>
+        public void SetStaffByCustomer(FSAppointmentDet row)
+        {
+            try
+            {
+                var isEnableDefaulStaff = Base.ServiceOrderTypeSelected?.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByCustomerLocation ?? false;
+                if (!isEnableDefaulStaff || row.LineType != ID.LineType_ALL.SERVICE || !row.InventoryID.HasValue)
+                    return;
+
+                var StaffMappingList = CustomerStaffMappingView.Select().RowCast<LUMCustomerStaffMapping>().ToList();
+                var currentEquipmentType = FSEquipment.PK.Find(Base, row?.SMEquipmentID)?.EquipmentTypeID;
+                if (StaffMappingList?.Count > 0)
+                {
+                    // 先找有設定EquipmentType
+                    var specify = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == currentEquipmentType)?.EmployeeID;
+                    if (specify == null)
+                        specify = StaffMappingList.FirstOrDefault()?.EmployeeID;
+                    if (specify != null)
+                        Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.staffID>(row, specify);
+                }
+            }
+            catch (Exception ex)
+            {
+                PXTrace.WriteInformation($"Set Staff failed ({ex.Message})");
             }
         }
 

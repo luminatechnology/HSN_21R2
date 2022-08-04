@@ -31,5 +31,12 @@ namespace PX.Objects.FS
 		public virtual bool? UsrStaffFilterByBranch { get; set; }
 		public abstract class usrStaffFilterByBranch : PX.Data.BQL.BqlBool.Field<usrStaffFilterByBranch> { }
 		#endregion
+
+		#region UsrStaffFilterByCustomerLocation
+		[PXDBBool()]
+		[PXUIField(DisplayName = "Enable Staff Selection by Customer Location")]
+		public virtual bool? UsrStaffFilterByCustomerLocation { get; set; }
+		public abstract class usrStaffFilterByCustomerLocation : PX.Data.BQL.BqlBool.Field<usrStaffFilterByCustomerLocation> { }
+		#endregion
 	}
 }

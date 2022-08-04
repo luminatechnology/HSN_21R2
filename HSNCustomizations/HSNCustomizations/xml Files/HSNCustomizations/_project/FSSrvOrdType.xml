@@ -3,4 +3,5 @@
     <Column TableName="FSSrvOrdType" ColumnName="UsrOnStaffIsMandStartAppt" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrBringBrandAttr2Txfr" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrStaffFilterByBranch" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="FSSrvOrdType" ColumnName="UsrStaffFilterByCustomerLocation" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

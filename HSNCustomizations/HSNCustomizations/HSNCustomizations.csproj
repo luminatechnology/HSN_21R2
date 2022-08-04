@@ -99,6 +99,7 @@
     <Compile Include="Descriptor\LUMGetAvailablePaymentsAttribute.cs" />
     <Compile Include="Descriptor\LUMTransferPurposeType.cs" />
     <Compile Include="Graph\ClossPrepaymentProcess.cs" />
+    <Compile Include="Graph\LUMCustomerStaffMaint.cs" />
     <Compile Include="Graph\PrintTransferPickingList.cs" />
     <Compile Include="Graph\PrintTransferDeliveryOrder.cs" />
     <Compile Include="Graph\ProcessCitiBankOutsourceCheckMaint.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Graph\PrintTransferProcess.cs" />
     <Compile Include="DAC_Extension\INSiteExtensions.cs" />
     <Compile Include="Graph_Extension\INSiteMaint.cs" />
+    <Compile Include="DAC\LUMCustomerStaffMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
