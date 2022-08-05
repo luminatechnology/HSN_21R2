@@ -1679,7 +1679,7 @@ namespace PX.Objects.FS
             var currentEquipmentType = FSEquipment.PK.Find(Base, SMEquipmentID)?.EquipmentTypeID;
             var specifyStaff = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == currentEquipmentType)?.EmployeeID;
             if (specifyStaff == null)
-                specifyStaff = StaffMappingList.FirstOrDefault()?.EmployeeID;
+                specifyStaff = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == null)?.EmployeeID;
             return specifyStaff;
         }
 
