@@ -1216,14 +1216,14 @@ namespace PX.Objects.FS
         {
             //[Phase II - Staff Selection for Customer Locations]
             baseHandler?.Invoke(e.Cache, e.Args);
-            SetStaffByCustomer((FSAppointmentDet)e.Row);
+            SetStaffByCustomerLocation((FSAppointmentDet)e.Row, e.ExternalCall);
         }
 
         public void _(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e, PXFieldUpdated baseHandler)
         {
             //[Phase II - Staff Selection for Customer Locations]
             baseHandler?.Invoke(e.Cache, e.Args);
-            SetStaffByCustomer((FSAppointmentDet)e.Row);
+            SetStaffByCustomerLocation((FSAppointmentDet)e.Row, e.ExternalCall);
         }
 
         #endregion
@@ -1629,31 +1629,58 @@ namespace PX.Objects.FS
             }
         }
 
-        /// <summary> Set Staff by Customer </summary>
-        public void SetStaffByCustomer(FSAppointmentDet row)
+        /// <summary> Set Staff by Customer [Phase II - Staff Selection for Customer Locations]</summary>
+        public void SetStaffByCustomerLocation(FSAppointmentDet row, bool ExternalCall)
+        {
+            try
+            {
+                var isEnableDefaulStaff = Base.ServiceOrderTypeSelected?.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByCustomerLocation ?? false;
+                if (!isEnableDefaulStaff || row.LineType != ID.LineType_ALL.SERVICE || !row.InventoryID.HasValue || !ExternalCall)
+                    return;
+
+                var assignStaff = GetCustomerLocationAssignStaffID(row?.SMEquipmentID);
+                if (assignStaff != null)
+                    Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.staffID>(row, assignStaff);
+            }
+            catch (Exception ex)
+            {
+                PXTrace.WriteInformation($"Set Staff failed ({ex.Message})");
+            }
+        }
+
+        /// <summary> Insert Staff record [Phase II - Staff Selection for Customer Locations] </summary>
+        public void InsertStaffManual(AppointmentEntry baseGraph, FSAppointmentDet row)
         {
             try
             {
                 var isEnableDefaulStaff = Base.ServiceOrderTypeSelected?.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByCustomerLocation ?? false;
                 if (!isEnableDefaulStaff || row.LineType != ID.LineType_ALL.SERVICE || !row.InventoryID.HasValue)
                     return;
-
-                var StaffMappingList = CustomerStaffMappingView.Select().RowCast<LUMCustomerStaffMapping>().ToList();
-                var currentEquipmentType = FSEquipment.PK.Find(Base, row?.SMEquipmentID)?.EquipmentTypeID;
-                if (StaffMappingList?.Count > 0)
+                var assignStaff = GetCustomerLocationAssignStaffID(row?.SMEquipmentID);
+                if (assignStaff != null)
                 {
-                    // 先找有設定EquipmentType
-                    var specify = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == currentEquipmentType)?.EmployeeID;
-                    if (specify == null)
-                        specify = StaffMappingList.FirstOrDefault()?.EmployeeID;
-                    if (specify != null)
-                        Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.staffID>(row, specify);
+                    var staffRow = baseGraph.AppointmentServiceEmployees.Cache.Insert(baseGraph.AppointmentServiceEmployees.Cache.CreateInstance()) as FSAppointmentEmployee;
+                    baseGraph.AppointmentServiceEmployees.Cache.SetValueExt<FSAppointmentEmployee.employeeID>(staffRow, assignStaff);
+                    baseGraph.AppointmentServiceEmployees.Cache.SetValueExt<FSAppointmentEmployee.serviceLineRef>(staffRow, row.LineRef);
+                    // Update Detail Staff
+                    baseGraph.AppointmentDetails.Cache.SetValue<FSAppointmentDet.staffID>(row, assignStaff);
                 }
             }
             catch (Exception ex)
             {
-                PXTrace.WriteInformation($"Set Staff failed ({ex.Message})");
+                PXTrace.WriteInformation($"Insert Staff failed ({ex.Message})");
             }
+        }
+
+        /// <summary> Get Customer Location Assign Staff [Phase II - Staff Selection for Customer Locations] </summary>
+        public int? GetCustomerLocationAssignStaffID(int? SMEquipmentID)
+        {
+            var StaffMappingList = CustomerStaffMappingView.Select().RowCast<LUMCustomerStaffMapping>().ToList();
+            var currentEquipmentType = FSEquipment.PK.Find(Base, SMEquipmentID)?.EquipmentTypeID;
+            var specifyStaff = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == currentEquipmentType)?.EmployeeID;
+            if (specifyStaff == null)
+                specifyStaff = StaffMappingList.FirstOrDefault()?.EmployeeID;
+            return specifyStaff;
         }
 
         #endregion
