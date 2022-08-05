@@ -57,6 +57,8 @@ namespace HSNFinance
         protected virtual void _(Events.RowSelected<LSLedgerSettlement> e)
         {
             LedgerStlmt.Cache.AllowDelete = LedgerStlmt.AllowUpdate = LedgerStlmt.AllowInsert = false;
+
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.selected>(e.Cache, e.Row, true); 
         }
         #endregion
     }
