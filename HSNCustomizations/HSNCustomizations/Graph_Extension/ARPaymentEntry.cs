@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using HSNCustomizations.DAC;
+using HSNCustomizations.DAC_Extension;
 using PX.Data;
+using PX.Data.BQL.Fluent;
 
 namespace PX.Objects.AR
 {
@@ -34,6 +37,20 @@ namespace PX.Objects.AR
         [PXMergeAttributes(Method = MergeMethod.Merge)]
         [HSNCustomizations.Descriptor.ARPymtNumbering()]
         protected void _(Events.CacheAttached<ARPayment.refNbr> e) { }
+        #endregion
+
+        #region Events
+
+        public virtual void _(Events.RowSelected<ARPayment> e, PXRowSelected baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+
+            LUMHSNSetup hSNSetup = SelectFrom<LUMHSNSetup>.View.Select(Base);
+            // [Phase II - SCB Refund]
+            PXUIFieldAttribute.SetVisible<ARPaymentExt.usrSCBPaymentRefundExported>(e.Cache, null, hSNSetup?.EnableSCBPaymentFile ?? false);
+            PXUIFieldAttribute.SetVisible<ARPaymentExt.usrSCBPaymentRefundDateTime>(e.Cache, null, hSNSetup?.EnableSCBPaymentFile ?? false);
+        }
+
         #endregion
     }
 }

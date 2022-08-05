@@ -1,0 +1,22 @@
+﻿<Sql TableName="LUMCustomerStaffMapping" TableSchemaXml="#CDATA">
+    <CDATA name="TableSchemaXml"><![CDATA[<table name="LUMCustomerStaffMapping">
+  <col name="CompanyID" type="Int" default="Zero" />
+  <col name="CustomerID" type="Int" />
+  <col name="LocationID" type="Int" />
+  <col name="EmployeeID" type="Int" />
+  <col name="EquipmentTypeID" type="Int" nullable="true" />
+  <col name="CreatedByID" type="UniqueIdentifier" />
+  <col name="CreatedByScreenID" type="Char(8)" />
+  <col name="CreatedDateTime" type="DateTime" />
+  <col name="LastModifiedByID" type="UniqueIdentifier" />
+  <col name="LastModifiedByScreenID" type="Char(8)" />
+  <col name="LastModifiedDateTime" type="DateTime" />
+  <col name="tstamp" type="Timestamp" />
+  <index name="PK_LUMCustomerStaffMapping" clustered="true" primary="true" unique="true">
+    <col name="CompanyID" />
+    <col name="CustomerID" />
+    <col name="LocationID" />
+    <col name="EmployeeID" />
+  </index>
+</table>]]></CDATA>
+</Sql>

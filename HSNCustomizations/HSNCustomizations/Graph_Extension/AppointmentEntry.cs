@@ -6,6 +6,7 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.IN;
 using PX.Objects.CS;
+using PX.Objects.SO;
 using PX.Objects.CR;
 using PX.Objects.CR.Standalone;
 using System;
@@ -40,6 +41,11 @@ namespace PX.Objects.FS
                                                  .And<INRegisterExt.usrAppointmentNbr.IsEqual<FSAppointment.refNbr.FromCurrent>>>>.View INRegisterView;
 
         public SelectFrom<LUMHSNSetup>.View HSNSetupView;
+
+        public SelectFrom<LUMCustomerStaffMapping>
+               .Where<LUMCustomerStaffMapping.customerID.IsEqual<FSServiceOrder.customerID.FromCurrent>
+                   .And<LUMCustomerStaffMapping.locationID.IsEqual<FSServiceOrder.locationID.FromCurrent>>>
+               .View CustomerStaffMappingView;
         #endregion
 
         #region Override Methods
@@ -282,7 +288,7 @@ namespace PX.Objects.FS
             var details = Base.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>().Where(x => x.LineType == "SLPRO");
             foreach (var item in details)
             {
-                var inventoryInfo = InventoryItem.PK.Find(Base,item?.InventoryID);
+                var inventoryInfo = InventoryItem.PK.Find(Base, item?.InventoryID);
                 var itemclass = INItemClass.PK.Find(Base, inventoryInfo?.ItemClassID);
                 // Line Status != "Cancel" && Stock Item 才做檢核
                 if (item?.Status != "CC" && (itemclass?.StkItem ?? false))
@@ -295,6 +301,44 @@ namespace PX.Objects.FS
                 }
             }
             return Base.InvoiceAppointment(adapter);
+        }
+
+        // [All-Phase2] Enable the modification of TAX Amt in Appointment
+        public delegate void OpenPostingDocumentDelegate();
+        [PXOverride]
+        public virtual void openPostingDocument(OpenPostingDocumentDelegate baseMethod)
+        {
+            try
+            {
+                baseMethod();
+            }
+            catch (PXRedirectRequiredException ex)
+            {
+                // [All-Phase2] Enable the modification of TAX Amt in Appointment
+                var hsnSetup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+                if (ex.Graph is SOInvoiceEntry && (hsnSetup?.EnableModificationofTaxAmount ?? false))
+                {
+                    var invoiceGraph = ex.Graph as SOInvoiceEntry;
+                    var currentDoc = invoiceGraph.Document.Current;
+                    var apptTaxTotal = Base.AppointmentRecords.Current?.CuryTaxTotal;
+                    if (currentDoc != null && currentDoc?.Status == ARDocStatus.Hold && apptTaxTotal != null)
+                    {
+                        // setting Tax
+                        invoiceGraph.Taxes.Current = invoiceGraph.Taxes.Select();
+                        // System Tax
+                        var systemTax = invoiceGraph.Taxes.Current?.CuryTaxAmt ?? 0;
+                        invoiceGraph.Taxes.SetValueExt<ARTaxTran.curyTaxAmt>(invoiceGraph.Taxes.Current, apptTaxTotal);
+                        invoiceGraph.Taxes.Cache.MarkUpdated(invoiceGraph.Taxes.Current);
+                        // setting Document
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyTaxTotal>(invoiceGraph.Document.Current, apptTaxTotal);
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyDocBal>(invoiceGraph.Document.Current, invoiceGraph.Document.Current.CuryDocBal + (apptTaxTotal ?? 0) - systemTax);
+                        invoiceGraph.Document.SetValueExt<ARInvoice.curyOrigDocAmt>(invoiceGraph.Document.Current, invoiceGraph.Document.Current.CuryOrigDocAmt + (apptTaxTotal ?? 0) - systemTax);
+                        invoiceGraph.Document.Update(invoiceGraph.Document.Current);
+                        invoiceGraph.Save.Press();
+                    }
+                }
+                throw ex;
+            }
         }
 
         #region Mandatory overwriting and copying of standard methods, future upgrades and modifications must be followed up
@@ -1167,6 +1211,21 @@ namespace PX.Objects.FS
                     Base.AppointmentSelected.SetValueExt<FSAppointment.actualDateTimeEnd>(row, null);
             }
         }
+
+        public void _(Events.FieldUpdated<FSAppointmentDet.inventoryID> e, PXFieldUpdated baseHandler)
+        {
+            //[Phase II - Staff Selection for Customer Locations]
+            baseHandler?.Invoke(e.Cache, e.Args);
+            SetStaffByCustomerLocation((FSAppointmentDet)e.Row, e.ExternalCall);
+        }
+
+        public void _(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e, PXFieldUpdated baseHandler)
+        {
+            //[Phase II - Staff Selection for Customer Locations]
+            baseHandler?.Invoke(e.Cache, e.Args);
+            SetStaffByCustomerLocation((FSAppointmentDet)e.Row, e.ExternalCall);
+        }
+
         #endregion
 
         #region Actions
@@ -1568,6 +1627,60 @@ namespace PX.Objects.FS
                 if (item.LineType == "SERVI" && !item.SMEquipmentID.HasValue)
                     throw new PXException("Target Equipment ID cannot be blank for service");
             }
+        }
+
+        /// <summary> Set Staff by Customer [Phase II - Staff Selection for Customer Locations]</summary>
+        public void SetStaffByCustomerLocation(FSAppointmentDet row, bool ExternalCall)
+        {
+            try
+            {
+                var isEnableDefaulStaff = Base.ServiceOrderTypeSelected?.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByCustomerLocation ?? false;
+                if (!isEnableDefaulStaff || row.LineType != ID.LineType_ALL.SERVICE || !row.InventoryID.HasValue || !ExternalCall)
+                    return;
+
+                var assignStaff = GetCustomerLocationAssignStaffID(row?.SMEquipmentID);
+                if (assignStaff != null)
+                    Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.staffID>(row, assignStaff);
+            }
+            catch (Exception ex)
+            {
+                PXTrace.WriteInformation($"Set Staff failed ({ex.Message})");
+            }
+        }
+
+        /// <summary> Insert Staff record [Phase II - Staff Selection for Customer Locations] </summary>
+        public void InsertStaffManual(AppointmentEntry baseGraph, FSAppointmentDet row)
+        {
+            try
+            {
+                var isEnableDefaulStaff = Base.ServiceOrderTypeSelected?.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrStaffFilterByCustomerLocation ?? false;
+                if (!isEnableDefaulStaff || row.LineType != ID.LineType_ALL.SERVICE || !row.InventoryID.HasValue)
+                    return;
+                var assignStaff = GetCustomerLocationAssignStaffID(row?.SMEquipmentID);
+                if (assignStaff != null)
+                {
+                    var staffRow = baseGraph.AppointmentServiceEmployees.Cache.Insert(baseGraph.AppointmentServiceEmployees.Cache.CreateInstance()) as FSAppointmentEmployee;
+                    baseGraph.AppointmentServiceEmployees.Cache.SetValueExt<FSAppointmentEmployee.employeeID>(staffRow, assignStaff);
+                    baseGraph.AppointmentServiceEmployees.Cache.SetValueExt<FSAppointmentEmployee.serviceLineRef>(staffRow, row.LineRef);
+                    // Update Detail Staff
+                    baseGraph.AppointmentDetails.Cache.SetValue<FSAppointmentDet.staffID>(row, assignStaff);
+                }
+            }
+            catch (Exception ex)
+            {
+                PXTrace.WriteInformation($"Insert Staff failed ({ex.Message})");
+            }
+        }
+
+        /// <summary> Get Customer Location Assign Staff [Phase II - Staff Selection for Customer Locations] </summary>
+        public int? GetCustomerLocationAssignStaffID(int? SMEquipmentID)
+        {
+            var StaffMappingList = CustomerStaffMappingView.Select().RowCast<LUMCustomerStaffMapping>().ToList();
+            var currentEquipmentType = FSEquipment.PK.Find(Base, SMEquipmentID)?.EquipmentTypeID;
+            var specifyStaff = StaffMappingList.FirstOrDefault(x => x.EquipmentTypeID == currentEquipmentType)?.EmployeeID;
+            if (specifyStaff == null)
+                specifyStaff = StaffMappingList.FirstOrDefault()?.EmployeeID;
+            return specifyStaff;
         }
 
         #endregion

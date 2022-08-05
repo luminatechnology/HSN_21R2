@@ -191,6 +191,9 @@ namespace PX.Objects.FS
                         graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.manualPrice>(item, true);
                         graphAppointmentEntry.AppointmentDetails.SetValueExt<FSAppointmentDet.curyUnitPrice>(item, currentDetailLine?.CuryUnitPrice);
                     }
+
+                    // [Phase II - Staff Selection for Customer Locations]
+                    graphAppointmentEntry.GetExtension<AppointmentEntry_Extension>().InsertStaffManual(graphAppointmentEntry, item);
                 }
                 throw new PXRedirectRequiredException(graphAppointmentEntry, null);
             }

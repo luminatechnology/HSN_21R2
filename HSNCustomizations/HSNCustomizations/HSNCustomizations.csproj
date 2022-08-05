@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAC\INRegisterKvExt.cs" />
+    <Compile Include="DAC\LumProcessSCBPaymentRefundFilter.cs" />
     <Compile Include="DAC\v_APRegisterUDFAttir.cs" />
     <Compile Include="DAC\LUMAutoWorkflowStage.cs" />
     <Compile Include="DAC\LumINTran.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="DAC\LumStageControl.cs" />
     <Compile Include="DAC\LUMTermsConditions.cs" />
     <Compile Include="DAC_Extension\APPaymentExtensions.cs" />
+    <Compile Include="DAC_Extension\ARPaymentExtension.cs" />
     <Compile Include="DAC_Extension\CROpportunityExtensions.cs" />
     <Compile Include="DAC_Extension\CROpportunityProductsExtensions.cs" />
     <Compile Include="DAC_Extension\FSManufacturerModelExtension.cs" />
@@ -97,12 +99,14 @@
     <Compile Include="Descriptor\LUMGetAvailablePaymentsAttribute.cs" />
     <Compile Include="Descriptor\LUMTransferPurposeType.cs" />
     <Compile Include="Graph\ClossPrepaymentProcess.cs" />
+    <Compile Include="Graph\LUMCustomerStaffMaint.cs" />
     <Compile Include="Graph\PrintTransferPickingList.cs" />
     <Compile Include="Graph\PrintTransferDeliveryOrder.cs" />
     <Compile Include="Graph\ProcessCitiBankOutsourceCheckMaint.cs" />
     <Compile Include="Graph\ProcessCitiBankReturnCheckMaint.cs" />
     <Compile Include="Graph\ProcessCitiBankTTPaymentMaint.cs" />
     <Compile Include="Graph\ProcessSCBPaymentMaint.cs" />
+    <Compile Include="Graph\ProcessSCBPaymentRefundMaint.cs" />
     <Compile Include="Graph_Extension\APPaymentEntry.cs" />
     <Compile Include="Graph_Extension\ARPaymentEntry.cs" />
     <Compile Include="Graph_Extension\CADepositEntry.cs" />
@@ -132,6 +136,7 @@
     <Compile Include="Graph\PrintTransferProcess.cs" />
     <Compile Include="DAC_Extension\INSiteExtensions.cs" />
     <Compile Include="Graph_Extension\INSiteMaint.cs" />
+    <Compile Include="DAC\LUMCustomerStaffMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

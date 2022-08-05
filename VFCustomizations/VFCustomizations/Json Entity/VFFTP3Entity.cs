@@ -27,11 +27,17 @@ namespace VFCustomizations.Json_Entity.FTP3
         public string DeliveryDate { get; set; }
         public string ShipToCode { get; set; }
         public string ShipToName { get; set; }
+        public string ShipToAddress { get;set;}
+        public string ShipToContact { get;set;}
+        public string ShipFromCode { get;set;}
+        public string ShipFromName { get;set;}
+        public string ShipFromAddress { get;set;}
+        public string ShipFromContact { get;set;}
         public string AWBNo { get; set; }
         public string ForwarderName { get; set; }
         public object ShipVia { get; set; }
         public string PackingNo { get; set; }
-        public object ETA { get; set; }
+        public string ETA { get; set; }
         public string ExportDate { get; set; }
         public List<JobItem> JobItems { get; set; }
     }

@@ -30,5 +30,19 @@ namespace VFCustomizations.DAC_Extension
         public virtual decimal? UsrQtySend { get; set; }
         public abstract class usrQtySend : PX.Data.BQL.BqlDecimal.Field<usrQtySend> { }
         #endregion
+
+        #region UsrSymptom
+        [PXDBString(500, IsUnicode = true)]
+        [PXUIField(DisplayName = "Symptom", Visible = false)]
+        public virtual string UsrSymptom { get; set; }
+        public abstract class usrSymptom : PX.Data.BQL.BqlString.Field<usrSymptom> { }
+        #endregion
+
+        #region UsrResolution
+        [PXDBString(2500, IsUnicode = true)]
+        [PXUIField(DisplayName = "Resolution", Visible = false)]
+        public virtual string UsrResolution { get; set; }
+        public abstract class usrResolution : PX.Data.BQL.BqlString.Field<usrResolution> { }
+        #endregion
     }
 }

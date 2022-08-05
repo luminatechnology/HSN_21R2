@@ -24,8 +24,13 @@ namespace PX.Objects.SO
         {
 
             #region [All-Phase2] Add a Validation for Qty Available by Warehouse and Location
-            // Invoice and Debit memo 才檢查
-            if (Base.Document.Current?.DocType == "INV" || Base.Document.Current?.DocType == "DRM")
+            // 如果事先Update IN 就不用檢查
+            var soOrderShipmentInfo = SelectFrom<SOOrderShipment>
+                                      .Where<SOOrderShipment.invoiceNbr.IsEqual<P.AsString>
+                                        .And<SOOrderShipment.invoiceType.IsEqual<P.AsString>>>
+                                      .View.Select(Base, Base.Document.Current?.RefNbr, Base.Document.Current?.DocType).TopFirst;
+            // (Invoice or Debit memo) AND 沒有Update IN 才檢查 
+            if ((Base.Document.Current?.DocType == "INV" || Base.Document.Current?.DocType == "DRM") && string.IsNullOrEmpty(soOrderShipmentInfo?.InvtRefNbr))
             {
                 foreach (ARTran item in Base.Transactions.Cache.Cached.RowCast<ARTran>())
                 {
@@ -52,7 +57,7 @@ namespace PX.Objects.SO
             if (tranRows != null)
             {
                 var fsARTran = FSARTran.PK.Find(Base, doc.DocType, doc.RefNbr, tranRows.LineNbr);
-                if (!string.IsNullOrEmpty(fsARTran.AppointmentRefNbr) && !string.IsNullOrEmpty(fsARTran.ServiceOrderRefNbr) && !string.IsNullOrEmpty(fsARTran.SrvOrdType))
+                if (!string.IsNullOrEmpty(fsARTran?.AppointmentRefNbr) && !string.IsNullOrEmpty(fsARTran?.ServiceOrderRefNbr) && !string.IsNullOrEmpty(fsARTran?.SrvOrdType))
                     UpdateAppointmentStageManual(fsARTran.AppointmentRefNbr, fsARTran.ServiceOrderRefNbr, fsARTran.SrvOrdType);
             }
             return releaseResult;
