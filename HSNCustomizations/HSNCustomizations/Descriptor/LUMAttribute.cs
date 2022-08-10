@@ -176,68 +176,18 @@ namespace HSNCustomizations.Descriptor
     // [All-Phase2] Add a Control to enable the staff selection by Branch in Appointments
     public class LUMGetStaffByBranchAttribute : PXCustomSelectorAttribute
     {
-        public class StaffProviderRec : IBqlTable
-        {
-            #region BAccountID
-            [PXDBInt]
-            [PXUIField(DisplayName = "BAccountID", Visibility = PXUIVisibility.SelectorVisible)]
-            public virtual int? BAccountID { get; set; }
-            public abstract class bAccountID : PX.Data.IBqlField { }
-
-            #endregion
-
-            #region AcctCD
-            [PXDBString(128, InputMask = "", IsUnicode = true)]
-            [PXUIField(DisplayName = "AcctCD", Visibility = PXUIVisibility.SelectorVisible)]
-            public virtual string AcctCD { get; set; }
-            public abstract class acctCD : PX.Data.IBqlField { }
-
-            #endregion
-
-            #region AcctName
-            [PXDBString(128, InputMask = "", IsUnicode = true)]
-            [PXUIField(DisplayName = "AcctName", Visibility = PXUIVisibility.SelectorVisible)]
-            public virtual string AcctName { get; set; }
-            public abstract class acctName : PX.Data.IBqlField { }
-            #endregion
-
-            #region Type
-            [EmployeeType.List()]
-            [PXDBString(2, IsFixed = true)]
-            [PXUIField(DisplayName = "Type", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
-            public virtual string Type { get; set; }
-            public abstract class type : PX.Data.IBqlField { }
-            #endregion
-
-            #region Status
-            [PXDBString(1, IsFixed = true)]
-            [PXUIField(DisplayName = "Status", Visibility = PXUIVisibility.SelectorVisible)]
-            public virtual string Status { get; set; }
-            public abstract class status : PX.Data.IBqlField { }
-            #endregion
-
-            #region PositionID
-            [PXDBString(10, IsUnicode = true)]
-            [PXUIField(DisplayName = "Position", Visibility = PXUIVisibility.SelectorVisible)]
-            public virtual string PositionID { get; set; }
-            public abstract class positionID : PX.Data.IBqlField { }
-            #endregion
-
-        }
-
         public LUMGetStaffByBranchAttribute() : base(
-                           typeof(StaffProviderRec.bAccountID),
+                           typeof(BAccountStaffMember.bAccountID),
                            new Type[]
             {
-                           typeof(StaffProviderRec.acctCD),
-                           typeof(StaffProviderRec.acctName),
-                           typeof(StaffProviderRec.type),
-                           typeof(StaffProviderRec.status),
-                           typeof(StaffProviderRec.positionID)
+                           typeof(BAccountStaffMember.acctCD),
+                           typeof(BAccountStaffMember.acctName),
+                           typeof(BAccountStaffMember.type),
+                           typeof(BAccountStaffMember.status)
             })
         {
-            DescriptionField = typeof(StaffProviderRec.acctName);
-            SubstituteKey = typeof(StaffProviderRec.acctCD);
+            DescriptionField = typeof(BAccountStaffMember.acctName);
+            SubstituteKey = typeof(BAccountStaffMember.acctCD);
         }
 
         public override void FieldVerifying(PXCache sender, PXFieldVerifyingEventArgs e) { }
@@ -317,26 +267,24 @@ namespace HSNCustomizations.Descriptor
                 if (apppintmentRecord != null && isFilter)
                 {
                     if (staffBranchID == currentBranchID)
-                        yield return new StaffProviderRec
+                        yield return new BAccountStaffMember
                         {
                             AcctCD = staff.AcctCD,
                             BAccountID = staff.BAccountID,
                             AcctName = staff.AcctName,
                             Type = staff.Type,
-                            Status = statusDic[staff.Status],
-                            PositionID = post.PositionID
+                            Status = statusDic[staff.Status]
                         };
                 }
                 // 如果找不到Appointment header or 不需要篩選則回傳標準
                 else
-                    yield return new StaffProviderRec
+                    yield return new BAccountStaffMember
                     {
                         AcctCD = staff.AcctCD,
                         BAccountID = staff.BAccountID,
                         AcctName = staff.AcctName,
                         Type = staff.Type,
-                        Status = statusDic[staff.Status],
-                        PositionID = post.PositionID
+                        Status = statusDic[staff.Status]
                     };
             }
         }
