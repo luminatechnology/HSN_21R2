@@ -21,10 +21,18 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
         </Filters>
         <MailSettings>
             <ActivitySource>INRegister.NoteID</ActivitySource>
-            <ParentSource>
-            </ParentSource>
-            <TemplateID>
-            </TemplateID>
+            <Bcc>
+            </Bcc>
+            <Body>
+            </Body>
+            <Cc>
+            </Cc>
+            <Format>
+            </Format>
+            <Subject>
+            </Subject>
+            <To>
+            </To>
         </MailSettings>
         <PageSettings>
             <Landscape>True</Landscape>
@@ -3001,7 +3009,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 </Items>
             </PageHeader>
             <Detail Name="detailSection1">
-                <Height>0.84656cm</Height>
+                <Height>1.26984cm</Height>
                 <Variables>
                     <ReportVariable>
                         <Name>LineNbr</Name>
@@ -3012,7 +3020,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <Items>
                     <Line Name="line2">
                         <LineStyle>Dotted</LineStyle>
-                        <Location>16.00032px, 22px</Location>
+                        <Location>16.00032px, 32px</Location>
                         <Size>1000px, 0.08333in</Size>
                     </Line>
                     <TextBox Name="textBox12">
@@ -3051,8 +3059,9 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox27">
                         <CanGrow>True</CanGrow>
-                        <Location>656px, 0px</Location>
-                        <Size>80px, 16px</Size>
+                        <CanSplit>True</CanSplit>
+                        <Location>648px, 0px</Location>
+                        <Size>96px, 32px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3197,8 +3206,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                 </Style>
                                 <Items>
                                     <TextBox Name="textBox26">
-                                        <Location>640px, 0px</Location>
-                                        <Size>80px, 14px</Size>
+                                        <Location>632px, 0px</Location>
+                                        <Size>96px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
