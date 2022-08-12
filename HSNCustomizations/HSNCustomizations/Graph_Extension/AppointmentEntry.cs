@@ -216,7 +216,7 @@ namespace PX.Objects.FS
                         {
                             foreach (var deletedItem in detailDeleteRecord)
                             {
-                                var currentLine = srvGraph.ServiceOrderDetails.Select().RowCast<FSSODet>().FirstOrDefault(x => x.LineNbr == deletedItem.OrigLineNbr && x.InventoryID == deletedItem.InventoryID);
+                                var currentLine = srvGraph.ServiceOrderDetails.Select().RowCast<FSSODet>().FirstOrDefault(x => x.LineRef == deletedItem.LineRef && x.InventoryID == deletedItem.InventoryID);
                                 if (currentLine != null)
                                     srvGraph.ServiceOrderDetails.Cache.Delete(currentLine);
                             }

@@ -47,6 +47,8 @@ namespace PX.Objects.AR
 
             LUMHSNSetup hSNSetup = SelectFrom<LUMHSNSetup>.View.Select(Base);
             // [Phase II - SCB Refund]
+            PXUIFieldAttribute.SetEnabled<ARPaymentExt.usrSCBPaymentRefundExported>(e.Cache, null, false);
+            PXUIFieldAttribute.SetEnabled<ARPaymentExt.usrSCBPaymentRefundDateTime>(e.Cache, null, false);
             PXUIFieldAttribute.SetVisible<ARPaymentExt.usrSCBPaymentRefundExported>(e.Cache, null, hSNSetup?.EnableSCBPaymentFile ?? false);
             PXUIFieldAttribute.SetVisible<ARPaymentExt.usrSCBPaymentRefundDateTime>(e.Cache, null, hSNSetup?.EnableSCBPaymentFile ?? false);
         }

@@ -134,5 +134,27 @@
                 <Field name="Qty" type="DecimalValue" />
             </Fields>
         </Detail>
+        <TopLevelEntity name="VFAPIInterface" screen="LM502024">
+            <Fields>
+                <Field name="ApiName" type="StringValue" />
+                <Field name="JsonSource" type="StringValue" />
+                <Field name="ServiceType" type="StringValue" />
+                <Field name="UniqueID" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="ApiName">
+                    <To object="VFSourceData" field="Apiname" />
+                </Mapping>
+                <Mapping field="ServiceType">
+                    <To object="VFSourceData" field="ServiceType" />
+                </Mapping>
+                <Mapping field="UniqueID">
+                    <To object="VFSourceData" field="UniqueID" />
+                </Mapping>
+                <Mapping field="JsonSource">
+                    <To object="VFSourceData" field="JsonSource" />
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
     </Endpoint>
 </EntityEndpoint>
