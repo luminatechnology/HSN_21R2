@@ -251,7 +251,8 @@ namespace HSNCustomizations.Graph
             }
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             // [Phase II - rename export file name]
-            parameters.Add("ExportFileName", $"Picking List {string.Join("/", list.ToList().Select(x => x.GetExtension<INRegisterExt>()?.UsrPickingListNumber))}");
+            var fileNames = list.ToList().Select(x => x.GetExtension<INRegisterExt>()?.UsrPickingListNumber).Distinct();
+            parameters.Add("ExportFileName", $"{(fileNames?.Count() > 10 ? "Picking List" + string.Join("_", fileNames.Take(10)) + ",etc" : "Picking List" + string.Join("_", fileNames.Take(10)))}");
             throw new PXReportRequiredException(parameters, transferFilter.ReportType.Replace("RE", "LM"), $"Report {transferFilter.ReportType.Replace("RE", "LM")}");
         }
 
