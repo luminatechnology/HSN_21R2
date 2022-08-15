@@ -1186,6 +1186,23 @@ namespace PX.Objects.FS
             }
         }
 
+        protected void _(Events.RowDeleting<FSAppointmentDet> e, PXRowDeleting baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+
+            ///<remarks>
+            /// 用Ref. Nbr.去對應，做過initiate RMA 或part request對應的 appointment中的inventory，不能做刪除
+            ///</remarks>
+            if (SelectFrom<INTran>.InnerJoin<INRegister>.On<INRegister.docType.IsEqual<INTran.docType>
+                                                            .And<INRegister.refNbr.IsEqual<INTran.refNbr>>>
+                                  .Where<INRegisterExt.usrSrvOrdType.IsEqual<@P.AsString>
+                                         .And<INRegisterExt.usrAppointmentNbr.IsEqual<@P.AsString>
+                                              .And<INTranExt.usrApptLineRef.IsEqual<@P.AsString>>>>.View.Select(Base, e.Row.SrvOrdType, e.Row.RefNbr, e.Row.LineRef).Count > 0)
+            {
+                throw new PXSetPropertyException(HSNMessages.ApptDetExistInvtTran, PXErrorLevel.RowError);
+            }
+        }
+
         protected void _(Events.FieldUpdated<FSAppointmentExt.usrTransferToHQ> e)
         {
             if (e.NewValue != null && (bool)e.NewValue == true)
