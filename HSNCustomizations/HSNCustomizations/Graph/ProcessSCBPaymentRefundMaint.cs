@@ -83,7 +83,7 @@ namespace HSNCustomizations.Graph
                                                     View.Select(this, CompanyInfo.BAccountID).TopFirst;
                             var customerInfo = CustomerView.Select(arLine.CustomerID).TopFirst;
                             var customerAddress = Address.PK.Find(this, customerInfo?.DefAddressID);
-                            string[] content = new string[114];
+                            string[] content = new string[115];
                             // 1.PLG
                             content[0] = "PLG";
                             // 3.If CashAccount.ExtRefNbr<> blank then CashAccount.ExtRefNbr Else '312143582508'
@@ -91,35 +91,35 @@ namespace HSNCustomizations.Graph
                             // 4.ARPayment.curyID
                             content[3] = arLine.CuryID;
                             // 5.ARPayment.CuryOrigDocAmt
-                            content[5] = arLine.CuryOrigDocAmt?.ToString();
+                            content[4] = arLine.CuryOrigDocAmt?.ToString();
                             // 7.ARPayment.adjDate
-                            content[6] = arLine.AdjDate?.ToString("yyyy/MM/dd");
+                            content[6] = arLine.AdjDate?.ToString("yyyyMMdd");
                             // 8.ARPayment.RefNbr
-                            content[8] = arLine.RefNbr;
-                            // 14.Left(Companies.AccontName, 30)
-                            content[13] = CompanyInfo?.AcctName?.Length >= 30 ? CompanyInfo?.AcctName?.Substring(0,30) : CompanyInfo?.AcctName;
-                            // 15.Left(CompaniesAddress.Addressline1,30)
-                            content[14] = CompanyAddress?.AddressLine1?.Length >= 30 ? CompanyAddress?.AddressLine1?.Substring(0,30) : CompanyAddress?.AddressLine1;
-                            // 16.Left(CompaniesAddress.Addressline2 + ‘, ’+ Postalcode,30)
-                            content[15] = (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Length >= 30 ? (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Substring(0,30) : CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode;
-                            // 17.Left(CompaniesAddress.City+’, ‘+State,30)
-                            content[16] = (CompanyAddress?.City + "," + CompanyAddress?.State)?.Length >= 30 ? (CompanyAddress?.City + "," + CompanyAddress?.State)?.Substring(0,30) : CompanyAddress?.City + "," + CompanyAddress?.State;
-                            // 20.Left(ARPayment.atttribute BANKACCNAM, 30)
+                            content[7] = arLine.RefNbr;
+                            // 15.Left(Companies.AccontName, 30)
+                            content[14] = CompanyInfo?.AcctName?.Length >= 30 ? CompanyInfo?.AcctName?.Substring(0,30) : CompanyInfo?.AcctName;
+                            // 16.Left(CompaniesAddress.Addressline1,30)
+                            content[15] = CompanyAddress?.AddressLine1?.Length >= 30 ? CompanyAddress?.AddressLine1?.Substring(0,30) : CompanyAddress?.AddressLine1;
+                            // 17.Left(CompaniesAddress.Addressline2 + ‘, ’+ Postalcode,30)
+                            content[16] = (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Length >= 30 ? (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Substring(0,30) : CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode;
+                            // 18.Left(CompaniesAddress.City+’, ‘+State,30)
+                            content[17] = (CompanyAddress?.City + "," + CompanyAddress?.State)?.Length >= 30 ? (CompanyAddress?.City + "," + CompanyAddress?.State)?.Substring(0,30) : CompanyAddress?.City + "," + CompanyAddress?.State;
+                            // 21.Left(ARPayment.atttribute BANKACCNAM, 30)
                             var BANKACCNAM = arLine.GetExtension<ARPaymentExt>()?.UsrBankAccnamattributes;
-                            content[19] = BANKACCNAM?.Length >= 30 ? BANKACCNAM?.Substring(0,30) : BANKACCNAM;
-                            // 21.Left(ARPayment.atttribute DESCRIPTN,30)
+                            content[20] = BANKACCNAM?.Length >= 30 ? BANKACCNAM?.Substring(0,30) : BANKACCNAM;
+                            // 22.Left(ARPayment.atttribute DESCRIPTN,30)
                             var DESCRIPTN = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "DESCRIPTN") as PXFieldState)?.Value);
-                            content[20] = DESCRIPTN?.Length >= 30 ? DESCRIPTN?.Substring(0,30) : DESCRIPTN;
-                            // 22.Left(Customer.atttribute BANKACTML,30)
+                            content[21] = DESCRIPTN?.Length >= 30 ? DESCRIPTN?.Substring(0,30) : DESCRIPTN;
+                            // 23.Left(Customer.atttribute BANKACTML,30)
                             var BANKACTML = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "BANKACTML") as PXFieldState)?.Value);
-                            content[21] = BANKACTML?.Length >= 30 ? BANKACTML?.Substring(0,30) : BANKACTML;
-                            // 23.Left(ARPayment.atttribute.REMITEMAIL, 30)
+                            content[22] = BANKACTML?.Length >= 30 ? BANKACTML?.Substring(0,30) : BANKACTML;
+                            // 24.Left(ARPayment.atttribute.REMITEMAIL, 30)
                             var REMITEMAIL = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "REMITEMAIL") as PXFieldState)?.Value);
-                            content[22] = REMITEMAIL?.Length >= 30 ? REMITEMAIL?.Substring(0,30) : REMITEMAIL;
-                            // 25.ARPayment.atttribute BANKACCNBR
-                            content[24] = arLine.GetExtension<ARPaymentExt>().UsrBankAccNbrttributes;
-                            // 32.ARPayment.atttribute BANKSWIFT
-                            content[31] = arLine.GetExtension<ARPaymentExt>().UsrBankSwiftAttributes;
+                            content[23] = REMITEMAIL?.Length >= 30 ? REMITEMAIL?.Substring(0,30) : REMITEMAIL;
+                            // 26.ARPayment.atttribute BANKACCNBR
+                            content[25] = arLine.GetExtension<ARPaymentExt>().UsrBankAccNbrttributes;
+                            // 33.ARPayment.atttribute BANKSWIFT
+                            content[32] = arLine.GetExtension<ARPaymentExt>().UsrBankSwiftAttributes;
 
                             sw.WriteLine(string.Join("|",content));
                             //Update UsrSCBPaymentExported and UsrSCBPaymentDateTime
