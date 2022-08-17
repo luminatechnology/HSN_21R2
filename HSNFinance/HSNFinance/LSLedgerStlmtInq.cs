@@ -56,9 +56,22 @@ namespace HSNFinance
         #region Event Handlers
         protected virtual void _(Events.RowSelected<LSLedgerSettlement> e)
         {
-            LedgerStlmt.Cache.AllowDelete = LedgerStlmt.AllowUpdate = LedgerStlmt.AllowInsert = false;
+            LedgerStlmt.Cache.AllowDelete = LedgerStlmt.AllowInsert = false;
 
-            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.selected>(e.Cache, e.Row, true); 
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.branchID>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.batchNbr>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.lineNbr>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.ledgerID>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.accountID>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.subID>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.origCreditAmt>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.origDebitAmt>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.settledCreditAmt>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.settledDebitAmt>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.tranDesc>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.tranDate>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.refNbr>(e.Cache, e.Row, false);
+            PXUIFieldAttribute.SetEnabled<LSLedgerSettlement.inventoryID>(e.Cache, e.Row, false);
         }
         #endregion
     }
