@@ -16,5 +16,12 @@ namespace HSNHighcareCistomizations.DAC
         public virtual bool? EnableHighcareFunction { get; set; }
         public abstract class enableHighcareFunction : PX.Data.BQL.BqlBool.Field<enableHighcareFunction> { }
         #endregion
+
+        #region EnableOverridePINCodetDate
+        [PXDBBool()]
+        [PXUIField(DisplayName = "Enable Override PIN Code Start Date")]
+        public virtual bool? EnableOverridePINCodetDate { get; set; }
+        public abstract class enableOverridePINCodetDate : PX.Data.BQL.BqlBool.Field<enableOverridePINCodetDate> { }
+        #endregion
     }
 }
