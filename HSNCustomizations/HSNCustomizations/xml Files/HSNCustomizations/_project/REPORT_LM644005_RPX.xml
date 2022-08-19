@@ -21,18 +21,10 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
         </Filters>
         <MailSettings>
             <ActivitySource>INRegister.NoteID</ActivitySource>
-            <Bcc>
-            </Bcc>
-            <Body>
-            </Body>
-            <Cc>
-            </Cc>
-            <Format>
-            </Format>
-            <Subject>
-            </Subject>
-            <To>
-            </To>
+            <ParentSource>
+            </ParentSource>
+            <TemplateID>
+            </TemplateID>
         </MailSettings>
         <PageSettings>
             <Landscape>True</Landscape>
@@ -170,7 +162,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <ParentName>LumINTran</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN_2021R2/</SchemaUrl>
+        <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>LumINTran.RefNbr</DataField>
@@ -3009,7 +3001,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 </Items>
             </PageHeader>
             <Detail Name="detailSection1">
-                <Height>1.26984cm</Height>
+                <Height>1.0582cm</Height>
                 <Variables>
                     <ReportVariable>
                         <Name>LineNbr</Name>
@@ -3020,7 +3012,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                 <Items>
                     <Line Name="line2">
                         <LineStyle>Dotted</LineStyle>
-                        <Location>16.00032px, 32px</Location>
+                        <Location>16px, 40px</Location>
                         <Size>1000px, 0.08333in</Size>
                     </Line>
                     <TextBox Name="textBox12">
@@ -3049,7 +3041,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox17">
                         <CanGrow>True</CanGrow>
-                        <Location>744px, 0px</Location>
+                        <Location>752px, 0px</Location>
                         <Size>152px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
@@ -3059,9 +3051,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox27">
                         <CanGrow>True</CanGrow>
-                        <CanSplit>True</CanSplit>
                         <Location>648px, 0px</Location>
-                        <Size>96px, 32px</Size>
+                        <Size>104px, 40px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3207,7 +3198,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                 <Items>
                                     <TextBox Name="textBox26">
                                         <Location>632px, 0px</Location>
-                                        <Size>96px, 14px</Size>
+                                        <Size>104px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
@@ -3230,7 +3221,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>Qty.</Value>
                                     </TextBox>
                                     <TextBox Name="textBox58">
-                                        <Location>728px, 0px</Location>
+                                        <Location>736px, 0px</Location>
                                         <Size>152px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
