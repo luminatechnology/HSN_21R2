@@ -21,10 +21,18 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
         </Filters>
         <MailSettings>
             <ActivitySource>INRegister.NoteID</ActivitySource>
-            <ParentSource>
-            </ParentSource>
-            <TemplateID>
-            </TemplateID>
+            <Bcc>
+            </Bcc>
+            <Body>
+            </Body>
+            <Cc>
+            </Cc>
+            <Format>
+            </Format>
+            <Subject>
+            </Subject>
+            <To>
+            </To>
         </MailSettings>
         <PageSettings>
             <Landscape>True</Landscape>
@@ -3016,8 +3024,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                         <Size>1000px, 0.08333in</Size>
                     </Line>
                     <TextBox Name="textBox12">
-                        <Location>552px, 0px</Location>
-                        <Size>96px, 16px</Size>
+                        <Location>528px, 0px</Location>
+                        <Size>88px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3041,8 +3049,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox17">
                         <CanGrow>True</CanGrow>
-                        <Location>752px, 0px</Location>
-                        <Size>152px, 16px</Size>
+                        <Location>792px, 0px</Location>
+                        <Size>112px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3051,8 +3059,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                     </TextBox>
                     <TextBox Name="textBox27">
                         <CanGrow>True</CanGrow>
-                        <Location>648px, 0px</Location>
-                        <Size>104px, 40px</Size>
+                        <Location>616px, 0px</Location>
+                        <Size>176px, 16px</Size>
                         <Style>
                             <TextAlign>Left</TextAlign>
                         </Style>
@@ -3060,7 +3068,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                         <Value>=[INRegister.ExtRefNbr]</Value>
                     </TextBox>
                     <TextBox Name="textBox4">
-                        <Location>416px, 0px</Location>
+                        <Location>400px, 0px</Location>
                         <Size>72px, 16px</Size>
                         <StyleName>Normal</StyleName>
                         <Value>=[ToLocation.LocationCD]</Value>
@@ -3073,13 +3081,13 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                         <Value>=IIf([InventoryItem.InventoryCD] &lt;&gt; Null, [InventoryItem.InventoryCD], '')#010;+IIF([LumINTran.TranDesc] &lt;&gt; Null, ' - ' + [LumINTran.TranDesc], '')</Value>
                     </TextBox>
                     <TextBox Name="textBox50">
-                        <Location>352px, 0px</Location>
+                        <Location>344px, 0px</Location>
                         <Size>56px, 16px</Size>
                         <StyleName>Normal</StyleName>
                         <Value>=[INLocation.LocationCD]</Value>
                     </TextBox>
                     <TextBox Name="textBox51">
-                        <Location>496px, 0px</Location>
+                        <Location>472px, 0px</Location>
                         <Size>48px, 16px</Size>
                         <Style>
                             <TextAlign>Right</TextAlign>
@@ -3197,8 +3205,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                 </Style>
                                 <Items>
                                     <TextBox Name="textBox26">
-                                        <Location>632px, 0px</Location>
-                                        <Size>104px, 14px</Size>
+                                        <Location>600px, 0px</Location>
+                                        <Size>176px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
@@ -3206,13 +3214,13 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>External Ref.</Value>
                                     </TextBox>
                                     <TextBox Name="textBox3">
-                                        <Location>400px, 0px</Location>
+                                        <Location>384px, 0px</Location>
                                         <Size>72px, 14px</Size>
                                         <StyleName>Heading 1</StyleName>
                                         <Value>To Location</Value>
                                     </TextBox>
                                     <TextBox Name="textBox57">
-                                        <Location>480px, 0px</Location>
+                                        <Location>456px, 0px</Location>
                                         <Size>48px, 14px</Size>
                                         <Style>
                                             <TextAlign>Right</TextAlign>
@@ -3221,8 +3229,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>Qty.</Value>
                                     </TextBox>
                                     <TextBox Name="textBox58">
-                                        <Location>736px, 0px</Location>
-                                        <Size>152px, 14px</Size>
+                                        <Location>776px, 0px</Location>
+                                        <Size>112px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
@@ -3230,7 +3238,7 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>Description</Value>
                                     </TextBox>
                                     <TextBox Name="textBox60">
-                                        <Location>336px, 0px</Location>
+                                        <Location>328px, 0px</Location>
                                         <Size>56px, 14px</Size>
                                         <StyleName>Heading 1</StyleName>
                                         <Value>Location</Value>
@@ -3257,8 +3265,8 @@ FDRsYA+GoJqbm5VALwV9zfT29pIWgV6wH8innPFGdil6lJvd3V3DL7kJoN4Q4wpx5dnFxUXSvg/Oh/b2
                                         <Value>Item Description</Value>
                                     </TextBox>
                                     <TextBox Name="textBox64">
-                                        <Location>536px, 0px</Location>
-                                        <Size>96px, 14px</Size>
+                                        <Location>512px, 0px</Location>
+                                        <Size>88px, 14px</Size>
                                         <Style>
                                             <TextAlign>Left</TextAlign>
                                         </Style>
