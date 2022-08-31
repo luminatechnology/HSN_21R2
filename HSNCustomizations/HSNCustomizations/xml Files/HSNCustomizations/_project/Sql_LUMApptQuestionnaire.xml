@@ -2,6 +2,7 @@
     <CDATA name="TableSchemaXml"><![CDATA[<table name="LUMApptQuestionnaire">
   <col name="CompanyID" type="Int" default="Zero" />
   <col name="ApptRefNbr" type="NVarChar(20)" />
+  <col name="QuestionnaireType" type="NVarChar(100)" nullable="true" />
   <col name="NoteID" type="UniqueIdentifier" />
   <col name="CreatedByID" type="UniqueIdentifier" />
   <col name="CreatedByScreenID" type="Char(8)" />

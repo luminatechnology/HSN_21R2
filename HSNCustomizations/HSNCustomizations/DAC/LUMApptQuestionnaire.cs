@@ -46,12 +46,16 @@ namespace HSNCustomizations
             LeftJoin<Location,
                 On<Location.bAccountID, Equal<FSServiceOrder.customerID>,
                     And<Location.locationID, Equal<FSServiceOrder.locationID>>>>>>,
-                Where<
-                    Customer.bAccountID, IsNull,
-                    Or<Match<Customer, Current<AccessInfo.userName>>>>,
+                Where2<
+                    Where<Customer.bAccountID, IsNull,
+                          Or<Match<Customer, Current<AccessInfo.userName>>>>,
+                  And<FSAppointment.status, Equal<ListField.AppointmentStatus.billed>,
+                      Or<FSAppointment.status, Equal<ListField.AppointmentStatus.closed>,
+                      Or<FSAppointment.status, Equal<ListField.AppointmentStatus.completed>>>>>,
             OrderBy<
                 Desc<FSAppointment.refNbr>>>),
                     new Type[] {
+                                typeof(FSAppointment.srvOrdType),
                                 typeof(FSAppointment.refNbr),
                                 typeof(Customer.acctCD),
                                 typeof(Customer.acctName),
@@ -66,8 +70,8 @@ namespace HSNCustomizations
         #endregion
 
         #region QuestionnaireType
-        [PXString(100, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Questionnaire Type", Enabled = false)]
+        [PXDBString(100, IsUnicode = true, InputMask = "")]
+        [PXUIField(DisplayName = "Questionnaire Type", Enabled = true)]
         [PXDefault(typeof(SelectFrom<FSSrvOrdType>
                           .InnerJoin<FSAppointment>.On<FSSrvOrdType.srvOrdType.IsEqual<FSAppointment.srvOrdType>>
                           .Where<FSAppointment.refNbr.IsEqual<LUMApptQuestionnaire.apptRefNbr.FromCurrent>>

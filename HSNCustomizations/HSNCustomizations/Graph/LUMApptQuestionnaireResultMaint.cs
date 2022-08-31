@@ -1,4 +1,5 @@
-﻿using HSNCustomizations.Descriptor;
+﻿using HSNCustomizations.DAC;
+using HSNCustomizations.Descriptor;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
@@ -16,6 +17,7 @@ namespace HSNCustomizations.Graph
     {
         public SelectFrom<LUMApptQuestionnaire>
                 .LeftJoin<Contact>.On<LUMApptQuestionnaire.contactID.IsEqual<Contact.contactID>>
+                //.Where<LUMApptQuestionnaire.questionnaireType.IsEqual<LUMApptQuestionnaire.questionnaireType.FromCurrent>>
                 .View Document;
 
         public SelectFrom<FSAppointmentEmployee>
@@ -67,6 +69,12 @@ namespace HSNCustomizations.Graph
                     e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.branchID>(row, out newBranchID);
                     row.BranchID = (int?)newBranchID;
 
+                }
+
+                if (string.IsNullOrEmpty(row.QuestionnaireType))
+                {
+                    var newQuestionnaireType = SelectFrom<LUMQuestionnaireType>.View.Select(this).TopFirst?.QuestionnaireType;
+                    row.QuestionnaireType = newQuestionnaireType;
                 }
 
             }
