@@ -39,15 +39,5 @@ namespace PX.Objects.FS
         public virtual bool? UsrStaffFilterByCustomerLocation { get; set; }
         public abstract class usrStaffFilterByCustomerLocation : PX.Data.BQL.BqlBool.Field<usrStaffFilterByCustomerLocation> { }
         #endregion
-
-        #region UsrQuestionnaireType
-        [PXDBString(100)]
-        [PXUIField(DisplayName = "Default Questionnaire Type")]
-        [PXSelector(
-            typeof(Search<LUMQuestionnaireType.questionnaireType>),
-            typeof(LUMQuestionnaireType.description))]
-        public virtual string UsrQuestionnaireType { get; set; }
-        public abstract class usrQuestionnaireType : PX.Data.BQL.BqlString.Field<usrQuestionnaireType> { }
-        #endregion
     }
 }

@@ -25,7 +25,7 @@
         </layout>
         <data>
             <SiteMap>
-                <row Title="Appointment Questionnaire results" Url="~/Pages/LM/LM202001.aspx" ScreenID="LM202001" NodeID="14c197e5-c13b-4892-a685-178985e7f74a" ParentID="00000000-0000-0000-0000-000000000000">
+                <row Title="Questionnaire Results" Url="~/Pages/LM/LM202001.aspx" ScreenID="LM202001" NodeID="14c197e5-c13b-4892-a685-178985e7f74a" ParentID="00000000-0000-0000-0000-000000000000">
                     <MUIScreen IsPortal="0" WorkspaceID="f0cf4498-99c4-48f3-8dd8-bde9ed67f9d3" Order="35" SubcategoryID="6d40b0b6-18f4-4139-adac-8ec8cb2a17ea" />
                 </row>
             </SiteMap>

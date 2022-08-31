@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace HSNCustomizations.Graph
 {
+    // [PhaseII -  Appointment Questionnaire]
     public class LUMApptQuestionnaireResultMaint : PXGraph<LUMApptQuestionnaireResultMaint, LUMApptQuestionnaire>
     {
         public SelectFrom<LUMApptQuestionnaire>

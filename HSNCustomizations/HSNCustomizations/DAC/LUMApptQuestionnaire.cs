@@ -72,11 +72,7 @@ namespace HSNCustomizations
         #region QuestionnaireType
         [PXDBString(100, IsUnicode = true, InputMask = "")]
         [PXUIField(DisplayName = "Questionnaire Type", Enabled = true)]
-        [PXDefault(typeof(SelectFrom<FSSrvOrdType>
-                          .InnerJoin<FSAppointment>.On<FSSrvOrdType.srvOrdType.IsEqual<FSAppointment.srvOrdType>>
-                          .Where<FSAppointment.refNbr.IsEqual<LUMApptQuestionnaire.apptRefNbr.FromCurrent>>
-                          .SearchFor<FSSrvOrdTypeExt.usrQuestionnaireType>)
-            , PersistingCheck = PXPersistingCheck.NullOrBlank)]
+        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
         [PXSelector(
             typeof(Search<LUMQuestionnaireType.questionnaireType>),
             typeof(LUMQuestionnaireType.description))]

@@ -29,7 +29,7 @@
         <Items>
             <px:PXTabItem Text="Questionnaire">
                 <Template>
-                    <px:PXGrid ID="PXGridAnswers" runat="server" Caption="Attributes" DataSourceID="ds" Height="150px" MatrixMode="True" Width="420px" SkinID="Attributes">
+                    <px:PXGrid ID="PXGridAnswers" runat="server" Caption="Attributes" DataSourceID="ds" Height="400px" MatrixMode="True" Width="600px" SkinID="Attributes">
                         <Levels>
                             <px:PXGridLevel DataKeyNames="AttributeID,EntityType,EntityID" DataMember="Answers">
                                 <RowTemplate>
@@ -38,7 +38,7 @@
                                     <px:PXTextEdit ID="edAnswerValue" runat="server" DataField="Value"></px:PXTextEdit>
                                 </RowTemplate>
                                 <Columns>
-                                    <px:PXGridColumn AllowShowHide="False" DataField="AttributeID" TextField="AttributeID_description" TextAlign="Left" Width="135px"></px:PXGridColumn>
+                                    <px:PXGridColumn AllowShowHide="False" DataField="AttributeID" TextField="AttributeID_description" TextAlign="Left" Width="250px"></px:PXGridColumn>
                                     <px:PXGridColumn DataField="isRequired" TextAlign="Center" Type="CheckBox" Width="80px"></px:PXGridColumn>
                                     <px:PXGridColumn DataField="Value" Width="185px"></px:PXGridColumn>
                                 </Columns>
