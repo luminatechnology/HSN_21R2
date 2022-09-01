@@ -8,7 +8,7 @@
                 <Field name="MerchantID" type="StringValue" />
                 <Field name="OrderNbr" type="StringValue" />
                 <Field name="OrderType" type="StringValue" />
-                <Field name="TerminaID" type="StringValue" />
+                <Field name="TerminalID" type="StringValue" />
             </Fields>
         </Detail>
         <TopLevelEntity name="SalesOrder" screen="SO301000">
@@ -31,9 +31,6 @@
                     </Mapping>
                     <Mapping field="OrderType">
                         <To object="AcquirerItemList" field="OrderType" />
-                    </Mapping>
-                    <Mapping field="TerminaID">
-                        <To object="AcquirerItemList" field="TerminaID" />
                     </Mapping>
                 </Mapping>
             </Mappings>

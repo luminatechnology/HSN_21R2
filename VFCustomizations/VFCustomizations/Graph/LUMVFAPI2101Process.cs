@@ -55,8 +55,8 @@ namespace VFCustomizations.Graph
                     entity.JobNo = item.JobNo.Trim();
                     entity.TerminalID = item.TerminalID;
                     entity.SerialNo = item.SerialNo;
-                    entity.StartDateTime = item.StartDateTime.Value.ToString("yyyy-MM-dd HH:mm");
-                    entity.FinishDateTime = item.FinishDateTime.Value.ToString("yyyy-MM-dd HH:mm");
+                    entity.StartDateTime = item.StartDateTime.Value.ToString("dd/MM/yyyy HH:mm");
+                    entity.FinishDateTime = item.FinishDateTime.Value.ToString("dd/MM/yyyy HH:mm");
                     entity.SetupReason = item.SetupReason;
                     var ftpResponse = helper.CallFTP21(entity, apiTokenObj);
                     if (ftpResponse == null)

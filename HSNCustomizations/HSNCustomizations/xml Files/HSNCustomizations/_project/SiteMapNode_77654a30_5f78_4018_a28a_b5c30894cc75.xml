@@ -25,20 +25,20 @@
         </layout>
         <data>
             <SiteMap>
-                <row Position="5970" Title="Process SCB Payment" Url="~/Pages/LM/LM505000.aspx" ScreenID="LM505000" NodeID="910e0632-e5d5-4350-923c-2dfce1a21d88" ParentID="00000000-0000-0000-0000-000000000000">
-                    <MUIScreen IsPortal="0" WorkspaceID="c6f8a479-2339-4665-a20d-50f5bf38c228" Order="120" SubcategoryID="32130442-2305-4394-9389-cf915b191d2a" />
+                <row Title="Customer Satisfaction Questionnaire Type" Url="~/Pages/LM/LM202000.aspx" ScreenID="LM202000" NodeID="77654a30-5f78-4018-a28a-b5c30894cc75" ParentID="00000000-0000-0000-0000-000000000000">
+                    <MUIScreen IsPortal="0" WorkspaceID="f0cf4498-99c4-48f3-8dd8-bde9ed67f9d3" Order="690" SubcategoryID="8a93637d-b507-4667-a739-adaf6fb5f7ea" />
                 </row>
             </SiteMap>
             <MUIWorkspace>
-                <row IsPortal="0" WorkspaceID="c6f8a479-2339-4665-a20d-50f5bf38c228" Order="146" Title="Payables" Icon="remove_circle" AreaID="338edf81-5456-4735-8601-b213458e93fe" ScreenID="WSAP0000" IsSystem="0">
+                <row IsPortal="0" WorkspaceID="f0cf4498-99c4-48f3-8dd8-bde9ed67f9d3" Order="805" Title="Services" Icon="work" AreaID="62cfd5dc-8eb9-4e92-bbcd-e0a99eb5e5df" ScreenID="WSSV0000" IsSystem="0">
                     <MUIFavoriteWorkspace IsPortal="0" Username="" IsFavorite="1" />
                 </row>
             </MUIWorkspace>
             <MUISubcategory>
-                <row IsPortal="0" SubcategoryID="32130442-2305-4394-9389-cf915b191d2a" Order="820" Name="Processes" Icon="" IsSystem="0" />
+                <row IsPortal="0" SubcategoryID="8a93637d-b507-4667-a739-adaf6fb5f7ea" Order="1391.813" Name="Preferences" Icon="" IsSystem="0" />
             </MUISubcategory>
             <MUIArea>
-                <row IsPortal="0" AreaID="338edf81-5456-4735-8601-b213458e93fe" Order="10" Name="Financials" />
+                <row IsPortal="0" AreaID="62cfd5dc-8eb9-4e92-bbcd-e0a99eb5e5df" Order="20" Name="Operations" />
             </MUIArea>
         </data>
     </data-set>

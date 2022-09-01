@@ -1,3 +1,4 @@
 ﻿<Table TableName="LUMHSNSetup">
     <Column TableName="LUMHSNSetup" ColumnName="EnableHighcareFunction" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="LUMHSNSetup" ColumnName="EnableOverridePINCodetDate" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

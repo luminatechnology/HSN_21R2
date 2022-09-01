@@ -14,6 +14,7 @@ using PX.Data.BQL;
 using PX.Objects.IN;
 using System.Collections;
 using PX.Objects.SO;
+using HSNCustomizations.DAC;
 
 namespace HSNHighcareCistomizations.Graph
 {
@@ -31,6 +32,8 @@ namespace HSNHighcareCistomizations.Graph
 
         public SelectFrom<LUMCustomerPINCode>
                .Where<LUMCustomerPINCode.bAccountID.IsEqual<Customer.bAccountID.FromCurrent>>.View Transaction;
+
+        public SelectFrom<LUMHSNSetup>.View HSNSetup;
 
         public PXAction<LUMCustomerPINCode> viewDefSchedule;
         [PXButton]
@@ -79,8 +82,12 @@ namespace HSNHighcareCistomizations.Graph
 
         public virtual void _(Events.RowSelected<LUMCustomerPINCode> e)
         {
+            var setup = HSNSetup.Select();
             if (e.Row != null)
+            {
                 this.Transaction.Cache.SetValueExt<LUMCustomerPINCode.serialNbr>(e.Row, LUMPINCodeMapping.PK.Find(this, e.Row.Pin)?.SerialNbr);
+                PXUIFieldAttribute.SetEnabled<LUMCustomerPINCode.startDate>(e.Cache, null, setup.TopFirst?.GetExtension<LUMHSNSetupExtension>()?.EnableOverridePINCodetDate ?? false);
+            }
         }
 
         public virtual void _(Events.RowPersisting<LUMCustomerPINCode> e)

@@ -121,14 +121,14 @@ namespace VFCustomizations.Graph_Extension
                     e.Row.PreviousCommitDate = (DateTime?)newPreviousCommitDate;
                 }
 
-                if(!e.Row.HoldDate.HasValue)
+                if (!e.Row.HoldDate.HasValue)
                 {
                     object newHoldDate;
                     e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.holdDate>(e.Row, out newHoldDate);
                     e.Row.HoldDate = (DateTime?)newHoldDate;
                 }
 
-                if(string.IsNullOrEmpty(e.Row.IncidentCatalogName))
+                if (string.IsNullOrEmpty(e.Row.IncidentCatalogName))
                 {
                     object newIncidentCatalogName;
                     e.Cache.RaiseFieldDefaulting<LUMVFAPISetupHoldResult.incidentCatalogName>(e.Row, out newIncidentCatalogName);
@@ -167,14 +167,21 @@ namespace VFCustomizations.Graph_Extension
                     return;
                 SOOrder soData = soOrderData.Select(orderShipmentInfo?.OrderNbr, orderShipmentInfo?.OrderType);
                 var attr = soOrderData.Cache.GetValueExt(soData, PX.Objects.CS.Messages.Attribute + "COMMITDATE") as PXFieldState;
-                e.NewValue = attr?.Value;
+                DateTime newValue;
+                if (DateTime.TryParse(attr?.Value?.ToString(), out newValue))
+                    e.NewValue = newValue;
+                else
+                {
+                    e.NewValue = null;
+                    PXTrace.WriteError($"Can not transfer Attribute value(COMMITDATE) to datetime({attr?.Value})");
+                }
             }
         }
 
         public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.holdDate> e)
         {
             e.NewValue = DateTime.Now;
-        } 
+        }
 
         public virtual void _(Events.FieldDefaulting<LUMVFAPISetupHoldResult.incidentCatalogName> e)
         {
@@ -189,7 +196,7 @@ namespace VFCustomizations.Graph_Extension
                 e.NewValue = attr?.Value;
             }
         }
-        
+
         #endregion
 
         #endregion
