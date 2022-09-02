@@ -141,27 +141,23 @@ namespace eGUICustomization4HSN.Graph
         }
 
         /// <summary>
-        /// GUITrans.QREncrypter + ':' + '**********' + ':' +
-        /// No. of order lines+':' + No. of order lines + ':' + '0' + ':' +
-        /// Line description + ':' + Qty (no decimal places) + ':'+Unit Price*1.05(No decimal places)
+        /// GUITrans.QREncrypter + ':' + '**********' + ':' + No. of order lines + ':' + '0' + ':' + Qty (2 decimal places) + ':'
         /// </summary>
         protected string GetQRCode1(List<ARTran> aRTrans)
         {
-            string desc = aRTrans[0].TranDesc;
-            
-            SubTranDescr(ref desc);
-
-            return string.Format("{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}", ViewGUITrans.Current.QREncrypter, "**********",
-                                                                    aRTrans.Count, aRTrans.Count, aRTrans[0].LineNbr, desc, 
-                                                                    (int)aRTrans[0].Qty, (int)(aRTrans[0].UnitPrice * (decimal)1.05));
+            return string.Format("{0}:**********:{1}:{2}:{3}:", ViewGUITrans.Current.QREncrypter, aRTrans.Count, aRTrans[0].LineNbr, Math.Round(aRTrans[0].Qty.Value, 2));
         }
 
         /// <summary>
-        /// **'+Line description+':'+Qty (no decimal places)+':'+Unit Price*1.05(No decimal places)
+        /// **'+Line description + ':' + Qty (2 decimal places) + ':' + Unit Price*1.05(2 decimal places) + ':'
         /// </summary>
         protected string GetQRCode2(List<ARTran> aRTrans)
         {
-            return string.Format("{0}{1}:{2}:{3}", "**", aRTrans[0].TranDesc, (int)aRTrans[0].Qty, (int)(aRTrans[0].UnitPrice * (decimal)1.05));
+            string descr = aRTrans[0].TranDesc;
+
+            SubTranDescr(ref descr);
+
+            return string.Format("**{0}{1}:{2}:", descr, Math.Round(aRTrans[0].Qty.Value, 2), Math.Round(aRTrans[0].UnitPrice.Value * (decimal)1.05, 2));
         }
 
         /// <summary>
