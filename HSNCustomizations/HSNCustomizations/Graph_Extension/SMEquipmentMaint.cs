@@ -9,13 +9,22 @@ namespace PX.Objects.FS
     public class SMEquipmentMaint_Extension : PXGraphExtension<SMEquipmentMaint>
     {
         #region Event Handlers
+
+        public virtual void _(Events.RowSelected<FSEquipment> e, PXRowSelected baseHandler)
+        {
+            // [Phase - II] Add new Field in Equipment and Appointment
+            baseHandler?.Invoke(e.Cache, e.Args);
+            var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+            PXUIFieldAttribute.SetVisible<FSEquipmentExtension.usrEquipmentModel>(e.Cache, null, setup?.EnableEquipmentModel ?? false);
+        }
+
         protected void _(Events.RowPersisting<FSEquipment> e, PXRowPersisting baseHandler)
         {
             baseHandler?.Invoke(e.Cache, e.Args);
 
             var row = e.Row as FSEquipment;
 
-            if (row != null && (e.Operation == PXDBOperation.Insert || e.Operation == PXDBOperation.Update) )
+            if (row != null && (e.Operation == PXDBOperation.Insert || e.Operation == PXDBOperation.Update))
             {
                 bool duplicate = SelectFrom<FSEquipment>.Where<FSEquipment.serialNumber.IsEqual<@P.AsString>
                                                           .And<FSEquipment.equipmentTypeID.IsEqual<@P.AsInt>>
@@ -25,7 +34,7 @@ namespace PX.Objects.FS
                 {
                     e.Cache.RaiseExceptionHandling<FSEquipment.serialNumber>(row, row.SerialNumber, new PXSetPropertyException(HSNMessages.NonUniqueSerNbr));
                 }
-            }           
+            }
         }
         #endregion
     }

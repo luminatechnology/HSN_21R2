@@ -152,6 +152,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableModificationofTaxAmount : PX.Data.BQL.BqlBool.Field<enableModificationofTaxAmount> { }
         #endregion
 
+        #region EnableEquipmentModel
+        [PXDBBool()]
+        [PXUIField(DisplayName = "Enable \"Equipment Model\" In Equipment ")]
+        public virtual bool? EnableEquipmentModel { get; set; }
+        public abstract class enableEquipmentModel : PX.Data.BQL.BqlBool.Field<enableEquipmentModel> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

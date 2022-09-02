@@ -7,54 +7,44 @@ using PX.Objects.GL;
 using PX.Objects.CR;
 using HSNCustomizations.DAC;
 using PX.Data.BQL.Fluent;
+using HSNCustomizations.Graph;
 
 namespace HSNCustomizations
 {
     // [PhaseII -  Appointment Questionnaire]
     [Serializable]
     [PXCacheName("LUMApptQuestionnaire")]
+    [PXPrimaryGraph(typeof(LUMApptQuestionnaireResultMaint))]
     public class LUMApptQuestionnaire : IBqlTable
     {
-
-        #region SrvOrdType
-
-        //[PXDBString(4, IsKey = true, IsFixed = true, InputMask = ">AAAA")]
-        //[PXDefault(typeof(Coalesce<
-        //    Search<FSxUserPreferences.dfltSrvOrdType,
-        //    Where<
-        //        PX.SM.UserPreferences.userID.IsEqual<AccessInfo.userID.FromCurrent>>>,
-        //    Search<FSSetup.dfltSrvOrdType>>))]
-        //[PXUIField(DisplayName = "Service Order Type", Visibility = PXUIVisibility.SelectorVisible)]
-        //[FSSelectorSrvOrdTypeNOTQuote]
-        //[PXRestrictor(typeof(Where<FSSrvOrdType.active, Equal<True>>), null)]
-        //[PX.Data.EP.PXFieldDescription]
-        //public virtual string SrvOrdType { get; set; }
-        //public abstract class srvOrdType : PX.Data.BQL.BqlString.Field<srvOrdType> { }
-
-        #endregion
+        [PXDBString(20, IsKey = true)]
+        [PXUIField(DisplayName = "UniqueID", Visible = false)]
+        [PXDefault(PersistingCheck = PXPersistingCheck.NullOrBlank)]
+        public virtual string UniqueID { get; set; }
+        public abstract class uniqueID : PX.Data.BQL.BqlString.Field<uniqueID> { }
 
         #region ApptRefNbr
-        [PXDBString(20, IsKey = true, IsUnicode = true, InputMask = "CCCCCCCCCCCCCCCCCCCC")]
-        [PXDefault("<NEW>", PersistingCheck = PXPersistingCheck.Nothing)]
-        [PXUIField(DisplayName = "Appointment Nbr.", Visibility = PXUIVisibility.SelectorVisible, Visible = true, Enabled = true)]
+        [PXDBString(20, IsUnicode = true, InputMask = "CCCCCCCCCCCCCCCCCCCC")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Appointment Nbr.", Visible = true, Enabled = true)]
         [PXSelector(typeof(
-            Search2<FSAppointment.refNbr,
-            LeftJoin<FSServiceOrder,
-                On<FSServiceOrder.sOID, Equal<FSAppointment.sOID>>,
-            LeftJoin<Customer,
-                On<Customer.bAccountID, Equal<FSServiceOrder.customerID>>,
-            LeftJoin<Location,
-                On<Location.bAccountID, Equal<FSServiceOrder.customerID>,
-                    And<Location.locationID, Equal<FSServiceOrder.locationID>>>>>>,
-                Where2<
-                    Where<Customer.bAccountID, IsNull,
-                          Or<Match<Customer, Current<AccessInfo.userName>>>>,
-                  And<FSAppointment.status, Equal<ListField.AppointmentStatus.billed>,
-                      Or<FSAppointment.status, Equal<ListField.AppointmentStatus.closed>,
-                      Or<FSAppointment.status, Equal<ListField.AppointmentStatus.completed>>>>>,
-            OrderBy<
-                Desc<FSAppointment.refNbr>>>),
-                    new Type[] {
+        Search2<FSAppointment.refNbr,
+        LeftJoin<FSServiceOrder,
+            On<FSServiceOrder.sOID, Equal<FSAppointment.sOID>>,
+        LeftJoin<Customer,
+            On<Customer.bAccountID, Equal<FSServiceOrder.customerID>>,
+        LeftJoin<Location,
+            On<Location.bAccountID, Equal<FSServiceOrder.customerID>,
+                And<Location.locationID, Equal<FSServiceOrder.locationID>>>>>>,
+            Where2<
+                Where<Customer.bAccountID, IsNull,
+                      Or<Match<Customer, Current<AccessInfo.userName>>>>,
+              And<FSAppointment.status, Equal<ListField.AppointmentStatus.billed>,
+                  Or<FSAppointment.status, Equal<ListField.AppointmentStatus.closed>,
+                  Or<FSAppointment.status, Equal<ListField.AppointmentStatus.completed>>>>>,
+        OrderBy<
+            Desc<FSAppointment.refNbr>>>),
+                new Type[] {
                                 typeof(FSAppointment.srvOrdType),
                                 typeof(FSAppointment.refNbr),
                                 typeof(Customer.acctCD),
@@ -63,8 +53,9 @@ namespace HSNCustomizations
                                 typeof(FSAppointment.docDesc),
                                 typeof(FSAppointment.status),
                                 typeof(FSAppointment.scheduledDateTimeBegin)
-                    })]
+                })]
         [PX.Data.EP.PXFieldDescription]
+        [PXForeignReference(typeof(FSAppointment.refNbr))]
         public virtual string ApptRefNbr { get; set; }
         public abstract class apptRefNbr : PX.Data.BQL.BqlString.Field<apptRefNbr> { }
         #endregion

@@ -61,9 +61,25 @@ namespace HSNCustomizations.Graph
             }
         }
 
-		#region Method
+        #region Action
+        public PXAction<LumProcessSCBPaymentRefundFilter> printARPaymentRegister;
+        [PXButton]
+        [PXUIField(DisplayName = "Print Payment Register", Enabled = true, MapEnableRights = PXCacheRights.Select)]
+        protected virtual IEnumerable PrintARPaymentRegister(PXAdapter adapter)
+        {
+            var currentFiler = this.Caches[typeof(LumProcessSCBPaymentRefundFilter)].Cached.Cast<LumProcessSCBPaymentRefundFilter>().ToList();
 
-		public void DownlodARPayments(IEnumerable<ARPayment> arPaymentLists)
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["AdjDate"] = ((DateTime)currentFiler[0].AdjDate).ToString("yyyy-MM-dd");
+            parameters["PayAccountID"] = SelectFrom<CashAccount>.Where<CashAccount.accountID.IsEqual<@P.AsInt>>.View.Select(this, currentFiler[0].PayAccountID).TopFirst?.CashAccountCD;
+            parameters["PayTypeID"] = currentFiler[0].PayTypeID;
+            throw new PXReportRequiredException(parameters, "LM622501", "LM622501") { Mode = PXBaseRedirectException.WindowMode.New };
+        }
+        #endregion
+
+        #region Method
+
+        public void DownlodARPayments(IEnumerable<ARPayment> arPaymentLists)
 		{
 			try
 			{

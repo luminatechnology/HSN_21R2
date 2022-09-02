@@ -9,10 +9,11 @@
     </px:PXDataSource>
 </asp:Content>
 <asp:Content ID="cont2" ContentPlaceHolderID="phF" runat="Server">
-    <px:PXFormView ID="form" runat="server" DataSourceID="ds" DataMember="Document" Width="100%" Height="150px" AllowAutoHide="false">
+    <px:PXFormView ID="form" runat="server" DataSourceID="ds" DataMember="Document" Width="100%" Height="150px" AllowAutoHide="false" Caption="Questionnaire Result">
         <Template>
             <px:PXLayoutRule runat="server" StartColumn="True" LabelsWidth="SM" ControlSize="XM" />
             <%--<px:PXSelector runat="server" ID="editSrvOrdType" DataField="SrvOrdType" CommitChanges="True" Width="120px" AutoRefresh="True"></px:PXSelector>--%>
+            <px:PXTextEdit runat="server" ID="editLineNbr" DataField="UniqueID" CommitChanges="True"></px:PXTextEdit>
             <px:PXSelector runat="server" ID="editApptRefNbr" DataField="ApptRefNbr" CommitChanges="True" Width="120px" AutoRefresh="True"></px:PXSelector>
             <px:PXSelector runat="server" ID="editQuestionnaireType" DataField="QuestionnaireType" Width="300px" CommitChanges="True"></px:PXSelector>
             <px:PXSelector ID="edUBranchID" runat="server" DataField="BranchID" CommitChanges="True" />

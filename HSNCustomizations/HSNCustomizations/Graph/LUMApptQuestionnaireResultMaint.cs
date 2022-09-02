@@ -6,6 +6,7 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.CR;
 using PX.Objects.FS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace HSNCustomizations.Graph
     {
         public SelectFrom<LUMApptQuestionnaire>
                 .LeftJoin<Contact>.On<LUMApptQuestionnaire.contactID.IsEqual<Contact.contactID>>
-                //.Where<LUMApptQuestionnaire.questionnaireType.IsEqual<LUMApptQuestionnaire.questionnaireType.FromCurrent>>
+                //.Where<LUMApptQuestionnaire.apptRefNbr.IsEqual<LUMApptQuestionnaire.apptRefNbr.AsOptional>>
                 .View Document;
 
         public SelectFrom<FSAppointmentEmployee>
@@ -29,20 +30,32 @@ namespace HSNCustomizations.Graph
         [PXCopyPasteHiddenView]
         public CRAttributeList<LUMApptQuestionnaire> Answers;
 
+
+        public IEnumerable document()
+        {
+            return SelectFrom<LUMApptQuestionnaire>
+                   .Where<LUMApptQuestionnaire.uniqueID.IsEqual<P.AsString>>
+                   .View.Select(this, (this.Document.Current?.UniqueID ?? PXView.Searches[0]));
+        }
+
         #region Events
+
+        public virtual void _(Events.FieldUpdated<LUMApptQuestionnaire.apptRefNbr> e)
+        {
+            if (e.Row != null)
+            {
+                this.Document.Cache.Clear();
+                this.Document.Cache.ClearQueryCache();
+                this.Document.Cache.SetValueExt<LUMApptQuestionnaire.uniqueID>((LUMApptQuestionnaire)e.Row, e.NewValue);
+                this.Document.View.RequestRefresh();
+            }
+        }
 
         public virtual void _(Events.RowSelected<LUMApptQuestionnaire> e)
         {
             var row = e.Row;
             if (row != null)
             {
-                if (string.IsNullOrEmpty(row.QuestionnaireType))
-                {
-                    object newQuestionnaireType;
-                    e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.questionnaireType>(row, out newQuestionnaireType);
-                    row.QuestionnaireType = (string)newQuestionnaireType;
-                }
-
                 if (!row.CustomerID.HasValue)
                 {
                     object newCustomerID;
@@ -77,6 +90,9 @@ namespace HSNCustomizations.Graph
                     var newQuestionnaireType = SelectFrom<LUMQuestionnaireType>.View.Select(this).TopFirst?.QuestionnaireType;
                     row.QuestionnaireType = newQuestionnaireType;
                 }
+
+                if (string.IsNullOrEmpty(row.ApptRefNbr) && !string.IsNullOrEmpty(row.UniqueID))
+                    row.ApptRefNbr = row.UniqueID;
 
             }
         }

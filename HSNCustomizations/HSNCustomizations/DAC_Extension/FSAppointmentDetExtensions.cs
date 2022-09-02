@@ -26,6 +26,22 @@ namespace PX.Objects.FS
         public abstract class usrEquipSerialNbr : PX.Data.BQL.BqlString.Field<usrEquipSerialNbr> { }
         #endregion
 
+        #region UsrEquipmentModel
+        // [Phase - II] Add new Field in Equipment and Appointment
+        [PXString(500, IsUnicode = true)]
+        [PXUIField(DisplayName = "Equipment Model", Visible = false, Enabled = false)]
+        public virtual string UsrEquipmentModel { get; set; }
+        public abstract class usrEquipmentModel : PX.Data.BQL.BqlString.Field<usrEquipmentModel> { }
+        #endregion
+
+        #region UsrRegistrationNbr
+        // [Phase - II] Add new Field in Equipment and Appointment
+        [PXString(30, IsUnicode = true)]
+        [PXUIField(DisplayName = "Registration Nbr.", Visible = false, Enabled = false)]
+        public virtual string UsrRegistrationNbr { get; set; }
+        public abstract class usrRegistrationNbr : PX.Data.BQL.BqlString.Field<usrRegistrationNbr> { }
+        #endregion
+
         #endregion
 
         #region UsrRMARequired

@@ -215,6 +215,18 @@
         <Children Key="Columns">
             <AddItem>
                 <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrRegistrationNbr" />
+                    <Prop Key="Width" Value="140" />
+                </PXGridColumn>
+            </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrEquipmentModel" />
+                    <Prop Key="Width" Value="280" />
+                </PXGridColumn>
+            </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
                     <Prop Key="DataField" Value="UsrEquipSerialNbr" />
                     <Prop Key="Width" Value="220" />
                 </PXGridColumn>

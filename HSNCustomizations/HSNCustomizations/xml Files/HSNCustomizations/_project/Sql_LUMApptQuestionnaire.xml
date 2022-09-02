@@ -1,7 +1,8 @@
 ﻿<Sql TableName="LUMApptQuestionnaire" TableSchemaXml="#CDATA">
     <CDATA name="TableSchemaXml"><![CDATA[<table name="LUMApptQuestionnaire">
   <col name="CompanyID" type="Int" default="Zero" />
-  <col name="ApptRefNbr" type="NVarChar(20)" />
+  <col name="UniqueID" type="NVarChar(20)" />
+  <col name="ApptRefNbr" type="NVarChar(20)" nullable="true" />
   <col name="QuestionnaireType" type="NVarChar(100)" nullable="true" />
   <col name="NoteID" type="UniqueIdentifier" />
   <col name="CreatedByID" type="UniqueIdentifier" />
@@ -17,7 +18,7 @@
   </index>
   <index name="PK_LUMApptQuestionnaire_1" clustered="true" primary="true" unique="true">
     <col name="CompanyID" />
-    <col name="ApptRefNbr" />
+    <col name="UniqueID" />
   </index>
 </table>]]></CDATA>
 </Sql>

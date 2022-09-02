@@ -1154,6 +1154,22 @@ namespace PX.Objects.FS
             SettingStageButton();
         }
 
+        protected void _(Events.RowSelected<FSAppointmentDet> e, PXRowSelected baseHandler)
+        {
+            // [Phase - II] Add new Field in Equipment and Appointment
+            baseHandler?.Invoke(e.Cache, e.Args);
+            var setup = HSNSetupView.Select().TopFirst;
+            if (e.Row != null && (setup?.EnableEquipmentModel ?? false))
+            {
+                var equipmentInfo = FSEquipment.PK.Find(Base, ((FSAppointmentDet)e.Row)?.SMEquipmentID);
+                PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrEquipmentModel>(e.Cache, null, setup?.EnableEquipmentModel ?? false);
+                PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrRegistrationNbr>(e.Cache, null, setup?.EnableEquipmentModel ?? false);
+
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipmentModel>(e.Row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrRegistrationNbr>(e.Row, equipmentInfo?.RegistrationNbr);
+            }
+        }
+
         protected void _(Events.RowUpdated<FSServiceOrder> e, PXRowUpdated baseHandler)
         {
             baseHandler?.Invoke(e.Cache, e.Args);
@@ -1234,6 +1250,15 @@ namespace PX.Objects.FS
             //[Phase II - Staff Selection for Customer Locations]
             baseHandler?.Invoke(e.Cache, e.Args);
             SetStaffByCustomerLocation((FSAppointmentDet)e.Row, e.ExternalCall);
+            // [Phase - II] Add new Field in Equipment and Appointment
+            var setup = HSNSetupView.Select().TopFirst;
+            if ((setup?.EnableEquipmentModel ?? false) && e.Row != null)
+            {
+                var row = (FSAppointmentDet)e.Row;
+                var equipmentInfo = FSEquipment.PK.Find(Base, ((FSAppointmentDet)e.Row)?.SMEquipmentID);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipmentModel>(row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrRegistrationNbr>(row, equipmentInfo?.RegistrationNbr);
+            }
         }
         #endregion
 

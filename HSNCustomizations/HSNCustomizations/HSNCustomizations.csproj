@@ -89,6 +89,7 @@
     <Compile Include="DAC_Extension\ARPaymentExtension.cs" />
     <Compile Include="DAC_Extension\CROpportunityExtensions.cs" />
     <Compile Include="DAC_Extension\CROpportunityProductsExtensions.cs" />
+    <Compile Include="DAC_Extension\FSEquipmentExtension.cs" />
     <Compile Include="DAC_Extension\FSManufacturerModelExtension.cs" />
     <Compile Include="DAC_Extension\FSServiceOrderExtensions.cs" />
     <Compile Include="DAC_Extension\FSSrvOrdTypeExtensions.cs" />
