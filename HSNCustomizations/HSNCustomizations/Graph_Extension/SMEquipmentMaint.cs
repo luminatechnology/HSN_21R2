@@ -3,11 +3,25 @@ using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
+using System.Collections;
 
 namespace PX.Objects.FS
 {
     public class SMEquipmentMaint_Extension : PXGraphExtension<SMEquipmentMaint>
     {
+        // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
+        public PXSelectJoin<FSServiceContract,
+                InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
+                Where<FSContractPeriodDet.SMequipmentID, Equal<Current<FSEquipment.SMequipmentID>>>,
+                OrderBy<Desc<FSServiceContract.endDate>>>
+                ServiceContractMappingList;
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            this.ServiceContractMappingList.AllowDelete = ServiceContractMappingList.AllowInsert = ServiceContractMappingList.AllowUpdate = false;
+        }
+
         #region Event Handlers
 
         public virtual void _(Events.RowSelected<FSEquipment> e, PXRowSelected baseHandler)

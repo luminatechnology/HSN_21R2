@@ -31,6 +31,7 @@
   <col name="EnableModificationofTaxAmount" type="Bit" nullable="true" />
   <col name="EnableEquipmentModel" type="Bit" nullable="true" />
   <col name="EnableOverridePINCodetDate" type="Bit" nullable="true" />
+  <col name="EnableOverrideWarranty" type="Bit" nullable="true" />
   <index name="PK_LUMHSNSetup" clustered="true" primary="true" unique="true">
     <col name="CompanyID" />
   </index>

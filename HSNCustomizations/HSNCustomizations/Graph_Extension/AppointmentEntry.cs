@@ -822,250 +822,7 @@ namespace PX.Objects.FS
             apptLine.FSSODetRow = soGraph.ServiceOrderDetails.Current;
         }
 
-        //public int ReplicateServiceOrderExceptions(AppointmentEntry graphAppointmentEntry, ServiceOrderEntry graphServiceOrderEntry, Exception exception)
-        //{
-        //    int errorCount = 0;
 
-        //    errorCount += SharedFunctions.ReplicateCacheExceptions(graphAppointmentEntry.AppointmentRecords.Cache,
-        //                                                           graphAppointmentEntry.AppointmentRecords.Current,
-        //                                                           graphAppointmentEntry.ServiceOrderRelated.Cache,
-        //                                                           graphAppointmentEntry.ServiceOrderRelated.Current,
-        //                                                           graphServiceOrderEntry.ServiceOrderRecords.Cache,
-        //                                                           graphServiceOrderEntry.ServiceOrderRecords.Current);
-
-        //    foreach (FSAppointmentDet fsAppointmentDetRow in graphAppointmentEntry.AppointmentDetails.Select())
-        //    {
-        //        if (fsAppointmentDetRow.FSSODetRow != null)
-        //        {
-        //            errorCount += SharedFunctions.ReplicateCacheExceptions(graphAppointmentEntry.AppointmentDetails.Cache,
-        //                                                                   fsAppointmentDetRow,
-        //                                                                   graphServiceOrderEntry.ServiceOrderDetails.Cache,
-        //                                                                   fsAppointmentDetRow.FSSODetRow);
-        //        }
-        //    }
-
-        //    if (errorCount == 0)
-        //    {
-        //        throw PXException.PreserveStack(exception);
-        //    }
-
-        //    return errorCount;
-        //}
-
-        //public void InsertUpdateSODet(PXCache cacheAppointmentDet, FSAppointmentDet fsAppointmentDetRow, PXSelectBase<FSSODet> viewSODet, FSAppointment apptRow)
-        //{
-        //    PXEntryStatus lineStatus = cacheAppointmentDet.GetStatus(fsAppointmentDetRow);
-
-        //    if (lineStatus != PXEntryStatus.Inserted
-        //            && lineStatus != PXEntryStatus.Updated)
-        //    {
-        //        return;
-        //    }
-
-        //    FSSODet fsSODetRow = null;
-
-        //    if (fsAppointmentDetRow.SODetID != null)
-        //    {
-        //        fsSODetRow = FSSODet.UK.Find(viewSODet.Cache.Graph, fsAppointmentDetRow.SODetID);
-
-        //        if (fsSODetRow == null || fsSODetRow.SODetID != fsAppointmentDetRow.SODetID)
-        //        {
-        //            throw new PXException(TX.Error.RECORD_X_NOT_FOUND, DACHelper.GetDisplayName(typeof(FSSODet)));
-        //        }
-        //    }
-
-        //    bool insertedUpdated = false;
-
-        //    if (fsSODetRow == null)
-        //    {
-        //        fsSODetRow = new FSSODet();
-
-        //        try
-        //        {
-        //            fsSODetRow.SkipUnitPriceCalc = true;
-        //            fsSODetRow.AlreadyCalculatedUnitPrice = fsAppointmentDetRow.CuryUnitPrice;
-
-        //            fsSODetRow = AppointmentEntry.InsertDetailLine<FSSODet, FSAppointmentDet>(viewSODet.Cache,
-        //                                                                         fsSODetRow,
-        //                                                                         cacheAppointmentDet,
-        //                                                                         fsAppointmentDetRow,
-        //                                                                         noteID: null,
-        //                                                                         soDetID: null,
-        //                                                                         copyTranDate: true,
-        //                                                                         tranDate: fsAppointmentDetRow.TranDate,
-        //                                                                         SetValuesAfterAssigningSODetID: true,
-        //                                                                         copyingFromQuote: false);
-
-        //            fsAppointmentDetRow.SODetCreate = true;
-        //            insertedUpdated = true;
-        //        }
-        //        finally
-        //        {
-        //            fsSODetRow.SkipUnitPriceCalc = false;
-        //            fsSODetRow.AlreadyCalculatedUnitPrice = null;
-        //        }
-
-        //        fsAppointmentDetRow.FSSODetRow = fsSODetRow;
-        //    }
-        //    else
-        //    {
-        //        fsSODetRow = (FSSODet)viewSODet.Cache.CreateCopy(fsSODetRow);
-
-        //        if (fsSODetRow.BranchID != fsAppointmentDetRow.BranchID)
-        //        {
-        //            viewSODet.Cache.SetValue<FSSODet.branchID>(fsSODetRow, fsAppointmentDetRow.BranchID);
-        //            insertedUpdated = true;
-        //        }
-
-        //        if (fsSODetRow.SiteID != fsAppointmentDetRow.SiteID)
-        //        {
-        //            fsSODetRow.SiteID = fsAppointmentDetRow.SiteID;
-        //            insertedUpdated = true;
-        //        }
-
-        //        if (fsSODetRow.SiteLocationID != fsAppointmentDetRow.SiteLocationID)
-        //        {
-        //            fsSODetRow.SiteLocationID = fsAppointmentDetRow.SiteLocationID;
-        //            insertedUpdated = true;
-        //        }
-
-        //        if (fsAppointmentDetRow.SODetCreate == true)
-        //        {
-        //            fsSODetRow.TranDesc = fsAppointmentDetRow.TranDesc;
-        //            insertedUpdated = true;
-        //        }
-
-        //        if (fsSODetRow.CuryUnitCost != fsAppointmentDetRow.CuryUnitCost
-        //            && fsSODetRow.ApptCntr <= 1)
-        //        {
-        //            fsSODetRow.CuryUnitCost = fsAppointmentDetRow.CuryUnitCost;
-        //            insertedUpdated = true;
-        //        }
-
-        //        if (Base.CanEditSrvOrdLineValues(cacheAppointmentDet, fsAppointmentDetRow, fsSODetRow) == true)
-        //        {
-        //            if (fsSODetRow.POCreate != fsAppointmentDetRow.EnablePO)
-        //            {
-        //                fsSODetRow.POCreate = fsAppointmentDetRow.EnablePO;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.POSource != fsAppointmentDetRow.POSource)
-        //            {
-        //                fsSODetRow.POSource = fsAppointmentDetRow.POSource;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.POVendorID != fsAppointmentDetRow.POVendorID)
-        //            {
-        //                fsSODetRow.POVendorID = fsAppointmentDetRow.POVendorID;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.POVendorLocationID != fsAppointmentDetRow.POVendorLocationID)
-        //            {
-        //                fsSODetRow.POVendorLocationID = fsAppointmentDetRow.POVendorLocationID;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.ManualCost != fsAppointmentDetRow.ManualCost)
-        //            {
-        //                fsSODetRow.ManualCost = fsAppointmentDetRow.ManualCost;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.EstimatedQty != fsAppointmentDetRow.EstimatedQty)
-        //            {
-        //                fsSODetRow.EstimatedQty = fsAppointmentDetRow.EstimatedQty;
-        //                insertedUpdated = true;
-        //            }
-        //        }
-
-        //        if (fsAppointmentDetRow.IsExpenseReceiptItem == true)
-        //        {
-        //            if (fsSODetRow.CuryUnitCost != fsAppointmentDetRow.CuryUnitCost)
-        //            {
-        //                fsSODetRow.CuryUnitCost = fsAppointmentDetRow.CuryUnitCost;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.CuryUnitPrice != fsAppointmentDetRow.CuryUnitPrice)
-        //            {
-        //                fsSODetRow.CuryUnitPrice = fsAppointmentDetRow.CuryUnitPrice;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.EstimatedQty != fsAppointmentDetRow.EstimatedQty)
-        //            {
-        //                fsSODetRow.EstimatedQty = fsAppointmentDetRow.EstimatedQty;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.UOM != fsAppointmentDetRow.UOM)
-        //            {
-        //                fsSODetRow.UOM = fsAppointmentDetRow.UOM;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.IsBillable != fsAppointmentDetRow.IsBillable)
-        //            {
-        //                fsSODetRow.IsBillable = fsAppointmentDetRow.IsBillable;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.CostCodeID != fsAppointmentDetRow.CostCodeID)
-        //            {
-        //                fsSODetRow.CostCodeID = fsAppointmentDetRow.CostCodeID;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.ProjectTaskID != fsAppointmentDetRow.ProjectTaskID)
-        //            {
-        //                fsSODetRow.ProjectTaskID = fsAppointmentDetRow.ProjectTaskID;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.CuryExtCost != fsAppointmentDetRow.CuryExtCost)
-        //            {
-        //                fsSODetRow.CuryExtCost = fsAppointmentDetRow.CuryExtCost;
-        //                insertedUpdated = true;
-        //            }
-
-        //            if (fsSODetRow.CuryBillableExtPrice != fsAppointmentDetRow.CuryBillableExtPrice)
-        //            {
-        //                fsSODetRow.CuryBillableExtPrice = fsAppointmentDetRow.CuryBillableExtPrice;
-        //                insertedUpdated = true;
-        //            }
-        //        }
-
-        //        if (insertedUpdated)
-        //        {
-        //            fsSODetRow = viewSODet.Update(fsSODetRow);
-        //        }
-        //    }
-
-        //    if (fsSODetRow.LineType == ID.LineType_ALL.SERVICE
-        //        && ID.Status_SODet.CanBeScheduled(fsSODetRow.Status) == true
-        //            &&
-        //                (apptRow.NotStarted == true
-        //                || apptRow.InProcess == true)
-        //            )
-        //    {
-        //        // Inserting or updating, this SODet line is being Scheduled in this Appointment.
-        //        if (fsSODetRow.Scheduled != true)
-        //        {
-        //            viewSODet.Cache.SetValue<FSSODet.scheduled>(fsSODetRow, true);
-        //            insertedUpdated = true;
-        //        }
-        //    }
-
-        //    if (insertedUpdated == true)
-        //    {
-        //        fsSODetRow = viewSODet.Update(fsSODetRow);
-        //    }
-
-        //    fsAppointmentDetRow.FSSODetRow = fsSODetRow;
-        //}
         #endregion
 
         #endregion
@@ -1259,7 +1016,38 @@ namespace PX.Objects.FS
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipmentModel>(row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrRegistrationNbr>(row, equipmentInfo?.RegistrationNbr);
             }
+            // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
+            if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null)
+            {
+                var row = (FSAppointmentDet)e.Row;
+                var contractInfo = PXSelectJoin<FSServiceContract,
+                                    InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
+                                    Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
+                                    OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
+                // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
+                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && x.Status == "A") && !(row.Warranty ?? false))
+                    Base.AppointmentDetails.SetValueExt<FSAppointmentDet.warranty>(row, true);
+            }
         }
+
+        public void _(Events.FieldUpdated<FSAppointmentDet.warranty> e, PXFieldUpdated baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+            var setup = HSNSetupView.Select().TopFirst;
+            // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
+            if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null && (bool?)e.NewValue == false)
+            {
+                var row = (FSAppointmentDet)e.Row;
+                var contractInfo = PXSelectJoin<FSServiceContract,
+                                    InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
+                                    Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
+                                    OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
+                // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
+                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && x.Status == "A") && !(row.Warranty ?? false))
+                    Base.AppointmentDetails.SetValueExt<FSAppointmentDet.warranty>(row, true);
+            }
+        }
+
         #endregion
 
         #region Actions
