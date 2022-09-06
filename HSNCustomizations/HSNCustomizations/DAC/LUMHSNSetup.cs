@@ -166,6 +166,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableOverrideWarranty : PX.Data.BQL.BqlBool.Field<enableOverrideWarranty> { }
         #endregion
 
+        #region EnablePromptMessageForCashSale
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable Prompt Message for Cash Sale Customers in Sales Orders")]
+        public virtual bool? EnablePromptMessageForCashSale { get; set; }
+        public abstract class enablePromptMessageForCashSale : PX.Data.BQL.BqlBool.Field<enablePromptMessageForCashSale> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }
