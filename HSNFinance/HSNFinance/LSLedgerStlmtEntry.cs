@@ -280,51 +280,56 @@ namespace HSNFinance
         #region Methods
         public virtual void CreateLedgerSettlement()
         {
-            string stlmtNbr = DateTime.UtcNow.ToString("yyyyMMddhhmmss");
-
-            foreach (GLTran tran in SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
-                                                                            .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-                                                      .Where<GLTran.selected.IsEqual<True>
-                                                             .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>>
-                                                                  //.And<GLTran.branchID.IsEqual<LedgerTranFilter.branchID.FromCurrent>>
-                                                                       .And<GLTran.released.IsEqual<True>>
-                                                                            .And<GLTran.posted.IsEqual<True>>>.View.Select(this))
+            using (PXTransactionScope ts = new PXTransactionScope())
             {
-                GLTranExt tranExt = PXCacheEx.GetExtension<GLTranExt>(tran);
+                string stlmtNbr = DateTime.UtcNow.ToString("yyyyMMddhhmmss");
 
-                LSLedgerSettlement row = LedgerStlmt.Cache.CreateInstance() as LSLedgerSettlement;
+                foreach (GLTran tran in SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
+                                                                                .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
+                                                          .Where<GLTran.selected.IsEqual<True>
+                                                                 .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>>
+                                                                           //.And<GLTran.branchID.IsEqual<LedgerTranFilter.branchID.FromCurrent>>
+                                                                           .And<GLTran.released.IsEqual<True>>
+                                                                                .And<GLTran.posted.IsEqual<True>>>.View.Select(this))
+                {
+                    GLTranExt tranExt = PXCacheEx.GetExtension<GLTranExt>(tran);
 
-                row.SettlementNbr    = stlmtNbr;
-                row.BranchID         = tran.BranchID;
-                row.LineNbr          = tran.LineNbr;
-                row.Module           = tran.Module;
-                row.BatchNbr         = tran.BatchNbr;
-                row.LedgerID         = tran.LedgerID;
-                row.AccountID        = tran.AccountID;
-                row.SubID            = tran.SubID;
-                row.OrigCreditAmt    = tran.CreditAmt;
-                row.OrigDebitAmt     = tran.DebitAmt;
-                row.SettledCreditAmt = tranExt.UsrSetldCreditAmt;
-                row.SettledDebitAmt  = tranExt.UsrSetldDebitAmt;
-                row.TranDesc         = tran.TranDesc;
-                row.TranDate         = tran.TranDate;
-                row.RefNbr           = tran.RefNbr;
-                row.InventoryID      = tran.InventoryID;
-                row.ProjectID        = tran.ProjectID;
-                row.TaskID           = tran.TaskID;
-                row.CostCodeID       = tran.CostCodeID;
+                    LSLedgerSettlement row = LedgerStlmt.Cache.CreateInstance() as LSLedgerSettlement;
 
-                row = (LSLedgerSettlement)LedgerStlmt.Insert(row);
+                    row.SettlementNbr = stlmtNbr;
+                    row.BranchID = tran.BranchID;
+                    row.LineNbr = tran.LineNbr;
+                    row.Module = tran.Module;
+                    row.BatchNbr = tran.BatchNbr;
+                    row.LedgerID = tran.LedgerID;
+                    row.AccountID = tran.AccountID;
+                    row.SubID = tran.SubID;
+                    row.OrigCreditAmt = tran.CreditAmt;
+                    row.OrigDebitAmt = tran.DebitAmt;
+                    row.SettledCreditAmt = tranExt.UsrSetldCreditAmt;
+                    row.SettledDebitAmt = tranExt.UsrSetldDebitAmt;
+                    row.TranDesc = tran.TranDesc;
+                    row.TranDate = tran.TranDate;
+                    row.RefNbr = tran.RefNbr;
+                    row.InventoryID = tran.InventoryID;
+                    row.ProjectID = tran.ProjectID;
+                    row.TaskID = tran.TaskID;
+                    row.CostCodeID = tran.CostCodeID;
 
-                GLTranDebit.Current = tran;
+                    row = (LSLedgerSettlement)LedgerStlmt.Insert(row);
 
-                decimal debit = tranExt.UsrRmngDebitAmt ?? 0m;
-                decimal credit = tranExt.UsrRmngCreditAmt ?? 0m;
+                    GLTranDebit.Current = tran;
 
-                UpdateGLTranUOM(GLTranDebit.Cache, (row.OrigCreditAmt + row.OrigDebitAmt == row.SettledCreditAmt + row.SettledDebitAmt || debit + credit == row.SettledCreditAmt + row.SettledDebitAmt) ? "ZZ" : "YY");
+                    decimal debit = tranExt.UsrRmngDebitAmt ?? 0m;
+                    decimal credit = tranExt.UsrRmngCreditAmt ?? 0m;
+
+                    UpdateGLTranUOM(GLTranDebit.Cache, (row.OrigCreditAmt + row.OrigDebitAmt == row.SettledCreditAmt + row.SettledDebitAmt || debit + credit == row.SettledCreditAmt + row.SettledDebitAmt) ? "ZZ" : "YY");
+                }
+
+                this.Actions.PressSave();
+
+                ts.Complete();
             }
-
-            this.Actions.PressSave();
         }
 
         private LedgerStlmtKey GetKey(LSLedgerSettlement record)
