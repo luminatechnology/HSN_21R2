@@ -22,6 +22,19 @@ namespace PX.Objects.SO
         [PXOverride]
         public virtual IEnumerable Release(PXAdapter adapter, ReleaseDelegate baseMethod)
         {
+            var doc = Base.Document.Current;
+            #region [All-Phase2] 1.26.2	Display an Pop-up Error Message when the Amount does not Tally in Credit and that of Original Invoice
+            var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+            if (doc != null && doc.DocType == "CRM" && (setup?.EnableValidationAmountInCreditMemo ?? false))
+            {
+                decimal totalOrigInvoiceAmount = 0;
+                foreach (var line in Base.Transactions.Select().RowCast<ARTran>().Select(x => new { x.OrigInvoiceType, x.OrigInvoiceNbr }).Distinct())
+                    totalOrigInvoiceAmount += ARInvoice.PK.Find(Base, line.OrigInvoiceType, line.OrigInvoiceNbr)?.CuryOrigDocAmt ?? 0;
+                if (doc.CuryDocBal != totalOrigInvoiceAmount)
+                    throw new Exception("The Balance of the Credit Memo is not Equal to the One in the Original Invoice, Please Revise to Further Process/Release");
+            }
+
+            #endregion
 
             #region [All-Phase2] Add a Validation for Qty Available by Warehouse and Location
             // 如果事先Update IN 就不用檢查
@@ -52,7 +65,6 @@ namespace PX.Objects.SO
             #endregion
 
             var releaseResult = baseMethod.Invoke(adapter);
-            var doc = Base.Document.Current;
             var tranRows = Base.Transactions.Select().RowCast<ARTran>().ToList().FirstOrDefault();
             if (tranRows != null)
             {

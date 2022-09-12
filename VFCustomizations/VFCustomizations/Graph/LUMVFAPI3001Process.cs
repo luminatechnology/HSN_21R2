@@ -13,6 +13,7 @@ using PX.Data.BQL;
 using PX.Objects.IN;
 using VFCustomizations.DAC;
 using VFCustomizations.DAC_Extension;
+using Newtonsoft.Json;
 
 namespace VFCustomizations.Graph
 {
@@ -72,10 +73,10 @@ namespace VFCustomizations.Graph
             var apiTokenObj = helper.GetAccessToken();
             if (apiTokenObj == null)
                 throw new PXException("Can not can Access Token!!");
-
             foreach (var selectedItem in selectedList)
             {
                 var errorMsg = string.Empty;
+                VFFTP3Entity entity = new VFFTP3Entity();
                 try
                 {
                     PXProcessing.SetCurrentItem(selectedItem);
@@ -91,7 +92,6 @@ namespace VFCustomizations.Graph
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
-                    VFFTP3Entity entity = new VFFTP3Entity();
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
                     entity.DeliveryDate = selectedItem.ShipDate?.ToString("dd/MM/yyyy HH:mm");
                     // SalesOrder Attribute SHIPTOCODE
@@ -179,10 +179,8 @@ namespace VFCustomizations.Graph
                     if (string.IsNullOrEmpty(errorMsg))
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
-                    {
-                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg);
                         PXProcessing.SetError("errorMsg");
-                    }
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                     baseGraph.Actions.PressSave();
                 }
             }

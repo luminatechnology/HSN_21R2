@@ -8,13 +8,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PX.Objects.CR;
+using HSNCustomizations.Descriptor;
 
 namespace PX.Objects.SO
 {
     public class SOOrderEntryExt_HSN : PXGraphExtension<SOOrderEntry>
     {
+        public SelectFrom<Contact>
+                .InnerJoin<BAccount>.On<Contact.bAccountID.IsEqual<BAccount.bAccountID>>
+                .Where<Contact.bAccountID.IsEqual<SOOrder.customerID.FromCurrent>>.View StandardContactSelector;
 
         #region Events
+
+        [PXMergeAttributes(Method = MergeMethod.Replace)]
+        [PXUIEnabled(typeof(Where<SOOrder.customerID, IsNotNull>))]
+        [PXDBInt]
+        [LUMGetContactByLocationAttribute(typeof(SOOrder.customerID), WithContactDefaultingByBAccount = true)]
+        public virtual void _(Events.CacheAttached<SOOrder.contactID> e) { }
 
         public virtual void _(Events.FieldUpdated<SOOrder.customerID> e, PXFieldUpdated baseHandler)
         {

@@ -78,10 +78,8 @@ namespace VFCustomizations.Graph
                     if (string.IsNullOrEmpty(errorMsg))
                         item.IsProcessed = true;
                     else
-                    {
-                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, item, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                         PXProcessing.SetError("errorMsg");
-                    }
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, item, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                     baseGraph.Transactions.Update(item);
                     baseGraph.Actions.PressSave();
                 }

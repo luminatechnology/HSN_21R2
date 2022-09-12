@@ -57,10 +57,10 @@ namespace VFCustomizations.Graph
         public static void GoProcessing(List<INRegister> list)
         {
             var baseGraph = CreateInstance<LUMVFAPI6001Process>();
-            baseGraph.SendDataToAPI3010(list, baseGraph);
+            baseGraph.SendDataToAPI6001(list, baseGraph);
         }
 
-        public virtual void SendDataToAPI3010(List<INRegister> selectedList, LUMVFAPI6001Process baseGraph)
+        public virtual void SendDataToAPI6001(List<INRegister> selectedList, LUMVFAPI6001Process baseGraph)
         {
             VFApiHelper helper = new VFApiHelper();
             // Get Access Token
@@ -76,6 +76,7 @@ namespace VFCustomizations.Graph
                 {
                     PXProcessing.SetCurrentItem(selectedItem);
                     entity.DeliveryNo = selectedItem.ExtRefNbr;
+                    //entity.DeliveryDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
                     entity.ETDDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
                     // Get Attribute AWBNO
                     var attrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
@@ -150,10 +151,8 @@ namespace VFCustomizations.Graph
                     if (string.IsNullOrEmpty(errorMsg))
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
-                    {
-                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                         PXProcessing.SetError("errorMsg");
-                    }
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
                     baseGraph.Actions.PressSave();
                 }
             }

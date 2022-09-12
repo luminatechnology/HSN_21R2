@@ -15,6 +15,7 @@ using HSNCustomizations.DAC;
 using PX.Objects.CR;
 using HSNCustomizations.Graph;
 using PX.Objects.CS;
+using Messages = PX.Objects.CR.Messages;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -591,4 +592,70 @@ namespace HSNCustomizations.Descriptor
         #endregion
     }
     #endregion
+
+    #region LUMGetContactByLocationAttribute
+    public class LUMGetContactByLocationAttribute : ContactRawAttribute
+    {
+        public LUMGetContactByLocationAttribute()
+            : this(null) { }
+
+        public LUMGetContactByLocationAttribute(Type bAccountIDField)
+            : this(bAccountIDField, null) { }
+
+        public LUMGetContactByLocationAttribute(Type bAccountIDField = null, Type[] contactTypes = null, Type customSearchField = null, Type customSearchQuery = null, Type[] fieldList = null, string[] headerList = null)
+        {
+            BAccountIDField = bAccountIDField;
+
+            ContactTypes = contactTypes ?? ContactTypes;
+
+            PXSelectorAttribute attr =
+                new PXSelectorAttribute(customSearchQuery ?? CreateSelect(bAccountIDField, customSearchField),
+                    fieldList: fieldList ?? new Type[]
+                    {
+                        typeof(Contact.displayName),
+                        typeof(ContactExtensions.usrLocationID),
+                        typeof(Contact.salutation),
+                        typeof(Contact.fullName),
+                        typeof(BAccount.acctCD),
+                        typeof(Contact.eMail),
+                        typeof(Contact.phone1),
+                        typeof(Contact.contactType)
+                    })
+                {
+                    Headers = headerList ?? new[]
+                    {
+                        "Contact",
+                        "Location",
+                        "Job Title",
+                        "Account Name",
+                        "Business Account",
+                        "Email",
+                        "Phone GG",
+                        "Type"
+                    },
+
+                    DescriptionField = typeof(Contact.displayName),
+                    SelectorMode = SelectorMode,
+                    Filterable = true,
+                    DirtyRead = true
+                };
+
+            _Attributes.Add(attr);
+
+            _SelAttrIndex = _Attributes.Count - 1;
+
+            if (bAccountIDField != null)
+            {
+                _Attributes.Add(new PXRestrictorAttribute(BqlCommand.Compose(
+                    typeof(Where<,,>), typeof(Current<>), bAccountIDField, typeof(IsNull),
+                        typeof(Or<,>), typeof(Contact.bAccountID), typeof(Equal<>), typeof(Current<>), bAccountIDField),
+                    Messages.ContactBAccountDiff)
+                {
+                    ShowWarning = true
+                });
+            }
+        }
+    }
 }
+#endregion
+
