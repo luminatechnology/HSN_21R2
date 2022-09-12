@@ -69,7 +69,6 @@
     <Compile Include="DAC_Extensions\CATranExtensions.cs" />
     <Compile Include="DAC_Extensions\FADetailsExtensions.cs" />
     <Compile Include="DAC_Extensions\GLTranExtensions.cs" />
-    <Compile Include="Examples.cs" />
     <Compile Include="Graph\LumARAgedPeriodMaint.cs" />
     <Compile Include="Graph_Extensions\APInvoiceEntry.cs" />
     <Compile Include="Graph_Extensions\AssetMaint.cs" />
