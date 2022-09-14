@@ -187,7 +187,38 @@ namespace PX.Objects.FS
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrEquipmentModel>(row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrRegistrationNbr>(row, equipmentInfo?.RegistrationNbr);
             }
+            // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
+            if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null)
+            {
+                var row = (FSSODet)e.Row;
+                var contractInfo = PXSelectJoin<FSServiceContract,
+                                    InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
+                                    Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
+                                    OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
+                // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
+                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && x.Status == "A") && !(row.Warranty ?? false))
+                    Base.ServiceOrderDetails.SetValueExt<FSSODet.warranty>(row, true);
+            }
         }
+
+        public void _(Events.FieldUpdated<FSSODet.warranty> e, PXFieldUpdated baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+            var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+            // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
+            if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null && (bool?)e.NewValue == false)
+            {
+                var row = (FSSODet)e.Row;
+                var contractInfo = PXSelectJoin<FSServiceContract,
+                                    InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
+                                    Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
+                                    OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
+                // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSSODet. OrderDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
+                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && x.Status == "A") && !(row.Warranty ?? false))
+                    Base.ServiceOrderDetails.SetValueExt<FSSODet.warranty>(row, true);
+            }
+        }
+
         #endregion
 
         #region Action

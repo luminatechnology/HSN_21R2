@@ -23,8 +23,27 @@ namespace PX.Objects.SO
 
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         [PXUIEnabled(typeof(Where<SOOrder.customerID, IsNotNull>))]
-        [PXDBInt]
-        [LUMGetContactByLocationAttribute(typeof(SOOrder.customerID), WithContactDefaultingByBAccount = true)]
+        [ContactRaw(typeof(SOOrder.customerID), null, null, null, new[]
+        {
+             typeof(Contact.displayName),
+             typeof(ContactExtensions.usrLocationID),
+             typeof(Contact.salutation),
+             typeof(Contact.fullName),
+             typeof(BAccount.acctCD),
+             typeof(Contact.eMail),
+             typeof(Contact.phone1),
+             typeof(Contact.contactType)
+            }, new string[]
+        {
+            "Contact",
+                        "Location",
+                        "Job Title",
+                        "Account Name",
+                        "Business Account",
+                        "Email",
+                        "Phone GG",
+                        "Type"
+            }, WithContactDefaultingByBAccount = true)]
         public virtual void _(Events.CacheAttached<SOOrder.contactID> e) { }
 
         public virtual void _(Events.FieldUpdated<SOOrder.customerID> e, PXFieldUpdated baseHandler)
@@ -35,7 +54,7 @@ namespace PX.Objects.SO
             {
                 var customerInfo = Customer.PK.Find(Base, (int?)e.NewValue);
                 var attrCASHSALE = CSAnswers.PK.Find(Base, customerInfo.NoteID, "CASHSALE");
-                if (attrCASHSALE?.Value == "1")
+                if (attrCASHSALE?.Value == "1" && Base.Document.Current?.OrderType != "CS")
                     Base.Document.Ask(PXMessages.LocalizeFormatNoPrefix("This is a Cash Sale Customer, please alter the Order Type to “CS” accordingly."), MessageButtons.OK);
             }
         }
