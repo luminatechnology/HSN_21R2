@@ -147,13 +147,13 @@ namespace VFCustomizations.Graph
                 }
                 finally
                 {
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
+                    baseGraph.Actions.PressSave();
                     // Success
                     if (string.IsNullOrEmpty(errorMsg))
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
                         PXProcessing.SetError("errorMsg");
-                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
-                    baseGraph.Actions.PressSave();
                 }
             }
 

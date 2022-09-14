@@ -50,11 +50,21 @@ namespace PX.Objects.SO
         {
             baseHandler?.Invoke(e.Cache, e.Args);
             var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+            var isCASHSALE = false;
             if ((setup?.EnablePromptMessageForCashSale ?? false))
             {
                 var customerInfo = Customer.PK.Find(Base, (int?)e.NewValue);
                 var attrCASHSALE = CSAnswers.PK.Find(Base, customerInfo.NoteID, "CASHSALE");
-                if (attrCASHSALE?.Value == "1" && Base.Document.Current?.OrderType != "CS")
+                if (attrCASHSALE?.Value == "1")
+                    isCASHSALE = true;
+                // 沒有設定Attbiute 則需判斷是不是Defualt = true
+                else
+                {
+                    var attrGroup = CSAttributeGroup.PK.Find(Base, "CASHSALE", customerInfo.CustomerClassID, "PX.Objects.AR.Customer");
+                    if (attrGroup?.DefaultValue == "True")
+                        isCASHSALE = true;
+                }
+                if (isCASHSALE && Base.Document.Current?.OrderType != "CS")
                     Base.Document.Ask(PXMessages.LocalizeFormatNoPrefix("This is a Cash Sale Customer, please alter the Order Type to “CS” accordingly."), MessageButtons.OK);
             }
         }

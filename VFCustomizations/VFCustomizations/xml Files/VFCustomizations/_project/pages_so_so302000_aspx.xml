@@ -164,6 +164,7 @@
                                                     <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
                                                         <Prop Key="DataField" Value="PreviousCommitDate_Time" />
                                                         <Prop Key="Width" Value="90" />
+                                                        <Prop Key="TimeMode" Value="True" />
                                                     </PXGridColumn>
                                                 </AddItem>
                                                 <AddItem>

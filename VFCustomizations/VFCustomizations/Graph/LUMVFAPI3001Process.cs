@@ -87,7 +87,7 @@ namespace VFCustomizations.Graph
                                          .And<SOShipLine.shipmentType.IsEqual<P.AsString>>>
                                        .View.Select(baseGraph, selectedItem.ShipmentNbr, selectedItem.ShipmentType).RowCast<SOShipLine>();
                     var shipAddress = SOShippingAddress.PK.Find(baseGraph, selectedItem?.ShipAddressID);
-                    var shipContact = SOShippingContact.PK.Find(baseGraph,selectedItem?.ShipContactID);
+                    var shipContact = SOShippingContact.PK.Find(baseGraph, selectedItem?.ShipContactID);
                     // Get First SO Record
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
@@ -175,13 +175,13 @@ namespace VFCustomizations.Graph
                 }
                 finally
                 {
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
+                    baseGraph.Actions.PressSave();
                     // Success
                     if (string.IsNullOrEmpty(errorMsg))
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
-                        PXProcessing.SetError("errorMsg");
-                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
-                    baseGraph.Actions.PressSave();
+                        PXProcessing.SetError(errorMsg);
                 }
             }
 
