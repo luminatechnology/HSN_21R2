@@ -39,7 +39,7 @@ namespace VFCustomizations.Graph
             Int32 startrow = PXView.StartRow;
             List<object> result = select.Select(PXView.Currents, PXView.Parameters,
                    PXView.Searches, PXView.SortColumns, PXView.Descendings,
-                   PXView.Filters, ref startrow, 100, ref totalrow);
+                   PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
             PXView.StartRow = 0;
             foreach (INRegister row in result)
             {
