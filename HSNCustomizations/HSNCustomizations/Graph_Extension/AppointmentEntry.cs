@@ -1507,6 +1507,7 @@ namespace PX.Objects.FS
 
         #endregion
 
+        // [Phase - II]  Add Validation to Prevent Users from "Quick Process" for Blank Warehouse Location
         public class LumAppointmentQuickProcess : PXGraphExtension<AppointmentEntry.AppointmentQuickProcess, AppointmentEntry>
         {
             public delegate IEnumerable QuickProcessDelegate(PXAdapter adapter);
