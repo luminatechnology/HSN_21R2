@@ -17,7 +17,7 @@ namespace PX.Objects.FS
             var maxRow = PXView.MaximumRows;
             // 只有Export to excel才需要Select all data
             if (HttpContext.Current != null)                
-                maxRow = HttpContext.Current.Request?.Params["__CALLBACKPARAM"]?.Split('|')[0] == "ExportExcel" ? PXView.MaximumRows : 15;
+                maxRow = 15;
             PXView select = new PXView(Base, false, Base.ContractPeriodDetRecords.View.BqlSelect);
             Int32 totalrow = 0;
             Int32 startrow = PXView.StartRow;
