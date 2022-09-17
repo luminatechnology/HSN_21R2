@@ -13,6 +13,7 @@ using PX.Data.BQL;
 using PX.Objects.IN;
 using VFCustomizations.DAC;
 using VFCustomizations.DAC_Extension;
+using Newtonsoft.Json;
 
 namespace VFCustomizations.Graph
 {
@@ -72,10 +73,10 @@ namespace VFCustomizations.Graph
             var apiTokenObj = helper.GetAccessToken();
             if (apiTokenObj == null)
                 throw new PXException("Can not can Access Token!!");
-
             foreach (var selectedItem in selectedList)
             {
                 var errorMsg = string.Empty;
+                VFFTP3Entity entity = new VFFTP3Entity();
                 try
                 {
                     PXProcessing.SetCurrentItem(selectedItem);
@@ -86,12 +87,11 @@ namespace VFCustomizations.Graph
                                          .And<SOShipLine.shipmentType.IsEqual<P.AsString>>>
                                        .View.Select(baseGraph, selectedItem.ShipmentNbr, selectedItem.ShipmentType).RowCast<SOShipLine>();
                     var shipAddress = SOShippingAddress.PK.Find(baseGraph, selectedItem?.ShipAddressID);
-                    var shipContact = SOShippingContact.PK.Find(baseGraph,selectedItem?.ShipContactID);
+                    var shipContact = SOShippingContact.PK.Find(baseGraph, selectedItem?.ShipContactID);
                     // Get First SO Record
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
-                    VFFTP3Entity entity = new VFFTP3Entity();
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
                     entity.DeliveryDate = selectedItem.ShipDate?.ToString("dd/MM/yyyy HH:mm");
                     // SalesOrder Attribute SHIPTOCODE
@@ -175,15 +175,13 @@ namespace VFCustomizations.Graph
                 }
                 finally
                 {
+                    PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg + "  " + JsonConvert.SerializeObject(entity));
+                    baseGraph.Actions.PressSave();
                     // Success
                     if (string.IsNullOrEmpty(errorMsg))
                         InsertOrUpdateKvextManual(selectedItem.NoteID.Value, baseGraph);
                     else
-                    {
-                        PXNoteAttribute.SetNote(baseGraph.Transactions.Cache, selectedItem, errorMsg);
-                        PXProcessing.SetError("errorMsg");
-                    }
-                    baseGraph.Actions.PressSave();
+                        PXProcessing.SetError(errorMsg);
                 }
             }
 

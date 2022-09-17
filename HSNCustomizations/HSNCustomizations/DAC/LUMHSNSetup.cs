@@ -173,6 +173,13 @@ namespace HSNCustomizations.DAC
         public abstract class enablePromptMessageForCashSale : PX.Data.BQL.BqlBool.Field<enablePromptMessageForCashSale> { }
         #endregion
 
+        #region EnableValidationAmountInCreditMemo
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable the Validation of Amount in Credit Memo")]
+        public virtual bool? EnableValidationAmountInCreditMemo { get;set;}
+        public abstract class enableValidationAmountInCreditMemo : PX.Data.BQL.BqlBool.Field<enableValidationAmountInCreditMemo> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

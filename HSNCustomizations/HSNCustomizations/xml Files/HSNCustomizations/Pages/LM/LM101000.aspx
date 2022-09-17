@@ -24,7 +24,7 @@
                     <px:PXCheckBox runat="server" ID="CstPXCheckBox14" DataField="EnableWFStageCtrlInAppt" AlignLeft="True"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox5" DataField="EnablePartReqInAppt"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox6" DataField="EnableRMAProcInAppt"></px:PXCheckBox>
-                    <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox10" DataField="EnableHeaderNoteSync"></px:PXCheckBox>
+                    <px:PXCheckBox AlignLeft="True" runat="server" ID="CstEnableHeaderNoteSync" DataField="EnableHeaderNoteSync"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox11" DataField="EnableChgInvTypeOnBill"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox15" DataField="EnableAppointmentUpdateEndDate"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox12" DataField="DisplayTransferToHQ"></px:PXCheckBox>
@@ -36,8 +36,9 @@
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox22" DataField="EnableCitiReturnCheckFile"></px:PXCheckBox>
 	<px:PXCheckBox runat="server" ID="CstEnableModificationofTaxAmount4" DataField="EnableModificationofTaxAmount" AlignLeft="True" ></px:PXCheckBox>
 	<px:PXCheckBox runat="server" ID="CstEnableEquipmentModel" DataField="EnableEquipmentModel" AlignLeft="True" ></px:PXCheckBox>
+	<px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox8" DataField="EnablePromptMessageForCashSale" ></px:PXCheckBox>
 	<px:PXCheckBox AlignLeft="True" TextAlign="Right" runat="server" ID="CstPXCheckBox7" DataField="EnableOverrideWarranty" ></px:PXCheckBox>
-	<px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox8" DataField="EnablePromptMessageForCashSale" ></px:PXCheckBox></Template>
+	<px:PXCheckBox AlignLeft="True" runat="server" ID="CstEnableValidationCM" DataField="EnableValidationAmountInCreditMemo" ></px:PXCheckBox></Template>
             </px:PXTabItem>
             <px:PXTabItem Text="Branch Warehouse">
 

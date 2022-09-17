@@ -1506,5 +1506,33 @@ namespace PX.Objects.FS
         }
 
         #endregion
+
+        // [Phase - II]  Add Validation to Prevent Users from "Quick Process" for Blank Warehouse Location
+        public class LumAppointmentQuickProcess : PXGraphExtension<AppointmentEntry.AppointmentQuickProcess, AppointmentEntry>
+        {
+            public delegate IEnumerable QuickProcessDelegate(PXAdapter adapter);
+            [PXOverride]
+            public IEnumerable QuickProcess(PXAdapter adapter, QuickProcessDelegate baseMethod)
+            {
+                var document = Base.AppointmentRecords.Current;
+                var srvTypeInfo = FSSrvOrdType.PK.Find(Base, document?.SrvOrdType);
+                var isValid = true;
+                if (document != null && (srvTypeInfo.GetExtension<FSSrvOrdTypeExt>()?.UsrEnableLocationValidForQuickProcess ?? false))
+                {
+                    foreach (var line in Base.AppointmentDetails.Select().RowCast<FSAppointmentDet>())
+                    {
+                        if (line?.LineType == "SLPRO" && line?.Status != FSAppointmentDet.status.CANCELED && !line.LocationID.HasValue)
+                        {
+                            Base.AppointmentDetails.Cache.RaiseExceptionHandling<FSAppointmentDet.locationID>(line, line.LocationID,
+                                new PXSetPropertyException<FSAppointmentDet.locationID>("The Location is Mandatory for Quick Process", PXErrorLevel.Error));
+                            isValid = false;
+                        }
+                    }
+                    if (!isValid)
+                        throw new PXException("The Location is Mandatory for Quick Process");
+                }
+                return baseMethod(adapter);
+            }
+        }
     }
 }

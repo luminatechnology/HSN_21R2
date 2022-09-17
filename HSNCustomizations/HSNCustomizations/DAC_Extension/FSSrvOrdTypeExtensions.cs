@@ -39,5 +39,12 @@ namespace PX.Objects.FS
         public virtual bool? UsrStaffFilterByCustomerLocation { get; set; }
         public abstract class usrStaffFilterByCustomerLocation : PX.Data.BQL.BqlBool.Field<usrStaffFilterByCustomerLocation> { }
         #endregion
+
+        #region UsrEnableLocationValidForQuickProcess
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable Location Validation for Quick Process")]
+        public virtual bool? UsrEnableLocationValidForQuickProcess { get; set; }
+        public abstract class usrEnableLocationValidForQuickProcess : PX.Data.BQL.BqlBool.Field<usrEnableLocationValidForQuickProcess> { }
+        #endregion
     }
 }
