@@ -77,7 +77,7 @@ namespace VFCustomizations.Graph
                     PXProcessing.SetCurrentItem(selectedItem);
                     entity.DeliveryNo = selectedItem.ExtRefNbr;
                     //entity.DeliveryDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
-                    entity.ETDDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.ETDDate = selectedItem.TranDate?.AddTicks(DateTime.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
                     // Get Attribute AWBNO
                     var attrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)attrAWBNO.Value;
