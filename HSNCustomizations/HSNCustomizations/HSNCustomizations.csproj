@@ -117,6 +117,7 @@
     <Compile Include="Graph_Extension\CADepositEntry.cs" />
     <Compile Include="Graph_Extension\CREmailActivityMaint.cs" />
     <Compile Include="Graph_Extension\CustomerClassMaint.cs" />
+    <Compile Include="Graph_Extension\CustomerLocationMaint.cs" />
     <Compile Include="Graph_Extension\INTransferEntry.cs" />
     <Compile Include="Graph_Extension\InventoryItemMaint.cs" />
     <Compile Include="Graph_Extension\OpportunityMaint.cs" />
