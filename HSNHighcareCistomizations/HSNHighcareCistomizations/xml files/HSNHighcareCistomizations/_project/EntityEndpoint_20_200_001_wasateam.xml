@@ -528,6 +528,12 @@
                             <To object="splits" field="Qty" />
                         </Mapping>
                     </Mapping>
+                    <Mapping field="DiscountAmount">
+                        <To object="Transactions" field="CuryDiscAmt" />
+                    </Mapping>
+                    <Mapping field="DiscountPercent">
+                        <To object="Transactions" field="DiscPct" />
+                    </Mapping>
                     <Mapping field="Branch">
                         <To object="Transactions" field="BranchID" />
                     </Mapping>
@@ -560,6 +566,8 @@
                 <Field name="Allocations" type="SalesOrderDetailAllocation[]" />
                 <Field name="Amount" type="DecimalValue" />
                 <Field name="Branch" type="StringValue" />
+                <Field name="DiscountAmount" type="DecimalValue" />
+                <Field name="DiscountPercent" type="DecimalValue" />
                 <Field name="ExtPrice" type="DecimalValue" />
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="LineDescription" type="StringValue" />
@@ -603,11 +611,11 @@
                 <Field name="PinCode" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="PinCode">
-                    <To object="Transaction" field="Pin" />
-                </Mapping>
                 <Mapping field="HCSerialNbr">
                     <To object="Transaction" field="SerialNbr" />
+                </Mapping>
+                <Mapping field="PinCode">
+                    <To object="Transaction" field="Pin" />
                 </Mapping>
             </Mappings>
         </TopLevelEntity>

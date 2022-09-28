@@ -79,7 +79,6 @@ namespace HSNHighcareCistomizations.Graph
             return adapter.Get();
         }
 
-
         public virtual void _(Events.RowSelected<LUMCustomerPINCode> e)
         {
             var setup = HSNSetup.Select();
@@ -95,8 +94,11 @@ namespace HSNHighcareCistomizations.Graph
             if (e.Row is LUMCustomerPINCode row && row != null && this.Document.Current != null && e.Operation == PXDBOperation.Insert)
             {
                 row.BAccountID = this.Document.Current.BAccountID;
-                row.StartDate = DateTime.Now;
-                row.EndDate = DateTime.Now.AddYears(1).AddDays(-1);
+                if (!row.StartDate.HasValue || !row.EndDate.HasValue)
+                {
+                    row.StartDate = DateTime.Now;
+                    row.EndDate = DateTime.Now.AddYears(1).AddDays(-1);
+                }
                 row.IsActive = Accessinfo.BusinessDate?.Date >= row.StartDate?.Date && Accessinfo.BusinessDate?.Date <= row.EndDate?.Date;
             }
         }
