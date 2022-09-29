@@ -32,6 +32,9 @@
                     <Mapping field="OrderType">
                         <To object="AcquirerItemList" field="OrderType" />
                     </Mapping>
+                    <Mapping field="TerminalID">
+                        <To object="AcquirerItemList" field="TerminaID" />
+                    </Mapping>
                 </Mapping>
             </Mappings>
         </TopLevelEntity>

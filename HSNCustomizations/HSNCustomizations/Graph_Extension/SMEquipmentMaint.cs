@@ -4,15 +4,17 @@ using PX.Data.BQL.Fluent;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace PX.Objects.FS
 {
     public class SMEquipmentMaint_Extension : PXGraphExtension<SMEquipmentMaint>
     {
         // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
-        public PXSelectJoin<FSServiceContract,
+        public PXSelectJoinGroupBy<FSServiceContract,
                 InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
                 Where<FSContractPeriodDet.SMequipmentID, Equal<Current<FSEquipment.SMequipmentID>>>,
+                Aggregate<GroupBy<FSServiceContract.serviceContractID, Max<FSServiceContract.serviceContractID>>>,
                 OrderBy<Desc<FSServiceContract.endDate>>>
                 ServiceContractMappingList;
 
