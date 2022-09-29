@@ -63,7 +63,8 @@ namespace HSNFinance
                                                      Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
                                                            .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
                                                                 .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
-                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
+                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>
+                                                                          .And<LSLedgerSettlement.settledDebitAmt.IsEqual<LSLedgerSettlement.origDebitAmt>>>>>>>>
                                         .And<GLTran.curyDebitAmt.IsGreater<PX.Objects.CS.decimal0>
                                              .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
                                                   .And<GLTran.released.IsEqual<True>
@@ -75,7 +76,8 @@ namespace HSNFinance
                                                      Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
                                                            .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
                                                                 .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
-                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
+                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>
+                                                                          .And<LSLedgerSettlement.settledCreditAmt.IsEqual<LSLedgerSettlement.origCreditAmt>>>>>>>>
                                         .And<GLTran.curyCreditAmt.IsGreater<PX.Objects.CS.decimal0>
                                              .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
                                                   .And<GLTran.released.IsEqual<True>
