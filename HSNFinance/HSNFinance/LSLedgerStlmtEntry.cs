@@ -33,39 +33,53 @@ namespace HSNFinance
         public PXCancel<LedgerTranFilter> Cancel;  
         public PXFilter<LedgerTranFilter> Filter;
         public SelectFrom<LSLedgerSettlement>.View LedgerStlmt;
-        public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
-                                                       .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-                                 .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-                                        .And<GLTran.released.IsEqual<True>>
-                                            .And<GLTran.posted.IsEqual<True>
-                                                 .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>
-                                                      .And<Where2<Where<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.asset>,
-                                                                        And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>,
-                                                                  Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
-                                                                     And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranDebit;
+
         //public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
         //                                               .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-        //                         .Where</*NotExists<Select<LSLedgerSettlement,
-        //                                             Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
-        //                                                   .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
-        //                                                        .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
-        //                                                             .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
-        //                                .And<GLTran.curyDebitAmt.IsGreater<PX.Objects.CS.decimal0>*/
-        //                                GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-        //                                          //.And<GLTran.branchID.IsEqual<LedgerTranFilter.branchID.FromCurrent>>
-        //                                               .And<GLTran.released.IsEqual<True>>
-        //                                                    .And<GLTran.posted.IsEqual<True>
-        //                                                         .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>>>.View GLTranDebit;
+        //                         .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+        //                                .And<GLTran.released.IsEqual<True>>
+        //                                    .And<GLTran.posted.IsEqual<True>
+        //                                         .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>
+        //                                              .And<Where2<Where<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.asset>,
+        //                                                                And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>,
+        //                                                          Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
+        //                                                             And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranDebit;
+        //public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
+        //                                               .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
+        //                         .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+        //                                .And<GLTran.released.IsEqual<True>>
+        //                                    .And<GLTran.posted.IsEqual<True>
+        //                                         .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>
+        //                                              .And<Where2<Where<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.asset>,
+        //                                                                And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>,
+        //                                                          Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
+        //                                                             And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranCredit;
+        /// <remarks>
+        /// Since the standard copy/paste functionality includes GLTran.UOM, the special UOM value for settlement is also copied, affecting the filter incorrectly.
+        /// </remarks> 
         public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
                                                        .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-                                 .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-                                        .And<GLTran.released.IsEqual<True>>
-                                            .And<GLTran.posted.IsEqual<True>
-                                                 .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>
-                                                      .And<Where2<Where<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.asset>,
-                                                                        And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>,
-                                                                  Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
-                                                                     And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranCredit;
+                                 .Where<NotExists<Select<LSLedgerSettlement,
+                                                     Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
+                                                           .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
+                                                                .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
+                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
+                                        .And<GLTran.curyDebitAmt.IsGreater<PX.Objects.CS.decimal0>
+                                             .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+                                                  .And<GLTran.released.IsEqual<True>
+                                                       .And<GLTran.posted.IsEqual<True>>>>>>.View GLTranDebit;
+        
+        public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
+                                                       .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
+                                 .Where<NotExists<Select<LSLedgerSettlement,
+                                                     Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
+                                                           .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
+                                                                .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
+                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
+                                        .And<GLTran.curyCreditAmt.IsGreater<PX.Objects.CS.decimal0>
+                                             .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+                                                  .And<GLTran.released.IsEqual<True>
+                                                       .And<GLTran.posted.IsEqual<True>>>>>>.View GLTranCredit;
         #endregion
 
         #region Actions

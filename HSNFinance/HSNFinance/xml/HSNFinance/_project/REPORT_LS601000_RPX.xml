@@ -340,7 +340,7 @@
                 <ParentName>GLHistoryByPeriod</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>GLHistoryByPeriod.BranchID</DataField>
@@ -2175,8 +2175,16 @@
                         <ProcessOrder>Always</ProcessOrder>
                         <ValueExpr>=IIf($ParmStartDate &gt;= [LSLedgerSettlement.TranDate],#010;     IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = True  Or#010;         ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = False,#010;         [LSLedgerSettlement.SettledDebitAmt], #010;         0),#010;     0)#010;+ $SettlementDebit</ValueExpr>
                     </ReportVariable>
+                    <ReportVariable>
+                        <Name>TranDebit</Name>
+                        <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [LSLedgerSettlement.OrigDebitAmt] - $SettledDebitLine,#010;         [GLTran.DebitAmt]#010;        )#010;     )</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
+                        <Name>TranCredit</Name>
+                        <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [LSLedgerSettlement.OrigCreditAmt] - $SettledCreditLine,#010;         [GLTran.CreditAmt]#010;        )#010;     )</ValueExpr>
+                    </ReportVariable>
                 </Variables>
-                <VisibleExpr>=$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;        IIf([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr]) And [GLTran.UOM] = 'YY', True, False))#010;And $LineBalance &lt;&gt; 0</VisibleExpr>
+                <VisibleExpr>=$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;        IIf([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr]) And [GLTran.UOM] = 'YY', True, False))#010;And ($TranDebit &lt;&gt; 0 Or $TranCredit &lt;&gt; 0)</VisibleExpr>
                 <Items>
                     <TextBox Name="textBox10">
                         <Excel>
@@ -2231,25 +2239,27 @@
                         <Excel>
                             <column>11</column>
                         </Excel>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
                         <Location>920px, 0px</Location>
                         <Size>100px, 16px</Size>
                         <Style>
                             <TextAlign>Right</TextAlign>
                         </Style>
                         <StyleName>Normal</StyleName>
-                        <Value>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [LSLedgerSettlement.OrigDebitAmt] - $SettledDebitLine,#010;         [GLTran.DebitAmt]#010;        )#010;     )</Value>
+                        <Value>=$TranDebit</Value>
                     </TextBox>
                     <TextBox Name="textBox36">
                         <Excel>
                             <column>12</column>
                         </Excel>
+                        <Format>=[GLTran.CreditAmt.Format]</Format>
                         <Location>1020px, 0px</Location>
                         <Size>100px, 16px</Size>
                         <Style>
                             <TextAlign>Right</TextAlign>
                         </Style>
                         <StyleName>Normal</StyleName>
-                        <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [LSLedgerSettlement.OrigCreditAmt] - $SettledCreditLine,#010;         [GLTran.CreditAmt]#010;        )#010;     )</Value>
+                        <Value>=$TranCredit</Value>
                     </TextBox>
                     <TextBox Name="textBox37">
                         <Excel>
