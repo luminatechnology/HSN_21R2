@@ -172,6 +172,7 @@ namespace PX.Objects.FS
 
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrEquipmentModel>(e.Row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrRegistrationNbr>(e.Row, equipmentInfo?.RegistrationNbr);
+                Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrEquipSerialNbr>(e.Row, equipmentInfo?.SerialNumber);
             }
         }
 
@@ -186,6 +187,7 @@ namespace PX.Objects.FS
                 var equipmentInfo = FSEquipment.PK.Find(Base, ((FSSODet)e.Row)?.SMEquipmentID);
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrEquipmentModel>(row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrRegistrationNbr>(row, equipmentInfo?.RegistrationNbr);
+                Base.ServiceOrderDetails.SetValueExt<FSSODetExt.usrEquipSerialNbr>(row, equipmentInfo?.SerialNumber);
             }
             // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
             if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null)
