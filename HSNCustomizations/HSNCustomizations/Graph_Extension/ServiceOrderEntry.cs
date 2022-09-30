@@ -198,7 +198,7 @@ namespace PX.Objects.FS
                                     Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
                                     OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
                 // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
-                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && x.Status == "A") && !(row.Warranty ?? false))
+                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && (x.Status == "A" || x.Status == "D")) && !(row.Warranty ?? false))
                     Base.ServiceOrderDetails.SetValueExt<FSSODet.warranty>(row, true);
             }
         }
@@ -216,7 +216,7 @@ namespace PX.Objects.FS
                                     Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
                                     OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
                 // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSSODet. OrderDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
-                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && x.Status == "A") && !(row.Warranty ?? false))
+                if (contractInfo.Any(x => x.EndDate >= Base.ServiceOrderRecords.Current?.OrderDate && (x.Status == "A" || x.Status == "D")) && !(row.Warranty ?? false))
                     Base.ServiceOrderDetails.SetValueExt<FSSODet.warranty>(row, true);
             }
         }
