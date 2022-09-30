@@ -76,11 +76,12 @@
                         <Levels>
                             <px:PXGridLevel DataKeyNames="UniqueID,LineNbr" DataMember="ContactHistory">
                                 <RowTemplate>
-                                    <px:PXDateTimeEdit ID="edContactDate" runat="server" DataField="ContactDate"></px:PXDateTimeEdit>
+                                    <%--<px:PXDateTimeEdit ID="edContactDate" runat="server" DataField="ContactDate"></px:PXDateTimeEdit>--%>
                                     <px:PXDropDown ID="edContactStatus" runat="server" DataField="ContactStatus"></px:PXDropDown>
                                 </RowTemplate>
                                 <Columns>
-                                    <px:PXGridColumn DataField="ContactDate" Width="120px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="ContactDate_Date" Width="120px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="ContactDate_Time" Width="120px" TimeMode="True"></px:PXGridColumn>
                                     <px:PXGridColumn DataField="ContactStatus" Width="120px"></px:PXGridColumn>
                                     <px:PXGridColumn DataField="Description" Width="150px"></px:PXGridColumn>
                                     <px:PXGridColumn DataField="LineNbr" Width="100px"></px:PXGridColumn>
