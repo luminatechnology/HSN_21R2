@@ -412,6 +412,8 @@
                 <Field name="Date" type="DateTimeValue" />
                 <Field name="Description" type="StringValue" />
                 <Field name="Details" type="SalesOrderDetail[]" />
+                <Field name="DisableAutomaticDiscountUpdate" type="BooleanValue" />
+                <Field name="DiscountDetails" type="SalesOrderDiscountDetails[]" />
                 <Field name="ExternalReference" type="StringValue" />
                 <Field name="Location" type="StringValue" />
                 <Field name="OrderedQty" type="DecimalValue" />
@@ -500,6 +502,41 @@
                 </Mapping>
                 <Mapping field="TaxTotal">
                     <To object="Document" field="CuryTaxTotal" />
+                </Mapping>
+                <Mapping field="DiscountDetails">
+                    <Mapping field="DiscountableAmt">
+                        <To object="DiscountDetails" field="CuryDiscountableAmt" />
+                    </Mapping>
+                    <Mapping field="Type">
+                        <To object="DiscountDetails" field="Type" />
+                    </Mapping>
+                    <Mapping field="DiscountAmt">
+                        <To object="DiscountDetails" field="CuryDiscountAmt" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="DiscountDetails" field="Description" />
+                    </Mapping>
+                    <Mapping field="DiscountableQty">
+                        <To object="DiscountDetails" field="DiscountableQty" />
+                    </Mapping>
+                    <Mapping field="DiscountCode">
+                        <To object="DiscountDetails" field="DiscountID" />
+                    </Mapping>
+                    <Mapping field="DiscountPercent">
+                        <To object="DiscountDetails" field="DiscountPct" />
+                    </Mapping>
+                    <Mapping field="SequenceID">
+                        <To object="DiscountDetails" field="DiscountSequenceID" />
+                    </Mapping>
+                    <Mapping field="ExternalDiscountCode">
+                        <To object="DiscountDetails" field="ExtDiscCode" />
+                    </Mapping>
+                    <Mapping field="ManualDiscount">
+                        <To object="DiscountDetails" field="IsManual" />
+                    </Mapping>
+                </Mapping>
+                <Mapping field="DisableAutomaticDiscountUpdate">
+                    <To object="CurrentDocument: 8" field="DisableAutomaticDiscountCalculation" />
                 </Mapping>
                 <Mapping field="CustomerID">
                     <To object="Document" field="CustomerID" />
@@ -619,5 +656,19 @@
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
+        <Detail name="SalesOrderDiscountDetails">
+            <Fields>
+                <Field name="Description" type="StringValue" />
+                <Field name="DiscountableAmt" type="DecimalValue" />
+                <Field name="DiscountableQty" type="DecimalValue" />
+                <Field name="DiscountAmt" type="DecimalValue" />
+                <Field name="DiscountCode" type="StringValue" />
+                <Field name="DiscountPercent" type="DecimalValue" />
+                <Field name="ExternalDiscountCode" type="StringValue" />
+                <Field name="ManualDiscount" type="BooleanValue" />
+                <Field name="SequenceID" type="StringValue" />
+                <Field name="Type" type="StringValue" />
+            </Fields>
+        </Detail>
     </Endpoint>
 </EntityEndpoint>
