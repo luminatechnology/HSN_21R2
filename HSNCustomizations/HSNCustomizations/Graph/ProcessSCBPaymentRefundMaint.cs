@@ -129,9 +129,9 @@ namespace HSNCustomizations.Graph
                             // 22.Left(Customer.atttribute BANKACTML,30)
                             var BANKACTML = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "BANKACTML") as PXFieldState)?.Value);
                             content[21] = BANKACTML?.Length >= 30 ? BANKACTML?.Substring(0, 30) : BANKACTML;
-                            // 23.Left(ARPayment.atttribute.REMITEMAIL, 30)
+                            // 23.Left(ARPayment.atttribute.REMITEMAIL, 200)
                             var REMITEMAIL = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "REMITEMAIL") as PXFieldState)?.Value);
-                            content[22] = REMITEMAIL?.Length >= 30 ? REMITEMAIL?.Substring(0, 30) : REMITEMAIL;
+                            content[22] = REMITEMAIL?.Length >= 200 ? REMITEMAIL?.Substring(0, 200) : REMITEMAIL;
                             // 25.ARPayment.atttribute BANKACCNBR
                             content[24] = arLine.GetExtension<ARPaymentExt>().UsrBankAccNbrttributes;
                             // 32.ARPayment.atttribute BANKSWIFT
