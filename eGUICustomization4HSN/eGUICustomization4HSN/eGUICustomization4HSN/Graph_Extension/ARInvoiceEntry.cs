@@ -87,8 +87,6 @@ namespace PX.Objects.AR
         #region Event Handlers
         public bool activateGUI = TWNGUIValidation.ActivateTWGUI(new PXGraph());
 
-        TWNGUIValidation tWNGUIValidation = new TWNGUIValidation();
-
         TWNReleaseProcess rp = PXGraph.CreateInstance<TWNReleaseProcess>();
 
         protected void _(Events.RowPersisting<ARInvoice> e, PXRowPersisting baseHandler)
@@ -145,12 +143,14 @@ namespace PX.Objects.AR
             PXUIFieldAttribute.SetVisible<ARRegisterExt.usrNPONbr>(e.Cache, null, activateGUI);
             PXUIFieldAttribute.SetVisible<ARRegisterExt.usrCreditAction>(e.Cache, null, activateGUI &&
                                                                                         !string.IsNullOrEmpty(registerExt.UsrVATOutCode) &&
-                                                                                        (registerExt.UsrVATOutCode.IsIn(TWGUIFormatCode.vATOutCode33, TWGUIFormatCode.vATOutCode34)));
+                                                                                        registerExt.UsrVATOutCode.IsIn(TWGUIFormatCode.vATOutCode33, TWGUIFormatCode.vATOutCode34));
 
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrB2CType>(e.Cache, e.Row, !statusClosed && taxNbrBlank);
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrCarrierID>(e.Cache, e.Row, !statusClosed && taxNbrBlank && registerExt.UsrB2CType == TWNB2CType.MC);
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrNPONbr>(e.Cache, e.Row, !statusClosed && taxNbrBlank && registerExt.UsrB2CType == TWNB2CType.NPO);
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrVATOutCode>(e.Cache, e.Row, string.IsNullOrEmpty(registerExt.UsrGUINo));
+            // According to [JIRA] (HSN-34)
+            PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrCreditAction>(e.Cache, e.Row, !statusClosed && registerExt.UsrCreditAction != TWNCreditAction.NO);
         }
 
         protected void _(Events.RowInserting<ARInvoice> e)
@@ -163,7 +163,9 @@ namespace PX.Objects.AR
                 {
                     case TWGUIFormatCode.vATOutCode31:
                     case TWGUIFormatCode.vATOutCode35:
-                        registerExt.UsrVATOutCode = TWGUIFormatCode.vATOutCode33;
+                        registerExt.UsrVATOutCode   = TWGUIFormatCode.vATOutCode33;
+                        // According to [JIRA] (HSN-34)
+                        registerExt.UsrCreditAction = TWNCreditAction.VG;
                         break;
 
                     case TWGUIFormatCode.vATOutCode32:
@@ -238,47 +240,6 @@ namespace PX.Objects.AR
                 }
             }
         }
-
-        //protected void _(Events.FieldVerifying<ARInvoice, ARInvoice.hold> e)
-        //{
-        //    if (activateGUI && e.NewValue.Equals(false) && e.OldValue.Equals(true))
-        //    {
-        //        var row = e.Row as ARInvoice;
-
-        //        if (!row.CuryDocBal.Equals(decimal.Zero) && string.IsNullOrEmpty(PXCache<ARRegister>.GetExtension<ARRegisterExt>(row).UsrVATOutCode))
-        //        {
-        //            Base.Document.Ask(TWMessages.RemindHeader, TWMessages.ReminderMesg, MessageButtons.OKCancel);
-
-        //            if (Base.Document.AskExt() == WebDialogResult.Cancel) { e.Cancel = true; }
-        //        }
-        //    }
-        //}
-
-        //protected void _(Events.RowUpdated<ARInvoice> e)
-        //{
-        //    /// When using the copy and paste feature, don't bring the source GUI number into the new one.
-        //    if (Base.IsCopyPasteContext.Equals(true))
-        //    {
-        //        PXCache<ARRegister>.GetExtension<ARRegisterExt>(e.Row).UsrGUINo = string.Empty;
-        //    }
-        //}
-
-        //protected void _(Events.FieldUpdated<ARRegisterExt.usrVATOutCode> e)
-        //{
-        //    var row = (ARInvoice)e.Row;
-
-        //    ARRegisterExt regisExt = PXCache<ARRegister>.GetExtension<ARRegisterExt>(row);
-
-        //    if (activateGUI && !string.IsNullOrEmpty(regisExt.UsrVATOutCode) && row.CuryDocBal > decimal.Zero)
-        //    {
-        //        TWNGUIPreferences gUIPreferences = SelectFrom<TWNGUIPreferences>.View.Select(Base);
-
-        //        regisExt.UsrGUINo = AutoNumberAttribute.GetNextNumber(e.Cache,
-        //                                                              row,
-        //                                                              regisExt.UsrVATOutCode.Equals(TWGUIFormatCode.vATOutCode32) ? gUIPreferences.GUI2CopiesNumbering : gUIPreferences.GUI3CopiesNumbering,
-        //                                                              regisExt.UsrGUIDate);
-        //    }
-        //}
         #endregion
 
         #region Custom Attribute
