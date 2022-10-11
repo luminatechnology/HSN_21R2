@@ -147,6 +147,7 @@
     <Compile Include="DAC\LUMCustomerStaffMapping.cs" />
     <Compile Include="DAC\LUMQuestionnaireType.cs" />
     <Compile Include="DAC\LUMApptQuestionnaire.cs" />
+    <Compile Include="DAC\LUMApptQuensionnaireContactHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

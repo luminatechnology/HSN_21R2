@@ -17,6 +17,7 @@
             <px:PXSelector runat="server" ID="editApptRefNbr" DataField="ApptRefNbr" CommitChanges="True" Width="120px" AutoRefresh="True"></px:PXSelector>
             <px:PXSelector runat="server" ID="editQuestionnaireType" DataField="QuestionnaireType" Width="300px" CommitChanges="True"></px:PXSelector>
             <px:PXSelector ID="edUBranchID" runat="server" DataField="BranchID" CommitChanges="True" />
+            <px:PXTextEdit runat="server" ID="editDocDesc" DataField="DocDesc"></px:PXTextEdit>
             <px:PXLayoutRule runat="server" StartColumn="True" LabelsWidth="SM" ControlSize="XM" />
             <px:PXSelector runat="server" ID="editCustomerID" DataField="CustomerID"></px:PXSelector>
             <px:PXDateTimeEdit runat="server" ID="editExecutionDate" DataField="ExecutionDate"></px:PXDateTimeEdit>
@@ -64,6 +65,31 @@
                             </px:PXGridLevel>
                         </Levels>
                         <Mode AllowAddNew="False" AllowDelete="False" AllowUpdate="False" AllowUpload="False" />
+                    </px:PXGrid>
+                </Template>
+            </px:PXTabItem>
+        </Items>
+        <Items>
+            <px:PXTabItem Text="CONTACT HISTORY">
+                <Template>
+                    <px:PXGrid ID="PXGridContactHistory" runat="server" Caption="CONTACT HISTORY" DataSourceID="ds" Height="400px" MatrixMode="True" Width="100%" SkinID="Details">
+                        <Levels>
+                            <px:PXGridLevel DataKeyNames="UniqueID,LineNbr" DataMember="ContactHistory">
+                                <RowTemplate>
+                                    <%--<px:PXDateTimeEdit ID="edContactDate" runat="server" DataField="ContactDate"></px:PXDateTimeEdit>--%>
+                                    <px:PXDropDown ID="edContactStatus" runat="server" DataField="ContactStatus"></px:PXDropDown>
+                                </RowTemplate>
+                                <Columns>
+                                    <px:PXGridColumn DataField="ContactDate_Date" Width="120px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="ContactDate_Time" Width="120px" TimeMode="True"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="ContactStatus" Width="120px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="Description" Width="150px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="LineNbr" Width="100px"></px:PXGridColumn>
+                                    <px:PXGridColumn DataField="UniqueID" Width="120px"></px:PXGridColumn>
+                                </Columns>
+                            </px:PXGridLevel>
+                        </Levels>
+                        <Mode AllowAddNew="True" AllowDelete="True" AllowUpdate="True" AllowUpload="False" />
                     </px:PXGrid>
                 </Template>
             </px:PXTabItem>

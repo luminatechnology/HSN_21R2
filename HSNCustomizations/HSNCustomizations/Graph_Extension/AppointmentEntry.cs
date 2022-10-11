@@ -924,6 +924,7 @@ namespace PX.Objects.FS
 
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipmentModel>(e.Row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrRegistrationNbr>(e.Row, equipmentInfo?.RegistrationNbr);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipSerialNbr>(e.Row, equipmentInfo?.SerialNumber);
             }
         }
 
@@ -1015,6 +1016,7 @@ namespace PX.Objects.FS
                 var equipmentInfo = FSEquipment.PK.Find(Base, ((FSAppointmentDet)e.Row)?.SMEquipmentID);
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipmentModel>(row, equipmentInfo.GetExtension<FSEquipmentExtension>()?.UsrEquipmentModel);
                 Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrRegistrationNbr>(row, equipmentInfo?.RegistrationNbr);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExt.usrEquipSerialNbr>(row, equipmentInfo?.SerialNumber);
             }
             // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
             if ((setup?.EnableOverrideWarranty ?? false) && e.Row != null)
@@ -1025,7 +1027,7 @@ namespace PX.Objects.FS
                                     Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
                                     OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
                 // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
-                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && x.Status == "A") && !(row.Warranty ?? false))
+                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && (x.Status == "A" || x.Status == "D")) && !(row.Warranty ?? false))
                     Base.AppointmentDetails.SetValueExt<FSAppointmentDet.warranty>(row, true);
             }
         }
@@ -1043,7 +1045,7 @@ namespace PX.Objects.FS
                                     Where<FSContractPeriodDet.SMequipmentID, Equal<P.AsString>>,
                                     OrderBy<Desc<FSServiceContract.endDate>>>.Select(Base, row.SMEquipmentID).RowCast<FSServiceContract>();
                 // PX.Objects.FS.FSServiceContract. EndDate for this Target Equipment ID >= FSAppointment. ExecutionDate AND PX.Objects.FS.FSServiceContract.Status is “Active”
-                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && x.Status == "A") && !(row.Warranty ?? false))
+                if (contractInfo.Any(x => x.EndDate >= Base.AppointmentRecords.Current?.ExecutionDate && (x.Status == "A" || x.Status == "D")) && !(row.Warranty ?? false))
                     Base.AppointmentDetails.SetValueExt<FSAppointmentDet.warranty>(row, true);
             }
         }
