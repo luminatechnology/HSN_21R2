@@ -1,4 +1,5 @@
-﻿using PX.Data;
+﻿using HSNHighcareCistomizations.DAC;
+using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.FS;
@@ -25,9 +26,33 @@ namespace HSNHighcareCistomizations.Descriptor
         {
             return FSEquipment.PK.Find(new PXGraph(), equipmentID);
         }
+
+        public IEnumerable<LUMEquipmentPINCode> GetEquipmentPINCodeList(int? equipmentID)
+        {
+           return SelectFrom<LUMEquipmentPINCode>
+                 .InnerJoin<LUMCustomerPINCode>.On<LUMEquipmentPINCode.pincode.IsEqual<LUMCustomerPINCode.pin>>
+                 .InnerJoin<FSEquipment>.On<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSEquipment.SMequipmentID>.
+                        And<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>>
+                 .Where<LUMEquipmentPINCode.sMEquipmentID.IsEqual<P.AsInt>>
+                 .OrderBy<Asc<LUMCustomerPINCode.startDate>>
+                 .View.Select(new PXGraph(), equipmentID).RowCast<LUMEquipmentPINCode>();
+        }
     }
+
     public class HighcareClassAttr : PX.Data.BQL.BqlString.Constant<HighcareClassAttr>
     {
         public HighcareClassAttr() : base("HIGHCARE") { }
+    }
+
+    [Serializable]
+    public class ServiceScopeFilter : IBqlTable
+    {
+        #region CPriceClassID
+        [PXString(10, IsUnicode = true, InputMask = "")]
+        [PXSelector(typeof(PX.Objects.AR.ARPriceClass.priceClassID))]
+        [PXUIField(DisplayName = "Price Class ID")]
+        public virtual string CPriceClassID { get; set; }
+        public abstract class cPriceClassID : PX.Data.BQL.BqlString.Field<cPriceClassID> { }
+        #endregion
     }
 }

@@ -178,6 +178,7 @@
                 <Field name="LocationType" type="StringValue" />
                 <Field name="OwnerType" type="StringValue" />
                 <Field name="PINCode" type="StringValue" />
+                <Field name="PINCodeDetails" type="PINCodeDetails[]" />
                 <Field name="PurchaseInfo" type="PurhcaseInfo" />
                 <Field name="ResourceEquipment" type="BooleanValue" />
                 <Field name="SerialNbr" type="StringValue" />
@@ -231,6 +232,11 @@
                 </Mapping>
                 <Mapping field="Vehicle">
                     <To object="EquipmentRecords" field="IsVehicle" />
+                </Mapping>
+                <Mapping field="PINCodeDetails">
+                    <Mapping field="Pincode">
+                        <To object="EquipmentPINCodeList" field="Pincode" />
+                    </Mapping>
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
@@ -668,6 +674,11 @@
                 <Field name="ManualDiscount" type="BooleanValue" />
                 <Field name="SequenceID" type="StringValue" />
                 <Field name="Type" type="StringValue" />
+            </Fields>
+        </Detail>
+        <Detail name="PINCodeDetails">
+            <Fields>
+                <Field name="Pincode" type="StringValue" />
             </Fields>
         </Detail>
     </Endpoint>
