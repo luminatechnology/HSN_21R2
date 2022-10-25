@@ -178,6 +178,7 @@
                 <Field name="LocationType" type="StringValue" />
                 <Field name="OwnerType" type="StringValue" />
                 <Field name="PINCode" type="StringValue" />
+                <Field name="PINCodeDetails" type="PINCodeDetails[]" />
                 <Field name="PurchaseInfo" type="PurhcaseInfo" />
                 <Field name="ResourceEquipment" type="BooleanValue" />
                 <Field name="SerialNbr" type="StringValue" />
@@ -211,6 +212,11 @@
                 </Mapping>
                 <Mapping field="PINCode">
                     <To object="EquipmentSelected" field="UsrPINCode" />
+                </Mapping>
+                <Mapping field="PINCodeDetails">
+                    <Mapping field="Pincode">
+                        <To object="EquipmentPINCodeList" field="Pincode" />
+                    </Mapping>
                 </Mapping>
                 <Mapping field="PurchaseInfo">
                     <Mapping field="PurchaseDate">
@@ -430,6 +436,41 @@
                 <Mapping field="Contact">
                     <To object="Document" field="ContactID" />
                 </Mapping>
+                <Mapping field="DisableAutomaticDiscountUpdate">
+                    <To object="CurrentDocument: 8" field="DisableAutomaticDiscountCalculation" />
+                </Mapping>
+                <Mapping field="DiscountDetails">
+                    <Mapping field="Description">
+                        <To object="DiscountDetails" field="Description" />
+                    </Mapping>
+                    <Mapping field="Type">
+                        <To object="DiscountDetails" field="Type" />
+                    </Mapping>
+                    <Mapping field="DiscountableAmt">
+                        <To object="DiscountDetails" field="CuryDiscountableAmt" />
+                    </Mapping>
+                    <Mapping field="DiscountableQty">
+                        <To object="DiscountDetails" field="DiscountableQty" />
+                    </Mapping>
+                    <Mapping field="DiscountAmt">
+                        <To object="DiscountDetails" field="CuryDiscountAmt" />
+                    </Mapping>
+                    <Mapping field="DiscountCode">
+                        <To object="DiscountDetails" field="DiscountID" />
+                    </Mapping>
+                    <Mapping field="DiscountPercent">
+                        <To object="DiscountDetails" field="DiscountPct" />
+                    </Mapping>
+                    <Mapping field="ExternalDiscountCode">
+                        <To object="DiscountDetails" field="ExtDiscCode" />
+                    </Mapping>
+                    <Mapping field="ManualDiscount">
+                        <To object="DiscountDetails" field="IsManual" />
+                    </Mapping>
+                    <Mapping field="SequenceID">
+                        <To object="DiscountDetails" field="DiscountSequenceID" />
+                    </Mapping>
+                </Mapping>
                 <Mapping field="ExternalReference">
                     <To object="Document" field="CustomerRefNbr" />
                 </Mapping>
@@ -477,6 +518,9 @@
                         <To object="Shipping_Address" field="IsValidated" />
                     </Mapping>
                 </Mapping>
+                <Mapping field="CurrencyID">
+                    <To object="Document" field="CuryID" />
+                </Mapping>
                 <Mapping field="ShipToContact">
                     <Mapping field="AccountName">
                         <To object="Shipping_Contact" field="FullName" />
@@ -497,46 +541,8 @@
                 <Mapping field="Status">
                     <To object="Document" field="Status" />
                 </Mapping>
-                <Mapping field="CurrencyID">
-                    <To object="Document" field="CuryID" />
-                </Mapping>
                 <Mapping field="TaxTotal">
                     <To object="Document" field="CuryTaxTotal" />
-                </Mapping>
-                <Mapping field="DiscountDetails">
-                    <Mapping field="DiscountableAmt">
-                        <To object="DiscountDetails" field="CuryDiscountableAmt" />
-                    </Mapping>
-                    <Mapping field="Type">
-                        <To object="DiscountDetails" field="Type" />
-                    </Mapping>
-                    <Mapping field="DiscountAmt">
-                        <To object="DiscountDetails" field="CuryDiscountAmt" />
-                    </Mapping>
-                    <Mapping field="Description">
-                        <To object="DiscountDetails" field="Description" />
-                    </Mapping>
-                    <Mapping field="DiscountableQty">
-                        <To object="DiscountDetails" field="DiscountableQty" />
-                    </Mapping>
-                    <Mapping field="DiscountCode">
-                        <To object="DiscountDetails" field="DiscountID" />
-                    </Mapping>
-                    <Mapping field="DiscountPercent">
-                        <To object="DiscountDetails" field="DiscountPct" />
-                    </Mapping>
-                    <Mapping field="SequenceID">
-                        <To object="DiscountDetails" field="DiscountSequenceID" />
-                    </Mapping>
-                    <Mapping field="ExternalDiscountCode">
-                        <To object="DiscountDetails" field="ExtDiscCode" />
-                    </Mapping>
-                    <Mapping field="ManualDiscount">
-                        <To object="DiscountDetails" field="IsManual" />
-                    </Mapping>
-                </Mapping>
-                <Mapping field="DisableAutomaticDiscountUpdate">
-                    <To object="CurrentDocument: 8" field="DisableAutomaticDiscountCalculation" />
                 </Mapping>
                 <Mapping field="CustomerID">
                     <To object="Document" field="CustomerID" />
@@ -551,12 +557,6 @@
                     <To object="Document" field="OrderDesc" />
                 </Mapping>
                 <Mapping field="Details">
-                    <Mapping field="Amount">
-                        <To object="Transactions" field="CuryLineAmt" />
-                    </Mapping>
-                    <Mapping field="Warehouse">
-                        <To object="Transactions" field="SiteID" />
-                    </Mapping>
                     <Mapping field="Allocations">
                         <Mapping field="LotSerialNbr">
                             <To object="splits" field="LotSerialNbr" />
@@ -565,14 +565,29 @@
                             <To object="splits" field="Qty" />
                         </Mapping>
                     </Mapping>
+                    <Mapping field="Quantity">
+                        <To object="Transactions" field="OrderQty" />
+                    </Mapping>
+                    <Mapping field="UnitPrice">
+                        <To object="Transactions" field="CuryUnitPrice" />
+                    </Mapping>
+                    <Mapping field="UOM">
+                        <To object="Transactions" field="UOM" />
+                    </Mapping>
+                    <Mapping field="Warehouse">
+                        <To object="Transactions" field="SiteID" />
+                    </Mapping>
+                    <Mapping field="Amount">
+                        <To object="Transactions" field="CuryLineAmt" />
+                    </Mapping>
+                    <Mapping field="Branch">
+                        <To object="Transactions" field="BranchID" />
+                    </Mapping>
                     <Mapping field="DiscountAmount">
                         <To object="Transactions" field="CuryDiscAmt" />
                     </Mapping>
                     <Mapping field="DiscountPercent">
                         <To object="Transactions" field="DiscPct" />
-                    </Mapping>
-                    <Mapping field="Branch">
-                        <To object="Transactions" field="BranchID" />
                     </Mapping>
                     <Mapping field="ExtPrice">
                         <To object="Transactions" field="CuryExtPrice" />
@@ -585,15 +600,6 @@
                     </Mapping>
                     <Mapping field="LineNbr">
                         <To object="Transactions" field="LineNbr" />
-                    </Mapping>
-                    <Mapping field="Quantity">
-                        <To object="Transactions" field="OrderQty" />
-                    </Mapping>
-                    <Mapping field="UnitPrice">
-                        <To object="Transactions" field="CuryUnitPrice" />
-                    </Mapping>
-                    <Mapping field="UOM">
-                        <To object="Transactions" field="UOM" />
                     </Mapping>
                 </Mapping>
             </Mappings>
@@ -668,6 +674,77 @@
                 <Field name="ManualDiscount" type="BooleanValue" />
                 <Field name="SequenceID" type="StringValue" />
                 <Field name="Type" type="StringValue" />
+            </Fields>
+        </Detail>
+        <Detail name="PINCodeDetails">
+            <Fields>
+                <Field name="Pincode" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="HighcareProduct" screen="GI770100">
+            <Fields>
+                <Field name="HighcareProductDetails" type="HighcareProductDetail[]" />
+            </Fields>
+            <Mappings>
+                <Mapping field="HighcareProductDetails">
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="Results" field="InventoryItem_descr" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="HighcareProductDetail">
+            <Fields>
+                <Field name="Description" type="StringValue" />
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="ItemStatus" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="HighcareStorage" screen="GI770101">
+            <Fields>
+                <Field name="HighcareStorageDetails" type="HighcareStorageDetail[]" />
+                <Field name="Warehouse" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="Warehouse">
+                    <To object="Filter" field="Warehouse" />
+                </Mapping>
+                <Mapping field="HighcareStorageDetails">
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="Results" field="InventoryItem_descr" />
+                    </Mapping>
+                    <Mapping field="WarehouseID">
+                        <To object="Results" field="INSite_siteCD" />
+                    </Mapping>
+                    <Mapping field="SiteAvailable">
+                        <To object="Results" field="INSiteStatus_Formula46bd1d2bffef43d29865278dd54d5cb0" />
+                    </Mapping>
+                    <Mapping field="DefaultPrice">
+                        <To object="Results" field="InventoryItemCurySettings_basePrice" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="HighcareStorageDetail">
+            <Fields>
+                <Field name="DefaultPrice" type="DecimalValue" />
+                <Field name="Description" type="StringValue" />
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="ItemStatus" type="StringValue" />
+                <Field name="SiteAvailable" type="DecimalValue" />
+                <Field name="WarehouseID" type="StringValue" />
             </Fields>
         </Detail>
     </Endpoint>

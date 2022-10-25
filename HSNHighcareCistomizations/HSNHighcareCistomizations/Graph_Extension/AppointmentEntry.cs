@@ -23,10 +23,10 @@ namespace PX.Objects.FS
                .View HighcareSrvHistory;
 
         public SelectFrom<LUMServiceScope>
-               .InnerJoin<PX.Objects.CR.Location>.On<LUMServiceScope.cPriceClassID.IsEqual<PX.Objects.CR.Location.cPriceClassID>>
-               .InnerJoin<Customer>.On<PX.Objects.CR.Location.locationID.IsEqual<Customer.defLocationID>>
-               .Where<Customer.bAccountID.IsEqual<FSAppointment.customerID.FromCurrent>>
+               .Where<LUMServiceScope.cPriceClassID.IsEqual<ServiceScopeFilter.cPriceClassID.FromCurrent>>
                .View SrvScope;
+
+        public PXFilter<ServiceScopeFilter> SrvScopeFilter;
 
         [PXHidden]
         public SelectFrom<LUMHSNSetup>.View hsnSetup;
@@ -49,32 +49,61 @@ namespace PX.Objects.FS
 
         #region Event
 
-        public virtual void _(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e, PXFieldUpdated baseMethod)
+        public virtual void _(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e, PXFieldUpdated baseHandler)
         {
-            baseMethod?.Invoke(e.Cache, e.Args);
-            if (this.hsnSetup.Current.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
+            baseHandler?.Invoke(e.Cache, e.Args);
+            if (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
+            {
+                HighcareHelper helper = new HighcareHelper();
+                var pincodeList = helper.GetEquipmentPINCodeList((int?)e.NewValue);
+                Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>(e.Row, pincodeList.FirstOrDefault()?.Pincode);
+            }
+        }
+
+        public virtual void _(Events.FieldUpdated<FSAppointmentDetExtension.usrHighcarePINCode> e)
+        {
+            if (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
+            {
                 GetHighcareDiscount(e);
+                if (e.NewValue != null)
+                {
+                    object newhighcarePriceClass;
+                    e.Cache.RaiseFieldDefaulting<FSAppointmentDetExtension.usrCPriceClassID>(e.Row, out newhighcarePriceClass);
+                    (e.Row as FSAppointmentDet).GetExtension<FSAppointmentDetExtension>().UsrCPriceClassID = (string)newhighcarePriceClass;
+                }
+            }
+        }
+
+        public virtual void _(Events.RowSelected<FSAppointmentDet> e, PXRowSelected baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+            if (e.Row != null)
+            {
+                object newhighcarePriceClass;
+                e.Cache.RaiseFieldDefaulting<FSAppointmentDetExtension.usrCPriceClassID>(e.Row, out newhighcarePriceClass);
+                e.Row.GetExtension<FSAppointmentDetExtension>().UsrCPriceClassID = (string)newhighcarePriceClass;
+            }
         }
 
         #endregion
 
         #region Method
 
-        public void GetHighcareDiscount(Events.FieldUpdated<FSAppointmentDet.SMequipmentID> e)
+        public void GetHighcareDiscount(Events.FieldUpdated<FSAppointmentDetExtension.usrHighcarePINCode> e)
         {
             var doc = Base.AppointmentRecords.Current;
-            if (e.Row is FSAppointmentDet row && row != null && row.SMEquipmentID.HasValue && doc != null)
+            if (e.Row is FSAppointmentDet row && row != null && e.NewValue != null && doc != null)
             {
                 HighcareHelper helper = new HighcareHelper();
                 var itemInfo = InventoryItem.PK.Find(Base, row.InventoryID);
                 var customerInfo = Customer.PK.Find(Base, doc.CustomerID);
                 if (customerInfo.ClassID != "HIGHCARE")
                     return;
-                var _equipment = helper.GetEquipmentInfo((int)e.NewValue);
+                var _equipment = helper.GetEquipmentInfo(row.SMEquipmentID);
                 // 裝置有綁定 未啟用 不計算
                 if (_equipment.Status != EPEquipmentStatus.Active)
                     return;
-                var currentPINCode = _equipment.GetExtension<FSEquipmentExtension>().UsrPINCode;
+                var currentPINCode = (string)e.NewValue;
                 if (string.IsNullOrEmpty(currentPINCode))
                     return;
                 var pinCodeInfo = SelectFrom<LUMCustomerPINCode>
@@ -104,7 +133,7 @@ namespace PX.Objects.FS
                 // Detail Cache
                 var usedServiceCountCache = Base.AppointmentDetails
                                             .Select().RowCast<FSAppointmentDet>()
-                                            .Where(x => x != row && x.InventoryID == row.InventoryID && 
+                                            .Where(x => x != row && x.InventoryID == row.InventoryID &&
                                                         helper.GetEquipmentInfo(x?.SMEquipmentID).GetExtension<FSEquipmentExtension>()?.UsrPINCode == currentPINCode &&
                                                          helper.GetEquipmentInfo(x?.SMEquipmentID).Status == EPEquipmentStatus.Active).Count();
                 // 不限次數，直接給折扣
