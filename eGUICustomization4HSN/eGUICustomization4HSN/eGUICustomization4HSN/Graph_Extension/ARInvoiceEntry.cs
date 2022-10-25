@@ -150,7 +150,7 @@ namespace PX.Objects.AR
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrNPONbr>(e.Cache, e.Row, !statusClosed && taxNbrBlank && registerExt.UsrB2CType == TWNB2CType.NPO);
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrVATOutCode>(e.Cache, e.Row, string.IsNullOrEmpty(registerExt.UsrGUINo));
             // According to [JIRA] (HSN-34)
-            PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrCreditAction>(e.Cache, e.Row, !statusClosed && registerExt.UsrCreditAction != TWNCreditAction.NO);
+            PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrCreditAction>(e.Cache, e.Row, !statusClosed);
         }
 
         protected void _(Events.RowInserting<ARInvoice> e)
@@ -225,7 +225,9 @@ namespace PX.Objects.AR
 
             if (row != null && activateGUI && row.DocType == ARDocType.CreditMemo)
             {
-                PXCache<ARRegister>.GetExtension<ARRegisterExt>(row).UsrVATOutCode = TWGUIFormatCode.vATOutCode33;
+                ARRegisterExt rowExt   = row.GetExtension<ARRegisterExt>();
+                rowExt.UsrVATOutCode   = TWGUIFormatCode.vATOutCode33;
+                rowExt.UsrCreditAction = TWNCreditAction.VG;
             }
             else if (row != null && activateGUI &&
                      (row.DocType == ARDocType.Invoice || row.DocType == ARDocType.CashSale)
