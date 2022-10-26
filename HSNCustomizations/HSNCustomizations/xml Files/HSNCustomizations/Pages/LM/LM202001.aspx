@@ -18,6 +18,8 @@
             <px:PXSelector runat="server" ID="editQuestionnaireType" DataField="QuestionnaireType" Width="300px" CommitChanges="True"></px:PXSelector>
             <px:PXSelector ID="edUBranchID" runat="server" DataField="BranchID" CommitChanges="True" />
             <px:PXTextEdit runat="server" ID="editDocDesc" DataField="DocDesc"></px:PXTextEdit>
+            <px:PXLayoutRule runat="server" ColumnSpan="3" LabelsWidth="SM" ControlSize="XM" />
+            <px:PXTextEdit runat="server" ID="edApptNote" DataField="ApptNote" TextMode="MultiLine"></px:PXTextEdit>
             <px:PXLayoutRule runat="server" StartColumn="True" LabelsWidth="SM" ControlSize="XM" />
             <px:PXSelector runat="server" ID="editCustomerID" DataField="CustomerID"></px:PXSelector>
             <px:PXDateTimeEdit runat="server" ID="editExecutionDate" DataField="ExecutionDate"></px:PXDateTimeEdit>
@@ -89,7 +91,7 @@
                                 </Columns>
                             </px:PXGridLevel>
                         </Levels>
-                        <Mode AllowAddNew="True" AllowDelete="True" AllowUpdate="True" AllowUpload="False" />
+                        <Mode InitNewRow="True" AllowAddNew="True" AllowDelete="True" AllowUpdate="True" AllowUpload="False" />
                     </px:PXGrid>
                 </Template>
             </px:PXTabItem>

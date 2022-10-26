@@ -124,13 +124,21 @@ namespace HSNCustomizations
 
         [PXString(IsUnicode = true)]
         [PXDefault(typeof(Search<FSAppointment.docDesc, Where<FSAppointment.refNbr, Equal<Current<LUMApptQuestionnaire.apptRefNbr>>>>))]
-        [PXUIField(DisplayName = "Description", FieldName = "DocDesc", Visibility = PXUIVisibility.SelectorVisible,Enabled = false)]
+        [PXUIField(DisplayName = "Description", FieldName = "DocDesc", Visibility = PXUIVisibility.SelectorVisible, Enabled = false)]
         public virtual string DocDesc { get; set; }
         #endregion
 
         #region Attributes
         [CRAttributesField(typeof(LUMApptQuestionnaire.questionnaireType), typeof(LUMApptQuestionnaire.noteid))]
         public string[] Attributes { get; set; }
+        #endregion
+
+        #region ApptNote
+        [PXString(IsUnicode = true)]
+        [PXDefault]
+        [PXUIField(DisplayName = "Note", Enabled = false)]
+        public virtual string ApptNote { get; set; }
+        public abstract class apptNote : PX.Data.BQL.BqlString.Field<apptNote> { }
         #endregion
 
         #region Noteid

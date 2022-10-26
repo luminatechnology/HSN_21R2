@@ -25,7 +25,8 @@ namespace HSNCustomizations
 
         #region ContactDate
         [PXDBDateAndTime(InputMask = "g")]
-        [PXUIField(DisplayName = "Contact Date")]
+        [PXDefault]
+        [PXUIField(DisplayName = "Contact Date", Enabled = false)]
         public virtual DateTime? ContactDate { get; set; }
         public abstract class contactDate : PX.Data.BQL.BqlDateTime.Field<contactDate> { }
         #endregion
