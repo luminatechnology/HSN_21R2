@@ -106,6 +106,13 @@ namespace HSNHighcareCistomizations.DAC
         public abstract class invoiceNbr : PX.Data.BQL.BqlString.Field<invoiceNbr> { }
         #endregion
 
+        #region ServiceOrderNbr
+        [PXDBString(15, IsUnicode = true, InputMask = ">CCCCCCCCCCCCCCC")]
+        [PXUIField(DisplayName = "Service Order Nbr.", Enabled = false)]
+        public virtual string ServiceOrderNbr { get; set; }
+        public abstract class serviceOrderNbr : PX.Data.BQL.BqlString.Field<serviceOrderNbr> { }
+        #endregion
+
         #region Noteid
         [PXNote()]
         public virtual Guid? Noteid { get; set; }
