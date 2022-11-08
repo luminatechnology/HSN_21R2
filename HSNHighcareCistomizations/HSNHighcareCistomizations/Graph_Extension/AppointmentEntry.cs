@@ -77,7 +77,7 @@ namespace PX.Objects.FS
         public virtual void _(Events.RowSelected<FSAppointmentDet> e, PXRowSelected baseHandler)
         {
             baseHandler?.Invoke(e.Cache, e.Args);
-            if (e.Row != null)
+            if (e.Row != null && (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false))
             {
                 object newhighcarePriceClass;
                 e.Cache.RaiseFieldDefaulting<FSAppointmentDetExtension.usrCPriceClassID>(e.Row, out newhighcarePriceClass);

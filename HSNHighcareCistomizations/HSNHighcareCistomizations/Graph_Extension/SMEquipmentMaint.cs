@@ -32,14 +32,14 @@ namespace PX.Objects.FS
         {
             var row = e.Row;
             var doc = Base.EquipmentRecords.Current;
-            if (row != null && doc != null && doc.SMEquipmentID != row.SMEquipmentID)
+            if (row != null && doc != null && doc.SMEquipmentID != row.SMEquipmentID && (this.HSNSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false))
                 row.SMEquipmentID = doc?.SMEquipmentID;
         }
 
         public virtual void _(Events.RowSelected<LUMEquipmentPINCode> e)
         {
             var row = e.Row;
-            if (row != null)
+            if (row != null && (this.HSNSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false))
             {
                 var mapPINCode = GetMappingPINCodeInfo(row.Pincode);
                 row.IsActive = mapPINCode?.IsActive;
@@ -52,7 +52,7 @@ namespace PX.Objects.FS
         public virtual void _(Events.FieldUpdated<LUMEquipmentPINCode.pincode> e)
         {
             var row = e.Row as LUMEquipmentPINCode;
-            if (row != null)
+            if (row != null && (this.HSNSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false))
             {
                 var mapPINCode = GetMappingPINCodeInfo((string)e.NewValue);
                 if (mapPINCode == null)

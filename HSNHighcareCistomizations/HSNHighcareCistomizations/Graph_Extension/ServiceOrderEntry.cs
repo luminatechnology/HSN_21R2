@@ -69,17 +69,20 @@ namespace PX.Objects.FS
             }
             catch (PXRedirectRequiredException ex)
             {
-                var graph = (AppointmentEntry)ex.Graph;
-                var appDet = graph.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList();
-                // Setting Highcare PIN Code & Manual Discount
-                var srvDet = Base.ServiceOrderDetails.Cache.Cached.RowCast<FSSODet>();
-                foreach (FSAppointmentDet item in appDet)
+                if (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
                 {
-                    item.ManualDisc = item.DiscAmt.HasValue && item.DiscAmt != 0;
-                    // 找出Service order Det & Appointment Det 對應的那筆資料
-                    var currentDetailLine = srvDet.FirstOrDefault(x => x.InventoryID == item.InventoryID && x.LineNbr == item.OrigLineNbr);
-                    if (currentDetailLine != null && !string.IsNullOrEmpty(currentDetailLine.GetExtension<FSSODetExtension>()?.UsrHighcarePINCode))
-                        graph.AppointmentDetails.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>(item, currentDetailLine.GetExtension<FSSODetExtension>()?.UsrHighcarePINCode);
+                    var graph = (AppointmentEntry)ex.Graph;
+                    var appDet = graph.AppointmentDetails.Select().RowCast<FSAppointmentDet>().ToList();
+                    // Setting Highcare PIN Code & Manual Discount
+                    var srvDet = Base.ServiceOrderDetails.Cache.Cached.RowCast<FSSODet>();
+                    foreach (FSAppointmentDet item in appDet)
+                    {
+                        item.ManualDisc = item.DiscAmt.HasValue && item.DiscAmt != 0;
+                        // 找出Service order Det & Appointment Det 對應的那筆資料
+                        var currentDetailLine = srvDet.FirstOrDefault(x => x.InventoryID == item.InventoryID && x.LineNbr == item.OrigLineNbr);
+                        if (currentDetailLine != null && !string.IsNullOrEmpty(currentDetailLine.GetExtension<FSSODetExtension>()?.UsrHighcarePINCode))
+                            graph.AppointmentDetails.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>(item, currentDetailLine.GetExtension<FSSODetExtension>()?.UsrHighcarePINCode);
+                    }
                 }
                 throw new PXRedirectRequiredException(ex.Graph, null);
             }
@@ -119,7 +122,7 @@ namespace PX.Objects.FS
         public virtual void _(Events.RowSelected<FSSODet> e, PXRowSelected baseHandler)
         {
             baseHandler?.Invoke(e.Cache, e.Args);
-            if (e.Row != null)
+            if (e.Row != null && (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false))
             {
                 object newhighcarePriceClass;
                 e.Cache.RaiseFieldDefaulting<FSSODetExtension.usrCPriceClassID>(e.Row, out newhighcarePriceClass);
