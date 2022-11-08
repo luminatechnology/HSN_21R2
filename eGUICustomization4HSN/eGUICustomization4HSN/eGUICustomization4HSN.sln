@@ -1,14 +1,24 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "HSN_2021R2", "C:\Program Files\Acumatica ERP\HSN_2021R2", "{407B75C1-DF84-479F-BD54-F5A5D7012034}"
-	ProjectSection(WebsiteProperties) = preProject		
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.1"
+		ProjectReferences = "{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}|eGUICustomization4HSN.dll;"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "4445"
+		VWDDynamicPort = "false"
+	EndProjectSection
+	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.1"
 		VWDPort = "4445"
 		VWDDynamicPort = "false"
 		ProjectReferences = "{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}|eGUICustomization4HSN.dll;"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eGUICustomization4HSN", "eGUICustomization4HSN\eGUICustomization4HSN.csproj", "{9BC6D61A-5D4B-4D57-BC6B-5E3F9D04377E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eGUICustomization4HSN", "eGUICustomization4HSN\eGUICustomization4HSN.csproj", "{55F681C3-5945-40EB-84B3-0E45A569D677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +27,13 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{407B75C1-DF84-479F-BD54-F5A5D7012034}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F681C3-5945-40EB-84B3-0E45A569D677}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02485A67-75DF-4B45-B04A-FEDF63360D9D}
 	EndGlobalSection
 EndGlobal
