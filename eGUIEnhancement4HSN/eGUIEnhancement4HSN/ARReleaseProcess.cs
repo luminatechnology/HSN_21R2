@@ -437,7 +437,8 @@ namespace PX.Objects.AR
 
                 if (!string.IsNullOrEmpty(header[9]) && regisExt2.UsrPrnGUITitle == true)
                 {
-                    eSCPOS.SendTo(string.Format("發票抬頭:{0}\n", header[17]));
+                    // Attempt to provide UTF 8 bytes to the printer library for special traditional characters.
+                    eSCPOS.SendTo(Encoding.UTF8.GetBytes(string.Format("發票抬頭:{0}\n", header[17])) );
                 }
 
                 if (register.GetExtension<ARRegisterExt>().UsrB2CType.Equals(TWNB2CType.MC))
