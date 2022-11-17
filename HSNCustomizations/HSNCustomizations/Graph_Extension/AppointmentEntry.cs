@@ -1172,6 +1172,18 @@ namespace PX.Objects.FS
                 Base.Save.Press();
             }
         }
+
+        public PXAction<FSAppointment> syncLineCntr;
+        [PXUIField(DisplayName = "Sync LineCntr", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        [PXProcessButton(Category = "Processing", IsLockedOnToolbar = false)]
+        public virtual void SyncLineCntr()
+        {
+            PXLongOperation.StartOperation(Base, () =>
+            {
+                SyncAppointmentLineCntr(Base);
+            });
+        }
+
         #endregion
 
         #region Static Methods
@@ -1342,6 +1354,22 @@ namespace PX.Objects.FS
         {
             return SelectFrom<INSite>.Where<INSite.branchID.IsEqual<@P.AsInt>
                                             .And<INSiteExt.usrIsFaultySite.IsEqual<True>>>.View.Select(graph, branchID).TopFirst?.SiteID;
+        }
+
+        public static void SyncAppointmentLineCntr(AppointmentEntry graph)
+        {
+            using (PXTransactionScope sc = new PXTransactionScope())
+            {
+                var doc = graph.AppointmentRecords.Current;
+                var maxLineNbr = graph.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Max(x => x.LineNbr);
+                if(doc != null && doc.LineCntr < maxLineNbr)
+                {
+                    doc.LineCntr = maxLineNbr;
+                    graph.AppointmentRecords.UpdateCurrent();
+                    graph.Save.Press();
+                }
+                sc.Complete();
+            }
         }
         #endregion
 
