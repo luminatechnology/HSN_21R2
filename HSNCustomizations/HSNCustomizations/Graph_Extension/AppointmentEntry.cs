@@ -1368,6 +1368,13 @@ namespace PX.Objects.FS
                     graph.AppointmentRecords.UpdateCurrent();
                     graph.Save.Press();
                 }
+
+                // Override Server order LineCtrl
+                PXDatabase.Update<FSServiceOrder>(
+                         new PXDataFieldAssign<FSServiceOrder.lineCntr>(maxLineNbr),
+                         new PXDataFieldRestrict<FSServiceOrder.srvOrdType>(doc.SrvOrdType),
+                         new PXDataFieldRestrict<FSServiceOrder.refNbr>(doc.SORefNbr));
+
                 sc.Complete();
             }
         }
