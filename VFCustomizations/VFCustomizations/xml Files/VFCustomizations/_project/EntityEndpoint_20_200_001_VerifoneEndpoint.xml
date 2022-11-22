@@ -49,6 +49,58 @@
                 <Field name="Status" type="StringValue" />
             </Fields>
             <Mappings>
+                <Mapping field="Date">
+                    <To object="receipt" field="TranDate" />
+                </Mapping>
+                <Mapping field="Description">
+                    <To object="receipt" field="TranDesc" />
+                </Mapping>
+                <Mapping field="Details">
+                    <Mapping field="Allocations">
+                        <Mapping field="InventoryID">
+                            <To object="splits" field="InventoryID" />
+                        </Mapping>
+                        <Mapping field="LotSerialNbr">
+                            <To object="splits" field="LotSerialNbr" />
+                        </Mapping>
+                        <Mapping field="Qty">
+                            <To object="splits" field="Qty" />
+                        </Mapping>
+                    </Mapping>
+                    <Mapping field="Symptom">
+                        <To object="transactions" field="UsrSymptom" />
+                    </Mapping>
+                    <Mapping field="Warehouse">
+                        <To object="transactions" field="SiteID" />
+                    </Mapping>
+                    <Mapping field="Bank">
+                        <To object="transactions" field="UsrBank" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="transactions" field="InventoryID" />
+                    </Mapping>
+                    <Mapping field="JobNo">
+                        <To object="transactions" field="UsrJobNo" />
+                    </Mapping>
+                    <Mapping field="Location">
+                        <To object="transactions" field="LocationID" />
+                    </Mapping>
+                    <Mapping field="LotSerialNbr">
+                        <To object="transactions" field="LotSerialNbr" />
+                    </Mapping>
+                    <Mapping field="PhoneNo">
+                        <To object="transactions" field="UsrPhoneNo" />
+                    </Mapping>
+                    <Mapping field="QtySend">
+                        <To object="transactions" field="UsrQtySend" />
+                    </Mapping>
+                    <Mapping field="Quantity">
+                        <To object="transactions" field="Qty" />
+                    </Mapping>
+                    <Mapping field="Resolution">
+                        <To object="transactions" field="UsrResolution" />
+                    </Mapping>
+                </Mapping>
                 <Mapping field="ExtRefNbr">
                     <To object="receipt" field="ExtRefNbr" />
                 </Mapping>
@@ -61,60 +113,12 @@
                 <Mapping field="Status">
                     <To object="receipt" field="Status" />
                 </Mapping>
-                <Mapping field="Date">
-                    <To object="receipt" field="TranDate" />
-                </Mapping>
-                <Mapping field="Description">
-                    <To object="receipt" field="TranDesc" />
-                </Mapping>
-                <Mapping field="Details">
-                    <Mapping field="JobNo">
-                        <To object="transactions" field="UsrJobNo" />
-                    </Mapping>
-                    <Mapping field="LotSerialNbr">
-                        <To object="transactions" field="LotSerialNbr" />
-                    </Mapping>
-                    <Mapping field="Quantity">
-                        <To object="transactions" field="Qty" />
-                    </Mapping>
-                    <Mapping field="InventoryID">
-                        <To object="transactions" field="InventoryID" />
-                    </Mapping>
-                    <Mapping field="Allocations">
-                        <Mapping field="LotSerialNbr">
-                            <To object="splits" field="LotSerialNbr" />
-                        </Mapping>
-                        <Mapping field="Qty">
-                            <To object="splits" field="Qty" />
-                        </Mapping>
-                        <Mapping field="InventoryID">
-                            <To object="splits" field="InventoryID" />
-                        </Mapping>
-                    </Mapping>
-                    <Mapping field="PhoneNo">
-                        <To object="transactions" field="UsrPhoneNo" />
-                    </Mapping>
-                    <Mapping field="QtySend">
-                        <To object="transactions" field="UsrQtySend" />
-                    </Mapping>
-                    <Mapping field="Warehouse">
-                        <To object="transactions" field="SiteID" />
-                    </Mapping>
-                    <Mapping field="Location">
-                        <To object="transactions" field="LocationID" />
-                    </Mapping>
-                    <Mapping field="Symptom">
-                        <To object="transactions" field="UsrSymptom" />
-                    </Mapping>
-                    <Mapping field="Resolution">
-                        <To object="transactions" field="UsrResolution" />
-                    </Mapping>
-                </Mapping>
             </Mappings>
         </TopLevelEntity>
         <Detail name="ReceiptDetails">
             <Fields>
                 <Field name="Allocations" type="ReceiptDetailsAllocations[]" />
+                <Field name="Bank" type="StringValue" />
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="JobNo" type="StringValue" />
                 <Field name="Location" type="StringValue" />
@@ -145,14 +149,14 @@
                 <Mapping field="ApiName">
                     <To object="VFSourceData" field="Apiname" />
                 </Mapping>
+                <Mapping field="JsonSource">
+                    <To object="VFSourceData" field="JsonSource" />
+                </Mapping>
                 <Mapping field="ServiceType">
                     <To object="VFSourceData" field="ServiceType" />
                 </Mapping>
                 <Mapping field="UniqueID">
                     <To object="VFSourceData" field="UniqueID" />
-                </Mapping>
-                <Mapping field="JsonSource">
-                    <To object="VFSourceData" field="JsonSource" />
                 </Mapping>
             </Mappings>
         </TopLevelEntity>

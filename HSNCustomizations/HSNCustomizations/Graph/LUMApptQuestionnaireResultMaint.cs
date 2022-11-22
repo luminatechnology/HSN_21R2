@@ -26,10 +26,14 @@ namespace HSNCustomizations.Graph
                .Where<FSAppointmentEmployee.refNbr.IsEqual<LUMApptQuestionnaire.apptRefNbr.FromCurrent>>
                .View StaffList;
 
+        public SelectFrom<LUMApptQuensionnaireContactHistory>
+               .Where<LUMApptQuensionnaireContactHistory.uniqueID.IsEqual<LUMApptQuestionnaire.uniqueID.FromCurrent>>
+               .OrderBy<Asc<LUMApptQuensionnaireContactHistory.contactDate>>
+               .View ContactHistory;
+
         [PXViewName(PX.Objects.CR.Messages.Answers)]
         [PXCopyPasteHiddenView]
         public CRAttributeList<LUMApptQuestionnaire> Answers;
-
 
         public IEnumerable document()
         {
@@ -91,11 +95,45 @@ namespace HSNCustomizations.Graph
                     row.QuestionnaireType = newQuestionnaireType;
                 }
 
+                if (string.IsNullOrEmpty(row.DocDesc))
+                {
+                    object newDocDesc;
+                    e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.docDesc>(row, out newDocDesc);
+                    row.DocDesc = (string)newDocDesc;
+                }
+
+                if (string.IsNullOrEmpty(row.ApptNote))
+                {
+                    object newApptNote;
+                    e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.apptNote>(row, out newApptNote);
+                    row.ApptNote = (string)newApptNote;
+                }
+
                 if (string.IsNullOrEmpty(row.ApptRefNbr) && !string.IsNullOrEmpty(row.UniqueID))
                     row.ApptRefNbr = row.UniqueID;
 
             }
         }
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuensionnaireContactHistory.lineNbr> e)
+        {
+            var currentList = this.ContactHistory.Select().RowCast<LUMApptQuensionnaireContactHistory>();
+            var maxLineNbr = currentList.Count() == 0 ? 0 : currentList.Max(x => x?.LineNbr ?? 0);
+            e.NewValue = maxLineNbr + 1;
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuestionnaire.apptNote> e)
+        {
+            var refNbr = (e.Row as LUMApptQuestionnaire).ApptRefNbr;
+            var noteInfo = SelectFrom<Note>
+                           .InnerJoin<FSAppointment>.On<Note.noteID.IsEqual<FSAppointment.noteID>>
+                           .Where<FSAppointment.refNbr.IsEqual<P.AsString>>
+                           .View.Select(this, refNbr).TopFirst;
+            e.NewValue = noteInfo?.NoteText;
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuensionnaireContactHistory.contactDate> e)
+            => e.NewValue = DateTime.Now;
 
         #endregion
 

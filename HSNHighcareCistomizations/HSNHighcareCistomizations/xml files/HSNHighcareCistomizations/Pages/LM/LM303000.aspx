@@ -7,6 +7,7 @@
             <px:PXDSCallbackCommand Name="viewDefSchedule" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
             <px:PXDSCallbackCommand Name="viewSalesOrder" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
             <px:PXDSCallbackCommand Name="viewInvoice" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
+            <px:PXDSCallbackCommand Name="viewSrvOrder" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
         </CallbackCommands>
     </px:PXDataSource>
 </asp:Content>
@@ -34,6 +35,7 @@
                     <px:PXGridColumn DataField="ScheduleNbr" LinkCommand="viewDefSchedule" />
                     <px:PXGridColumn DataField="SOOrderNbr" LinkCommand="viewSalesOrder" />
                     <px:PXGridColumn DataField="InvoiceNbr" LinkCommand="viewInvoice" />
+                    <px:PXGridColumn DataField="ServiceOrderNbr" LinkCommand="viewSrvOrder" />
                     <px:PXGridColumn DataField="StartDate" Width="200px" />
                     <px:PXGridColumn DataField="EndDate" Width="200px" />
                     <px:PXGridColumn DataField="CreatedByID" Width="200px" />

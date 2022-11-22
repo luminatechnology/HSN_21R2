@@ -14,6 +14,7 @@ using PX.Data.BQL;
 using PX.Objects.IN;
 using System.Collections;
 using PX.Objects.SO;
+using PX.Objects.FS;
 using HSNCustomizations.DAC;
 
 namespace HSNHighcareCistomizations.Graph
@@ -75,6 +76,20 @@ namespace HSNHighcareCistomizations.Graph
                                      .Where<ARInvoice.docType.IsEqual<P.AsString>
                                        .And<ARInvoice.refNbr.IsEqual<P.AsString>>>
                                      .View.Select(this, "INV", row.InvoiceNbr);
+            PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
+            return adapter.Get();
+        }
+
+        public PXAction<LUMCustomerPINCode> viewSrvOrder;
+        [PXButton]
+        [PXUIField(Visible = false)]
+        public virtual IEnumerable ViewSrvOrder(PXAdapter adapter)
+        {
+            var row = this.Transaction.Current;
+            var graph = PXGraph.CreateInstance<ServiceOrderEntry>();
+            graph.ServiceOrderRecords.Current = SelectFrom<FSServiceOrder>
+                                               .Where<FSServiceOrder.refNbr.IsEqual<P.AsString>>
+                                               .View.Select(this, row.ServiceOrderNbr);
             PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
             return adapter.Get();
         }
