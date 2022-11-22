@@ -118,7 +118,7 @@ namespace eGUICustomization4HSN.Graph
                     // Project Number Void Approved
                     lines += new string(char.Parse(segSymbol), 6) + "\r\n";
 
-                    foreach (PXResult<ARTran> result in graph.RetrieveAPTran(gUITrans.OrderNbr))
+                    foreach (PXResult<ARTran> result in graph.RetrieveARTran(gUITrans.OrderNbr))
                     {
                         ARTran aRTran = result;
 

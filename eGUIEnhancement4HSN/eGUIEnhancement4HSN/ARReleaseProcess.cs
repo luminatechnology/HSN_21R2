@@ -71,14 +71,24 @@ namespace PX.Objects.AR
                                                                                     .And<FSPostDoc.postRefNbr.IsEqual<@P.AsString>>>
                                                                              .View.ReadOnly.Select(Base, doc.DocType, doc.RefNbr);
 
-                        string remark    = (appointment is null) ? string.Empty : appointment.RefNbr;
-                        string taxCateID = string.Empty;
-                        int    branchID  = 0;
+                        string remark      = (appointment is null) ? string.Empty : appointment.RefNbr;
+                        string taxCateID   = string.Empty;
+                        int    branchID    = 0;
+                        bool   onlineStore = false;
 
                         foreach (ARTran row in Base.ARTran_TranType_RefNbr.Cache.Cached)
                         {
                             taxCateID = row.TaxCategoryID;
                             branchID  = row.BranchID.Value;
+
+                            if (row.SOOrderType == "EO")
+                            {
+                                Base.soOrder.Current = SO.SOOrder.PK.Find(Base, row.SOOrderType, row.SOOrderNbr);
+
+                                var UDFValue = new SO.SOInvoiceEntry_Extension().GetSOrderUDFValue(Base.soOrder.Current, "ESTORE", Base.soOrder.Cache);
+
+                                onlineStore = Convert.ToBoolean(Convert.ToInt32(UDFValue ?? "0"));
+                            }
 
                             goto CreatGUI;
                         }
@@ -121,6 +131,7 @@ namespace PX.Objects.AR
                                 CarrierID     = (docExt.UsrB2CType == TWNB2CType.MC) ? ARReleaseProcess_Extension.GetCarrierID(docExt.UsrTaxNbr, docExt.UsrCarrierID) : null,
                                 NPONbr        = (docExt.UsrB2CType == TWNB2CType.NPO) ? ARReleaseProcess_Extension.GetNPOBAN(docExt.UsrTaxNbr, docExt.UsrNPONbr) : null,
                                 B2CPrinted    = (docExt.UsrB2CType == TWNB2CType.DEF && string.IsNullOrEmpty(docExt.UsrTaxNbr)) ? true : false,
+                                OnlineStore   = onlineStore
                             });
                         }
 

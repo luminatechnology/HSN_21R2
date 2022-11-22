@@ -92,6 +92,8 @@
     <Compile Include="Graph\eGUIInquiry.cs" />
     <Compile Include="Graph\TWNExpGUICN2BankPro.cs" />
     <Compile Include="Graph\TWNExpGUIInv2BankPro.cs" />
+    <Compile Include="Graph\TWNExpOnlineStrGUICN.cs" />
+    <Compile Include="Graph\TWNExpOnlineStrGUIInv.cs" />
     <Compile Include="Graph\TWNExportMthsMaint.cs" />
     <Compile Include="Graph\TWNExportTiktTypesMaint.cs" />
     <Compile Include="Graph\TWNGenGUIMediaFile.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="Graph_Extension\CATranEntry.cs" />
     <Compile Include="Graph_Extension\ExpenseClaimEntry.cs" />
     <Compile Include="Graph_Extension\SalesTaxMaint.cs" />
+    <Compile Include="Graph_Extension\SOInvoiceEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderEntry.cs" />
     <Compile Include="Graph_Release\APDocumentRelease.cs" />
     <Compile Include="Graph_Release\ARReleaseProcess.cs" />
