@@ -88,7 +88,6 @@
     <Compile Include="Descriptor\TWMessages.cs" />
     <Compile Include="Descriptor\TWNB2CPrinter.cs" />
     <Compile Include="Descriptor\TWNGUIValidation.cs" />
-    <Compile Include="Examples.cs" />
     <Compile Include="Graph\eGUIInquiry.cs" />
     <Compile Include="Graph\TWNExpGUICN2BankPro.cs" />
     <Compile Include="Graph\TWNExpGUIInv2BankPro.cs" />
