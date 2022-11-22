@@ -113,25 +113,25 @@ namespace HSNCustomizations.Graph
                             // 8.ARPayment.RefNbr
                             content[7] = arLine.RefNbr;
                             // 14.Left(Companies.AccontName, 30)
-                            content[13] = CompanyInfo?.AcctName?.Length >= 30 ? CompanyInfo?.AcctName?.Substring(0, 30) : CompanyInfo?.AcctName;
+                            content[13] = CompanyInfo?.AcctName?.Length > 30 ? CompanyInfo?.AcctName?.Substring(0, 30) : CompanyInfo?.AcctName;
                             // 15.Left(CompaniesAddress.Addressline1,30)
-                            content[14] = CompanyAddress?.AddressLine1?.Length >= 30 ? CompanyAddress?.AddressLine1?.Substring(0, 30) : CompanyAddress?.AddressLine1;
+                            content[14] = CompanyAddress?.AddressLine1?.Length > 30 ? CompanyAddress?.AddressLine1?.Substring(0, 30) : CompanyAddress?.AddressLine1;
                             // 16.Left(CompaniesAddress.Addressline2 + ‘, ’+ Postalcode,30)
                             content[15] = (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Length >= 30 ? (CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode)?.Substring(0, 30) : CompanyAddress?.AddressLine2 + "," + CompanyAddress?.PostalCode;
                             // 17.Left(CompaniesAddress.City+’, ‘+State,30)
                             content[16] = (CompanyAddress?.City + "," + CompanyAddress?.State)?.Length >= 30 ? (CompanyAddress?.City + "," + CompanyAddress?.State)?.Substring(0, 30) : CompanyAddress?.City + "," + CompanyAddress?.State;
                             // 20.Left(ARPayment.atttribute BANKACCNAM, 30)
                             var BANKACCNAM = arLine.GetExtension<ARPaymentExt>()?.UsrBankAccnamattributes;
-                            content[19] = BANKACCNAM?.Length >= 30 ? BANKACCNAM?.Substring(0, 30) : BANKACCNAM;
+                            content[19] = BANKACCNAM?.Length > 30 ? BANKACCNAM?.Substring(0, 30) : BANKACCNAM;
                             // 21.Left(ARPayment.atttribute DESCRIPTN,30)
                             var DESCRIPTN = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "DESCRIPTN") as PXFieldState)?.Value);
-                            content[20] = DESCRIPTN?.Length >= 30 ? DESCRIPTN?.Substring(0, 30) : DESCRIPTN;
-                            // 22.Left(Customer.atttribute BANKACTML,30)
+                            content[20] = DESCRIPTN?.Length > 30 ? DESCRIPTN?.Substring(0, 30) : DESCRIPTN;
+                            // 22.Left(Customer.atttribute BANKACTML,200)
                             var BANKACTML = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "BANKACTML") as PXFieldState)?.Value);
-                            content[21] = BANKACTML?.Length >= 30 ? BANKACTML?.Substring(0, 30) : BANKACTML;
-                            // 23.Left(ARPayment.atttribute.REMITEMAIL, 200)
+                            content[21] = BANKACTML?.Length > 200 ? BANKACTML?.Substring(0, 200) : BANKACTML;
+                            // 23.Left(ARPayment.atttribute.REMITEMAIL, 30)
                             var REMITEMAIL = (string)((this.ARPaymentList.Cache.GetValueExt(arLine, PX.Objects.CS.Messages.Attribute + "REMITEMAIL") as PXFieldState)?.Value);
-                            content[22] = REMITEMAIL?.Length >= 200 ? REMITEMAIL?.Substring(0, 200) : REMITEMAIL;
+                            content[22] = REMITEMAIL?.Length > 30 ? REMITEMAIL?.Substring(0, 30) : REMITEMAIL;
                             // 25.ARPayment.atttribute BANKACCNBR
                             content[24] = arLine.GetExtension<ARPaymentExt>().UsrBankAccNbrttributes;
                             // 32.ARPayment.atttribute BANKSWIFT
