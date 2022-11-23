@@ -73,8 +73,8 @@
                     <Mapping field="Warehouse">
                         <To object="transactions" field="SiteID" />
                     </Mapping>
-                    <Mapping field="Bank">
-                        <To object="transactions" field="UsrBank" />
+                    <Mapping field="Owner">
+                        <To object="transactions" field="UsrOwner" />
                     </Mapping>
                     <Mapping field="InventoryID">
                         <To object="transactions" field="InventoryID" />
@@ -118,11 +118,11 @@
         <Detail name="ReceiptDetails">
             <Fields>
                 <Field name="Allocations" type="ReceiptDetailsAllocations[]" />
-                <Field name="Bank" type="StringValue" />
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="JobNo" type="StringValue" />
                 <Field name="Location" type="StringValue" />
                 <Field name="LotSerialNbr" type="StringValue" />
+                <Field name="Owner" type="StringValue" />
                 <Field name="PhoneNo" type="StringValue" />
                 <Field name="QtySend" type="DecimalValue" />
                 <Field name="Quantity" type="DecimalValue" />

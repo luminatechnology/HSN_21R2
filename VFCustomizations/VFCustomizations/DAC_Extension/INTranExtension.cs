@@ -45,11 +45,11 @@ namespace VFCustomizations.DAC_Extension
         public abstract class usrResolution : PX.Data.BQL.BqlString.Field<usrResolution> { }
         #endregion
 
-        #region UsrBank
-        [PXDBString(2500, IsUnicode = true)]
-        [PXUIField(DisplayName = "Bank", Visible = false)]
-        public virtual string UsrBank { get; set; }
-        public abstract class usrBank : PX.Data.BQL.BqlString.Field<usrBank> { }
+        #region UsrOwner
+        [PXDBString(1024, IsUnicode = true)]
+        [PXUIField(DisplayName = "Owner", Visible = false)]
+        public virtual string UsrOwner { get; set; }
+        public abstract class usrOwner : PX.Data.BQL.BqlString.Field<usrOwner> { }
         #endregion
     }
 }
