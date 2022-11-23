@@ -160,6 +160,7 @@ namespace eGUICustomization4HSN.Graph_Release
             row.NPONbr        = sGUITran.NPONbr;
             row.B2CPrinted    = sGUITran.B2CPrinted;
             row.QREncrypter   = sGUITran.GUIDirection.Equals(TWNGUIDirection.Issue) && sGUITran.NetAmount > 0 && sGUITran.eGUIExcluded.Equals(false) ? GetQREncrypter(sGUITran) : null;
+            row.IsOnlineStore = sGUITran.OnlineStore;
 
             ViewGUITrans.Update(row);
 
@@ -213,6 +214,7 @@ namespace eGUICustomization4HSN.Graph_Release
 
         public bool eGUIExcluded;
         public bool B2CPrinted;
+        public bool OnlineStore;
 
         public DateTime? GUIDate;
 

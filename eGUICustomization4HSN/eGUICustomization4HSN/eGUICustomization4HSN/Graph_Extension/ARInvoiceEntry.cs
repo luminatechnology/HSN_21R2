@@ -9,6 +9,7 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.CS;
 using PX.Objects.CR;
 using PX.Objects.FS;
+using PX.Objects.SO;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
@@ -18,7 +19,7 @@ namespace PX.Objects.AR
 {
     public class ARInvoiceEntry_Extension : PXGraphExtension<ARInvoiceEntry>
     {
-        #region Delegate Action Menu
+        #region Delegate Methods
         public delegate IEnumerable ReportDelegate(PXAdapter adapter, string reportID);
         [PXOverride]
         public IEnumerable Report(PXAdapter adapter, string reportID, ReportDelegate baseMethod)
@@ -58,6 +59,29 @@ namespace PX.Objects.AR
             }
 
             return records;
+        }
+
+        public delegate void PersistDelegate();
+        [PXOverride]
+        public void Persist(PersistDelegate baseMethod)
+        {
+            baseMethod();
+
+            ARInvoice invoice = Base.Document.Current;
+
+            // User might create a sales order type "RC" (Return)
+            if (invoice != null && invoice.DocType == ARDocType.CreditMemo)
+            {
+                if (IsReturnFromSO(invoice.DocType, invoice.RefNbr) && string.IsNullOrEmpty(invoice.GetExtension<ARRegisterExt>().UsrGUINo))
+                {
+                    ARTran tran = Base.Transactions.Current;
+
+                    Base.Document.Cache.SetValue<ARRegisterExt.usrGUINo>(invoice, ARRegister.PK.Find(Base, tran?.OrigInvoiceType, tran?.OrigInvoiceNbr)?.GetExtension<ARRegisterExt>()?.UsrGUINo);
+                    Base.Document.Cache.MarkUpdated(invoice);
+
+                    baseMethod();
+                }
+            }
         }
         #endregion
 
@@ -226,6 +250,7 @@ namespace PX.Objects.AR
             if (row != null && activateGUI && row.DocType == ARDocType.CreditMemo)
             {
                 ARRegisterExt rowExt   = row.GetExtension<ARRegisterExt>();
+
                 rowExt.UsrVATOutCode   = TWGUIFormatCode.vATOutCode33;
                 rowExt.UsrCreditAction = TWNCreditAction.VG;
             }
@@ -385,6 +410,20 @@ namespace PX.Objects.AR
                                                                  .View.Select(PXGraph.CreateInstance<ARInvoiceEntry>(), invoice.DocType, invoice.RefNbr);
             
             return appointment != null && appointment.CostTotal.Equals(decimal.Zero);
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Since the shipment 'Operation' is Receipt, system will create a credit memo.
+        /// </summary>
+        private bool IsReturnFromSO(string docType, string refNbr)
+        {
+            var orderShip = SelectFrom<SOOrderShipment>.Where<SOOrderShipment.invoiceType.IsEqual<@P.AsString>
+                                                              .And<SOOrderShipment.invoiceNbr.IsEqual<@P.AsString>>>.View
+                                                       .Select(Base, docType, refNbr).TopFirst as SOOrderShipment;
+
+            return orderShip.Operation == SOOperation.Receipt && orderShip.OrderType == "RC";
         }
         #endregion
     }

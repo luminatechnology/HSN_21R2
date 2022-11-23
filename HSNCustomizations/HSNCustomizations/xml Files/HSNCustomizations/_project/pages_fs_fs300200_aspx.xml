@@ -251,7 +251,7 @@
             <AddItem>
                 <PXSelector TypeFullName="PX.Web.UI.PXSelector">
                     <Prop Key="Virtual:ApplyStylesheetSkin" />
-                    <Prop Key="ID" Value="edUStaffID99" />
+                    <Prop Key="ID" Value="edUStaffID" />
                     <Prop Key="NullText" Value="&lt;SPLIT&gt;" />
                     <Prop Key="DataField" Value="StaffID" />
                     <Prop Key="AutoRefresh" Value="True" />

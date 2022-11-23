@@ -350,6 +350,14 @@ namespace eGUICustomization4HSN.DAC
         public abstract class qREncrypter : PX.Data.BQL.BqlString.Field<qREncrypter> { }
         #endregion
 
+        #region IsOnlineStore
+        [PXDBBool()]
+        [PXUIField(DisplayName = "Online Store")]
+        [PXDefault(false, PersistingCheck = PXPersistingCheck.Nothing)]
+        public virtual bool? IsOnlineStore { get; set; }
+        public abstract class isOnlineStore : PX.Data.BQL.BqlBool.Field<isOnlineStore> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID]
         public virtual Guid? CreatedByID { get; set; }
@@ -444,5 +452,7 @@ namespace eGUICustomization4HSN.DAC
         public const string vATOutCode33 = "33";
         public const string vATOutCode34 = "34";
         public const string vATOutCode35 = "35";
+        public const string vATOutCode36 = "36";
+        public const string vATOutCode37 = "37";
     }
 }

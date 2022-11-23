@@ -51,29 +51,5 @@ namespace PX.Objects.FS
         public virtual int? SMEquipmentID { get; set; }
         #endregion
 
-        #region UsrHighcarePINCode
-        [PXDBString(100)]
-        [PXUIField(DisplayName = "Highcare PIN Code")]
-        [PXSelector(typeof(SelectFrom<LUMEquipmentPINCode>
-                          .InnerJoin<LUMCustomerPINCode>.On<LUMEquipmentPINCode.pincode.IsEqual<LUMCustomerPINCode.pin>>
-                          .InnerJoin<FSEquipment>.On<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSEquipment.SMequipmentID>.
-                                 And<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>>
-                          .Where<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSSODet.SMequipmentID.FromCurrent>>
-                          .SearchFor<LUMEquipmentPINCode.pincode>),
-                    typeof(LUMCustomerPINCode.cPriceClassID))]
-        public virtual string UsrHighcarePINCode { get; set; }
-        public abstract class usrHighcarePINCode : PX.Data.BQL.BqlString.Field<usrHighcarePINCode> { }
-        #endregion
-
-        #region UsrCPriceClassID
-        [PXString]
-        [PXDefault(typeof(Search<LUMCustomerPINCode.cPriceClassID,
-                           Where<LUMCustomerPINCode.pin, Equal<Current<FSSODetExtension.usrHighcarePINCode>>,
-                             And<LUMCustomerPINCode.bAccountID, Equal<Current<FSServiceOrder.customerID>>>>>), PersistingCheck = PXPersistingCheck.Nothing)]
-        [PXUIField(DisplayName = "Highcare Price Class", Enabled = false)]
-        public virtual string UsrCPriceClassID { get; set; }
-        public abstract class usrCPriceClassID : PX.Data.BQL.BqlString.Field<usrCPriceClassID> { }
-        #endregion
-
     }
 }

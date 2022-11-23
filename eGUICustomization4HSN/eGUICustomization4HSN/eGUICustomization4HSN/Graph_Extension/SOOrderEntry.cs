@@ -3,11 +3,14 @@ using PX.Data;
 using PX.Objects.AR;
 using PX.Objects.GL;
 using PX.Objects.CS;
+using eGUICustomization4HSN.Descriptor;
 
 namespace PX.Objects.SO
 {
     public class SOOrderEntry_Extension : PXGraphExtension<SOOrderEntry>
     {
+        public static bool IsActive() => TWNGUIValidation.ActivateTWGUI(new PXGraph());
+
         #region CacheAttached
         [PXString(15, IsUnicode = true, InputMask = "")]
         [PXDefault()]

@@ -2,7 +2,4 @@
     <PXSelector DataField="ContactID" ParentId="phF_form_edContactID" TypeFullName="PX.Web.UI.PXSelector">
         <Prop Key="FilterByAllFields" Value="True" />
     </PXSelector>
-    <PXGridColumn DataField="DiscPct" ParentId="phG_tab_Items#0_grid_Levels#0_Columns#38" TypeFullName="PX.Web.UI.PXGridColumn">
-        <Prop Key="CommitChanges" Value="True" />
-    </PXGridColumn>
 </Page>

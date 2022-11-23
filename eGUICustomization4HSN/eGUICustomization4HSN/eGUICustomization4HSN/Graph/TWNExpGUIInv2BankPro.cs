@@ -10,11 +10,15 @@ using PX.Objects.SO;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
+using PX.Objects.TX;
 
 namespace eGUICustomization4HSN.Graph
 {
     public class TWNExpGUIInv2BankPro : PXGraph<TWNExpGUIInv2BankPro>
     {
+        public const decimal fixedRate = (decimal)1.05;
+        public const string verticalBar = "|";
+
         #region String Class
         public class VATOutCode31 : PX.Data.BQL.BqlString.Constant<VATOutCode31>
         {
@@ -43,8 +47,6 @@ namespace eGUICustomization4HSN.Graph
                                                     Or<TWNGUITrans.gUIFormatcode, Equal<VATOutCode35>>>>>>>> GUITranProc;
         public PXSetup<TWNGUIPreferences> gUIPreferSetup;
         #endregion
-
-        public const decimal fixedRate = (decimal)1.05;
 
         #region Constructor
         public TWNExpGUIInv2BankPro()
@@ -133,7 +135,7 @@ namespace eGUICustomization4HSN.Graph
                     // Project Number Void Approved
                     lines += new string(char.Parse(segSymbol), 2) + "\r\n";
 
-                    foreach (PXResult<ARTran> result in RetrieveAPTran(gUITrans.OrderNbr))
+                    foreach (PXResult<ARTran> result in RetrieveARTran(gUITrans.OrderNbr))
                     {
                         ARTran aRTran = result;
 
@@ -300,6 +302,28 @@ namespace eGUICustomization4HSN.Graph
                 throw new PXOperationCompletedException(message);
             }
         }
+
+        public bool AmountInclusiveTax(string taxCalcMode, string taxID)
+        {
+            bool value;
+            switch (taxCalcMode)
+            {
+                case TaxCalculationMode.Gross:
+                    value = true;
+                    break;
+                case TaxCalculationMode.Net:
+                    value = false;
+                    break;
+                case TaxCalculationMode.TaxSetting:
+                    value = Tax.PK.Find(this, taxID).TaxCalcLevel == CSTaxCalcLevel.Inclusive;
+                    break;
+                default:
+                    value = false;
+                    break;
+            }
+
+            return value;
+        }
         #endregion
 
         #region Static Methods
@@ -407,7 +431,7 @@ namespace eGUICustomization4HSN.Graph
         #endregion
 
         #region Search Result
-        public PXResultset<ARTran> RetrieveAPTran(string orderNbr)
+        public PXResultset<ARTran> RetrieveARTran(string orderNbr)
         {
             return SelectFrom<ARTran>.Where<ARTran.refNbr.IsEqual<@P.AsString>
                                             .And<Where<ARTran.lineType.IsNotEqual<SOLineType.discount>
