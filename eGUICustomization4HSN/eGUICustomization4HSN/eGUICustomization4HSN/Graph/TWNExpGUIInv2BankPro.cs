@@ -7,10 +7,10 @@ using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.SO;
+using PX.Objects.TX;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
-using PX.Objects.TX;
 
 namespace eGUICustomization4HSN.Graph
 {
@@ -42,9 +42,9 @@ namespace eGUICustomization4HSN.Graph
                             Where<TWNGUITrans.eGUIExcluded, Equal<False>,
                                   And2<Where<TWNGUITrans.eGUIExported, Equal<False>,
                                              Or<TWNGUITrans.eGUIExported, IsNull>>,
-                                       And<Where<TWNGUITrans.gUIFormatcode, Equal<VATOutCode31>,
-                                                 Or<TWNGUITrans.gUIFormatcode, Equal<VATOutCode32>,
-                                                    Or<TWNGUITrans.gUIFormatcode, Equal<VATOutCode35>>>>>>>> GUITranProc;
+                                       And<TWNGUITrans.gUIFormatcode, In3<VATOutCode31, VATOutCode32, VATOutCode35>,
+                                           And2<Where<TWNGUITrans.isOnlineStore, IsNull>,
+                                                      Or<TWNGUITrans.isOnlineStore, Equal<False>>>>>>> GUITranProc;
         public PXSetup<TWNGUIPreferences> gUIPreferSetup;
         #endregion
 

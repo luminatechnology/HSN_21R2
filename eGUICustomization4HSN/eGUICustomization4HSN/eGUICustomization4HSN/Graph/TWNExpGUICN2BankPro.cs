@@ -16,7 +16,9 @@ namespace eGUICustomization4HSN.Graph
                             Where<TWNGUITrans.eGUIExcluded, Equal<False>,
                                   And2<Where<TWNGUITrans.eGUIExported, Equal<False>,
                                              Or<TWNGUITrans.eGUIExported, IsNull>>,
-                                      And<TWNGUITrans.gUIFormatcode, Equal<ARRegisterExt.VATOut33Att>>>>> GUITranProc;
+                                      And<TWNGUITrans.gUIFormatcode, Equal<ARRegisterExt.VATOut33Att>,
+                                          And2<Where<TWNGUITrans.isOnlineStore, IsNull>,
+                                                     Or<TWNGUITrans.isOnlineStore, Equal<False>>>>>>> GUITranProc;
         public PXSetup<TWNGUIPreferences> gUIPreferSetup;
         #endregion
 
