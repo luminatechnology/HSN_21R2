@@ -23,6 +23,7 @@
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox4" DataField="EnableUniqSerialNbrByEquipType"></px:PXCheckBox>
                     <px:PXCheckBox runat="server" ID="CstPXCheckBox14" DataField="EnableWFStageCtrlInAppt" AlignLeft="True"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox5" DataField="EnablePartReqInAppt"></px:PXCheckBox>
+	<px:PXCheckBox AlignLeft="True" runat="server" ID="edEnableStorageInventoryTransValidation" DataField="EnableStorageInventoryTransValidation" ></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox6" DataField="EnableRMAProcInAppt"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstEnableHeaderNoteSync" DataField="EnableHeaderNoteSync"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox11" DataField="EnableChgInvTypeOnBill"></px:PXCheckBox>

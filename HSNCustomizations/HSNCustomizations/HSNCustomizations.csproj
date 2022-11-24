@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAC\INRegisterKvExt.cs" />
+    <Compile Include="DAC\LUMApptQuensionnaireContactHistory.cs" />
     <Compile Include="DAC\LumProcessSCBPaymentRefundFilter.cs" />
     <Compile Include="DAC\StaffProviderRec.cs" />
     <Compile Include="DAC\v_APRegisterUDFAttir.cs" />
