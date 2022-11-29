@@ -143,7 +143,7 @@ namespace HSNCustomizations.Descriptor
             decimal totalQty = (decimal)sender.GetValue<INTran.qty>(e.Row);
 
             if (e.Operation != PXDBOperation.Delete && docType.IsIn(INDocType.Receipt, INDocType.Issue, INDocType.Transfer) &&
-                SelectFrom<LUMHSNSetup>.View.Select(sender.Graph).TopFirst?.EnablePartReqInAppt == true && totalQty <= 0)
+                SelectFrom<LUMHSNSetup>.View.Select(sender.Graph).TopFirst?.EnableStorageInventoryTransValidation == true && totalQty <= 0)
             {
                 sender.RaiseExceptionHandling<INTran.qty>(e.Row, totalQty, new PXSetPropertyException(HSNMessages.TotalQtyIsZero, PXErrorLevel.Error));
             }

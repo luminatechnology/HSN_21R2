@@ -180,6 +180,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableValidationAmountInCreditMemo : PX.Data.BQL.BqlBool.Field<enableValidationAmountInCreditMemo> { }
         #endregion
 
+        #region EnableStorageInventoryTransValidation
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable Storage Validation for Inventory Transactions")]
+        public virtual bool? EnableStorageInventoryTransValidation { get; set; }
+        public abstract class enableStorageInventoryTransValidation : PX.Data.BQL.BqlBool.Field<enableStorageInventoryTransValidation> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }
