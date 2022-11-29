@@ -118,7 +118,8 @@ namespace VFCustomizations.Graph
                                 PhoneNo = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrPhoneNo,
                                 QTYSend = (int)(item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrQtySend ?? 0),
                                 QTYReceive = (int)(item.Qty ?? 0),
-                                ReceiveDate = item.LastModifiedDateTime?.ToString("dd/MM/yyyy HH:mm")
+                                ReceiveDate = item.LastModifiedDateTime?.ToString("dd/MM/yyyy HH:mm"),
+                                Owner = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrOwner
                             });
                         }
                         entity.JobItems.Add(_jobItem);

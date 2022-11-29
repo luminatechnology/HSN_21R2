@@ -15,7 +15,7 @@ namespace VFCustomizations.Json_Entity.FTP6
         public int QTYSend { get; set; }
         public int QTYReceive { get; set; }
         public string ReceiveDate { get; set; }
-        public int? QTY { get; set; }
+        public string Owner { get; set; }
     }
 
     public class JobItem
