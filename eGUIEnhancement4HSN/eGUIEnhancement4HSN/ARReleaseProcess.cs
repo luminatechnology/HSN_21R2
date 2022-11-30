@@ -16,13 +16,12 @@ using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.Graph;
 using eGUICustomization4HSN.StringList;
 using eGUICustomization4HSN.Graph_Release;
-using PX.Common.Collection;
 
 namespace PX.Objects.AR
 {
     public class ARReleaseProcess_Extension2 : PXGraphExtension<ARReleaseProcess_Extension, ARReleaseProcess>
     {
-        #region Delegate Function
+        #region Delegate Method
         public delegate void PersistDelegate();
         [PXOverride]
         public void Persist(PersistDelegate baseMethod)
@@ -159,7 +158,7 @@ namespace PX.Objects.AR
 
                         ts.Complete(Base);
 
-                        if (doc.DocType == ARDocType.Invoice && !string.IsNullOrEmpty(docExt.UsrGUINo) && rp.ViewGUITrans.Current.GUIStatus == TWNGUIStatus.Used && docExt.UsrB2CType == TWNB2CType.DEF)
+                        if (doc.DocType == ARDocType.Invoice && !string.IsNullOrEmpty(docExt.UsrGUINo) && rp.ViewGUITrans.Current.GUIStatus == TWNGUIStatus.Used && docExt.UsrB2CType == TWNB2CType.DEF && onlineStore == false)
                         {
                             Base.ARTran_TranType_RefNbr.WhereAnd<Where<ARTran.curyExtPrice, Greater<CS.decimal0>>>();
                             PXGraph.CreateInstance<eGUIInquiry2>().PrintReport(Base.ARTran_TranType_RefNbr.Select(doc.DocType, doc.RefNbr), rp.ViewGUITrans.Current, false);
