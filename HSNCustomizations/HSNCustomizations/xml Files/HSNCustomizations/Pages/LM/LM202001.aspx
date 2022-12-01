@@ -9,7 +9,7 @@
     </px:PXDataSource>
 </asp:Content>
 <asp:Content ID="cont2" ContentPlaceHolderID="phF" runat="Server">
-    <px:PXFormView ID="form" runat="server" DataSourceID="ds" DataMember="Document" Width="100%" Height="150px" AllowAutoHide="false" Caption="Questionnaire Result">
+    <px:PXFormView ID="form" runat="server" DataSourceID="ds" DataMember="Document" Width="100%" Height="280px" AllowAutoHide="false" Caption="Questionnaire Result">
         <Template>
             <px:PXLayoutRule runat="server" StartColumn="True" LabelsWidth="SM" ControlSize="XM" />
             <%--<px:PXSelector runat="server" ID="editSrvOrdType" DataField="SrvOrdType" CommitChanges="True" Width="120px" AutoRefresh="True"></px:PXSelector>--%>
