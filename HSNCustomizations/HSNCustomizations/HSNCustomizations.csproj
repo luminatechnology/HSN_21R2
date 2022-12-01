@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAC\INRegisterKvExt.cs" />
-    <Compile Include="DAC\LUMApptQuensionnaireContactHistory.cs" />
     <Compile Include="DAC\LumProcessSCBPaymentRefundFilter.cs" />
     <Compile Include="DAC\StaffProviderRec.cs" />
     <Compile Include="DAC\v_APRegisterUDFAttir.cs" />
@@ -148,6 +147,7 @@
     <Compile Include="DAC\LUMCustomerStaffMapping.cs" />
     <Compile Include="DAC\LUMQuestionnaireType.cs" />
     <Compile Include="DAC\LUMApptQuestionnaire.cs" />
+    <Compile Include="DAC\LUMApptQuensionnaireContactHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
