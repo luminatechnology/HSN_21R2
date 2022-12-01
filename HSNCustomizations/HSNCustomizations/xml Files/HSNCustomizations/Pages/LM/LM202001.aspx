@@ -16,7 +16,7 @@
             <px:PXTextEdit runat="server" ID="editLineNbr" DataField="UniqueID" CommitChanges="True"></px:PXTextEdit>
             <px:PXSelector runat="server" ID="editApptRefNbr" DataField="ApptRefNbr" CommitChanges="True" Width="120px" AutoRefresh="True"></px:PXSelector>
             <px:PXSelector runat="server" ID="editQuestionnaireType" DataField="QuestionnaireType" Width="300px" CommitChanges="True"></px:PXSelector>
-            <px:PXSelector runat="server" ID="editDisplayName" DataField="DisplayName"></px:PXSelector>
+            <px:PXTextEdit runat="server" ID="editDisplayName" DataField="DisplayName"></px:PXTextEdit>
             <px:PXTextEdit runat="server" ID="editPhone1" DataField="Phone"></px:PXTextEdit>
             <px:PXLayoutRule runat="server" ColumnSpan="3" LabelsWidth="SM" ControlSize="XM" />
             <px:PXTextEdit runat="server" ID="editDocDesc" DataField="DocDesc" TextMode="MultiLine"></px:PXTextEdit>
