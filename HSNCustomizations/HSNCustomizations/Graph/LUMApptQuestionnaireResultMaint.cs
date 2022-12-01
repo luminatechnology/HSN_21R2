@@ -109,6 +109,20 @@ namespace HSNCustomizations.Graph
                     row.ApptNote = (string)newApptNote;
                 }
 
+                if (string.IsNullOrEmpty(row.DisplayName))
+                {
+                    object newDisplayName;
+                    e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.displayName>(row, out newDisplayName);
+                    row.DisplayName = (string)newDisplayName;
+                }
+
+                if (string.IsNullOrEmpty(row.Phone))
+                {
+                    object newPhone;
+                    e.Cache.RaiseFieldDefaulting<LUMApptQuestionnaire.phone>(row, out newPhone);
+                    row.Phone = (string)newPhone;
+                }
+
                 if (string.IsNullOrEmpty(row.ApptRefNbr) && !string.IsNullOrEmpty(row.UniqueID))
                     row.ApptRefNbr = row.UniqueID;
 
@@ -132,8 +146,55 @@ namespace HSNCustomizations.Graph
             e.NewValue = noteInfo?.NoteText;
         }
 
+        public virtual void _(Events.FieldDefaulting<LUMApptQuestionnaire.contactID> e)
+            => e.NewValue = SelectFrom<Contact>
+                            .InnerJoin<BAccount>.On<Contact.contactID.IsEqual<BAccount.defContactID>>
+                            .Where<BAccount.bAccountID.IsEqual<P.AsInt>>
+                            .View.Select(this, (e.Row as LUMApptQuestionnaire)?.CustomerID).TopFirst?.ContactID;
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuestionnaire.branchID> e)
+            => e.NewValue = SelectFrom<FSAppointment>
+                            .Where<FSAppointment.refNbr.IsEqual<P.AsString>>
+                            .View.Select(this, (e.Row as LUMApptQuestionnaire)?.ApptRefNbr).TopFirst?.BranchID;
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuestionnaire.displayName> e)
+        {
+            var serviceOrderInfo = GetServiceOrderInfo(e.Row as LUMApptQuestionnaire);
+            e.NewValue = serviceOrderInfo?.ContactID == null ?
+                         SelectFrom<Contact>
+                         .InnerJoin<BAccount>.On<Contact.contactID.IsEqual<BAccount.defContactID>>
+                         .Where<BAccount.bAccountID.IsEqual<P.AsInt>>
+                         .View.Select(this, serviceOrderInfo?.CustomerID).TopFirst?.DisplayName :
+                         SelectFrom<Contact>
+                         .Where<Contact.contactID.IsEqual<P.AsInt>>
+                         .View.Select(this, serviceOrderInfo?.ContactID).TopFirst?.DisplayName;
+        }
+
+        public virtual void _(Events.FieldDefaulting<LUMApptQuestionnaire.phone> e)
+        {
+            var serviceOrderInfo = GetServiceOrderInfo(e.Row as LUMApptQuestionnaire);
+            e.NewValue = serviceOrderInfo?.ContactID == null ?
+                         SelectFrom<Contact>
+                         .InnerJoin<BAccount>.On<Contact.contactID.IsEqual<BAccount.defContactID>>
+                         .Where<BAccount.bAccountID.IsEqual<P.AsInt>>
+                         .View.Select(this, serviceOrderInfo?.CustomerID).TopFirst?.Phone1 :
+                         SelectFrom<Contact>
+                         .Where<Contact.contactID.IsEqual<P.AsInt>>
+                         .View.Select(this, serviceOrderInfo?.ContactID).TopFirst?.Phone1;
+        }
+
         public virtual void _(Events.FieldDefaulting<LUMApptQuensionnaireContactHistory.contactDate> e)
             => e.NewValue = DateTime.Now;
+
+        #endregion
+
+        #region Method
+
+        public FSServiceOrder GetServiceOrderInfo(LUMApptQuestionnaire row)
+            => SelectFrom<FSServiceOrder>
+               .InnerJoin<FSAppointment>.On<FSServiceOrder.refNbr.IsEqual<FSAppointment.soRefNbr>>
+               .Where<FSAppointment.refNbr.IsEqual<P.AsString>>
+               .View.Select(this, row?.ApptRefNbr).TopFirst;
 
         #endregion
 

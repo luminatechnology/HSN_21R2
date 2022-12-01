@@ -75,7 +75,7 @@ namespace HSNCustomizations
 
         [PXInt]
         [PXUIField(DisplayName = "Branch", Enabled = false, TabOrder = 0)]
-        [PXDefault(typeof(AccessInfo.branchID), PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         [PXSelector(typeof(Search<Branch.branchID>), SubstituteKey = typeof(Branch.branchCD), DescriptionField = typeof(Branch.acctName))]
         public virtual Int32? BranchID { get; set; }
         public abstract class branchID : PX.Data.BQL.BqlInt.Field<branchID> { }
@@ -106,17 +106,28 @@ namespace HSNCustomizations
         #endregion
 
         #region ContactID
-
         [PXInt]
-        [PXDefault(
-            typeof(SelectFrom<Contact>
-                   .Where<Contact.bAccountID.IsEqual<LUMApptQuestionnaire.customerID.FromCurrent>>
-                   .SearchFor<Contact.contactID>)
-            , PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         [PXUIField(DisplayName = "Contact", Enabled = false)]
         [FSSelectorContact(typeof(LUMApptQuestionnaire.customerID))]
         public virtual int? ContactID { get; set; }
         public abstract class contactID : PX.Data.BQL.BqlInt.Field<contactID> { }
+        #endregion
+
+        #region DisplayName
+        [PXString]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Contact", Enabled = false)]
+        public virtual string DisplayName { get; set; }
+        public abstract class displayName : PX.Data.BQL.BqlString.Field<displayName> { }
+        #endregion
+
+        #region Phone
+        [PXString]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Phone", Enabled = false)]
+        public virtual string Phone { get; set; }
+        public abstract class phone : PX.Data.BQL.BqlString.Field<phone> { }
         #endregion
 
         #region DocDesc

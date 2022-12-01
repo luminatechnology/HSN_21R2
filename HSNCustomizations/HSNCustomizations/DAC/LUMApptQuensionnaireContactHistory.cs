@@ -33,7 +33,8 @@ namespace HSNCustomizations
 
         #region ContactStatus
         [PXDBString(100, IsUnicode = true, InputMask = "")]
-        [PXUIField(DisplayName = "Contact Status")]
+        [PXUIField(DisplayName = "Contact Status", Required = true)]
+        [PXDefault]
         [PXStringList(new string[] { "聯絡不上", "不接受調查", "已調查" }, new string[] { "聯絡不上", "不接受調查", "已調查" })]
         public virtual string ContactStatus { get; set; }
         public abstract class contactStatus : PX.Data.BQL.BqlString.Field<contactStatus> { }
