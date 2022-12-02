@@ -33,11 +33,9 @@ namespace PX.Objects.FS
                     throw ex;
                 foreach (ARTran item in invoiceGraph.Transactions.Select())
                 {
-                    var inventoryInfo = InventoryItem.PK.Find(invoiceGraph, item.InventoryID);
                     var mapRevenueData = SelectFrom<LUMRevenueInventoryAccounts>
-                                        .Where<LUMRevenueInventoryAccounts.srvOrderType.IsEqual<P.AsString>
-                                          .And<LUMRevenueInventoryAccounts.itemClassID.IsEqual<P.AsInt>>>
-                                        .View.Select(invoiceGraph, srvType, inventoryInfo?.ItemClassID).TopFirst;
+                                        .Where<LUMRevenueInventoryAccounts.srvOrderType.IsEqual<P.AsString>>
+                                        .View.Select(invoiceGraph, srvType).TopFirst;
                     if (mapRevenueData != null)
                     {
                         item.AccountID = mapRevenueData.AccountID;

@@ -19,7 +19,7 @@
             <px:PXTextEdit runat="server" ID="editDisplayName" DataField="DisplayName"></px:PXTextEdit>
             <px:PXTextEdit runat="server" ID="editPhone1" DataField="Phone"></px:PXTextEdit>
             <px:PXLayoutRule runat="server" ColumnSpan="3" LabelsWidth="SM" ControlSize="XM" />
-            <px:PXTextEdit runat="server" ID="editDocDesc" DataField="DocDesc" TextMode="MultiLine"></px:PXTextEdit>
+            <px:PXTextEdit runat="server" ID="editDocDesc" DataField="DocDesc" TextMode="MultiLine" Height="50px"></px:PXTextEdit>
             <px:PXTextEdit runat="server" ID="edApptNote" DataField="ApptNote" TextMode="MultiLine" Height="100px"></px:PXTextEdit>
             <px:PXLayoutRule runat="server" StartColumn="True" LabelsWidth="SM" ControlSize="XM" />
             <px:PXSelector runat="server" ID="editCustomerID" DataField="CustomerID"></px:PXSelector>

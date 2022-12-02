@@ -1,0 +1,25 @@
+﻿<Sql TableName="LUMRevenueInventoryAccounts" TableSchemaXml="#CDATA">
+    <CDATA name="TableSchemaXml"><![CDATA[<table name="LUMRevenueInventoryAccounts">
+  <col name="CompanyID" type="Int" default="Zero" />
+  <col name="SrvOrderType" type="Char(4)" />
+  <col name="AccountID" type="Int" />
+  <col name="SubAccountID" type="Int" />
+  <col name="RevenueReasonCode" type="NVarChar(20)" />
+  <col name="NoteID" type="UniqueIdentifier" nullable="true" />
+  <col name="CreatedByID" type="UniqueIdentifier" />
+  <col name="CreatedByScreenID" type="Char(8)" />
+  <col name="CreatedDateTime" type="DateTime" />
+  <col name="LastModifiedByID" type="UniqueIdentifier" />
+  <col name="LastModifiedByScreenID" type="Char(8)" />
+  <col name="LastModifiedDateTime" type="DateTime" />
+  <col name="tstamp" type="Timestamp" />
+  <index name="LUMRevenueInventoryAccounts_NoteID" unique="true">
+    <col name="NoteID" />
+    <col name="CompanyID" />
+  </index>
+  <index name="PK_LUMRevenueInventoryAccounts_1" clustered="true" primary="true" unique="true">
+    <col name="CompanyID" />
+    <col name="SrvOrderType" />
+  </index>
+</table>]]></CDATA>
+</Sql>

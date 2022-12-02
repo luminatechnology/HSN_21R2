@@ -20,17 +20,6 @@ namespace HSNFinance
         public abstract class srvOrderType : PX.Data.BQL.BqlString.Field<srvOrderType> { }
         #endregion
 
-        #region ItemClassID
-        [PXDBInt(IsKey = true)]
-        [PXDefault]
-        [PXUIField(DisplayName = "Item Class")]
-        [PXSelector(typeof(Search<INItemClass.itemClassID>),
-                    typeof(INItemClass.itemClassCD),
-                    SubstituteKey = typeof(INItemClass.itemClassCD))]
-        public virtual int? ItemClassID { get; set; }
-        public abstract class itemClassID : PX.Data.BQL.BqlInt.Field<itemClassID> { }
-        #endregion
-
         #region AccountID
         [PXDBInt()]
         [PXDefault]
