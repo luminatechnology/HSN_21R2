@@ -96,14 +96,14 @@ namespace VFCustomizations.Graph
                     entity.DeliveryDate = selectedItem.ShipDate?.ToString("dd/MM/yyyy HH:mm");
                     // SalesOrder Attribute SHIPTOCODE
                     var soAttrShipToCode = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState;
-                    entity.ShipToCode = (string)soAttrShipToCode.Value;
-                    entity.ShipToAddress = shipAddress?.AddressLine1 + shipAddress?.AddressLine2;
-                    entity.ShipToContact = shipContact?.Attention;
-                    entity.ShipToName = shipContact?.FullName;
-                    entity.ShipFromCode = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCODE") as PXFieldState)?.Value;
-                    entity.ShipFromName = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRNAME") as PXFieldState)?.Value;
-                    entity.ShipFromAddress = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRADDR") as PXFieldState)?.Value;
-                    entity.ShipFromContact = (string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCONT") as PXFieldState)?.Value;
+                    entity.ShipToCode = DataSubstring((string)soAttrShipToCode.Value, 30);
+                    entity.ShipToAddress = DataSubstring(shipAddress?.AddressLine1 + shipAddress?.AddressLine2, 300);
+                    entity.ShipToContact = DataSubstring(shipContact?.Attention, 100);
+                    entity.ShipToName = DataSubstring(shipContact?.FullName, 50);
+                    entity.ShipFromCode = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCODE") as PXFieldState)?.Value, 50);
+                    entity.ShipFromName = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRNAME") as PXFieldState)?.Value, 50);
+                    entity.ShipFromAddress = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRADDR") as PXFieldState)?.Value, 300);
+                    entity.ShipFromContact = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCONT") as PXFieldState)?.Value, 100);
                     // Shipment Attribute AWBNO
                     var shipmentAttrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)shipmentAttrAWBNO.Value;
@@ -154,7 +154,8 @@ namespace VFCustomizations.Graph
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
                     entity.ShipVia = soAttributeSHIPVIA?.Value;
-                    entity.ShipToName = shipContactInfo?.FullName;
+                    entity.ShipToName = DataSubstring(shipContactInfo?.FullName, 50);
+
                     // Shipment Attribute FORWARDER
                     var shipmentAttrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
                     entity.ForwarderName = (string)shipmentAttrFORWARDER?.Value;
@@ -213,6 +214,7 @@ namespace VFCustomizations.Graph
                 assigns.Add(new PXDataFieldAssign<SOShipmentKvExt.fieldName>(PX.Objects.CS.Messages.Attribute + "API3001"));
                 PXDatabase.Insert<SOShipmentKvExt>(assigns.ToArray());
             }
+
             #endregion
 
             #region Insert or Update Attribute API3001DT
@@ -235,7 +237,11 @@ namespace VFCustomizations.Graph
                 PXDatabase.Insert<SOShipmentKvExt>(assigns.ToArray());
             }
             #endregion
+
         }
+
+        public string DataSubstring(string stringValue, int _length)
+            => stringValue?.Length > _length ? stringValue.Substring(0, _length) : stringValue;
 
         #endregion
     }
