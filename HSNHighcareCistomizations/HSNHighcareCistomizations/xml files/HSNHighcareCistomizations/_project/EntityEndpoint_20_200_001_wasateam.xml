@@ -1,5 +1,27 @@
 ﻿<EntityEndpoint>
     <Endpoint xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="wasateam" version="20.200.001" systemContractVersion="4" xmlns="http://www.acumatica.com/entity/maintenance/5.31">
+        <TopLevelEntity name="ServiceOrder" screen="FS300100">
+            <Fields>
+                <Field name="ServiceOrderNbr" type="StringValue" />
+                <Field name="ServiceOrderType" type="StringValue" />
+                <Field name="Status" type="StringValue" />
+                <Field name="WorkflowStage" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="ServiceOrderNbr">
+                    <To object="ServiceOrderRecords" field="RefNbr" />
+                </Mapping>
+                <Mapping field="ServiceOrderType">
+                    <To object="ServiceOrderRecords" field="SrvOrdType" />
+                </Mapping>
+                <Mapping field="Status">
+                    <To object="ServiceOrderRecords" field="Status" />
+                </Mapping>
+                <Mapping field="WorkflowStage">
+                    <To object="ServiceOrderRecords" field="WFStageID" />
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
         <TopLevelEntity name="Customer" screen="AR303000">
             <Fields>
                 <Field name="CustomerClass" type="StringValue" />
@@ -11,14 +33,20 @@
                 <Field name="Status" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="CustomerClass">
-                    <To object="BAccount" field="CustomerClassID" />
-                </Mapping>
                 <Mapping field="CustomerID">
                     <To object="BAccount" field="AcctCD" />
                 </Mapping>
+                <Mapping field="CustomerClass">
+                    <To object="BAccount" field="CustomerClassID" />
+                </Mapping>
+                <Mapping field="Status">
+                    <To object="BAccount" field="Status" />
+                </Mapping>
                 <Mapping field="CustomerName">
                     <To object="CurrentCustomer" field="AcctName" />
+                </Mapping>
+                <Mapping field="PriceClass">
+                    <To object="DefLocation: 2" field="CPriceClassID" />
                 </Mapping>
                 <Mapping field="MainContact">
                     <Mapping field="Email">
@@ -30,9 +58,6 @@
                     <Mapping field="Phone1Type">
                         <To object="DefContact" field="Phone1Type" />
                     </Mapping>
-                </Mapping>
-                <Mapping field="PriceClass">
-                    <To object="DefLocation: 2" field="CPriceClassID" />
                 </Mapping>
                 <Mapping field="PrimayContact">
                     <Mapping field="DateOfBirth">
@@ -51,9 +76,6 @@
                         <To object="PrimaryContactCurrent" field="Phone1Type" />
                     </Mapping>
                 </Mapping>
-                <Mapping field="Status">
-                    <To object="BAccount" field="Status" />
-                </Mapping>
             </Mappings>
             <Actions>
                 <Action name="ChangeID" mappedTo="ChangeID">
@@ -68,6 +90,13 @@
                 </Action>
             </Actions>
         </TopLevelEntity>
+        <LinkedEntity name="MainContact">
+            <Fields>
+                <Field name="Email" type="StringValue" />
+                <Field name="Phone1" type="StringValue" />
+                <Field name="Phone1Type" type="StringValue" />
+            </Fields>
+        </LinkedEntity>
         <TopLevelEntity name="Contact" screen="CR302000">
             <Fields>
                 <Field name="DateOfBirth" type="DateTimeValue" />
@@ -136,28 +165,6 @@
                 <Field name="StartDate" type="DateTimeValue" />
             </Fields>
         </Detail>
-        <TopLevelEntity name="ServiceOrder" screen="FS300100">
-            <Fields>
-                <Field name="ServiceOrderNbr" type="StringValue" />
-                <Field name="ServiceOrderType" type="StringValue" />
-                <Field name="Status" type="StringValue" />
-                <Field name="WorkflowStage" type="StringValue" />
-            </Fields>
-            <Mappings>
-                <Mapping field="ServiceOrderNbr">
-                    <To object="ServiceOrderRecords" field="RefNbr" />
-                </Mapping>
-                <Mapping field="ServiceOrderType">
-                    <To object="ServiceOrderRecords" field="SrvOrdType" />
-                </Mapping>
-                <Mapping field="Status">
-                    <To object="ServiceOrderRecords" field="Status" />
-                </Mapping>
-                <Mapping field="WorkflowStage">
-                    <To object="ServiceOrderRecords" field="WFStageID" />
-                </Mapping>
-            </Mappings>
-        </TopLevelEntity>
         <LinkedEntity name="Manuf">
             <Fields>
                 <Field name="Manufacturer" type="StringValue" />
@@ -213,11 +220,6 @@
                 <Mapping field="PINCode">
                     <To object="EquipmentSelected" field="UsrPINCode" />
                 </Mapping>
-                <Mapping field="PINCodeDetails">
-                    <Mapping field="Pincode">
-                        <To object="EquipmentPINCodeList" field="Pincode" />
-                    </Mapping>
-                </Mapping>
                 <Mapping field="PurchaseInfo">
                     <Mapping field="PurchaseDate">
                         <To object="EquipmentSelected: 7" field="PurchDate" />
@@ -237,6 +239,11 @@
                 </Mapping>
                 <Mapping field="Vehicle">
                     <To object="EquipmentRecords" field="IsVehicle" />
+                </Mapping>
+                <Mapping field="PINCodeDetails">
+                    <Mapping field="Pincode">
+                        <To object="EquipmentPINCodeList" field="Pincode" />
+                    </Mapping>
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
@@ -272,13 +279,6 @@
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
-        <LinkedEntity name="MainContact">
-            <Fields>
-                <Field name="Email" type="StringValue" />
-                <Field name="Phone1" type="StringValue" />
-                <Field name="Phone1Type" type="StringValue" />
-            </Fields>
-        </LinkedEntity>
         <TopLevelEntity name="HighcareServiceHistory" screen="GI770077">
             <Fields>
                 <Field name="CustomerID" type="StringValue" />
@@ -685,31 +685,6 @@
                 <Field name="Pincode" type="StringValue" />
             </Fields>
         </Detail>
-        <TopLevelEntity name="HighcareProduct" screen="GI770100">
-            <Fields>
-                <Field name="HighcareProductDetails" type="HighcareProductDetail[]" />
-            </Fields>
-            <Mappings>
-                <Mapping field="HighcareProductDetails">
-                    <Mapping field="ItemStatus">
-                        <To object="Results" field="InventoryItem_itemStatus" />
-                    </Mapping>
-                    <Mapping field="InventoryID">
-                        <To object="Results" field="InventoryItem_inventoryCD" />
-                    </Mapping>
-                    <Mapping field="Description">
-                        <To object="Results" field="InventoryItem_descr" />
-                    </Mapping>
-                </Mapping>
-            </Mappings>
-        </TopLevelEntity>
-        <Detail name="HighcareProductDetail">
-            <Fields>
-                <Field name="Description" type="StringValue" />
-                <Field name="InventoryID" type="StringValue" />
-                <Field name="ItemStatus" type="StringValue" />
-            </Fields>
-        </Detail>
         <TopLevelEntity name="HighcareStorage" screen="GI770101">
             <Fields>
                 <Field name="HighcareStorageDetails" type="HighcareStorageDetail[]" />
@@ -749,6 +724,39 @@
                 <Field name="ItemStatus" type="StringValue" />
                 <Field name="SiteAvailable" type="DecimalValue" />
                 <Field name="WarehouseID" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="HighcareProduct" screen="GI770103">
+            <Fields>
+                <Field name="HighcareProductDetails" type="HighcareProductDetail[]" />
+                <Field name="ItemCategory" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="ItemCategory">
+                    <To object="Filter" field="itemcategory" />
+                </Mapping>
+                <Mapping field="HighcareProductDetails">
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="Results" field="InventoryItem_descr" />
+                    </Mapping>
+                    <Mapping field="ItemCategories">
+                        <To object="Results" field="InventoryItem_HIGHCARE_Attributes" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="HighcareProductDetail">
+            <Fields>
+                <Field name="Description" type="StringValue" />
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="ItemCategories" type="StringValue" />
+                <Field name="ItemStatus" type="StringValue" />
             </Fields>
         </Detail>
     </Endpoint>

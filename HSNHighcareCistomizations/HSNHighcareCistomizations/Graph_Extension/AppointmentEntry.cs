@@ -54,9 +54,10 @@ namespace PX.Objects.FS
             baseHandler?.Invoke(e.Cache, e.Args);
             if (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
             {
+                var doc = Base.AppointmentRecords.Current;
                 HighcareHelper helper = new HighcareHelper();
-                var pincodeList = helper.GetEquipmentPINCodeList((int?)e.NewValue);
-                Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>(e.Row, pincodeList.FirstOrDefault()?.Pincode);
+                var pincodeList = helper.GetEquipmentPINCodeList(doc?.CustomerID, (int?)e.NewValue);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>((FSAppointmentDet)e.Row, pincodeList.FirstOrDefault()?.Pincode);
             }
         }
 

@@ -99,9 +99,10 @@ namespace PX.Objects.FS
 
             if (this.hsnSetup.Select().TopFirst.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false)
             {
+                var doc = Base.ServiceOrderRecords.Current;
                 HighcareHelper helper = new HighcareHelper();
-                var pincodeList = helper.GetEquipmentPINCodeList((int?)e.NewValue);
-                Base.ServiceOrderDetails.Cache.SetValueExt<FSSODetExtension.usrHighcarePINCode>(e.Row, pincodeList.FirstOrDefault()?.Pincode);
+                var pincodeList = helper.GetEquipmentPINCodeList(doc?.CustomerID, (int?)e.NewValue);
+                Base.ServiceOrderDetails.SetValueExt<FSSODetExtension.usrHighcarePINCode>(((FSSODet)e.Row), pincodeList.FirstOrDefault()?.Pincode);
             }
         }
 

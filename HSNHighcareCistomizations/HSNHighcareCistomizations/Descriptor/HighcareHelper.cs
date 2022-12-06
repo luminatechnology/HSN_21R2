@@ -27,15 +27,15 @@ namespace HSNHighcareCistomizations.Descriptor
             return FSEquipment.PK.Find(new PXGraph(), equipmentID);
         }
 
-        public IEnumerable<LUMEquipmentPINCode> GetEquipmentPINCodeList(int? equipmentID)
+        public IEnumerable<LUMEquipmentPINCode> GetEquipmentPINCodeList(int? baccountID, int? equipmentID)
         {
-           return SelectFrom<LUMEquipmentPINCode>
-                 .InnerJoin<LUMCustomerPINCode>.On<LUMEquipmentPINCode.pincode.IsEqual<LUMCustomerPINCode.pin>>
-                 .InnerJoin<FSEquipment>.On<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSEquipment.SMequipmentID>.
-                        And<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>>
-                 .Where<LUMEquipmentPINCode.sMEquipmentID.IsEqual<P.AsInt>>
+           return SelectFrom<LUMCustomerPINCode>
+                           .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
+                           .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
+                           .Where<LUMCustomerPINCode.bAccountID.IsEqual<P.AsInt>
+                             .And<FSEquipment.SMequipmentID.IsEqual<P.AsInt>>>
                  .OrderBy<Asc<LUMCustomerPINCode.startDate>>
-                 .View.Select(new PXGraph(), equipmentID).RowCast<LUMEquipmentPINCode>();
+                 .View.Select(new PXGraph(), baccountID, equipmentID).RowCast<LUMEquipmentPINCode>();
         }
     }
 
