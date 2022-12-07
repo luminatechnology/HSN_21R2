@@ -90,11 +90,18 @@ namespace VFCustomizations.Descriptor
             {
                 try
                 {
+                    var result = new VFFTPResponseEntity();
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api3001url);
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
-                    var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
+                    else
+                    {
+                        result.ResponseCode = response.StatusCode.ToString();
+                        result.ErrorMessage = response.Content.ReadAsStringAsync().Result;
+                    }
                     return result;
                 }
                 catch (Exception)
@@ -111,11 +118,18 @@ namespace VFCustomizations.Descriptor
             {
                 try
                 {
+                    var result = new VFFTPResponseEntity();
                     client.DefaultRequestHeaders.Add("Authorization", $"bearer {accessEntity.access_token}");
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetVFPreference()?.Api6001url);
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
-                    var result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        result = JsonConvert.DeserializeObject<VFFTPResponseEntity>(response.Content.ReadAsStringAsync().Result);
+                    else
+                    {
+                        result.ResponseCode = response.StatusCode.ToString();
+                        result.ErrorMessage = response.Content.ReadAsStringAsync().Result;
+                    }
                     return result;
                 }
                 catch (Exception)
