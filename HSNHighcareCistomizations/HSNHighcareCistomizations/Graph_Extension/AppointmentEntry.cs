@@ -135,20 +135,24 @@ namespace PX.Objects.FS
                 var usedServiceCountCache = Base.AppointmentDetails
                                             .Select().RowCast<FSAppointmentDet>()
                                             .Where(x => x != row && x.InventoryID == row.InventoryID &&
-                                                        helper.GetEquipmentInfo(x?.SMEquipmentID).GetExtension<FSEquipmentExtension>()?.UsrPINCode == currentPINCode &&
-                                                         helper.GetEquipmentInfo(x?.SMEquipmentID).Status == EPEquipmentStatus.Active).Count();
+                                                        x.GetExtension<FSAppointmentDetExtension>()?.UsrHighcarePINCode == currentPINCode &&
+                                                        x.SMEquipmentID == _equipment.SMEquipmentID).Count();
                 // 不限次數，直接給折扣
                 if (servicescopeInfo.LimitedCount == 0)
                     Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.discPct>(row, (servicescopeInfo?.DiscountPrecent ?? 0));
                 // 限制次數，給予折扣
                 else if (servicescopeInfo.LimitedCount - usedServiceCountHist - usedServiceCountCache > 0)
                     Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.discPct>(row, (servicescopeInfo?.DiscountPrecent ?? 0));
-                // 次數不夠，跳出警示
+                // 次數不夠，跳出警示 + 折扣設為0
                 else
+                {
                     e.Cache.RaiseExceptionHandling<FSAppointmentDet.SMequipmentID>(
                         row,
                         e.NewValue,
                         new PXSetPropertyException<FSAppointmentDet.SMequipmentID>("Limited count for this service has been reached", PXErrorLevel.Warning));
+
+                    Base.AppointmentDetails.Cache.SetValueExt<FSAppointmentDet.discPct>(e.Row, (decimal)0);
+                }
             }
             // 移除Equipment時 還原折扣
             else if (e.NewValue == null)

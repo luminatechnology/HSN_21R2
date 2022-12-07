@@ -56,7 +56,8 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "Highcare PIN Code")]
         [PXSelector(typeof(SelectFrom<LUMCustomerPINCode>
                            .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
-                           .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
+                           .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>
+                                                         .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>>
                            .Where<LUMCustomerPINCode.bAccountID.IsEqual<FSServiceOrder.customerID.FromCurrent>
                              .And<FSEquipment.SMequipmentID.IsEqual<FSSODet.SMequipmentID.FromCurrent>>>
                            .SearchFor<LUMCustomerPINCode.pin>),

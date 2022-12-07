@@ -99,6 +99,7 @@
                                             <Prop Key="ID" Value="CstPXSelector2" />
                                             <Prop Key="DataField" Value="CPriceClassID" />
                                             <Prop Key="Width" Value="130px" />
+                                            <Prop Key="CommitChanges" Value="True" />
                                         </PXSelector>
                                     </AddItem>
                                 </Children>

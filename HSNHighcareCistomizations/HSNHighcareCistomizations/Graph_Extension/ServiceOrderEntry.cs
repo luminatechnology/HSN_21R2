@@ -182,20 +182,23 @@ namespace PX.Objects.FS
                 var usedServiceCountCache = Base.ServiceOrderDetails
                                             .Select().RowCast<FSSODet>()
                                             .Where(x => x != row && x?.InventoryID == row?.InventoryID &&
-                                                        helper.GetEquipmentInfo(x?.SMEquipmentID).GetExtension<FSEquipmentExtension>()?.UsrPINCode == currentPINCode &&
-                                                        helper.GetEquipmentInfo(x?.SMEquipmentID).Status == EPEquipmentStatus.Active).Count();
+                                                        x.GetExtension<FSSODetExtension>()?.UsrHighcarePINCode == currentPINCode &&
+                                                        x.SMEquipmentID == _equipment.SMEquipmentID).Count();
                 // 不限次數，直接給折扣
                 if (servicescopeInfo.LimitedCount == 0)
                     Base.ServiceOrderDetails.Cache.SetValueExt<FSSODet.discPct>(row, (servicescopeInfo?.DiscountPrecent ?? 0));
                 // 限制次數，給予折扣
                 else if (servicescopeInfo.LimitedCount - usedServiceCountHist - usedServiceCountCache > 0)
                     Base.ServiceOrderDetails.Cache.SetValueExt<FSSODet.discPct>(row, (servicescopeInfo?.DiscountPrecent ?? 0));
-                // 次數不夠，跳出警示
+                // 次數不夠，跳出警示 + 折扣設為0
                 else
+                { 
                     e.Cache.RaiseExceptionHandling<FSSODet.SMequipmentID>(
                         row,
                         e.NewValue,
                         new PXSetPropertyException<FSSODet.SMequipmentID>("Limited count for this service has been reached", PXErrorLevel.Warning));
+                    Base.ServiceOrderDetails.Cache.SetValueExt<FSSODet.discPct>(e.Row, (decimal)0);
+                }
             }
             // 移除PIN Code時 還原折扣
             else if (e.NewValue == null)
