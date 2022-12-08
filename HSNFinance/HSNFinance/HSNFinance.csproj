@@ -67,6 +67,7 @@
     <Compile Include="DAC\LSSettlementAccount.cs" />
     <Compile Include="DAC\LumARAgedPeriod.cs" />
     <Compile Include="DAC\LUMHyperionAcctMapping.cs" />
+    <Compile Include="DAC\LumINItemCostHist.cs" />
     <Compile Include="DAC\LUMLAInterestExp.cs" />
     <Compile Include="DAC\LUMLLSetup.cs" />
     <Compile Include="DAC_Extensions\APRegisterExtensions.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DAC_Extensions\FSSrvOrdTypeExt_Finance.cs" />
     <Compile Include="DAC_Extensions\GLTranExtensions.cs" />
     <Compile Include="Graph\LumARAgedPeriodMaint.cs" />
+    <Compile Include="Graph\LumINItemCostHistMaint.cs" />
     <Compile Include="Graph\LUMRevenueInventoryAccountMaint.cs" />
     <Compile Include="Graph_Extensions\APInvoiceEntry.cs" />
     <Compile Include="Graph_Extensions\AppointmentEntry.cs" />

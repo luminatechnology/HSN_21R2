@@ -54,13 +54,14 @@ namespace PX.Objects.FS
         #region UsrHighcarePINCode
         [PXDBString(100)]
         [PXUIField(DisplayName = "Highcare PIN Code")]
-        [PXSelector(typeof(SelectFrom<LUMEquipmentPINCode>
-                          .InnerJoin<LUMCustomerPINCode>.On<LUMEquipmentPINCode.pincode.IsEqual<LUMCustomerPINCode.pin>>
-                          .InnerJoin<FSEquipment>.On<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSEquipment.SMequipmentID>.
-                                 And<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>>
-                          .Where<LUMEquipmentPINCode.sMEquipmentID.IsEqual<FSSODet.SMequipmentID.FromCurrent>>
-                          .SearchFor<LUMEquipmentPINCode.pincode>),
-                    typeof(LUMCustomerPINCode.cPriceClassID))]
+        [PXSelector(typeof(SelectFrom<LUMCustomerPINCode>
+                           .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
+                           .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>
+                                                          .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>>
+                           .Where<LUMCustomerPINCode.bAccountID.IsEqual<FSAppointment.customerID.FromCurrent>
+                             .And<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>>
+                           .SearchFor<LUMCustomerPINCode.pin>),
+                           typeof(LUMCustomerPINCode.cPriceClassID))]
         public virtual string UsrHighcarePINCode { get; set; }
         public abstract class usrHighcarePINCode : PX.Data.BQL.BqlString.Field<usrHighcarePINCode> { }
         #endregion

@@ -39,7 +39,7 @@ namespace VFCustomizations.Graph
             Int32 startrow = PXView.StartRow;
             List<object> result = select.Select(PXView.Currents, PXView.Parameters,
                    PXView.Searches, PXView.SortColumns, PXView.Descendings,
-                   PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
+                   PXView.Filters, ref startrow, 100000, ref totalrow);
             PXView.StartRow = 0;
             foreach (INRegister row in result)
             {
@@ -75,15 +75,15 @@ namespace VFCustomizations.Graph
                 try
                 {
                     PXProcessing.SetCurrentItem(selectedItem);
-                    entity.DeliveryNo = selectedItem.ExtRefNbr;
+                    entity.DeliveryNo = selectedItem?.ExtRefNbr;
                     //entity.DeliveryDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
                     entity.ETDDate = selectedItem.TranDate?.AddTicks(DateTime.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
                     // Get Attribute AWBNO
                     var attrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
-                    entity.AWBNo = (string)attrAWBNO.Value;
+                    entity.AWBNo = (string)attrAWBNO?.Value;
                     // Get Attribute AWBNO
                     var attrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
-                    entity.Forwarder = (string)attrFORWARDER.Value;
+                    entity.Forwarder = (string)attrFORWARDER?.Value;
                     entity.WarehouseLocation = "RMA";
                     entity.ShipToCode = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState)?.Value;
                     entity.ShipToName = (string)(Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "SHIPTONAME") as PXFieldState)?.Value;
@@ -110,25 +110,22 @@ namespace VFCustomizations.Graph
                             var intranSplit = SelectFrom<INTranSplit>
                                               .Where<INTranSplit.refNbr.IsEqual<P.AsString>
                                                 .And<INTranSplit.lineNbr.IsEqual<P.AsInt>>>
-                                              .View.Select(baseGraph, item.RefNbr, item.LineNbr).TopFirst;
+                                              .View.Select(baseGraph, item?.RefNbr, item?.LineNbr).TopFirst;
                             _jobItem.Items.Add(new Item()
                             {
                                 PartNo = inventoryInfo.InventoryCD.Trim(),
                                 SerialNo = intranSplit?.LotSerialNbr,
-                                PhoneNo = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrPhoneNo,
-                                QTYSend = (int)(item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrQtySend ?? 0),
+                                PhoneNo = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>()?.UsrPhoneNo,
+                                QTYSend = (int)(item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>()?.UsrQtySend ?? 0),
                                 QTYReceive = (int)(item.Qty ?? 0),
                                 ReceiveDate = item.LastModifiedDateTime?.ToString("dd/MM/yyyy HH:mm"),
-                                Owner = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>().UsrOwner
+                                Owner = item.GetExtension<VFCustomizations.DAC_Extension.INTranExtension>()?.UsrOwner
                             });
                         }
                         entity.JobItems.Add(_jobItem);
-                        // Get Attribute BANK
-                        var attrBANK = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "BANK") as PXFieldState;
-                        entity.BankShortName = (string)attrBANK.Value;
                         // Get Attribute PACKINGNO
                         var attrPACKINGNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "PACKINGNO") as PXFieldState;
-                        entity.PackingNo = (string)attrPACKINGNO.Value;
+                        entity.PackingNo = (string)attrPACKINGNO?.Value;
                         entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                     }
 

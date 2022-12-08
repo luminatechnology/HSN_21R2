@@ -29,7 +29,6 @@ namespace VFCustomizations.Json_Entity.FTP6
         public string DeliveryNo { get; set; }
         public string AWBNo { get; set; }
         public string Forwarder { get; set; }
-        public object BankShortName { get; set; }
         public string ExportDate { get; set; }
         public string PackingNo { get; set; }
         public string ETDDate { get; set; }
