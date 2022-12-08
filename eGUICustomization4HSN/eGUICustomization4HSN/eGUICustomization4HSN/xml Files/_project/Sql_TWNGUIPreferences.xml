@@ -7,13 +7,16 @@
   <col name="TaxRegistrationID" type="NVarChar(9)" nullable="true" />
   <col name="OurTaxNbr" type="NVarChar(8)" nullable="true" />
   <col name="ZeroTaxTaxCntry" type="NChar(1)" nullable="true" />
+  <col name="Url" type="NVarChar(256)" nullable="true" />
   <col name="UserName" type="NVarChar(256)" nullable="true" />
   <col name="Password" type="NVarChar(1000)" nullable="true" />
-  <col name="Url" type="NVarChar(256)" nullable="true" />
   <col name="CompanyName" type="NVarChar(255)" nullable="true" />
   <col name="AddressLine" type="NVarChar(50)" nullable="true" />
   <col name="AESKey" type="NVarChar(32)" nullable="true" />
   <col name="PlasticBag" type="Int" nullable="true" />
+  <col name="OnlineUrl" type="NVarChar(256)" nullable="true" />
+  <col name="OnlineUN" type="NVarChar(256)" nullable="true" />
+  <col name="OnlinePW" type="NVarChar(1000)" nullable="true" />
   <col name="CreatedByID" type="UniqueIdentifier" />
   <col name="CreatedByScreenID" type="Char(8)" />
   <col name="CreatedDateTime" type="DateTime" />

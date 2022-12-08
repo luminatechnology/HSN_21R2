@@ -243,7 +243,7 @@ namespace eGUICustomization4HSN.Graph
                 // Total Records
                 lines += tWNGUITrans.Count;
 
-                invGraph.UploadFile2FTP(fileName, lines);
+                invGraph.UploadFile2FTP(fileName, lines, true);
                 invGraph.UpdateGUITran(tWNGUITrans);
             }
             catch (Exception ex)
