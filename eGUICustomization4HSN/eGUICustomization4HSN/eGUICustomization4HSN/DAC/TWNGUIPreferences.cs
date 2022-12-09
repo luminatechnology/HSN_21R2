@@ -16,6 +16,7 @@ namespace eGUICustomization4HSN.DAC
         [PXDBString(10, IsUnicode = true)]
         [PXUIField(DisplayName = "3 Copies GUI Numbering Sequence", Visibility = PXUIVisibility.Visible)]
         [PXSelector(typeof(Numbering.numberingID), DescriptionField = typeof(Numbering.descr))]
+        [PXDefault()]
         public virtual string GUI3CopiesNumbering { get; set; }
         public abstract class gUI3CopiesNumbering : PX.Data.BQL.BqlString.Field<gUI3CopiesNumbering> { }
         #endregion
@@ -32,6 +33,7 @@ namespace eGUICustomization4HSN.DAC
         [PXDBString(10, IsUnicode = true)]
         [PXUIField(DisplayName = "Media File Numbering Sequence")]
         [PXSelector(typeof(Numbering.numberingID), DescriptionField = typeof(Numbering.descr))]
+        [PXDefault()]
         public virtual string MediaFileNumbering { get; set; }
         public abstract class mediaFileNumbering : PX.Data.BQL.BqlString.Field<mediaFileNumbering> { }
         #endregion
@@ -57,10 +59,16 @@ namespace eGUICustomization4HSN.DAC
         public abstract class zeroTaxTaxCntry : PX.Data.BQL.BqlString.Field<zeroTaxTaxCntry> { }
         #endregion
 
+        #region Url
+        [PXDBString(256, IsUnicode = true)]
+        [PXUIField(DisplayName = "URL", Visibility = PXUIVisibility.Visible)]
+        public virtual string Url { get; set; }
+        public abstract class url : PX.Data.BQL.BqlString.Field<url> { }
+        #endregion
+
         #region UserName
         [PXDBString(256, IsUnicode = true)]
         [PXUIField(DisplayName = "User Name", Visibility = PXUIVisibility.Visible)]
-        [PXDefault]
         public virtual string UserName { get; set; }
         public abstract class userName : PX.Data.BQL.BqlString.Field<userName> { }
         #endregion
@@ -68,17 +76,8 @@ namespace eGUICustomization4HSN.DAC
         #region Password
         [PXRSACryptString(IsUnicode = true)]
         [PXUIField(DisplayName = "Password", Visibility = PXUIVisibility.Visible)]
-        [PXDefault]
         public virtual string Password { get; set; }
         public abstract class password : PX.Data.BQL.BqlString.Field<password> { }
-        #endregion
-
-        #region Url
-        [PXDBString(256, IsUnicode = true)]
-        [PXUIField(DisplayName = "URL", Visibility = PXUIVisibility.Visible)]
-        [PXDefault]
-        public virtual string Url { get; set; }
-        public abstract class url : PX.Data.BQL.BqlString.Field<url> { }
         #endregion
 
         #region CompanyName      
@@ -111,6 +110,27 @@ namespace eGUICustomization4HSN.DAC
         [PXUIField(DisplayName = "Plastic Bag")]
         public virtual int? PlasticBag { get; set; }
         public abstract class plasticBag : PX.Data.BQL.BqlInt.Field<plasticBag> { }
+        #endregion
+
+        #region OnlineUrl
+        [PXDBString(256, IsUnicode = true)]
+        [PXUIField(DisplayName = "URL", Visibility = PXUIVisibility.Visible)]
+        public virtual string OnlineUrl { get; set; }
+        public abstract class onlineUrl : PX.Data.BQL.BqlString.Field<onlineUrl> { }
+        #endregion
+
+        #region OnlineUN
+        [PXDBString(256, IsUnicode = true)]
+        [PXUIField(DisplayName = "User Name", Visibility = PXUIVisibility.Visible)]
+        public virtual string OnlineUN { get; set; }
+        public abstract class onlineUN : PX.Data.BQL.BqlString.Field<onlineUN> { }
+        #endregion
+
+        #region OnlinePW
+        [PXRSACryptString(IsUnicode = true)]
+        [PXUIField(DisplayName = "Password", Visibility = PXUIVisibility.Visible)]
+        public virtual string OnlinePW { get; set; }
+        public abstract class onlinePW : PX.Data.BQL.BqlString.Field<onlinePW> { }
         #endregion
 
         #region CreatedByID

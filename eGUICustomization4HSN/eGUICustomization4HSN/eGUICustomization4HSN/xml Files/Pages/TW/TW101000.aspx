@@ -20,18 +20,22 @@
 			<px:PXSelector AllowEdit="True" runat="server" ID="CstPXSelector12" DataField="MediaFileNumbering" ></px:PXSelector>
 			<px:PXLayoutRule ControlSize="M" LabelsWidth="M" runat="server" ID="CstPXLayoutRule7" StartRow="True" ></px:PXLayoutRule>
 			<px:PXLayoutRule LabelsWidth="M" runat="server" ID="CstPXLayoutRule9" StartGroup="True" GroupCaption="Registration" ></px:PXLayoutRule>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit13" DataField="TaxRegistrationID" ></px:PXTextEdit>
-			<px:PXTextEdit CommitChanges="True" runat="server" ID="CstPXTextEdit14" DataField="OurTaxNbr" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit15" DataField="ZeroTaxTaxCntry" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit21" DataField="CompanyName" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit22" DataField="AddressLine" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit23" DataField="AESKey" />
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit1" DataField="TaxRegistrationID" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit2" DataField="OurTaxNbr" CommitChanges="True"  ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit3" DataField="ZeroTaxTaxCntry" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit4" DataField="CompanyName" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit5" DataField="AddressLine" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit6" DataField="AESKey" />
 			<px:PXSegmentMask AllowEdit="True" runat="server" ID="CstPXSegmentMask24" DataField="PlasticBag" ></px:PXSegmentMask>
 			<px:PXLayoutRule runat="server" ID="CstPXLayoutRule16" StartRow="True" ControlSize="M" ></px:PXLayoutRule>
-			<px:PXLayoutRule runat="server" ID="CstPXLayoutRule17" StartGroup="True" GroupCaption="FTP Info" ></px:PXLayoutRule>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit18" DataField="Url" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit19" DataField="UserName" ></px:PXTextEdit>
-			<px:PXTextEdit runat="server" ID="CstPXTextEdit20" DataField="Password" ></px:PXTextEdit></Template>
+			<px:PXLayoutRule runat="server" ID="CstPXLayoutRule17" StartGroup="True" GroupCaption="FTP Info" LabelsWidth="M" ></px:PXLayoutRule>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit7" DataField="Url" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit8" DataField="UserName" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit9" DataField="Password" ></px:PXTextEdit>
+			<px:PXLayoutRule runat="server" ID="PXLayoutRule1" StartGroup="True" GroupCaption="Online Store FTP Info" LabelsWidth="M" ></px:PXLayoutRule>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit10" DataField="OnlineUrl" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdi11" DataField="OnlineUN" ></px:PXTextEdit>
+			<px:PXTextEdit runat="server" ID="CstPXTextEdit12" DataField="OnlinePW" ></px:PXTextEdit></Template>
 		<AutoSize Container="Window" Enabled="True" MinHeight="200" ></AutoSize>
 	</px:PXFormView>
 </asp:Content>

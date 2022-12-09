@@ -251,8 +251,8 @@ namespace eGUICustomization4HSN.Graph
                 // Total Records
                 lines += tWNGUITrans.Count;
 
-                UpdateGUITran(tWNGUITrans);
                 UploadFile2FTP(fileName, lines);
+                UpdateGUITran(tWNGUITrans);
             }
             catch (Exception ex)
             {
@@ -274,13 +274,15 @@ namespace eGUICustomization4HSN.Graph
             this.Actions.PressSave();
         }
 
-        public void UploadFile2FTP(string fileName, string content)
+        public void UploadFile2FTP(string fileName, string content, bool isOnline = false)
         {
-            string message = "Upload Processing Completed";
+            //string message = "Upload Processing Completed";
 
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri(gUIPreferSetup.Current.Url + fileName));
+            var pref = gUIPreferSetup.Current;
 
-            request.Credentials = new NetworkCredential(gUIPreferSetup.Current.UserName, gUIPreferSetup.Current.Password);
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri(isOnline == false ? pref.Url : pref.OnlineUrl + fileName));
+
+            request.Credentials = new NetworkCredential(isOnline == false ? pref.UserName : pref.OnlineUN, isOnline == false ? pref.Password : pref.OnlinePW);
             request.Method = WebRequestMethods.Ftp.UploadFile;
 
             byte[] data = System.Text.Encoding.UTF8.GetBytes(content);
@@ -299,7 +301,7 @@ namespace eGUICustomization4HSN.Graph
                 /// Close FTP
                 request.Abort();
 
-                throw new PXOperationCompletedException(message);
+                //throw new PXOperationCompletedException(message);
             }
         }
 
