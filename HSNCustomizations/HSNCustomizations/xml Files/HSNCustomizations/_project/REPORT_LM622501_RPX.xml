@@ -38,6 +38,10 @@
                 <DataField>ARPayment.Status</DataField>
                 <Value>='C'</Value>
             </FilterExp>
+            <FilterExp>
+                <DataField>ARPayment.DocType</DataField>
+                <Value>='REF'</Value>
+            </FilterExp>
         </Filters>
         <Parameters>
             <ReportParameter>
@@ -153,7 +157,7 @@
                 <ParentName>ARTranPost</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>https://hsnerp.hsnservice.com/HSN/</SchemaUrl>
+        <SchemaUrl>http://localhost/HSN_2021R2/</SchemaUrl>
         <StylesTemplate>TemplateReport.rpx</StylesTemplate>
         <Tables>
             <ReportTable Name="ARPayment">
