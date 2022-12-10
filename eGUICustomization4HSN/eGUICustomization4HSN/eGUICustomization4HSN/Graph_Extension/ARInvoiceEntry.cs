@@ -423,7 +423,7 @@ namespace PX.Objects.AR
                                                               .And<SOOrderShipment.invoiceNbr.IsEqual<@P.AsString>>>.View
                                                        .Select(Base, docType, refNbr).TopFirst as SOOrderShipment;
 
-            return orderShip.Operation == SOOperation.Receipt && orderShip.OrderType == "RC";
+            return orderShip?.Operation == SOOperation.Receipt && orderShip?.OrderType == "RC";
         }
         #endregion
     }
