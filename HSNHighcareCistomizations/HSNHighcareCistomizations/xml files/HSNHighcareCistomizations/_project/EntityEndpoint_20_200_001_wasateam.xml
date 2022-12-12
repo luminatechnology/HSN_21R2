@@ -685,7 +685,40 @@
                 <Field name="Pincode" type="StringValue" />
             </Fields>
         </Detail>
-        <TopLevelEntity name="HighcareStorage" screen="GI770101">
+        <TopLevelEntity name="HighcareProduct" screen="GI770106">
+            <Fields>
+                <Field name="HighcareProductDetails" type="HighcareProductDetail[]" />
+                <Field name="ItemCategory" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="ItemCategory">
+                    <To object="Filter" field="itemcategory" />
+                </Mapping>
+                <Mapping field="HighcareProductDetails">
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
+                    </Mapping>
+                    <Mapping field="InventoryID">
+                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="Results" field="InventoryItem_descr" />
+                    </Mapping>
+                    <Mapping field="ItemCategories">
+                        <To object="Results" field="InventoryItem_HIGHCARE_Attributes" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="HighcareProductDetail">
+            <Fields>
+                <Field name="Description" type="StringValue" />
+                <Field name="InventoryID" type="StringValue" />
+                <Field name="ItemCategories" type="StringValue" />
+                <Field name="ItemStatus" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="HighcareStorage" screen="GI770107">
             <Fields>
                 <Field name="HighcareStorageDetails" type="HighcareStorageDetail[]" />
                 <Field name="Warehouse" type="StringValue" />
@@ -724,39 +757,6 @@
                 <Field name="ItemStatus" type="StringValue" />
                 <Field name="SiteAvailable" type="DecimalValue" />
                 <Field name="WarehouseID" type="StringValue" />
-            </Fields>
-        </Detail>
-        <TopLevelEntity name="HighcareProduct" screen="GI770103">
-            <Fields>
-                <Field name="HighcareProductDetails" type="HighcareProductDetail[]" />
-                <Field name="ItemCategory" type="StringValue" />
-            </Fields>
-            <Mappings>
-                <Mapping field="ItemCategory">
-                    <To object="Filter" field="itemcategory" />
-                </Mapping>
-                <Mapping field="HighcareProductDetails">
-                    <Mapping field="ItemStatus">
-                        <To object="Results" field="InventoryItem_itemStatus" />
-                    </Mapping>
-                    <Mapping field="InventoryID">
-                        <To object="Results" field="InventoryItem_inventoryCD" />
-                    </Mapping>
-                    <Mapping field="Description">
-                        <To object="Results" field="InventoryItem_descr" />
-                    </Mapping>
-                    <Mapping field="ItemCategories">
-                        <To object="Results" field="InventoryItem_HIGHCARE_Attributes" />
-                    </Mapping>
-                </Mapping>
-            </Mappings>
-        </TopLevelEntity>
-        <Detail name="HighcareProductDetail">
-            <Fields>
-                <Field name="Description" type="StringValue" />
-                <Field name="InventoryID" type="StringValue" />
-                <Field name="ItemCategories" type="StringValue" />
-                <Field name="ItemStatus" type="StringValue" />
             </Fields>
         </Detail>
     </Endpoint>
