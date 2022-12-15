@@ -77,6 +77,7 @@
     <Compile Include="DAC\TWNGUIPreferences.cs" />
     <Compile Include="DAC\TWNGUITrans.cs" />
     <Compile Include="DAC\TWNManualGUIAP.cs" />
+    <Compile Include="DAC\TWNManualGUIAPBill.cs" />
     <Compile Include="DAC\TWNManualGUIAR.cs" />
     <Compile Include="DAC\TWNManualGUIBank.cs" />
     <Compile Include="DAC\TWNManualGUIExpense.cs" />
