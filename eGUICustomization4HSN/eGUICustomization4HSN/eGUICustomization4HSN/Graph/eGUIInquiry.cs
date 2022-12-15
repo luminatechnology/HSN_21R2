@@ -14,6 +14,7 @@ using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
 using Branch = PX.Objects.GL.Branch;
+using PX.Objects.TX;
 
 namespace eGUICustomization4HSN.Graph
 {
@@ -471,6 +472,34 @@ namespace eGUICustomization4HSN.Graph
             {
                 // Throwing an exception to cancel assignment of the new value to the field
                 throw new PXSetPropertyException(TWMessages.TaxAmtNegError);
+            }
+        }
+    }
+
+    public class TWTaxAmountCalcAttribute : TWNetAmountAttribute, IPXFieldUpdatedSubscriber
+    {
+        protected Type _TaxID;
+        protected Type _NetAmt;
+        protected Type _TaxAmt;
+
+        public TWTaxAmountCalcAttribute(int percision, Type taxID, Type netAmt, Type taxAmt) : base(percision)
+        {
+            _TaxID = taxID;
+            _NetAmt = netAmt;
+            _TaxAmt = taxAmt;
+        }
+
+        public virtual void FieldUpdated(PXCache sender, PXFieldUpdatedEventArgs e)
+        {
+            string taxID = (string)sender.GetValue(e.Row, _TaxID.Name);
+            decimal netAmt = (decimal)sender.GetValue(e.Row, _NetAmt.Name);
+
+            foreach (TaxRev taxRev in SelectFrom<TaxRev>.Where<TaxRev.taxID.IsEqual<@P.AsString>
+                                                               .And<TaxRev.taxType.IsEqual<@P.AsString>>>.View.Select(sender.Graph, taxID, "P")) // P = Group type (Input)
+            {
+                decimal taxAmt = Math.Round(netAmt * (taxRev.TaxRate.Value / taxRev.NonDeductibleTaxRate.Value), 0);
+
+                sender.SetValue(e.Row, _TaxAmt.Name, taxAmt);
             }
         }
     }
