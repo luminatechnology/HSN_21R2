@@ -74,6 +74,7 @@
     <Compile Include="Graph\LUMVFAPI6001Process.cs" />
     <Compile Include="Graph\LUMVFAPIInterfaceProcess.cs" />
     <Compile Include="Graph\LUMVFPreferenceMaint.cs" />
+    <Compile Include="Graph_Extension\INReceiptEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderEntryExt.cs" />
     <Compile Include="DAC\LUMVFApisetupResult.cs" />
     <Compile Include="Graph_Extension\SOShipmentEntryExt.cs" />

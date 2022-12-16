@@ -56,5 +56,12 @@ namespace VFCustomizations.DAC
         public virtual string Api2102url { get; set; }
         public abstract class api2102url : PX.Data.BQL.BqlString.Field<api2102url> { }
         #endregion
+
+        #region EnableVFCustomizeField
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable the Display VF Customized Items in Receipts")]
+        public virtual bool? EnableVFCustomizeField { get; set; }
+        public abstract class enableVFCustomizeField : PX.Data.BQL.BqlBool.Field<enableVFCustomizeField> { }
+        #endregion
     }
 }
