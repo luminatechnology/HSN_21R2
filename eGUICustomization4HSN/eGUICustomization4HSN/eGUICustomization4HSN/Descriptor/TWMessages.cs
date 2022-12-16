@@ -35,5 +35,6 @@ namespace eGUICustomization4HSN.Descriptor
         public const string RemindHeader   = "Reminder Header";
         public const string ReminderMesg   = "The VAT OUT Format Code Cannot Be Blank When The Tax Amount Is Greater Than 0.";
         public const string SeltCorrGUI    = "Please Select The Correct GUI Number To Print.";
+        public const string NoGUIWithTax = "There Are Tax Details, But No TW GUI Records.";
     }
 }

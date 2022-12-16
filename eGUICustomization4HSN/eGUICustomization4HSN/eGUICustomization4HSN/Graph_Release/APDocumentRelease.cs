@@ -1,7 +1,7 @@
+using PX.Common;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
-using PX.Objects.GL;
 using PX.Objects.TX;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
@@ -24,94 +24,83 @@ namespace PX.Objects.AP
         {
             baseMethod();
 
-            APRegister    doc = Base.APDocument.Current;
-            APRegisterExt docExt = PXCache<APRegister>.GetExtension<APRegisterExt>(doc);
+            APRegister doc = Base.APDocument.Current;
 
             // Check for document and released flag
             if (TWNGUIValidation.ActivateTWGUI(Base) == true &&
-                doc != null && 
+                doc != null &&
                 doc.Released == true &&
-                (doc.DocType.Equals(APDocType.Invoice) || doc.DocType.Equals(APDocType.DebitAdj) ) &&
-                !string.IsNullOrEmpty(docExt.UsrGUINO) &&
-                !string.IsNullOrEmpty(docExt.UsrVATINCODE)
-               )
+                doc.DocType.IsIn(APDocType.Invoice, APDocType.DebitAdj))
             {
                 if (Base.APTaxTran_TranType_RefNbr == null)
                 {
                     throw new PXException(TWMessages.NoInvTaxDtls);
                 }
 
-                // Avoid standard logic calling this method twice and inserting duplicate records into TWNGUITrans.
-                if (CountExistedRec(Base, docExt.UsrGUINO, docExt.UsrVATINCODE, doc.RefNbr) >= 1) { return; }
+                TWNReleaseProcess rp = PXGraph.CreateInstance<TWNReleaseProcess>();
 
-                TaxExt taxExt = PXCache<Tax>.GetExtension<TaxExt>(SelectTax(Base, Base.APTaxTran_TranType_RefNbr.Current.TaxID) );
-
-                if (taxExt.UsrTWNGUI.Equals(false) || taxExt.UsrTWNGUI == null) { return; }
-
-                using (PXTransactionScope ts = new PXTransactionScope())
+                foreach (TWNManualGUIAPBill row in SelectFrom<TWNManualGUIAPBill>.Where<TWNManualGUIAPBill.docType.IsEqual<@P.AsString>
+                                                                                        .And<TWNManualGUIAPBill.refNbr.IsEqual<@P.AsString>>>.View.Select(Base, doc.DocType, doc.RefNbr))
                 {
-                    TWNReleaseProcess rp = PXGraph.CreateInstance<TWNReleaseProcess>();
+                    // Avoid standard logic calling this method twice and inserting duplicate records into TWNGUITrans.
+                    if (CountExistedRec(Base, row.GUINbr, row.VATInCode, doc.RefNbr) >= 1) { return; }
 
-                    TWNGUITrans tWNGUITrans = rp.InitAndCheckOnAP(docExt.UsrGUINO, docExt.UsrVATINCODE);
+                    if (Tax.PK.Find(Base, row.TaxID).GetExtension<TaxExt>().UsrTWNGUI != true) { continue; }
 
-                    TaxTran xTran = SelectTaxTran(Base, doc.DocType, doc.RefNbr, BatchModule.AP);
-
-                    decimal? netAmt = xTran.TaxableAmt + xTran.RetainedTaxableAmt;
-                    decimal? taxAmt = xTran.TaxAmt + xTran.RetainedTaxAmt;
-
-                    rp.CreateGUITrans(new STWNGUITran()
+                    using (PXTransactionScope ts = new PXTransactionScope())
                     {
-                        VATCode       = docExt.UsrVATINCODE,
-                        GUINbr        = docExt.UsrGUINO,
-                        GUIStatus     = TWNGUIStatus.Used,
-                        BranchID      = Base.APTran_TranType_RefNbr.Current.BranchID,
-                        GUIDirection  = TWNGUIDirection.Receipt,
-                        GUIDate       = docExt.UsrGUIDATE,
-                        GUITitle      = (string)PXSelectorAttribute.GetField(Base.APDocument.Cache, doc,
-                                                                             typeof(APRegister.vendorID).Name, doc.VendorID,
-                                                                             typeof(Vendor.acctName).Name),
-                        TaxZoneID     = Base.APInvoice_DocType_RefNbr.Current.TaxZoneID,
-                        TaxCategoryID = Base.APTran_TranType_RefNbr.Current.TaxCategoryID,
-                        TaxID         = xTran.TaxID,
-                        TaxNbr        = docExt.UsrTaxID,
-                        OurTaxNbr     = docExt.UsrOurTaxID,
-                        NetAmount     = netAmt,
-                        TaxAmount     = taxAmt,
-                        AcctCD        = (string)PXSelectorAttribute.GetField(Base.APDocument.Cache, doc,
-                                                                             typeof(APRegister.vendorID).Name, doc.VendorID,
-                                                                             typeof(Vendor.acctCD).Name),
-                        AcctName      = (string)PXSelectorAttribute.GetField(Base.APDocument.Cache, doc,
-                                                                             typeof(APRegister.vendorID).Name, doc.VendorID,
-                                                                             typeof(Vendor.acctName).Name),
-                        DeductionCode = docExt.UsrDEDUCTION,
-                        Remark        = doc.DocDesc,
-                        BatchNbr      = doc.BatchNbr,
-                        OrderNbr      = doc.RefNbr
-                    });
+                        TWNGUITrans tWNGUITrans = rp.InitAndCheckOnAP(row.GUINbr, row.VATInCode);
 
-                    if (tWNGUITrans != null)
-                    {
-                        if (tWNGUITrans.NetAmtRemain < netAmt)
+                        Vendor vendor = Vendor.PK.Find(Base, row.VendorID);
+
+                        rp.CreateGUITrans(new STWNGUITran()
                         {
-                            throw new PXException(TWMessages.RemainAmt);
+                            VATCode       = row.VATInCode,
+                            GUINbr        = row.GUINbr,
+                            GUIStatus     = TWNGUIStatus.Used,
+                            BranchID      = doc.BranchID,
+                            GUIDirection  = TWNGUIDirection.Receipt,
+                            GUIDate       = row.GUIDate,
+                            GUITitle      = vendor?.AcctName,
+                            TaxZoneID     = row.TaxZoneID,
+                            TaxCategoryID = row.TaxCategoryID,
+                            TaxID         = row.TaxID,
+                            TaxNbr        = row.TaxNbr,
+                            OurTaxNbr     = row.OurTaxNbr,
+                            NetAmount     = row.NetAmt,
+                            TaxAmount     = row.TaxAmt,
+                            AcctCD        = vendor?.AcctCD,
+                            AcctName      = vendor?.AcctName,
+                            DeductionCode = row.Deduction,
+                            Remark        = row.Remark,
+                            BatchNbr      = doc.BatchNbr,
+                            OrderNbr      = doc.RefNbr
+                        });
+
+                        if (tWNGUITrans != null)
+                        {
+                            if (tWNGUITrans.NetAmtRemain < row.NetAmt)
+                            {
+                                throw new PXException(TWMessages.RemainAmt);
+                            }
+
+                            rp.ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= row.NetAmt));
+                            rp.ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= row.TaxAmt));
+
+                            tWNGUITrans = rp.ViewGUITrans.Update(tWNGUITrans);
                         }
 
-                        ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= netAmt));
-                        ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= taxAmt));
+                        // Manually Saving as base code will not call base graph persis.
+                        rp.ViewGUITrans.Cache.Persist(PXDBOperation.Insert);
+                        rp.ViewGUITrans.Cache.Persist(PXDBOperation.Update);
 
-                        tWNGUITrans = ViewGUITrans.Update(tWNGUITrans);
+                        ts.Complete(Base);
                     }
-
-                    // Manually Saving as base code will not call base graph persis.
-                    ViewGUITrans.Cache.Persist(PXDBOperation.Insert);
-                    ViewGUITrans.Cache.Persist(PXDBOperation.Update);
-
-                    ts.Complete(Base);
                 }
-            }
 
-            // Triggering after save events.
-            ViewGUITrans.Cache.Persisted(false);
+                // Triggering after save events.
+                rp.ViewGUITrans.Cache.Persisted(false);
+            }
         }
 
         //public delegate List<APRegister> ReleaseInvoiceDelegate(JournalEntry je, ref APRegister doc, 
