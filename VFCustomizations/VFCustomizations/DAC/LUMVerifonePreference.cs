@@ -59,7 +59,7 @@ namespace VFCustomizations.DAC
 
         #region EnableVFCustomizeField
         [PXDBBool]
-        [PXUIField(DisplayName = "Enable the Display VF Customized Items in Receipts")]
+        [PXUIField(DisplayName = "Enable the Display VF of Customized Items in Receipts")]
         public virtual bool? EnableVFCustomizeField { get; set; }
         public abstract class enableVFCustomizeField : PX.Data.BQL.BqlBool.Field<enableVFCustomizeField> { }
         #endregion

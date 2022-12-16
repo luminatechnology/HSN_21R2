@@ -15,7 +15,7 @@
         <Children Key="Items">
             <AddItem>
                 <PXTabItem TypeFullName="PX.Web.UI.PXTabItem">
-                    <Prop Key="Text" Value="Customer PIC Code" />
+                    <Prop Key="Text" Value="Customer PIN Code" />
                     <Children Key="Template">
                         <AddItem>
                             <PXGrid TypeFullName="PX.Web.UI.PXGrid">
