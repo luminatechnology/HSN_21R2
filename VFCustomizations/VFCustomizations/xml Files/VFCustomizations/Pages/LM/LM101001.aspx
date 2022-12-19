@@ -20,6 +20,8 @@
             <px:PXTextEdit runat="server" ID="edApi6001url" DataField="Api6001url"></px:PXTextEdit>
             <px:PXTextEdit runat="server" ID="edApi2101url" DataField="Api2101url"></px:PXTextEdit>
             <px:PXTextEdit runat="server" ID="edApi2102url" DataField="Api2102url"></px:PXTextEdit>
+            <px:PXLayoutRule GroupCaption="OTHER SETTING" runat="server" ID="PXLayoutRule1" StartGroup="True" LabelsWidth="L" ControlSize=""></px:PXLayoutRule>
+            <px:PXCheckBox runat="server" ID="edEnableVFCustomizeField" DataField="EnableVFCustomizeField" AlignLeft="True"></px:PXCheckBox>
         </Template>
     </px:PXFormView>
 </asp:Content>
