@@ -37,7 +37,7 @@ namespace PX.Objects.AP
                 {
                     foreach (TX.TaxTran tran in Base.Taxes.Cache.Cached)
                     {
-                        if (TX.Tax.PK.Find(Base, tran.TaxID)?.GetExtension<TX.TaxExt>().UsrTWNGUI == true)
+                        if (TX.Tax.PK.Find(Base, tran.TaxID)?.GetExtension<TX.TaxExt>().UsrTWNGUI == true && row.Hold == false)
                         {
                             throw new PXException(TWMessages.NoGUIWithTax);
                         }
@@ -108,6 +108,12 @@ namespace PX.Objects.AP
         protected virtual void _(Events.FieldDefaulting<TWNManualGUIAPBill, TWNManualGUIAPBill.vATInCode> e)
         {
             e.NewValue = Base.Document.Current?.DocType == APDocType.DebitAdj ? TWGUIFormatCode.vATInCode23 : e.NewValue;
+        }
+
+        protected virtual void _(Events.FieldDefaulting<TWNManualGUIAPBill, TWNManualGUIAPBill.gUIDate> e)
+        {
+            ///<remarks> Since APInvoiceExt2.UsrInvoiceDate is in HSNFinance project, the field name is defined directly in the cache. </remarks>
+            e.NewValue = Base.Document.Cache.GetValue(Base.Document.Current, "UsrInvoiceDate");
         }
         #endregion
 
