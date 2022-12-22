@@ -45,7 +45,7 @@ namespace eGUICustomization4HSN.DAC
 
         #region GUINbr
         [GUINumber(15, IsKey = true, IsUnicode = true, InputMask = ">aaaaaaaaaaaaaa")]
-        [PXUIField(DisplayName = "GUI Nbr")]
+        [PXUIField(DisplayName = "GUI Nbr.")]
         [PXDefault()]
         public virtual string GUINbr { get; set; }
         public abstract class gUINbr : PX.Data.BQL.BqlString.Field<gUINbr> { }
@@ -75,13 +75,14 @@ namespace eGUICustomization4HSN.DAC
         }
 
         [PXDBString(2, IsUnicode = true)]
-        [PXUIField(DisplayName = "VAT In Code", Required = true)]
+        [PXUIField(DisplayName = "VAT In Code")]
         [PXSelector(typeof(Search<CSAttributeDetail.valueID,
                                   Where<CSAttributeDetail.attributeID, Equal<VATINFRMTNameAtt>>>),
                     typeof(CSAttributeDetail.description))]
         [PXDefault(typeof(Search2<CSAnswers.value, InnerJoin<Vendor, On<Vendor.noteID, Equal<CSAnswers.refNoteID>,
                                                                        And<CSAnswers.attributeID, Equal<VATINFRMTNameAtt>>>>,
-                                                   Where<Vendor.bAccountID, Equal<Current<vendorID>>>>))]
+                                                   Where<Vendor.bAccountID, Equal<Current<vendorID>>>>),
+                   PersistingCheck = PXPersistingCheck.Nothing)]
         [PXFormula(typeof(Default<vendorID>))]
         public virtual string VATInCode { get; set; }
         public abstract class vATInCode : PX.Data.BQL.BqlString.Field<vATInCode> { }

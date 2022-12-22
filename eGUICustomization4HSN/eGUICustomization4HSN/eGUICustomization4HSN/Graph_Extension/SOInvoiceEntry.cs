@@ -1,4 +1,5 @@
-﻿using PX.Data;
+﻿using System;
+using PX.Data;
 using PX.Objects.AR;
 using eGUICustomization4HSN.StringList;
 using eGUICustomization4HSN.Descriptor;
@@ -12,9 +13,11 @@ namespace PX.Objects.SO
         {
             baseHandler?.Invoke(e.Cache, e.Args);
 
+            bool isOnline = Convert.ToBoolean(Convert.ToInt32(GetSOrderUDFValue(e.Row, "ESTORE") ?? "0"));
+
             var invoice = Base.Document.Current;
 
-            if (e.Row != null && invoice != null && TWNGUIValidation.ActivateTWGUI(Base))
+            if (e.Row != null && invoice != null && TWNGUIValidation.ActivateTWGUI(Base) && isOnline == true)
             {
                 Base.Document.Cache.SetValue<ARRegisterExt.usrTaxNbr>(invoice, GetSOrderUDFValue(e.Row, ARRegisterExt.TaxNbrName));
                 Base.Document.Cache.SetValue(invoice, "UsrGUITitle", GetSOrderUDFValue(e.Row, "GUITITLE"));
