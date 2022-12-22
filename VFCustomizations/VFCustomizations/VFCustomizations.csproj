@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="DAC\INRegisterKvExt.cs" />
     <Compile Include="DAC\LUMAcquirerItems.cs" />
+    <Compile Include="DAC\SOOrderKvExt.cs" />
     <Compile Include="DAC\SOShipmentKvExt.cs" />
     <Compile Include="DAC_Extension\INTranExtension.cs" />
     <Compile Include="DAC_Extension\SOShipLineExtension.cs" />

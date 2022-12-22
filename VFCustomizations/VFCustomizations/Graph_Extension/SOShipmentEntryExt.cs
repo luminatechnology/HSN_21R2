@@ -43,6 +43,40 @@ namespace VFCustomizations.Graph_Extension
 
         #endregion
 
+        #region Delegate Methods
+
+        public delegate void PersistDelegate();
+        [PXOverride]
+        public void Persist(PersistDelegate baseMethod)
+        {
+            var doc = Base.Document.Current;
+            var orderShipmentInfo = GetSOOrderShipmentInfo(doc);
+            if (doc != null && orderShipmentInfo != null)
+            {
+                try
+                {
+                    var orderInfo = SOOrder.PK.Find(Base, orderShipmentInfo?.OrderType, orderShipmentInfo?.OrderNbr);
+                    // Sync WFSTAGE User-defined
+                    var attributeName = PX.Objects.CS.Messages.Attribute + "WFSTAGE";
+                    var attrWFSTAGE = (string)(Base.Document.Cache.GetValueExt(Base.Document.Current, attributeName) as PXFieldState)?.Value;
+                    if (!string.IsNullOrEmpty(attrWFSTAGE))
+                        InsertOrUpdateSOOrderUserDefined(orderInfo.NoteID, attributeName, attrWFSTAGE);
+                    // Sync STAFF User-defined
+                    attributeName = PX.Objects.CS.Messages.Attribute + "STAFF";
+                    var attrSTAFF = (string)(Base.Document.Cache.GetValueExt(Base.Document.Current, attributeName) as PXFieldState)?.Value;
+                    if (!string.IsNullOrEmpty(attrSTAFF))
+                        InsertOrUpdateSOOrderUserDefined(orderInfo.NoteID, attributeName, attrSTAFF);
+                }
+                catch (Exception ex)
+                {
+                    PXTrace.WriteError(ex.Message);
+                }
+            }
+            baseMethod();
+        }
+
+        #endregion
+
         #region Events
 
         #region SETUP
@@ -209,6 +243,33 @@ namespace VFCustomizations.Graph_Extension
                     .Where<SOOrderShipment.shipmentNbr.IsEqual<P.AsString>
                       .And<SOOrderShipment.shipmentType.IsEqual<P.AsString>>>
                     .View.SelectSingleBound(Base, null, current.ShipmentNbr, current.ShipmentType)?.TopFirst;
+        }
+
+        /// <summary> Insert or Update SOOrder User-defined </summary>
+        public void InsertOrUpdateSOOrderUserDefined(Guid? noteid, string fieldName, string attributeValue)
+        {
+            var kvextInfo = SelectFrom<SOOrderKvExt>
+                           .Where<SOOrderKvExt.recordID.IsEqual<P.AsGuid>>
+                           .View.Select(Base, noteid).RowCast<SOOrderKvExt>();
+
+            if (kvextInfo.Any(x => x.FieldName == fieldName))
+            {
+                // Update
+                PXUpdate<Set<SOOrderKvExt.valueString, Required<SOOrderKvExt.valueString>>,
+                    SOOrderKvExt,
+                    Where<SOOrderKvExt.recordID, Equal<Required<SOOrderKvExt.recordID>>,
+                      And<SOOrderKvExt.fieldName, Equal<Required<SOOrderKvExt.fieldName>>>>>
+                    .Update(new PXGraph(), attributeValue, noteid, fieldName);
+            }
+            else
+            {
+                // Insert
+                List<PXDataFieldAssign> assigns = new List<PXDataFieldAssign>();
+                assigns.Add(new PXDataFieldAssign<SOOrderKvExt.recordID>(noteid));
+                assigns.Add(new PXDataFieldAssign<SOOrderKvExt.valueString>(attributeValue));
+                assigns.Add(new PXDataFieldAssign<SOOrderKvExt.fieldName>(fieldName));
+                PXDatabase.Insert<SOOrderKvExt>(assigns.ToArray());
+            }
         }
 
         #endregion
