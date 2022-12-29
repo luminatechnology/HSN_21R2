@@ -29,16 +29,36 @@
                     <px:PXGridColumn TextField="" DataField="PeriodQtyWithin30D" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="PeriodQtyFrom30Dto60D" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="PeriodQtyFrom60Dto90D" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodQtyFrom4Mto6M" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodQtyFrom7Mto12M" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodQtyOver1Y" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom90Dto120D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom120Dto150D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom150Dto180D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom180Dto210D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom210Dto240D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom240Dto270D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom270Dto300D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom300Dto330D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom330Dto360D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom13Mto24M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom25Mto36M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyFrom37Mto48M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodQtyOver4Y" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="EndingCost_FinYtdCost" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="PeriodCostWithin30D" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="PeriodCostFrom30Dto60D" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="PeriodCostFrom60Dto90D" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodCostFrom4Mto6M" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodCostFrom7Mto12M" Width="100"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="PeriodCostOver1Y" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom90Dto120D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom120Dto150D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom150Dto180D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom180Dto210D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom210Dto240D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom240Dto270D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom270Dto300D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom300Dto330D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom330Dto360D" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom13Mto24M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom25Mto36M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostFrom37Mto48M" Width="100"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PeriodCostOver4Y" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="ItemDescr" Width="280"></px:PXGridColumn>
                     <px:PXGridColumn DataField="ItemClassCD" Width="140"></px:PXGridColumn>
                     <px:PXGridColumn DataField="ItemClassDescr" Width="280"></px:PXGridColumn>

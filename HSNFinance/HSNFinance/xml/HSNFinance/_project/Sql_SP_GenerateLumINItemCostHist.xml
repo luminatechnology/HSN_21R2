@@ -44,8 +44,38 @@ BEGIN
 	BEGIN
 		--Declare inside loop variables
 		DECLARE @INVENTORYID int, @SITEID int, 
-				@PeriodQtyWithin30D decimal(19, 4), @PeriodQtyFrom30Dto60D decimal(19, 4), @PeriodQtyFrom60Dto90D decimal(19, 4), @PeriodQtyFrom4Mto6M decimal(19, 4), @PeriodQtyFrom7Mto12M decimal(19, 4), @PeriodQtyOver1Y decimal(19, 4), 
+				@PeriodQtyWithin30D decimal(19, 4), @PeriodQtyFrom30Dto60D decimal(19, 4), @PeriodQtyFrom60Dto90D decimal(19, 4), @PeriodQtyFrom4Mto6M decimal(19, 4), @PeriodQtyFrom7Mto12M decimal(19, 4), @PeriodQtyOver1Y decimal(19, 4),
+				@PeriodQtyFrom90Dto120D decimal(19, 4),
+				@PeriodQtyFrom120Dto150D decimal(19, 4),
+				@PeriodQtyFrom150Dto180D decimal(19, 4),
+				@PeriodQtyFrom180Dto210D decimal(19, 4),
+				@PeriodQtyFrom210Dto240D decimal(19, 4),
+				@PeriodQtyFrom240Dto270D decimal(19, 4),
+				@PeriodQtyFrom270Dto300D decimal(19, 4),
+				@PeriodQtyFrom300Dto330D decimal(19, 4),
+				@PeriodQtyFrom330Dto360D decimal(19, 4),
+				@PeriodQtyFrom360Dto390D decimal(19, 4),
+				@PeriodQtyFrom13Mto24M  decimal(19, 4),
+				@PeriodQtyFrom25Mto36M  decimal(19, 4),
+				@PeriodQtyFrom37Mto48M  decimal(19, 4),
+				@PeriodQtyOver4Y        decimal(19, 4),
+				@PeriodQtyPastSUM	    decimal(19,4),
 				@PeriodCostWithin30D decimal(19, 4), @PeriodCostFrom30Dto60D decimal(19, 4), @PeriodCostFrom60Dto90D decimal(19, 4), @PeriodCostFrom4Mto6M decimal(19, 4), @PeriodCostFrom7Mto12M decimal(19, 4), @PeriodCostOver1Y decimal(19, 4), 
+				@PeriodCostFrom90Dto120D decimal(19, 4),
+				@PeriodCostFrom120Dto150D decimal(19, 4),
+				@PeriodCostFrom150Dto180D decimal(19, 4),
+				@PeriodCostFrom180Dto210D decimal(19, 4),
+				@PeriodCostFrom210Dto240D decimal(19, 4),
+				@PeriodCostFrom240Dto270D decimal(19, 4),
+				@PeriodCostFrom270Dto300D decimal(19, 4),
+				@PeriodCostFrom300Dto330D decimal(19, 4),
+				@PeriodCostFrom330Dto360D decimal(19, 4),
+				@PeriodCostFrom360Dto390D decimal(19, 4),
+				@PeriodCostFrom13Mto24M  decimal(19, 4),
+				@PeriodCostFrom25Mto36M  decimal(19, 4),
+				@PeriodCostFrom37Mto48M  decimal(19, 4),
+				@PeriodCostOver4Y        decimal(19, 4),
+				@PeriodCostPastSUM	    decimal(19,4),
 				@EndingQty decimal(19, 4), @EndingCost decimal(19, 4), @SumFinPtdQtyAdjusted decimal(19, 4)
 
 		SET @INVENTORYID = (SELECT InventoryID FROM LumINItemCostHist WHERE ID = @i)
@@ -72,17 +102,19 @@ BEGIN
 		-- Qty < 30 days
 		SET @PeriodQtyWithin30D = (select PeriodQtyWithin30D =
 			(CASE
-				WHEN (FinPtdQtyReceived is not null and FinPtdQtyTransferIn is not null) THEN
+				WHEN (SUM(FinPtdQtyReceived) is not null and SUM(FinPtdQtyTransferIn) is not null) THEN
 					(CASE
-						WHEN (FinPtdQtyReceived + FinPtdQtyTransferIn + FinPtdQtyAssemblyIn) >= @EndingQty THEN @EndingQty
-						ELSE (FinPtdQtyReceived + FinPtdQtyTransferIn + FinPtdQtyAssemblyIn)
+						WHEN (SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)) >= @EndingQty THEN @EndingQty
+						ELSE (SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn))
 					END)
 				ELSE 0
 			END)
-		from INItemCostHist where FinPeriodID = FORMAT(DATEADD(MONTH, -0, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID)
+		from INItemCostHist 
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -0, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodQtyWithin30D = IIF(@PeriodQtyWithin30D is null, 0, @PeriodQtyWithin30D)
 
-		-- Qty 30 ~ 60 days
+		-- Qty 30 ~ 60 days (2M)
 		SET @PeriodQtyFrom30Dto60D = (select TOP 1 PeriodQtyFrom30Dto60D =
 			(CASE
 				WHEN @PeriodQtyWithin30D <= @EndingQty THEN
@@ -97,7 +129,7 @@ BEGIN
 		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodQtyFrom30Dto60D = IIF(@PeriodQtyFrom30Dto60D is null, 0, @PeriodQtyFrom30Dto60D)
 
-		-- Qty 60 ~ 90 days
+		-- Qty 60 ~ 90 days(3M)
 		SET @PeriodQtyFrom60Dto90D = (select PeriodQtyFrom60Dto90D =
 			(CASE
 				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D <= @EndingQty THEN
@@ -111,15 +143,148 @@ BEGIN
 		where FinPeriodID = FORMAT(DATEADD(MONTH, -2, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
 		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodQtyFrom60Dto90D = IIF(@PeriodQtyFrom60Dto90D is null, 0, @PeriodQtyFrom60Dto90D)
-		
+
+		-- Qty 90 ~ 120 days(4M)
+		SET @PeriodQtyFrom90Dto120D = (select PeriodQtyFrom90Dto120D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -3, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom90Dto120D = IIF(@PeriodQtyFrom90Dto120D is null, 0, @PeriodQtyFrom90Dto120D)
+
+		-- Qty 120 ~ 150 days(5M)
+		SET @PeriodQtyFrom120Dto150D = (select PeriodQtyFrom120Dto150D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -4, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom120Dto150D = IIF(@PeriodQtyFrom120Dto150D is null, 0, @PeriodQtyFrom120Dto150D)
+
+		-- Qty 150 ~ 180 days(6M)
+		SET @PeriodQtyFrom150Dto180D = (select PeriodQtyFrom150Dto180D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -5, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom150Dto180D = IIF(@PeriodQtyFrom150Dto180D is null, 0, @PeriodQtyFrom150Dto180D)
+
+		-- Qty 180 ~ 210 days(7M)
+		SET @PeriodQtyFrom180Dto210D = (select PeriodQtyFrom180Dto210D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -6, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom180Dto210D = IIF(@PeriodQtyFrom180Dto210D is null, 0, @PeriodQtyFrom180Dto210D)
+
+		-- Qty 210 ~ 240 days(8M)
+		SET @PeriodQtyFrom210Dto240D = (select PeriodQtyFrom210Dto240D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -7, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom210Dto240D = IIF(@PeriodQtyFrom210Dto240D is null, 0, @PeriodQtyFrom210Dto240D)
+
+		-- Qty 240 ~ 270 days(9M)
+		SET @PeriodQtyFrom240Dto270D = (select PeriodQtyFrom240Dto270D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -8, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom240Dto270D = IIF(@PeriodQtyFrom240Dto270D is null, 0, @PeriodQtyFrom240Dto270D)
+
+		-- Qty 270 ~ 300 days(10M)
+		SET @PeriodQtyFrom270Dto300D = (select PeriodQtyFrom270Dto300D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -9, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom270Dto300D = IIF(@PeriodQtyFrom270Dto300D is null, 0, @PeriodQtyFrom270Dto300D)
+
+		-- Qty 300 ~ 330 days(11M)
+		SET @PeriodQtyFrom300Dto330D = (select PeriodQtyFrom300Dto330D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D - @PeriodQtyFrom270Dto300D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D - @PeriodQtyFrom270Dto300D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -10, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom300Dto330D = IIF(@PeriodQtyFrom300Dto330D is null, 0, @PeriodQtyFrom300Dto330D)
+
+		-- Qty 330 ~ 360 days(12M)
+		SET @PeriodQtyFrom330Dto360D = (select PeriodQtyFrom330Dto360D =
+			(CASE
+				WHEN @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D + @PeriodQtyFrom300Dto330D <= @EndingQty THEN
+					(CASE 
+						WHEN (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn)) >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D - @PeriodQtyFrom270Dto300D - @PeriodQtyFrom300Dto330D) THEN (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom90Dto120D - @PeriodQtyFrom120Dto150D - @PeriodQtyFrom150Dto180D - @PeriodQtyFrom180Dto210D - @PeriodQtyFrom210Dto240D - @PeriodQtyFrom240Dto270D - @PeriodQtyFrom270Dto300D - @PeriodQtyFrom300Dto330D)
+						ELSE (sum(FinPtdQtyReceived) + sum(FinPtdQtyTransferIn) + sum(FinPtdQtyAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -11, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodQtyFrom330Dto360D = IIF(@PeriodQtyFrom330Dto360D is null, 0, @PeriodQtyFrom330Dto360D)
+
 		-- Qty 4 ~ 6 month
 		SET @PeriodQtyFrom4Mto6M = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
 		from INItemCostHist
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -3, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -5, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodQtyFrom4Mto6M = IIF(@PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D <= @EndingQty,
 			IIF(@PeriodQtyFrom4Mto6M >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D),
 				(@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D),
@@ -135,8 +300,6 @@ BEGIN
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -6, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -11, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodQtyFrom7Mto12M = IIF(@PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom4Mto6M <= @EndingQty,
 			IIF(@PeriodQtyFrom7Mto12M >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom4Mto6M),
 				(@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom4Mto6M),
@@ -146,14 +309,60 @@ BEGIN
 		)
 		SET @PeriodQtyFrom7Mto12M = IIF(@PeriodQtyFrom7Mto12M is null, 0, @PeriodQtyFrom7Mto12M)
 
+		-- Qty 13 ~ 24 month
+		SET @PeriodQtyPastSUM = @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D + @PeriodQtyFrom300Dto330D + @PeriodQtyFrom330Dto360D
+		SET @PeriodQtyFrom13Mto24M = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -12, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -23, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodQtyFrom13Mto24M = IIF( @PeriodQtyPastSUM <= @EndingQty,
+			IIF(@PeriodQtyFrom13Mto24M >= (@EndingQty - @PeriodQtyPastSUM),
+				(@EndingQty - @PeriodQtyPastSUM),
+				@PeriodQtyFrom13Mto24M
+			),
+			0
+		)
+		SET @PeriodQtyFrom13Mto24M = IIF(@PeriodQtyFrom13Mto24M is null, 0, @PeriodQtyFrom13Mto24M)
+
+		-- Qty 25 ~ 36 month
+		SET @PeriodQtyPastSUM = @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D + @PeriodQtyFrom300Dto330D + @PeriodQtyFrom330Dto360D + @PeriodQtyFrom13Mto24M
+		SET @PeriodQtyFrom25Mto36M = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -24, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -35, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodQtyFrom25Mto36M = IIF( @PeriodQtyPastSUM <= @EndingQty,
+			IIF(@PeriodQtyFrom25Mto36M >= (@EndingQty - @PeriodQtyPastSUM),
+				(@EndingQty - @PeriodQtyPastSUM),
+				@PeriodQtyFrom25Mto36M
+			),
+			0
+		)
+		SET @PeriodQtyFrom25Mto36M = IIF(@PeriodQtyFrom25Mto36M is null, 0, @PeriodQtyFrom25Mto36M)
+
+		-- Qty 37 ~ 48 month
+		SET @PeriodQtyPastSUM = @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D + @PeriodQtyFrom300Dto330D + @PeriodQtyFrom330Dto360D + @PeriodQtyFrom13Mto24M + @PeriodQtyFrom25Mto36M
+		SET @PeriodQtyFrom37Mto48M = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -36, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -47, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodQtyFrom37Mto48M = IIF( @PeriodQtyPastSUM <= @EndingQty,
+			IIF(@PeriodQtyFrom37Mto48M >= (@EndingQty - @PeriodQtyPastSUM),
+				(@EndingQty - @PeriodQtyPastSUM),
+				@PeriodQtyFrom37Mto48M
+			),
+			0
+		)
+		SET @PeriodQtyFrom37Mto48M = IIF(@PeriodQtyFrom37Mto48M is null, 0, @PeriodQtyFrom37Mto48M)
+
 		-- Qty over 1 year
 		SET @PeriodQtyOver1Y = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
 		from INItemCostHist
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -12, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodQtyOver1Y = IIF(@PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom4Mto6M + @PeriodQtyFrom7Mto12M <= @EndingQty,
 			IIF(@PeriodQtyOver1Y >= (@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom4Mto6M - @PeriodQtyFrom7Mto12M),
 				(@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom4Mto6M - @PeriodQtyFrom7Mto12M),
@@ -161,17 +370,35 @@ BEGIN
 			),
 			0
 		)
-
 		SET @PeriodQtyOver1Y = IIF(@PeriodQtyOver1Y is null, 0, @PeriodQtyOver1Y)
-
 		-- condition: FinPtdQtyAdjusted
 		SET @PeriodQtyOver1Y = IIF(@EndingQty > (@PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom4Mto6M + @PeriodQtyFrom7Mto12M + @PeriodQtyOver1Y),
 		@EndingQty - @PeriodQtyWithin30D - @PeriodQtyFrom30Dto60D - @PeriodQtyFrom60Dto90D - @PeriodQtyFrom4Mto6M - @PeriodQtyFrom7Mto12M,
 		@PeriodQtyOver1Y)
 
+		-- Qty over 4 year
+		SET @PeriodQtyPastSUM = @PeriodQtyWithin30D + @PeriodQtyFrom30Dto60D + @PeriodQtyFrom60Dto90D + @PeriodQtyFrom90Dto120D + @PeriodQtyFrom120Dto150D + @PeriodQtyFrom150Dto180D + @PeriodQtyFrom180Dto210D + @PeriodQtyFrom210Dto240D + @PeriodQtyFrom240Dto270D + @PeriodQtyFrom270Dto300D + @PeriodQtyFrom300Dto330D + @PeriodQtyFrom330Dto360D + @PeriodQtyFrom13Mto24M + @PeriodQtyFrom25Mto36M + @PeriodQtyFrom37Mto48M
+		SET @PeriodQtyOver4Y = (select SUM(FinPtdQtyReceived) + SUM(FinPtdQtyTransferIn) + SUM(FinPtdQtyAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -48, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodQtyOver4Y = IIF(@PeriodQtyPastSUM <= @EndingQty,
+			IIF(@PeriodQtyOver4Y >= (@EndingQty - @PeriodQtyPastSUM),
+				(@EndingQty - @PeriodQtyPastSUM),
+				@PeriodQtyOver4Y
+			),
+			0
+		)
+		SET @PeriodQtyOver4Y = IIF(@PeriodQtyOver4Y is null, 0, @PeriodQtyOver4Y)
+		-- condition: FinPtdQtyAdjusted
+		SET @PeriodQtyOver4Y = IIF(@EndingQty > (@PeriodQtyPastSUM + @PeriodQtyOver4Y),
+		@EndingQty - @PeriodQtyPastSUM,
+		@PeriodQtyOver4Y)
+
 
 		/*Cost Part*/
-		-- within 30 days
+		-- within 30 days (1M)
 		SET @PeriodCostWithin30D = (select PeriodCostWithin30D =
 			(CASE
 				WHEN (sum(FinPtdCostReceived) is not null and sum(FinPtdCostTransferIn) is not null) THEN
@@ -186,7 +413,7 @@ BEGIN
 		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodCostWithin30D = IIF(@PeriodCostWithin30D is null, 0, @PeriodCostWithin30D)
 
-		-- Cost 30 ~ 60 days
+		-- Cost 30 ~ 60 days (2M)
 		SET @PeriodCostFrom30Dto60D = (select PeriodCostFrom30Dto60D =
 			(CASE
 				WHEN @PeriodCostWithin30D <= @EndingCost THEN
@@ -201,7 +428,7 @@ BEGIN
 		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodCostFrom30Dto60D = IIF(@PeriodCostFrom30Dto60D is null, 0, @PeriodCostFrom30Dto60D)
 
-		-- Cost 60 ~ 90 days
+		-- Cost 60 ~ 90 days (3M)
 		SET @PeriodCostFrom60Dto90D = (select PeriodCostFrom60Dto90D =
 			(CASE
 				WHEN @PeriodCostWithin30D + @PeriodCostFrom30Dto60D <= @EndingCost THEN
@@ -216,6 +443,149 @@ BEGIN
 		group by InventoryID,SiteID,CompanyID,FinPeriodID)
 		SET @PeriodCostFrom60Dto90D = IIF(@PeriodCostFrom60Dto90D is null, 0, @PeriodCostFrom60Dto90D)
 
+		-- Cost 90 ~ 120 days(4M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D
+		SET @PeriodCostFrom90Dto120D = (select PeriodCostFrom90Dto120D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -3, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom90Dto120D = IIF(@PeriodCostFrom90Dto120D is null, 0, @PeriodCostFrom90Dto120D)
+
+		-- Cost 120 ~ 150 days(5M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D
+		SET @PeriodCostFrom120Dto150D = (select PeriodCostFrom120Dto150D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -4, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom120Dto150D = IIF(@PeriodCostFrom120Dto150D is null, 0, @PeriodCostFrom120Dto150D)
+
+		-- Cost 150 ~ 180 days(6M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D
+		SET @PeriodCostFrom150Dto180D = (select PeriodCostFrom150Dto180D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -5, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom150Dto180D = IIF(@PeriodCostFrom150Dto180D is null, 0, @PeriodCostFrom150Dto180D)
+
+		-- Cost 180 ~ 210 days(7M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D
+		SET @PeriodCostFrom180Dto210D = (select PeriodCostFrom180Dto210D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -6, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom180Dto210D = IIF(@PeriodCostFrom180Dto210D is null, 0, @PeriodCostFrom180Dto210D)
+
+		-- Cost 210 ~ 240 days(8M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D
+		SET @PeriodCostFrom210Dto240D = (select PeriodCostFrom210Dto240D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -7, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom210Dto240D = IIF(@PeriodCostFrom210Dto240D is null, 0, @PeriodCostFrom210Dto240D)
+
+		-- Cost 240 ~ 270 days(9M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D
+		SET @PeriodCostFrom240Dto270D = (select PeriodCostFrom240Dto270D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -8, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom240Dto270D = IIF(@PeriodCostFrom240Dto270D is null, 0, @PeriodCostFrom240Dto270D)
+
+		-- Cost 270 ~ 300 days(10M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D
+		SET @PeriodCostFrom270Dto300D = (select PeriodCostFrom270Dto300D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -9, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom270Dto300D = IIF(@PeriodCostFrom270Dto300D is null, 0, @PeriodCostFrom270Dto300D)
+
+		-- Cost 300 ~ 330 days(11M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D
+		SET @PeriodCostFrom300Dto330D = (select PeriodCostFrom300Dto330D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -10, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom300Dto330D = IIF(@PeriodCostFrom300Dto330D is null, 0, @PeriodCostFrom300Dto330D)
+
+		-- Cost 330 ~ 360 days(12M)
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D
+		SET @PeriodCostFrom330Dto360D = (select PeriodCostFrom330Dto360D =
+			(CASE
+				WHEN @PeriodCostPastSUM <= @EndingCost THEN
+					(CASE 
+						WHEN (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn)) >= (@EndingCost - @PeriodCostPastSUM) THEN (@EndingCost - @PeriodCostPastSUM)
+						ELSE (sum(FinPtdCostReceived) + sum(FinPtdCostTransferIn) + sum(FinPtdCostAssemblyIn))
+					END)
+				ELSE 0
+			END)
+		from INItemCostHist
+		where FinPeriodID = FORMAT(DATEADD(MONTH, -11, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and InventoryID = @INVENTORYID and SiteID = @SITEID and CompanyID = @companyID
+		group by InventoryID,SiteID,CompanyID,FinPeriodID)
+		SET @PeriodCostFrom330Dto360D = IIF(@PeriodCostFrom330Dto360D is null, 0, @PeriodCostFrom330Dto360D)
 
 		-- Cost 4 ~ 6 month
 		SET @PeriodCostFrom4Mto6M = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
@@ -223,8 +593,6 @@ BEGIN
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -3, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -5, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodCostFrom4Mto6M = IIF(@PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D <= @EndingCost,
 			IIF(@PeriodCostFrom4Mto6M >= (@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D),
 				(@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D),
@@ -240,8 +608,6 @@ BEGIN
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -6, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -11, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodCostFrom7Mto12M = IIF(@PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom4Mto6M <= @EndingCost,
 			IIF(@PeriodCostFrom7Mto12M >= (@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D - @PeriodCostFrom4Mto6M),
 				(@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D - @PeriodCostFrom4Mto6M),
@@ -251,14 +617,60 @@ BEGIN
 		)
 		SET @PeriodCostFrom7Mto12M = IIF(@PeriodCostFrom7Mto12M is null, 0, @PeriodCostFrom7Mto12M)
 
+		-- Cost 13 ~ 24 month
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D
+		SET @PeriodCostFrom13Mto24M = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -12, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -23, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodCostFrom13Mto24M = IIF(@PeriodCostPastSUM <= @EndingCost,
+			IIF(@PeriodCostFrom13Mto24M >= (@EndingCost - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				@PeriodCostFrom13Mto24M
+			),
+			0
+		)
+		SET @PeriodCostFrom13Mto24M = IIF(@PeriodCostFrom13Mto24M is null, 0, @PeriodCostFrom13Mto24M)
+
+		-- Cost 25 ~ 36 month
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D + @PeriodCostFrom13Mto24M
+		SET @PeriodCostFrom25Mto36M = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -24, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -35, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodCostFrom25Mto36M = IIF(@PeriodCostPastSUM <= @EndingCost,
+			IIF(@PeriodCostFrom25Mto36M >= (@EndingCost - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				@PeriodCostFrom25Mto36M
+			),
+			0
+		)
+		SET @PeriodCostFrom25Mto36M = IIF(@PeriodCostFrom25Mto36M is null, 0, @PeriodCostFrom25Mto36M)
+
+		-- Cost 37 ~ 48 month
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D + @PeriodCostFrom13Mto24M + @PeriodCostFrom25Mto36M
+		SET @PeriodCostFrom37Mto48M = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -36, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap and FinPeriodID >= FORMAT(DATEADD(MONTH, -47, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodCostFrom37Mto48M = IIF(@PeriodCostPastSUM <= @EndingCost,
+			IIF(@PeriodCostFrom37Mto48M >= (@EndingCost - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				@PeriodCostFrom37Mto48M
+			),
+			0
+		)
+		SET @PeriodCostFrom37Mto48M = IIF(@PeriodCostFrom37Mto48M is null, 0, @PeriodCostFrom37Mto48M)
+
 		-- Cost over 1 year
 		SET @PeriodCostOver1Y = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
 		from INItemCostHist
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -12, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
-
-
 		SET @PeriodCostOver1Y = IIF(@PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom4Mto6M + @PeriodCostFrom7Mto12M <= @EndingCost,
 			IIF(@PeriodCostOver1Y >= (@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D - @PeriodCostFrom4Mto6M - @PeriodCostFrom7Mto12M),
 				(@EndingCost - @PeriodCostWithin30D - @PeriodCostFrom30Dto60D - @PeriodCostFrom60Dto90D - @PeriodCostFrom4Mto6M - @PeriodCostFrom7Mto12M),
@@ -268,17 +680,58 @@ BEGIN
 		)
 		SET @PeriodCostOver1Y = IIF(@PeriodCostOver1Y is null, 0, @PeriodCostOver1Y)
 
-
-
+		-- Cost over 4 year
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D + @PeriodCostFrom13Mto24M + @PeriodCostFrom25Mto36M + @PeriodCostPastSUM
+		SET @PeriodCostOver4Y = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
+		from INItemCostHist
+		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
+		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -48, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
+		group by CompanyID, InventoryID, SiteID)
+		SET @PeriodCostOver4Y = IIF(@PeriodCostPastSUM <= @EndingCost,
+			IIF(@PeriodCostOver4Y >= (@PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostPastSUM),
+				@PeriodCostOver4Y
+			),
+			0
+		)
+		SET @PeriodCostOver4Y = IIF(@PeriodCostOver4Y is null, 0, @PeriodCostOver4Y)
 
 		--update 
 		UPDATE LumINItemCostHist
 		SET [PeriodQtyWithin30D] = @PeriodQtyWithin30D, [PeriodQtyFrom30Dto60D] = @PeriodQtyFrom30Dto60D, 
+			[PeriodQtyFrom90Dto120D] = @PeriodQtyFrom90Dto120D,
+			[PeriodQtyFrom120Dto150D] = @PeriodQtyFrom120Dto150D,
+			[PeriodQtyFrom150Dto180D] = @PeriodQtyFrom150Dto180D,
+			[PeriodQtyFrom180Dto210D] = @PeriodQtyFrom180Dto210D,
+			[PeriodQtyFrom210Dto240D] = @PeriodQtyFrom210Dto240D,
+			[PeriodQtyFrom240Dto270D] = @PeriodQtyFrom240Dto270D,
+			[PeriodQtyFrom270Dto300D] = @PeriodQtyFrom270Dto300D,
+			[PeriodQtyFrom300Dto330D] = @PeriodQtyFrom300Dto330D,
+			[PeriodQtyFrom330Dto360D] = @PeriodQtyFrom330Dto360D,
+			[PeriodQtyFrom360Dto390D] = @PeriodQtyFrom360Dto390D,
+			[PeriodQtyFrom13Mto24M] = @PeriodQtyFrom13Mto24M,    
+			[PeriodQtyFrom25Mto36M] = @PeriodQtyFrom25Mto36M,   
+			[PeriodQtyFrom37Mto48M] = @PeriodQtyFrom37Mto48M,   
+			[PeriodQtyOver4Y] = @PeriodQtyOver4Y,
 			[PeriodQtyFrom60Dto90D] = @PeriodQtyFrom60Dto90D, [PeriodQtyFrom4Mto6M] = @PeriodQtyFrom4Mto6M, 
 			[PeriodQtyFrom7Mto12M] = @PeriodQtyFrom7Mto12M, PeriodQtyOver1Y = @PeriodQtyOver1Y,
 			[PeriodCostWithin30D] = @PeriodCostWithin30D, [PeriodCostFrom30Dto60D] = @PeriodCostFrom30Dto60D, 
 			[PeriodCostFrom60Dto90D] = @PeriodCostFrom60Dto90D, [PeriodCostFrom4Mto6M] = @PeriodCostFrom4Mto6M, 
 			[PeriodCostFrom7Mto12M] = @PeriodCostFrom7Mto12M, PeriodCostOver1Y = @PeriodCostOver1Y,
+			[PeriodCostFrom90Dto120D] = @PeriodCostFrom90Dto120D,
+			[PeriodCostFrom120Dto150D] = @PeriodCostFrom120Dto150D,
+			[PeriodCostFrom150Dto180D] = @PeriodCostFrom150Dto180D,
+			[PeriodCostFrom180Dto210D] = @PeriodCostFrom180Dto210D,
+			[PeriodCostFrom210Dto240D] = @PeriodCostFrom210Dto240D,
+			[PeriodCostFrom240Dto270D] = @PeriodCostFrom240Dto270D,
+			[PeriodCostFrom270Dto300D] = @PeriodCostFrom270Dto300D,
+			[PeriodCostFrom300Dto330D] = @PeriodCostFrom300Dto330D,
+			[PeriodCostFrom330Dto360D] = @PeriodCostFrom330Dto360D,
+			[PeriodCostFrom360Dto390D] = @PeriodCostFrom360Dto390D,
+			[PeriodCostFrom13Mto24M] = @PeriodCostFrom13Mto24M,    
+			[PeriodCostFrom25Mto36M] = @PeriodCostFrom25Mto36M,   
+			[PeriodCostFrom37Mto48M] = @PeriodCostFrom37Mto48M,   
+			[PeriodCostOver4Y] = @PeriodCostOver4Y,
 			[LastActivityPeriod] = @CONDITIONPERIOD, 
 			[EndingQty_FinYtdQty] = IIF(@EndingQty is null, 0, @EndingQty), 
 			[EndingCost_FinYtdCost] = IIF(@EndingCost is null, 0, @EndingCost) 

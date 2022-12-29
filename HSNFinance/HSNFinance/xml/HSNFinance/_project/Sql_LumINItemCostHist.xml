@@ -16,15 +16,43 @@
   <col name="PeriodQtyWithin30D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodQtyFrom30Dto60D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodQtyFrom60Dto90D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom90Dto120D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom120Dto150D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom150Dto180D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom180Dto210D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom210Dto240D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom240Dto270D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom270Dto300D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom300Dto330D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom330Dto360D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom360Dto390D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodQtyFrom4Mto6M" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodQtyFrom7Mto12M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom13Mto24M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom25Mto36M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyFrom37Mto48M" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodQtyOver1Y" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodQtyOver4Y" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostWithin30D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostFrom30Dto60D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostFrom60Dto90D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom90Dto120D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom120Dto150D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom150Dto180D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom180Dto210D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom210Dto240D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom240Dto270D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom270Dto300D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom300Dto330D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom330Dto360D" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom360Dto390D" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostFrom4Mto6M" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostFrom7Mto12M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom13Mto24M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom25Mto36M" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostFrom37Mto48M" type="Decimal(19,4)" nullable="true" />
   <col name="PeriodCostOver1Y" type="Decimal(19,4)" nullable="true" />
+  <col name="PeriodCostOver4Y" type="Decimal(19,4)" nullable="true" />
   <col name="LastActivityPeriod" type="Char(6)" nullable="true" />
   <col name="ConditionPeriod" type="Char(6)" nullable="true" />
 </table>]]></CDATA>
