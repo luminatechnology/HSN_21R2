@@ -383,6 +383,7 @@ BEGIN
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -48, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
+
 		SET @PeriodQtyOver4Y = IIF(@PeriodQtyPastSUM <= @EndingQty,
 			IIF(@PeriodQtyOver4Y >= (@EndingQty - @PeriodQtyPastSUM),
 				(@EndingQty - @PeriodQtyPastSUM),
@@ -681,12 +682,13 @@ BEGIN
 		SET @PeriodCostOver1Y = IIF(@PeriodCostOver1Y is null, 0, @PeriodCostOver1Y)
 
 		-- Cost over 4 year
-		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D + @PeriodCostFrom13Mto24M + @PeriodCostFrom25Mto36M + @PeriodCostPastSUM
+		SET @PeriodCostPastSUM = @PeriodCostWithin30D + @PeriodCostFrom30Dto60D + @PeriodCostFrom60Dto90D + @PeriodCostFrom90Dto120D + @PeriodCostFrom120Dto150D + @PeriodCostFrom150Dto180D + @PeriodCostFrom180Dto210D + @PeriodCostFrom210Dto240D + @PeriodCostFrom240Dto270D + @PeriodCostFrom270Dto300D + @PeriodCostFrom300Dto330D + @PeriodCostFrom330Dto360D + @PeriodCostFrom13Mto24M + @PeriodCostFrom25Mto36M + @PeriodQtyFrom37Mto48M
 		SET @PeriodCostOver4Y = (select SUM(FinPtdCostReceived) + SUM(FinPtdCostTransferIn) + SUM(FinPtdCostAssemblyIn)
 		from INItemCostHist
 		where CompanyID = @companyID and InventoryID = @INVENTORYID and SiteID = @SITEID
 		  and FinPeriodID <= FORMAT(DATEADD(MONTH, -48, CONVERT(datetime, CONCAT(@period, '01'))),'yyyyMM') + @PeriodGap
 		group by CompanyID, InventoryID, SiteID)
+
 		SET @PeriodCostOver4Y = IIF(@PeriodCostPastSUM <= @EndingCost,
 			IIF(@PeriodCostOver4Y >= (@PeriodCostPastSUM),
 				(@EndingCost - @PeriodCostPastSUM),
@@ -695,6 +697,10 @@ BEGIN
 			0
 		)
 		SET @PeriodCostOver4Y = IIF(@PeriodCostOver4Y is null, 0, @PeriodCostOver4Y)
+		--ondition: FinPtdCostAdjusted
+		SET @PeriodCostOver4Y = IIF(@EndingCost > (@PeriodCostPastSUM + @PeriodCostOver4Y),
+		@EndingCost - @PeriodCostPastSUM,
+		@PeriodCostOver4Y)
 
 		--update 
 		UPDATE LumINItemCostHist

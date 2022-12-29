@@ -14,6 +14,7 @@ namespace HSNFinance.DAC
     {
         #region Id
         [PXDBIdentity]
+        [PXUIField(DisplayName = "ID", Visible = false)]
         public virtual int? Id { get; set; }
         public abstract class id : PX.Data.BQL.BqlInt.Field<id> { }
         #endregion

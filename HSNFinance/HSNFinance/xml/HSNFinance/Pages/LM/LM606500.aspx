@@ -23,6 +23,7 @@
         <Levels>
             <px:PXGridLevel DataMember="DetailsView">
                 <Columns>
+                    <px:PXGridColumn DataField="ID" Width="100"></px:PXGridColumn>
                     <px:PXGridColumn DataField="InventoryID" Width="70"></px:PXGridColumn>
                     <px:PXGridColumn DataField="WareHouseID_SiteCD" Width="140"></px:PXGridColumn>
                     <px:PXGridColumn DataField="EndingQty_FinYtdQty" Width="100"></px:PXGridColumn>
