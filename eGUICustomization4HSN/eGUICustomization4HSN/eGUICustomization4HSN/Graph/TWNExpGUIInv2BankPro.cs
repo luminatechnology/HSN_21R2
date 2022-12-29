@@ -40,11 +40,9 @@ namespace eGUICustomization4HSN.Graph
         public PXCancel<TWNGUITrans> Cancel;
         public PXProcessing<TWNGUITrans,
                             Where<TWNGUITrans.eGUIExcluded, Equal<False>,
-                                  And2<Where<TWNGUITrans.eGUIExported, Equal<False>,
-                                             Or<TWNGUITrans.eGUIExported, IsNull>>,
-                                       And<TWNGUITrans.gUIFormatcode, In3<VATOutCode31, VATOutCode32, VATOutCode35>,
-                                           And2<Where<TWNGUITrans.isOnlineStore, IsNull>,
-                                                      Or<TWNGUITrans.isOnlineStore, Equal<False>>>>>>> GUITranProc;
+                                  And<IsNull<TWNGUITrans.eGUIExported, False>, Equal<False>,
+                                      And<TWNGUITrans.gUIFormatcode, In3<VATOutCode31, VATOutCode32, VATOutCode35>,
+                                          And<IsNull<TWNGUITrans.isOnlineStore, False>, Equal<False>>>>>> GUITranProc;
         public PXSetup<TWNGUIPreferences> gUIPreferSetup;
         #endregion
 
@@ -60,8 +58,8 @@ namespace eGUICustomization4HSN.Graph
         #region Functions
         public void Upload(List<TWNGUITrans> tWNGUITrans)
         {
-            try
-            {
+            //try
+            //{
                 // Avoid to create empty content file in automation schedule.
                 if (tWNGUITrans.Count == 0) { return; }
 
@@ -253,12 +251,12 @@ namespace eGUICustomization4HSN.Graph
 
                 UploadFile2FTP(fileName, lines);
                 UpdateGUITran(tWNGUITrans);
-            }
-            catch (Exception ex)
-            {
-                PXProcessing<TWNGUITrans>.SetError(ex);
-                throw;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    PXProcessing<TWNGUITrans>.SetError(ex);
+            //    throw;
+            //}
         }
 
         public void UpdateGUITran(List<TWNGUITrans> tWNGUITrans)
@@ -280,7 +278,7 @@ namespace eGUICustomization4HSN.Graph
 
             var pref = gUIPreferSetup.Current;
 
-            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri(isOnline == false ? pref.Url : pref.OnlineUrl + fileName));
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(new Uri($"{(isOnline == false ? pref.Url : pref.OnlineUrl)}{fileName}"));
 
             request.Credentials = new NetworkCredential(isOnline == false ? pref.UserName : pref.OnlineUN, isOnline == false ? pref.Password : pref.OnlinePW);
             request.Method = WebRequestMethods.Ftp.UploadFile;
