@@ -3,10 +3,11 @@
         <Children Key="Columns">
             <AddItem>
                 <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
-                    <Prop Key="DataField" Value="UsrReasonCode" />
+                    <Prop Key="DataField" Value="ReasonCode" />
                     <Prop Key="Width" Value="140" />
                 </PXGridColumn>
             </AddItem>
+            <PXGridColumn DataField="InvtDocType" OriginalIndex="69" />
         </Children>
     </PXGridLevel>
 </Page>

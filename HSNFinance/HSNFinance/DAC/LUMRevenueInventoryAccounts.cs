@@ -48,7 +48,7 @@ namespace HSNFinance
         [PXDBString(20, IsUnicode = true, InputMask = "")]
         [PXDefault]
         [PXUIField(DisplayName = "Reason Code")]
-        [PXSelector(typeof(Search<ReasonCode.reasonCodeID>),
+        [PXSelector(typeof(Search<ReasonCode.reasonCodeID, Where<ReasonCode.usage, Equal<ReasonCodeUsages.sales>, Or<ReasonCode.usage, Equal<ReasonCodeUsages.issue>>>>),
                     typeof(ReasonCode.descr),
                     DescriptionField = typeof(ReasonCode.descr))]
         public virtual string RevenueReasonCode { get; set; }

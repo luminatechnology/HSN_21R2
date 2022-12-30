@@ -40,7 +40,9 @@ namespace PX.Objects.FS
                     {
                         item.AccountID = mapRevenueData.AccountID;
                         item.SubID = mapRevenueData.SubAccountID;
-                        item.GetExtension<ARTranExt_Finance>().UsrReasonCode = mapRevenueData.RevenueReasonCode;
+                        item.ReasonCode = mapRevenueData.RevenueReasonCode;
+                        // 使用標準欄位
+                        //item.GetExtension<ARTranExt_Finance>().UsrReasonCode = mapRevenueData.RevenueReasonCode;
                         invoiceGraph.Transactions.Cache.Update(item);
                     }
                 }
