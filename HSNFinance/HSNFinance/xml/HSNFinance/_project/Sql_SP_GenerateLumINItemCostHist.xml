@@ -30,7 +30,7 @@ BEGIN
 
 	/*For special case 202113 and 202114*/
 	DECLARE @PeriodNbr int, @PeriodGap int
-	SET @PeriodNbr = (select PeriodNbr from FinPeriod where CompanyID = @companyID and MasterFinPeriodID = @period and OrganizationID = (select OrganizationID from Organization where CompanyID = @companyID))
+	SET @PeriodNbr = (select PeriodNbr from FinPeriod where CompanyID = @companyID and MasterFinPeriodID = @period and OrganizationID = (select OrganizationID from Organization where CompanyID = @companyID and ActualLedgerID is not null))
 	SET @PeriodGap = IIF(@PeriodNbr > 12, @PeriodNbr - 12, 0)
 	SET @period = IIF(@PeriodNbr > 12, @period - @PeriodGap, @period)
 
@@ -627,7 +627,7 @@ BEGIN
 		group by CompanyID, InventoryID, SiteID)
 		SET @PeriodCostFrom13Mto24M = IIF(@PeriodCostPastSUM <= @EndingCost,
 			IIF(@PeriodCostFrom13Mto24M >= (@EndingCost - @PeriodCostPastSUM),
-				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostPastSUM),
 				@PeriodCostFrom13Mto24M
 			),
 			0
@@ -643,7 +643,7 @@ BEGIN
 		group by CompanyID, InventoryID, SiteID)
 		SET @PeriodCostFrom25Mto36M = IIF(@PeriodCostPastSUM <= @EndingCost,
 			IIF(@PeriodCostFrom25Mto36M >= (@EndingCost - @PeriodCostPastSUM),
-				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostPastSUM),
 				@PeriodCostFrom25Mto36M
 			),
 			0
@@ -659,7 +659,7 @@ BEGIN
 		group by CompanyID, InventoryID, SiteID)
 		SET @PeriodCostFrom37Mto48M = IIF(@PeriodCostPastSUM <= @EndingCost,
 			IIF(@PeriodCostFrom37Mto48M >= (@EndingCost - @PeriodCostPastSUM),
-				(@EndingCost - @PeriodCostWithin30D - @PeriodCostPastSUM),
+				(@EndingCost - @PeriodCostPastSUM),
 				@PeriodCostFrom37Mto48M
 			),
 			0
