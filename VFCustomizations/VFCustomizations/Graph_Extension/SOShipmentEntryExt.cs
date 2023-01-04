@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using VFCustomizations.DAC;
 using PX.Objects.CR.Standalone;
 using PX.Data.BQL;
+using VFCustomizations.DAC_Extension;
 
 namespace VFCustomizations.Graph_Extension
 {
@@ -78,6 +79,15 @@ namespace VFCustomizations.Graph_Extension
         #endregion
 
         #region Events
+
+        public virtual void _(Events.RowSelected<SOShipment> e, PXRowSelected baseMethod)
+        {
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+            PXUIFieldAttribute.SetVisible<SOShipmentExt.usrDeliverDate>(Base.Document.Cache, null, isVisiable);
+            if (e.Row.GetExtension<SOShipmentExt>()?.UsrDeliverDate == null && isVisiable)
+                Base.Document.SetValueExt<SOShipmentExt.usrDeliverDate>(e.Row, e.Row.ShipDate);
+            baseMethod?.Invoke(e.Cache, e.Args);
+        }
 
         #region SETUP
         public virtual void _(Events.RowSelected<LUMVFApisetupResult> e)

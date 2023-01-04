@@ -93,14 +93,15 @@ namespace VFCustomizations.Graph
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
-                    entity.DeliveryDate = selectedItem.ShipDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.DeliveryDate = selectedItem.GetExtension<SOShipmentExt>()?.UsrDeliverDate?.ToString("dd/MM/yyyy HH:mm");
                     // SalesOrder Attribute SHIPTOCODE
                     var soAttrShipToCode = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState;
                     entity.ShipToCode = DataSubstring((string)soAttrShipToCode.Value, 30);
                     entity.ShipToAddress = DataSubstring(shipAddress?.AddressLine1 + shipAddress?.AddressLine2, 300);
-                    entity.ShipToContact = DataSubstring(shipContact?.Attention, 100);
+                    entity.ShipToContact = DataSubstring(shipContact?.FullName, 100);
                     var soAttrNodeName = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "NODENAME") as PXFieldState;
-                    entity.ShipToName = DataSubstring((string)soAttrNodeName?.Value, 50);
+                    var shipmentAttrNodeName = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "NODENAME") as PXFieldState;
+                    entity.ShipToName = string.IsNullOrEmpty((string)shipmentAttrNodeName?.Value) ? DataSubstring((string)soAttrNodeName?.Value, 50) : DataSubstring((string)shipmentAttrNodeName?.Value, 50);
                     entity.ShipFromCode = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRCODE") as PXFieldState)?.Value, 50);
                     entity.ShipFromName = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRNAME") as PXFieldState)?.Value, 50);
                     entity.ShipFromAddress = DataSubstring((string)(SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIFRADDR") as PXFieldState)?.Value, 300);
