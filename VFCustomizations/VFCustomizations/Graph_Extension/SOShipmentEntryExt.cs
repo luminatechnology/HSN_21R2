@@ -252,7 +252,7 @@ namespace VFCustomizations.Graph_Extension
             return SelectFrom<SOOrderShipment>
                     .Where<SOOrderShipment.shipmentNbr.IsEqual<P.AsString>
                       .And<SOOrderShipment.shipmentType.IsEqual<P.AsString>>>
-                    .View.SelectSingleBound(Base, null, current.ShipmentNbr, current.ShipmentType)?.TopFirst;
+                    .View.SelectSingleBound(Base, null, current?.ShipmentNbr, current?.ShipmentType)?.TopFirst;
         }
 
         /// <summary> Insert or Update SOOrder User-defined </summary>
