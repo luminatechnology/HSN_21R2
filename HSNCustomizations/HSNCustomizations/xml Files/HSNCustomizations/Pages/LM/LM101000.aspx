@@ -34,11 +34,15 @@
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox20" DataField="EnableSCBPaymentFile"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox23" DataField="EnableCitiOutSourceCheckFile"></px:PXCheckBox>
                     <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox22" DataField="EnableCitiReturnCheckFile"></px:PXCheckBox>
-	<px:PXCheckBox runat="server" ID="CstEnableModificationofTaxAmount4" DataField="EnableModificationofTaxAmount" AlignLeft="True" ></px:PXCheckBox>
-	<px:PXCheckBox runat="server" ID="CstEnableEquipmentModel" DataField="EnableEquipmentModel" AlignLeft="True" ></px:PXCheckBox>
-	<px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox8" DataField="EnablePromptMessageForCashSale" ></px:PXCheckBox>
-	<px:PXCheckBox AlignLeft="True" TextAlign="Right" runat="server" ID="CstPXCheckBox7" DataField="EnableOverrideWarranty" ></px:PXCheckBox>
-	<px:PXCheckBox AlignLeft="True" runat="server" ID="CstEnableValidationCM" DataField="EnableValidationAmountInCreditMemo" ></px:PXCheckBox></Template>
+	                <px:PXCheckBox runat="server" ID="CstEnableModificationofTaxAmount4" DataField="EnableModificationofTaxAmount" AlignLeft="True" ></px:PXCheckBox>
+	                <px:PXCheckBox runat="server" ID="CstEnableEquipmentModel" DataField="EnableEquipmentModel" AlignLeft="True" ></px:PXCheckBox>
+	                <px:PXCheckBox AlignLeft="True" TextAlign="Right" runat="server" ID="CstPXCheckBox7" DataField="EnableOverrideWarranty" ></px:PXCheckBox>
+	                <px:PXCheckBox AlignLeft="True" runat="server" ID="CstPXCheckBox8" DataField="EnablePromptMessageForCashSale" ></px:PXCheckBox>
+	                <px:PXCheckBox AlignLeft="True" runat="server" ID="CstEnableValidationCM" DataField="EnableValidationAmountInCreditMemo" ></px:PXCheckBox>
+	                <px:PXCheckBox runat="server" ID="CstPXCheckBox1" DataField="EnableHighcareFunction" AlignLeft="True" />
+	                <px:PXCheckBox runat="server" ID="CstPXCheckBox2" DataField="EnableOverridePINCodetDate" AlignLeft="True" />
+                    <px:PXCheckBox runat="server" ID="CstPXCheckBox3" DataField="EnableAttrOfEquipDisplayInApptDet" AlignLeft="True" />
+                </Template>
             </px:PXTabItem>
             <px:PXTabItem Text="Branch Warehouse">
 

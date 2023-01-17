@@ -187,6 +187,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableStorageInventoryTransValidation : PX.Data.BQL.BqlBool.Field<enableStorageInventoryTransValidation> { }
         #endregion
 
+        #region EnableAttrOfEquipDisplayInApptDet
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable attributes of Equipment to be displayed in Appt. details")]
+        public virtual bool? EnableAttrOfEquipDisplayInApptDet { get; set; }
+        public abstract class enableAttrOfEquipDisplayInApptDet : PX.Data.BQL.BqlBool.Field<enableAttrOfEquipDisplayInApptDet> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

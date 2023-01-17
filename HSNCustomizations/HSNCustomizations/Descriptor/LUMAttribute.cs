@@ -12,10 +12,6 @@ using PX.Objects.FS;
 using PX.Objects.AP;
 using PX.Objects.SO;
 using HSNCustomizations.DAC;
-using PX.Objects.CR;
-using HSNCustomizations.Graph;
-using PX.Objects.CS;
-using Messages = PX.Objects.CR.Messages;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -489,5 +485,99 @@ namespace HSNCustomizations.Descriptor
     }
     #endregion
 
+    #region FSSelectorMaintenanceEquipment2Attribute
+    public class FSSelectorMaintenanceEquipment2Attribute : PXSelectorAttribute
+    {
+        public FSSelectorMaintenanceEquipment2Attribute(Type srvOrdType, Type billCustomerID, Type customerID, Type customerLocationID, Type branchLocationID)
+            : this(srvOrdType, billCustomerID, customerID, customerLocationID, typeof(AccessInfo.branchID), branchLocationID) { }
+
+        public FSSelectorMaintenanceEquipment2Attribute(Type srvOrdType, Type billCustomerID, Type customerID, Type customerLocationID, Type branchID, Type branchLocationID)
+            : base(
+                 BqlCommand.Compose(
+                            typeof(Search2<,,>),
+                            typeof(FSEquipment.SMequipmentID),
+                            typeof(InnerJoin<,,>),
+                            typeof(FSSrvOrdType),
+                                    typeof(On<,>), typeof(FSSrvOrdType.srvOrdType), typeof(Equal<>), typeof(Current<>), srvOrdType,
+                            typeof(CrossJoinSingleTable<>),
+                            typeof(FSSetup),
+                            typeof(Where<,,>),
+                                typeof(FSEquipment.requireMaintenance), typeof(Equal<True>),
+                            typeof(And<>),
+                                typeof(Where2<,>),
+                                    typeof(Where<FSSetup.enableAllTargetEquipment, Equal<True>>),
+                                    typeof(Or<>),
+                                        typeof(Where2<,>),
+                                            typeof(Where<,,>),
+                                                //LocationType: Customer
+                                                typeof(FSEquipment.locationType), typeof(Equal<ListField_LocationType.Customer>),
+                                                    typeof(And2<,>),
+                                                        typeof(Where<,,>),
+                                                            typeof(FSEquipment.customerID), typeof(Equal<>), typeof(Current<>), customerID,
+                                                            typeof(And<>),
+                                                                typeof(Where<,,>),
+                                                                    typeof(FSEquipment.customerLocationID), typeof(Equal<>), typeof(Current<>), customerLocationID,
+                                                                    typeof(Or<FSEquipment.customerLocationID, IsNull>),
+                                                        typeof(And<>),
+                                                            typeof(Where2<,>),
+                                                                typeof(Where<,,>),
+                                                                    //In case OwnerType: Customer -> Check if billCustomer is either the Equipment's customer or its OwnerID.
+                                                                    typeof(FSEquipment.ownerType), typeof(Equal<FSEquipment.ownerType.Customer>),
+                                                                    typeof(And<>),
+                                                                        typeof(Where2<,>),
+                                                                            typeof(Where<,>),
+                                                                                typeof(FSEquipment.customerID), typeof(Equal<>), typeof(Current<>), billCustomerID,
+                                                                        typeof(Or<>),
+                                                                            typeof(Where<,>),
+                                                                                typeof(FSEquipment.ownerID), typeof(Equal<>), typeof(Current<>), billCustomerID,
+                                                                typeof(Or<
+                                                                          Where<FSEquipment.ownerType, Equal<FSEquipment.ownerType.OwnCompany>>>),
+                                            typeof(Or<>),
+                                                //LocationType: Company
+                                                typeof(Where<,,>),
+                                                    typeof(FSEquipment.locationType), typeof(Equal<ListField_LocationType.Company>),
+                                                    typeof(And<,,>),
+                                                        typeof(FSEquipment.branchID), typeof(Equal<>), typeof(Current<>), branchID,
+                                                        typeof(And2<,>),
+                                                            typeof(Where<,,>),
+                                                                typeof(FSEquipment.branchLocationID), typeof(Equal<>), typeof(Current<>), branchLocationID,
+                                                                typeof(Or<FSEquipment.branchLocationID, IsNull>),
+                                                        typeof(And<>),
+                                                            typeof(Where2<,>),
+                                                                typeof(Where<,,>),
+                                                                    typeof(FSEquipment.ownerType), typeof(Equal<FSEquipment.ownerType.Customer>),
+                                                                    typeof(And<,>),
+                                                                        typeof(FSEquipment.ownerID), typeof(Equal<>), typeof(Current<>), billCustomerID,
+                                                                typeof(Or<>),
+                                                                    typeof(Where<,,>),
+                                                                        //All equipments with LocationType: Company and OwnerType: Company only appear in Internal Appointments.
+                                                                        typeof(FSEquipment.ownerType), typeof(Equal<FSEquipment.ownerType.OwnCompany>),
+                                                                        typeof(And<,>),
+                                                                            typeof(FSSrvOrdType.behavior), typeof(Equal<FSSrvOrdType.behavior.Values.internalAppointment>)
+                    ),
+                    new Type[]
+                    {
+                        typeof(FSEquipment.refNbr),
+                        typeof(FSEquipment.descr),
+                        typeof(FSEquipment.serialNumber),
+                        typeof(FSEquipment.registrationNbr),
+                        typeof(FSEquipment.ownerType),
+                        typeof(FSEquipment.ownerID),
+                        typeof(FSEquipment.locationType),
+                        typeof(FSEquipment.customerID),
+                        typeof(FSEquipment.customerLocationID),
+                        typeof(FSEquipment.branchID),
+                        typeof(FSEquipment.branchLocationID),
+                        typeof(FSEquipment.inventoryID),
+                        typeof(FSEquipment.iNSerialNumber),
+                        typeof(FSEquipment.color),
+                        typeof(FSEquipment.status),
+                    })
+        {
+            SubstituteKey = typeof(FSEquipment.refNbr);
+            DescriptionField = typeof(FSEquipment.descr);
+        }
+    }
+    #endregion
 }
 

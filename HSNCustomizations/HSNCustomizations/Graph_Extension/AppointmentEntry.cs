@@ -866,6 +866,16 @@ namespace PX.Objects.FS
         [FSApptLotSerialNbrAttribute2(typeof(FSApptLineSplit.siteID), typeof(FSApptLineSplit.inventoryID), typeof(FSApptLineSplit.subItemID),
                                       typeof(FSApptLineSplit.locationID), typeof(FSAppointmentDet.lotSerialNbr), FieldClass = "LotSerial")]
         protected void _(Events.CacheAttached<FSApptLineSplit.lotSerialNbr> e) { }
+
+        [PXRemoveBaseAttribute(typeof(FSSelectorMaintenanceEquipmentAttribute))]
+        [PXMergeAttributes(Method = MergeMethod.Append)]
+        [FSSelectorMaintenanceEquipment2(typeof(FSServiceOrder.srvOrdType),
+                                        typeof(FSServiceOrder.billCustomerID),
+                                        typeof(FSServiceOrder.customerID),
+                                        typeof(FSServiceOrder.locationID),
+                                        typeof(FSServiceOrder.branchID),
+                                        typeof(FSServiceOrder.branchLocationID))]
+        protected void _(Events.CacheAttached<FSAppointmentDet.SMequipmentID> e) { }
         #endregion
 
         #region Event Handlers
@@ -907,6 +917,9 @@ namespace PX.Objects.FS
             PXUIFieldAttribute.SetVisible<FSAppointmentExt.usrTransferToHQ>(e.Cache, e.Row, hSNSetup?.DisplayTransferToHQ ?? false);
             PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrRMARequired>(Base.AppointmentDetails.Cache, null, activeRMAProcess);
             PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrIsDOA>(Base.AppointmentDetails.Cache, null, activePartRequest);
+            PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrEquipAttrAssetNbr>(Base.AppointmentDetails.Cache, null, hSNSetup?.EnableAttrOfEquipDisplayInApptDet ?? false);
+            PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrEquipAttrEngineer>(Base.AppointmentDetails.Cache, null, hSNSetup?.EnableAttrOfEquipDisplayInApptDet ?? false);
+            PXUIFieldAttribute.SetVisible<FSAppointmentDetExt.usrEquipAttrSrvTerms>(Base.AppointmentDetails.Cache, null, hSNSetup?.EnableAttrOfEquipDisplayInApptDet ?? false);
 
             SettingStageButton();
         }
