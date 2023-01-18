@@ -132,7 +132,7 @@
     <Compile Include="DAC\LUMHSNSetup.cs" />
     <Compile Include="DAC_Extension\INRegisterExtensions.cs" />
     <Compile Include="DAC_Extension\INTranExtensions.cs" />
-    <Compile Include="LUMHSNSetupMaint.cs" />
+    <Compile Include="Graph\LUMHSNSetupMaint.cs" />
     <Compile Include="Graph_Extension\SMEquipmentMaint.cs" />
     <Compile Include="Graph_Extension\INReceiptEntry.cs" />
     <Compile Include="DAC\LUMBranchWarehouse.cs" />

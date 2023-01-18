@@ -1,4 +1,6 @@
 using PX.Data;
+using PX.Data.BQL.Fluent;
+using PX.Objects.CS;
 
 namespace PX.Objects.FS
 {
@@ -41,6 +43,76 @@ namespace PX.Objects.FS
         public virtual string UsrRegistrationNbr { get; set; }
         public abstract class usrRegistrationNbr : PX.Data.BQL.BqlString.Field<usrRegistrationNbr> { }
         #endregion
+
+        #region UsrEquipAttrAssetNbr
+        public const string AssetNbr = "ASSETNBR";
+        public class ASSETNBR_Attr : PX.Data.BQL.BqlString.Constant<ASSETNBR_Attr>
+        {
+            public ASSETNBR_Attr() : base(AssetNbr) { }
+        }
+
+        [PXString(255, IsUnicode = true)]
+        [PXUIField(DisplayName = "Equip. Asset Nbr.", Enabled = false)]
+        [PXUnboundDefault(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                          .And<CSAnswers.attributeID.IsEqual<ASSETNBR_Attr>>>
+                                               .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>
+                                               .SearchFor<CSAnswers.value>), 
+                   PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDBScalar(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                           .And<CSAnswers.attributeID.IsEqual<ASSETNBR_Attr>>>
+                                                .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID>>.SearchFor<CSAnswers.value>))]
+        [PXFormula(typeof(Default<FSAppointmentDet.SMequipmentID>))]
+        public virtual string UsrEquipAttrAssetNbr { get; set; }
+        public abstract class usrEquipAttrAssetNbr : PX.Data.BQL.BqlString.Field<usrEquipAttrAssetNbr> { }
+        #endregion 
+
+        #region UsrEquipAttrEngineer
+        public const string Engineer = "ENGINEER";
+        public class ENGINEER_Attr : PX.Data.BQL.BqlString.Constant<ENGINEER_Attr>
+        {
+            public ENGINEER_Attr() : base(Engineer) { }
+        }
+
+        [PXString(10, IsUnicode = true)]
+        [PXUIField(DisplayName = "Equip. Engineer", Enabled = false)]
+        [PXSelector(typeof(SelectFrom<CSAttributeDetail>.Where<CSAttributeDetail.attributeID.IsEqual<ENGINEER_Attr>>.SearchFor<CSAttributeDetail.valueID>),
+                    DescriptionField = typeof(CSAttributeDetail.description))]
+        [PXUnboundDefault(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                          .And<CSAnswers.attributeID.IsEqual<ENGINEER_Attr>>>
+                                               .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>
+                                               .SearchFor<CSAnswers.value>),
+                   PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDBScalar(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                           .And<CSAnswers.attributeID.IsEqual<ENGINEER_Attr>>>
+                                                .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID>>.SearchFor<CSAnswers.value>))]
+        [PXFormula(typeof(Default<FSAppointmentDet.SMequipmentID>))]
+        public virtual string UsrEquipAttrEngineer { get; set; }
+        public abstract class usrEquipAttrEngineer : PX.Data.BQL.BqlString.Field<usrEquipAttrEngineer> { }
+        #endregion 
+
+        #region UsrEquipAttrSrvTerms
+        public const string SrvTerms = "SERVTERM";
+        public class SERVTERM_Attr : PX.Data.BQL.BqlString.Constant<SERVTERM_Attr>
+        {
+            public SERVTERM_Attr() : base(SrvTerms) { }
+        }
+
+        [PXString(60, IsUnicode = true)]
+        [PXUIField(DisplayName = "Equip. Service Terms", Enabled = false, IsLocalizable = true)]
+        [PXSelector(typeof(SelectFrom<CSAttributeDetail>.Where<CSAttributeDetail.attributeID.IsEqual<SERVTERM_Attr>>.SearchFor<CSAttributeDetail.valueID>),
+                    DescriptionField = typeof(CSAttributeDetail.description))]
+        [PXUnboundDefault(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                          .And<CSAnswers.attributeID.IsEqual<SERVTERM_Attr>>>
+                                               .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>
+                                               .SearchFor<CSAnswers.value>),
+                   PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXDBScalar(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
+                                                                           .And<CSAnswers.attributeID.IsEqual<SERVTERM_Attr>>>
+                                                .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID>>.SearchFor<CSAnswers.value>))]
+        [PXFormula(typeof(Default<FSAppointmentDet.SMequipmentID>))]
+        public virtual string UsrEquipAttrSrvTerms { get; set; }
+        public abstract class usrEquipAttrSrvTerms : PX.Data.BQL.BqlString.Field<usrEquipAttrSrvTerms> { }
+        #endregion 
 
         #endregion
 

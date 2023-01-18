@@ -35,6 +35,7 @@
   <col name="EnablePromptMessageForCashSale" type="Bit" nullable="true" />
   <col name="EnableValidationAmountInCreditMemo" type="Bit" nullable="true" />
   <col name="EnableStorageInventoryTransValidation" type="Bit" nullable="true" />
+  <col name="EnableAttrOfEquipDisplayInApptDet" type="Bit" nullable="true" />
   <index name="PK_LUMHSNSetup" clustered="true" primary="true" unique="true">
     <col name="CompanyID" />
   </index>
