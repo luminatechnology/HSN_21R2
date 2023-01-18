@@ -157,7 +157,6 @@ namespace VFCustomizations.Graph
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
                     entity.ShipVia = soAttributeSHIPVIA?.Value;
-                    entity.ShipToName = DataSubstring(shipContactInfo?.FullName, 50);
 
                     // Shipment Attribute FORWARDER
                     var shipmentAttrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
