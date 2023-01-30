@@ -92,8 +92,10 @@ namespace VFCustomizations.Graph
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
+                    entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
-                    entity.DeliveryDate = selectedItem.GetExtension<SOShipmentExt>()?.UsrDeliverDate?.ToString("dd/MM/yyyy HH:mm");
+                    //entity.DeliveryDate = selectedItem.GetExtension<SOShipmentExt>()?.UsrDeliverDate?.ToString("dd/MM/yyyy HH:mm");
+                    entity.DeliveryDate = entity.ExportDate;
                     // SalesOrder Attribute SHIPTOCODE
                     var soAttrShipToCode = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPTOCODE") as PXFieldState;
                     entity.ShipToCode = DataSubstring((string)soAttrShipToCode.Value, 30);
@@ -109,7 +111,6 @@ namespace VFCustomizations.Graph
                     // Shipment Attribute AWBNO
                     var shipmentAttrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)shipmentAttrAWBNO.Value;
-                    entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                     // Get SOSHipment
                     var soShipmentInfo = SelectFrom<SOOrderShipment>
                                          .Where<SOOrderShipment.shipmentNbr.IsEqual<P.AsString>
@@ -156,7 +157,6 @@ namespace VFCustomizations.Graph
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
                     entity.ShipVia = soAttributeSHIPVIA?.Value;
-                    entity.ShipToName = DataSubstring(shipContactInfo?.FullName, 50);
 
                     // Shipment Attribute FORWARDER
                     var shipmentAttrFORWARDER = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "FORWARDER") as PXFieldState;
