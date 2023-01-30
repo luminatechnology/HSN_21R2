@@ -230,6 +230,9 @@
     <SortExp>
       <DataField>GLHistoryByPeriod.BranchID</DataField>
     </SortExp>
+    <SortExp>
+      <DataField>GLHistoryByPeriod.FinPeriodID</DataField>
+    </SortExp>
   </Sorting>
   <StylesTemplate>TemplateReport.rpx</StylesTemplate>
   <Tables>
@@ -1385,7 +1388,7 @@
                 <TextAlign>Right</TextAlign>
               </Style>
               <StyleName>Normal</StyleName>
-              <Value>=$TotalBegBalance + $TotalDebit - $TotalCredit#010;#010;/*Sum(IIF([Account.Type] = 'I' Or [Account.Type] = 'L', -1, 1) *#010;IIf([Account.AccountCD] = [GLSetup.YtdNetIncAccountID], 0, 1)* IsNull(IIf(@UseMasterCalendar=True, [AHLast.TranYtdBalance], [AHLast.FinYtdBalance]),0))*/</Value>
+              <Value>=$TotalEndBalance#010;#010;/*Sum(IIF([Account.Type] = 'I' Or [Account.Type] = 'L', -1, 1) *#010;IIf([Account.AccountCD] = [GLSetup.YtdNetIncAccountID], 0, 1)* IsNull(IIf(@UseMasterCalendar=True, [AHLast.TranYtdBalance], [AHLast.FinYtdBalance]),0))*/</Value>
             </TextBox>
             <TextBox Name="textBox45">
               <Excel>
@@ -1557,7 +1560,7 @@
           <Variables>
             <ReportVariable>
               <Name>IsVisible</Name>
-              <ValueExpr>=(IIF([@SuppressZeroBal]=True AND 	#010;	IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranBegBalance], [AHCurrent.FinBegBalance]), IsNull(IIf(@UseMasterCalendar=True, [AHLast.TranYtdBalance], [AHLast.FinYtdBalance]),0)) = 0 AND 	#010;	IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdDebit], [AHCurrent.FinPtdDebit]),0)=0 AND #010;	IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdCredit], [AHCurrent.FinPtdCredit]),0) = 0 AND #010;	IsNull(IIf(@UseMasterCalendar=True, [AHLast.TranYtdBalance], [AHLast.FinYtdBalance]),0) = 0 Or #010;	($Format = 0 And ([AHLast.AccountID] = [GLSetup.YtdNetIncAccountID])), #010;False, True))</ValueExpr>
+              <ValueExpr>=(IIF([@SuppressZeroBal]=True AND 	#010;	IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranBegBalance], #010;					    [AHCurrent.FinBegBalance]), #010;	       IsNull(IIf(@UseMasterCalendar=True, [AHLast.TranYtdBalance], #010;   						   [AHLast.FinYtdBalance]),#010;  	       0)) = 0 AND 	#010;	IsNull(Sum(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdDebit], [AHCurrent.FinPtdDebit])),0)=0 AND #010;	IsNull(Sum(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdCredit], [AHCurrent.FinPtdCredit])),0) = 0 AND #010;	IsNull(IIf(@UseMasterCalendar=True, Last([AHLast.TranYtdBalance]), Last([AHLast.FinYtdBalance])),0) = 0 Or #010;	($Format = 0 And ([AHLast.AccountID] = [GLSetup.YtdNetIncAccountID])), #010;  False, #010;  True))</ValueExpr>
             </ReportVariable>
             <ReportVariable>
               <Name>BegBalance</Name>
@@ -1573,6 +1576,10 @@
               <ValueExpr>=Sum(IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdCredit], [AHCurrent.FinPtdCredit]),0))</ValueExpr>
             </ReportVariable>
             <ReportVariable>
+              <Name>EndBalance</Name>
+              <ValueExpr>=IIF($Format=0 And ([Account.Type] = 'I' Or [Account.Type] = 'L'), -1, 1) * IsNull(IIf(@UseMasterCalendar=True, Last([AHLast.TranYtdBalance]), Last([AHLast.FinYtdBalance])),0)</ValueExpr>
+            </ReportVariable>
+            <ReportVariable>
               <Name>TotalBegBalance</Name>
               <ValueExpr>=IIf($IsVisible = True, $BegBalance, 0) + $TotalBegBalance</ValueExpr>
             </ReportVariable>
@@ -1583,6 +1590,10 @@
             <ReportVariable>
               <Name>TotalCredit</Name>
               <ValueExpr>=IIf($IsVisible = True, $Credit, 0) + $TotalCredit</ValueExpr>
+            </ReportVariable>
+            <ReportVariable>
+              <Name>TotalEndBalance</Name>
+              <ValueExpr>=IIf($IsVisible = True, $EndBalance, 0) + $TotalEndBalance</ValueExpr>
             </ReportVariable>
           </Variables>
           <VisibleExpr>=$IsVisible</VisibleExpr>
@@ -1623,7 +1634,7 @@
                 <TextAlign>Right</TextAlign>
               </Style>
               <StyleName>Normal</StyleName>
-              <Value>=IIF($Format=0 And ([Account.Type] = 'I' Or [Account.Type] = 'L'), -1, 1) * IsNull(IIf(@UseMasterCalendar=True, Last([AHLast.TranYtdBalance]), Last([AHLast.FinYtdBalance])),0)</Value>
+              <Value>=$EndBalance</Value>
             </TextBox>
             <TextBox Name="textBox48">
               <Excel>
@@ -1636,7 +1647,7 @@
                 <TextAlign>Right</TextAlign>
               </Style>
               <StyleName>Normal</StyleName>
-              <Value>=Sum(IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdCredit], [AHCurrent.FinPtdCredit]),0))</Value>
+              <Value>=$Credit</Value>
             </TextBox>
             <TextBox Name="textBox49">
               <Excel>
@@ -1649,7 +1660,7 @@
                 <TextAlign>Right</TextAlign>
               </Style>
               <StyleName>Normal</StyleName>
-              <Value>=Sum(IsNull(IIf(@UseMasterCalendar=True, [AHCurrent.TranPtdDebit], [AHCurrent.FinPtdDebit]),0))</Value>
+              <Value>=$Debit</Value>
             </TextBox>
             <TextBox Name="textBox50">
               <Excel>
@@ -1662,7 +1673,7 @@
                 <TextAlign>Right</TextAlign>
               </Style>
               <StyleName>Normal</StyleName>
-              <Value>=IIF($Format=0 And #010;     ([Account.Type] = 'I' Or [Account.Type] = 'L'), -1, 1) * IsNull(IIf(@UseMasterCalendar=True, First([AHCurrent.TranBegBalance]),#010;												  First([AHCurrent.FinBegBalance])), #010;     IsNull(IIf(@UseMasterCalendar=True, First([AHLast.TranYtdBalance]),#010;					 First([AHLast.FinYtdBalance])),#010;     0))</Value>
+              <Value>=$BegBalance</Value>
             </TextBox>
             <TextBox Name="textBox51">
               <Excel>
