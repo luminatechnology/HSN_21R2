@@ -12,15 +12,26 @@ namespace HSNFinance.DAC
     [PXCacheName("LumINItemCostHist")]
     public class LumINItemCostHist : IBqlTable
     {
+        #region Selected
+        /// <summary>
+        /// Indicates whether the record is selected for processing.
+        /// </summary>
+        [PXBool]
+        [PXDefault(false, PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Selected")]
+        public virtual bool? Selected { get; set; }
+        public abstract class selected : PX.Data.BQL.BqlBool.Field<selected> { }
+        #endregion
+
         #region Id
-        [PXDBIdentity]
+        [PXDBIdentity()]
         [PXUIField(DisplayName = "ID", Visible = false)]
         public virtual int? Id { get; set; }
         public abstract class id : PX.Data.BQL.BqlInt.Field<id> { }
         #endregion
 
         #region InventoryID
-        [Inventory(Filterable = true, DirtyRead = true, Enabled = false, DisplayName = "Inventory ID")]
+        [Inventory(Filterable = true, DirtyRead = true, Enabled = false, DisplayName = "Inventory ID", IsKey = true)]
         public virtual int? InventoryID { get; set; }
         public abstract class inventoryID : PX.Data.BQL.BqlInt.Field<inventoryID> { }
         #endregion
@@ -40,7 +51,7 @@ namespace HSNFinance.DAC
         #endregion
 
         #region ItemClassID
-        [PXDBInt()]
+        [PXDBInt(IsKey = true)]
         [PXUIField(DisplayName = "Item Class ID")]
         public virtual int? ItemClassID { get; set; }
         public abstract class itemClassID : PX.Data.BQL.BqlInt.Field<itemClassID> { }
@@ -61,7 +72,7 @@ namespace HSNFinance.DAC
         #endregion
 
         #region WareHouseID_SiteID
-        [PXDBInt()]
+        [PXDBInt(IsKey = true)]
         [PXUIField(DisplayName = "Ware House ID")]
         public virtual int? WareHouseID_SiteID { get; set; }
         public abstract class wareHouseID_SiteID : PX.Data.BQL.BqlInt.Field<wareHouseID_SiteID> { }

@@ -1,5 +1,6 @@
 ﻿using HSNFinance.DAC;
 using PX.Data;
+using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.GL;
 using PX.Objects.IN;
@@ -16,13 +17,31 @@ namespace HSNFinance.Graph
     {
         public PXFilter<LumINItemCostFilter> MasterViewFilter;
 
-        public SelectFrom<LumINItemCostHist>.Where<LumINItemCostHist.conditionPeriod.IsEqual<LumINItemCostFilter.finPeriodID.FromCurrent>>.View DetailsView;
+        [PXFilterable]
+        public PXFilteredProcessing<LumINItemCostHist, LumINItemCostFilter, Where<LumINItemCostHist.conditionPeriod, Equal<Current<LumINItemCostFilter.finPeriodID>>>> DetailsView;
 
         #region Base Table Function Control
         public LumINItemCostHistMaint()
         {
+            var filter = this.MasterViewFilter.Current;
+            DetailsView.SetProcessVisible(false);
             DetailsView.AllowInsert = DetailsView.AllowUpdate = DetailsView.AllowDelete = false;
+
+            DetailsView.SetProcessDelegate(delegate (List<LumINItemCostHist> list)
+            {
+                GoProcessing(filter);
+            });
         }
+        #endregion
+
+        #region Event
+
+        public virtual void _(Events.FieldUpdated<LumINItemCostFilter.finPeriodID> e)
+        {
+            if (!string.IsNullOrEmpty((string)e.NewValue) && this.DetailsView.Select().Count == 0 && this.DetailsView.Select().TopFirst == null)
+                InitialData();
+        }
+
         #endregion
 
         #region LumINItemCost Filter
@@ -31,7 +50,7 @@ namespace HSNFinance.Graph
         public class LumINItemCostFilter : IBqlTable
         {
             #region FinPeriodID
-            [PXDBString(6, InputMask = "")]
+            [PXString(6, InputMask = "")]
             [FinPeriodID()]
             [PXUIField(DisplayName = "Period ID", Visibility = PXUIVisibility.SelectorVisible)]
             [PXSelector(typeof(Search4<INItemCostHist.finPeriodID, Where<INItemCostHist.finPeriodID.IsEqual<INItemCostHist.finPeriodID>>, Aggregate<GroupBy<INItemCostHist.finPeriodID>>, OrderBy<Desc<INItemCostHist.finPeriodID>>>),
@@ -43,11 +62,31 @@ namespace HSNFinance.Graph
         #endregion
 
         #region Delegate DataView
-        public IEnumerable detailsView()
+        //public IEnumerable detailsView()
+        //{
+        //    PXView select = new PXView(this, true, DetailsView.View.BqlSelect);
+        //    int totalrow = 0;
+        //    int startrow = PXView.StartRow;
+        //    var result = select.Select(PXView.Currents, PXView.Parameters, PXView.Searches, PXView.SortColumns, PXView.Descendings, PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
+        //    PXView.StartRow = 0;
+        //    return result;
+        //}
+        #endregion
+
+        #region Method
+
+        /// <summary> 非同步執行程序 </summary>
+        public static void GoProcessing(LumINItemCostFilter filter)
+        {
+            var baseGraph = CreateInstance<LumINItemCostHistMaint>();
+            baseGraph.GenerateAgingReport(baseGraph, filter);
+        }
+
+        public virtual void GenerateAgingReport(LumINItemCostHistMaint baseGraph, LumINItemCostFilter filter)
         {
             List<object> result = new List<object>();
 
-            var currentSearchPeriod = ((LumINItemCostFilter)this.Caches[typeof(LumINItemCostFilter)].Current)?.FinPeriodID;
+            var currentSearchPeriod = filter?.FinPeriodID;
 
             if (currentSearchPeriod != null)
             {
@@ -56,27 +95,39 @@ namespace HSNFinance.Graph
                 PXSPParameter companyID = new PXSPInParameter("@companyID", PXDbType.Int, PX.Data.Update.PXInstanceHelper.CurrentCompany);
                 pars.Add(period);
                 pars.Add(companyID);
-
                 using (new PXConnectionScope())
                 {
-                    using (PXTransactionScope ts = new PXTransactionScope())
+                    using (new PXCommandScope(3000))
                     {
-                        PXDatabase.Execute("SP_GenerateLumINItemCostHist", pars.ToArray());
-                        ts.Complete();
+                        using (PXTransactionScope ts = new PXTransactionScope())
+                        {
+                            PXDatabase.Execute("SP_GenerateLumINItemCostHist", pars.ToArray());
+                            ts.Complete();
+                        }
                     }
                 }
-
-                PXView select = new PXView(this, true, DetailsView.View.BqlSelect);
-                int totalrow = 0;
-                int startrow = PXView.StartRow;
-                result = select.Select(PXView.Currents, PXView.Parameters, PXView.Searches, PXView.SortColumns, PXView.Descendings, PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
-                PXView.StartRow = 0;
-                return result;
-
             }
-
-            return result;
         }
+
+        /// <summary> 產生一筆固定資料 </summary>
+        public virtual void InitialData()
+        {
+            string screenIDWODot = this.Accessinfo.ScreenID.ToString().Replace(".", "");
+
+            PXDatabase.Insert<LumINItemCostHist>(
+                new PXDataFieldAssign<LumINItemCostHist.inventoryID>(GetFixInventoryItem()),
+                new PXDataFieldAssign<LumINItemCostHist.conditionPeriod>(this.MasterViewFilter.Current.FinPeriodID));
+        }
+
+
+        /// <summary> 取固定資料的InventoryItem </summary>
+        public int? GetFixInventoryItem()
+        {
+            return SelectFrom<InventoryItem>
+                   .Where<InventoryItem.itemStatus.IsEqual<P.AsString>>
+                   .View.Select(this, "AC").TopFirst.InventoryID;
+        }
+
         #endregion
     }
 }
