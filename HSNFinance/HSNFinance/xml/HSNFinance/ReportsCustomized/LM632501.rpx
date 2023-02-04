@@ -1577,7 +1577,7 @@
             </ReportVariable>
             <ReportVariable>
               <Name>EndBalance</Name>
-              <ValueExpr>=IIF($Format=0 And ([Account.Type] = 'I' Or [Account.Type] = 'L'), -1, 1) * IsNull(IIf(@UseMasterCalendar=True, Last([AHLast.TranYtdBalance]), Last([AHLast.FinYtdBalance])),0)</ValueExpr>
+              <ValueExpr>=Round(IIF($Format=0 And ([Account.Type] = 'I' Or [Account.Type] = 'L'), -1, 1) * IsNull(IIf(@UseMasterCalendar=True, Last([AHLast.TranYtdBalance]), Last([AHLast.FinYtdBalance])),0), 4)</ValueExpr>
             </ReportVariable>
             <ReportVariable>
               <Name>TotalBegBalance</Name>
