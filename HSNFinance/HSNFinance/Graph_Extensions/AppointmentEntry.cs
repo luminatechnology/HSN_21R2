@@ -26,24 +26,27 @@ namespace PX.Objects.FS
             }
             catch (PXRedirectRequiredException ex)
             {
-                var invoiceGraph = ex.Graph as SOInvoiceEntry;
-                var srvType = Base.AppointmentRecords.Current?.SrvOrdType;
-                var srvOrdTypePreference = FSSrvOrdType.PK.Find(invoiceGraph, srvType);
-                if (!(srvOrdTypePreference.GetExtension<FSSrvOrdTypeExt_Finance>()?.UsrEnableSelectRevenueAndCostAcct ?? false))
-                    throw ex;
-                foreach (ARTran item in invoiceGraph.Transactions.Select())
+                if (ex.Graph is SOInvoiceEntry)
                 {
-                    var mapRevenueData = SelectFrom<LUMRevenueInventoryAccounts>
-                                        .Where<LUMRevenueInventoryAccounts.srvOrderType.IsEqual<P.AsString>>
-                                        .View.Select(invoiceGraph, srvType).TopFirst;
-                    if (mapRevenueData != null)
+                    var invoiceGraph = ex.Graph as SOInvoiceEntry;
+                    var srvType = Base.AppointmentRecords.Current?.SrvOrdType;
+                    var srvOrdTypePreference = FSSrvOrdType.PK.Find(invoiceGraph, srvType);
+                    if (!(srvOrdTypePreference.GetExtension<FSSrvOrdTypeExt_Finance>()?.UsrEnableSelectRevenueAndCostAcct ?? false))
+                        throw ex;
+                    foreach (ARTran item in invoiceGraph.Transactions.Select())
                     {
-                        item.AccountID = mapRevenueData.AccountID;
-                        item.SubID = mapRevenueData.SubAccountID;
-                        item.ReasonCode = mapRevenueData.RevenueReasonCode;
-                        // 使用標準欄位
-                        //item.GetExtension<ARTranExt_Finance>().UsrReasonCode = mapRevenueData.RevenueReasonCode;
-                        invoiceGraph.Transactions.Cache.Update(item);
+                        var mapRevenueData = SelectFrom<LUMRevenueInventoryAccounts>
+                                            .Where<LUMRevenueInventoryAccounts.srvOrderType.IsEqual<P.AsString>>
+                                            .View.Select(invoiceGraph, srvType).TopFirst;
+                        if (mapRevenueData != null)
+                        {
+                            item.AccountID = mapRevenueData.AccountID;
+                            item.SubID = mapRevenueData.SubAccountID;
+                            item.ReasonCode = mapRevenueData.RevenueReasonCode;
+                            // 使用標準欄位
+                            //item.GetExtension<ARTranExt_Finance>().UsrReasonCode = mapRevenueData.RevenueReasonCode;
+                            invoiceGraph.Transactions.Cache.Update(item);
+                        }
                     }
                 }
                 throw ex;
