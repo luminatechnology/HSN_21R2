@@ -561,6 +561,7 @@ namespace HSNCustomizations.Descriptor
                         typeof(FSEquipment.descr),
                         typeof(FSEquipment.serialNumber),
                         typeof(FSEquipment.registrationNbr),
+                        typeof(FSEquipmentExtension.usrEquipAttrAssetNbr),
                         typeof(FSEquipment.ownerType),
                         typeof(FSEquipment.ownerID),
                         typeof(FSEquipment.locationType),

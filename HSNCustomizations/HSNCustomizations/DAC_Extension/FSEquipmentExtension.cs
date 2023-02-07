@@ -1,9 +1,6 @@
 ﻿using PX.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PX.Data.BQL.Fluent;
+using PX.Objects.CS;
 
 namespace PX.Objects.FS
 {
@@ -15,6 +12,19 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "Equipment Model", Visible = false)]
         public virtual string UsrEquipmentModel { get; set; }
         public abstract class usrEquipmentModel : PX.Data.BQL.BqlString.Field<usrEquipmentModel> { }
+        #endregion
+
+        #region Unbound Fields
+
+        #region UsrEquipAttrAssetNbr
+        [PXString(255, IsUnicode = true)]
+        [PXUIField(DisplayName = "Asset Nbr.", Visibility = PXUIVisibility.SelectorVisible)]
+        [PXDBScalar(typeof(SelectFrom<CSAnswers>.Where<CSAnswers.refNoteID.IsEqual<FSEquipment.noteID>
+                                                       .And<CSAnswers.attributeID.IsEqual<FSAppointmentDetExt.ASSETNBR_Attr>>>.SearchFor<CSAnswers.value>))]
+        public virtual string UsrEquipAttrAssetNbr { get; set; }
+        public abstract class usrEquipAttrAssetNbr : PX.Data.BQL.BqlString.Field<usrEquipAttrAssetNbr> { }
+        #endregion 
+
         #endregion
     }
 }
