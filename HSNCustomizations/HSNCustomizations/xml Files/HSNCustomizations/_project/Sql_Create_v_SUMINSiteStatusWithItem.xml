@@ -1,0 +1,67 @@
+﻿<Sql TableName="Create_v_SUMINSiteStatusWithItem" SqlScriptPriority="10" CustomScript="#CDATA">
+    <CDATA name="CustomScript"><![CDATA[IF EXISTS
+(
+	SELECT *
+	FROM SYS.views
+	WHERE name = 'v_SUMINSiteStatusWithItem' AND SCHEMA_ID = SCHEMA_ID('dbo')
+)
+DROP VIEW [dbo].[v_SUMINSiteStatusWithItem]	
+GO
+CREATE VIEW v_SUMINSiteStatusWithItem AS
+SELECT CompanyID,
+	   InventoryID,
+	   SUM(QtyOnHand) as QtyOnHand,
+	   SUM(QtyNotAvail) as QtyNotAvail,
+	   SUM(QtyAvail) as QtyAvail,
+	   SUM(QtyHardAvail) as QtyHardAvail,
+	   SUM(QtyActual) as QtyActual,
+	   SUM(QtyInTransit) as QtyInTransit,
+	   SUM(QtyInTransitToSO) as QtyInTransitToSO,
+	   SUM(QtyINReplaned) as QtyINReplaned,
+	   SUM(QtyPOPrepared) as QtyPOPrepared,
+	   SUM(QtyPOOrders) as QtyPOOrders,
+	   SUM(QtyPOReceipts) as QtyPOReceipts,
+	   SUM(QtyFSSrvOrdBooked) as QtyFSSrvOrdBooked,
+	   SUM(QtyFSSrvOrdAllocated) as QtyFSSrvOrdAllocated,
+	   SUM(QtyFSSrvOrdPrepared) as QtyFSSrvOrdPrepared,
+	   SUM(QtySOBackOrdered) as QtySOBackOrdered,
+	   SUM(QtySOPrepared) as QtySOPrepared,
+	   SUM(QtySOBooked) as QtySOBooked,
+	   SUM(QtySOShipped) as QtySOShipped,
+	   SUM(QtySOShipping) as QtySOShipping,
+	   SUM(QtyFixedFSSrvOrd) as QtyFixedFSSrvOrd,
+	   SUM(QtyPOFixedFSSrvOrd) as QtyPOFixedFSSrvOrd,
+	   SUM(QtyPOFixedFSSrvOrdPrepared) as QtyPOFixedFSSrvOrdPrepared,
+	   SUM(QtyPOFixedFSSrvOrdReceipts) as QtyPOFixedFSSrvOrdReceipts,
+	   SUM(QtySOFixed) as QtySOFixed,
+	   SUM(QtyPOFixedOrders) as QtyPOFixedOrders,
+	   SUM(QtyPOFixedPrepared) as QtyPOFixedPrepared,
+	   SUM(QtyPOFixedReceipts) as QtyPOFixedReceipts,
+	   SUM(QtySODropShip) as QtySODropShip,
+	   SUM(QtyPODropShipOrders) as QtyPODropShipOrders,
+	   SUM(QtyPODropShipPrepared) as QtyPODropShipPrepared,
+	   SUM(QtyPODropShipReceipts) as QtyPODropShipReceipts,
+	   SUM(QtyINIssues) as QtyINIssues,
+	   SUM(QtyINReceipts) as QtyINReceipts,
+	   SUM(QtyINAssemblySupply) as QtyINAssemblySupply,
+	   SUM(QtyINAssemblyDemand) as QtyINAssemblyDemand,
+	   SUM(QtyInTransitToProduction) as QtyInTransitToProduction,
+	   SUM(QtyProductionSupplyPrepared) as QtyProductionSupplyPrepared,
+	   SUM(QtyProductionSupply) as QtyProductionSupply,
+	   SUM(QtyPOFixedProductionPrepared) as QtyPOFixedProductionPrepared,
+	   SUM(QtyPOFixedProductionOrders) as QtyPOFixedProductionOrders,
+	   SUM(QtyProductionDemandPrepared) as QtyProductionDemandPrepared,
+	   SUM(QtyProductionDemand) as QtyProductionDemand,
+	   SUM(QtyProductionAllocated) as QtyProductionAllocated,
+	   SUM(QtySOFixedProduction) as QtySOFixedProduction,
+	   SUM(QtyProdFixedPurchase) as QtyProdFixedPurchase,
+	   SUM(QtyProdFixedProduction) as QtyProdFixedProduction,
+	   SUM(QtyProdFixedProdOrdersPrepared) as QtyProdFixedProdOrdersPrepared,
+	   SUM(QtyProdFixedProdOrders) as QtyProdFixedProdOrders,
+	   SUM(QtyProdFixedSalesOrdersPrepared) as QtyProdFixedSalesOrdersPrepared,
+	   SUM(QtyProdFixedSalesOrders) as QtyProdFixedSalesOrders,
+	   SUM(Qty) as Qty
+FROM INSiteStatus
+WHERE CompanyID > 0
+GROUP BY CompanyID, InventoryID]]></CDATA>
+</Sql>

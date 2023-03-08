@@ -867,15 +867,15 @@ namespace PX.Objects.FS
                                       typeof(FSApptLineSplit.locationID), typeof(FSAppointmentDet.lotSerialNbr), FieldClass = "LotSerial")]
         protected void _(Events.CacheAttached<FSApptLineSplit.lotSerialNbr> e) { }
 
-        [PXRemoveBaseAttribute(typeof(FSSelectorMaintenanceEquipmentAttribute))]
-        [PXMergeAttributes(Method = MergeMethod.Append)]
-        [FSSelectorMaintenanceEquipment2(typeof(FSServiceOrder.srvOrdType),
-                                        typeof(FSServiceOrder.billCustomerID),
-                                        typeof(FSServiceOrder.customerID),
-                                        typeof(FSServiceOrder.locationID),
-                                        typeof(FSServiceOrder.branchID),
-                                        typeof(FSServiceOrder.branchLocationID))]
-        protected void _(Events.CacheAttached<FSAppointmentDet.SMequipmentID> e) { }
+        //[PXRemoveBaseAttribute(typeof(FSSelectorMaintenanceEquipmentAttribute))]
+        //[PXMergeAttributes(Method = MergeMethod.Append)]
+        //[FSSelectorMaintenanceEquipment2(typeof(FSServiceOrder.srvOrdType),
+        //                                typeof(FSServiceOrder.billCustomerID),
+        //                                typeof(FSServiceOrder.customerID),
+        //                                typeof(FSServiceOrder.locationID),
+        //                                typeof(FSServiceOrder.branchID),
+        //                                typeof(FSServiceOrder.branchLocationID))]
+        //protected void _(Events.CacheAttached<FSAppointmentDet.SMequipmentID> e) { }
         #endregion
 
         #region Event Handlers

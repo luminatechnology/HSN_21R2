@@ -85,6 +85,7 @@
     <Compile Include="DAC\LUMSrvEventHistory.cs" />
     <Compile Include="DAC\LumStageControl.cs" />
     <Compile Include="DAC\LUMTermsConditions.cs" />
+    <Compile Include="DAC\v_SUMINSiteStatusWithItem.cs" />
     <Compile Include="DAC_Extension\APPaymentExtensions.cs" />
     <Compile Include="DAC_Extension\ARPaymentExtension.cs" />
     <Compile Include="DAC_Extension\ContactExtensions.cs" />

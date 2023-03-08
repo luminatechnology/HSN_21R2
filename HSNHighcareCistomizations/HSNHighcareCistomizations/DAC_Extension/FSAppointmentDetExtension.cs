@@ -27,7 +27,7 @@ namespace PX.Objects.FS
         [PXUIEnabled(typeof(Where<Current<isTravelItem>, NotEqual<True>>))]
         [PXSelector(typeof(SelectFrom<FSEquipment>
                            .InnerJoin<FSSrvOrdType>.On<FSSrvOrdType.srvOrdType.IsEqual<FSAppointment.srvOrdType.FromCurrent>>
-                           .LeftJoin<Customer>.On<Customer.bAccountID.IsEqual<FSServiceOrder.customerID.FromCurrent>>
+                           .LeftJoin<Customer>.On<Customer.bAccountID.IsEqual<FSAppointment.customerID.FromCurrent>>
                            .CrossJoin<FSSetup>.SingleTableOnly
                            .Where<FSEquipment.requireMaintenance.IsEqual<True>
                                .And<FSSetup.enableAllTargetEquipment.IsEqual<True>>
