@@ -57,11 +57,14 @@ namespace PX.Objects.FS
         [PXSelector(typeof(SelectFrom<LUMCustomerPINCode>
                            .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
                            .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>
-                                                         .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>>
+                                                         .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>
+                                                         .And<LUMCustomerPINCode.isActive.IsEqual<True>>>
                            .Where<LUMCustomerPINCode.bAccountID.IsEqual<FSServiceOrder.customerID.FromCurrent>
                              .And<FSEquipment.SMequipmentID.IsEqual<FSSODet.SMequipmentID.FromCurrent>>>
                            .SearchFor<LUMCustomerPINCode.pin>),
-                           typeof(LUMCustomerPINCode.cPriceClassID))]
+                    typeof(LUMCustomerPINCode.cPriceClassID),
+                    typeof(LUMCustomerPINCode.startDate),
+                    typeof(LUMCustomerPINCode.endDate))]
         public virtual string UsrHighcarePINCode { get; set; }
         public abstract class usrHighcarePINCode : PX.Data.BQL.BqlString.Field<usrHighcarePINCode> { }
         #endregion

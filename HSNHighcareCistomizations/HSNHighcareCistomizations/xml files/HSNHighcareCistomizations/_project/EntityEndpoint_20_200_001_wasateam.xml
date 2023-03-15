@@ -33,20 +33,14 @@
                 <Field name="Status" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="CustomerID">
-                    <To object="BAccount" field="AcctCD" />
-                </Mapping>
                 <Mapping field="CustomerClass">
                     <To object="BAccount" field="CustomerClassID" />
                 </Mapping>
-                <Mapping field="Status">
-                    <To object="BAccount" field="Status" />
+                <Mapping field="CustomerID">
+                    <To object="BAccount" field="AcctCD" />
                 </Mapping>
                 <Mapping field="CustomerName">
                     <To object="CurrentCustomer" field="AcctName" />
-                </Mapping>
-                <Mapping field="PriceClass">
-                    <To object="DefLocation: 2" field="CPriceClassID" />
                 </Mapping>
                 <Mapping field="MainContact">
                     <Mapping field="Email">
@@ -58,6 +52,9 @@
                     <Mapping field="Phone1Type">
                         <To object="DefContact" field="Phone1Type" />
                     </Mapping>
+                </Mapping>
+                <Mapping field="PriceClass">
+                    <To object="DefLocation: 2" field="CPriceClassID" />
                 </Mapping>
                 <Mapping field="PrimayContact">
                     <Mapping field="DateOfBirth">
@@ -75,6 +72,9 @@
                     <Mapping field="Phone1Type">
                         <To object="PrimaryContactCurrent" field="Phone1Type" />
                     </Mapping>
+                </Mapping>
+                <Mapping field="Status">
+                    <To object="BAccount" field="Status" />
                 </Mapping>
             </Mappings>
             <Actions>
@@ -128,43 +128,6 @@
                 <Field name="PurchaseDate" type="DateTimeValue" />
             </Fields>
         </LinkedEntity>
-        <TopLevelEntity name="CustomerPINCode" screen="LM303000">
-            <Fields>
-                <Field name="CustomerID" type="StringValue" />
-                <Field name="Details" type="Details[]" />
-            </Fields>
-            <Mappings>
-                <Mapping field="CustomerID">
-                    <To object="Document" field="AcctCD" />
-                </Mapping>
-                <Mapping field="Details">
-                    <Mapping field="Active">
-                        <To object="Transaction" field="IsActive" />
-                    </Mapping>
-                    <Mapping field="EndDate">
-                        <To object="Transaction" field="EndDate" />
-                    </Mapping>
-                    <Mapping field="Pin">
-                        <To object="Transaction" field="Pin" />
-                    </Mapping>
-                    <Mapping field="PriceClass">
-                        <To object="Transaction" field="CPriceClassID" />
-                    </Mapping>
-                    <Mapping field="StartDate">
-                        <To object="Transaction" field="StartDate" />
-                    </Mapping>
-                </Mapping>
-            </Mappings>
-        </TopLevelEntity>
-        <Detail name="Details">
-            <Fields>
-                <Field name="Active" type="BooleanValue" />
-                <Field name="EndDate" type="DateTimeValue" />
-                <Field name="Pin" type="StringValue" />
-                <Field name="PriceClass" type="StringValue" />
-                <Field name="StartDate" type="DateTimeValue" />
-            </Fields>
-        </Detail>
         <LinkedEntity name="Manuf">
             <Fields>
                 <Field name="Manufacturer" type="StringValue" />
@@ -220,6 +183,11 @@
                 <Mapping field="PINCode">
                     <To object="EquipmentSelected" field="UsrPINCode" />
                 </Mapping>
+                <Mapping field="PINCodeDetails">
+                    <Mapping field="Pincode">
+                        <To object="EquipmentPINCodeList" field="Pincode" />
+                    </Mapping>
+                </Mapping>
                 <Mapping field="PurchaseInfo">
                     <Mapping field="PurchaseDate">
                         <To object="EquipmentSelected: 7" field="PurchDate" />
@@ -239,11 +207,6 @@
                 </Mapping>
                 <Mapping field="Vehicle">
                     <To object="EquipmentRecords" field="IsVehicle" />
-                </Mapping>
-                <Mapping field="PINCodeDetails">
-                    <Mapping field="Pincode">
-                        <To object="EquipmentPINCodeList" field="Pincode" />
-                    </Mapping>
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
@@ -490,8 +453,14 @@
                 <Mapping field="OrderType">
                     <To object="Document" field="OrderType" />
                 </Mapping>
+                <Mapping field="PaymentMethod">
+                    <To object="CurrentDocument: 2" field="PaymentMethodID" />
+                </Mapping>
                 <Mapping field="RequestedOn">
                     <To object="Document" field="RequestDate" />
+                </Mapping>
+                <Mapping field="CurrencyID">
+                    <To object="Document" field="CuryID" />
                 </Mapping>
                 <Mapping field="ShipToAddress">
                     <Mapping field="AddressLine1">
@@ -519,9 +488,6 @@
                         <To object="Shipping_Address" field="IsValidated" />
                     </Mapping>
                 </Mapping>
-                <Mapping field="CurrencyID">
-                    <To object="Document" field="CuryID" />
-                </Mapping>
                 <Mapping field="ShipToContact">
                     <Mapping field="AccountName">
                         <To object="Shipping_Contact" field="FullName" />
@@ -544,9 +510,6 @@
                 </Mapping>
                 <Mapping field="TaxTotal">
                     <To object="Document" field="CuryTaxTotal" />
-                </Mapping>
-                <Mapping field="PaymentMethod">
-                    <To object="CurrentDocument: 2" field="PaymentMethodID" />
                 </Mapping>
                 <Mapping field="CustomerID">
                     <To object="Document" field="CustomerID" />
@@ -691,22 +654,22 @@
                 <Field name="ItemCategory" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="ItemCategory">
-                    <To object="Filter" field="itemcategory" />
-                </Mapping>
                 <Mapping field="HighcareProductDetails">
-                    <Mapping field="ItemStatus">
-                        <To object="Results" field="InventoryItem_itemStatus" />
+                    <Mapping field="Description">
+                        <To object="Results" field="InventoryItem_descr" />
                     </Mapping>
                     <Mapping field="InventoryID">
                         <To object="Results" field="InventoryItem_inventoryCD" />
                     </Mapping>
-                    <Mapping field="Description">
-                        <To object="Results" field="InventoryItem_descr" />
-                    </Mapping>
                     <Mapping field="ItemCategories">
                         <To object="Results" field="InventoryItem_HIGHCARE_Attributes" />
                     </Mapping>
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
+                    </Mapping>
+                </Mapping>
+                <Mapping field="ItemCategory">
+                    <To object="Filter" field="itemcategory" />
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
@@ -724,28 +687,28 @@
                 <Field name="Warehouse" type="StringValue" />
             </Fields>
             <Mappings>
-                <Mapping field="Warehouse">
-                    <To object="Filter" field="Warehouse" />
-                </Mapping>
                 <Mapping field="HighcareStorageDetails">
-                    <Mapping field="ItemStatus">
-                        <To object="Results" field="InventoryItem_itemStatus" />
-                    </Mapping>
-                    <Mapping field="InventoryID">
-                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    <Mapping field="DefaultPrice">
+                        <To object="Results" field="InventoryItemCurySettings_basePrice" />
                     </Mapping>
                     <Mapping field="Description">
                         <To object="Results" field="InventoryItem_descr" />
                     </Mapping>
-                    <Mapping field="WarehouseID">
-                        <To object="Results" field="INSite_siteCD" />
+                    <Mapping field="InventoryID">
+                        <To object="Results" field="InventoryItem_inventoryCD" />
+                    </Mapping>
+                    <Mapping field="ItemStatus">
+                        <To object="Results" field="InventoryItem_itemStatus" />
                     </Mapping>
                     <Mapping field="SiteAvailable">
                         <To object="Results" field="INSiteStatus_Formula46bd1d2bffef43d29865278dd54d5cb0" />
                     </Mapping>
-                    <Mapping field="DefaultPrice">
-                        <To object="Results" field="InventoryItemCurySettings_basePrice" />
+                    <Mapping field="WarehouseID">
+                        <To object="Results" field="INSite_siteCD" />
                     </Mapping>
+                </Mapping>
+                <Mapping field="Warehouse">
+                    <To object="Filter" field="Warehouse" />
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
@@ -757,6 +720,51 @@
                 <Field name="ItemStatus" type="StringValue" />
                 <Field name="SiteAvailable" type="DecimalValue" />
                 <Field name="WarehouseID" type="StringValue" />
+            </Fields>
+        </Detail>
+        <TopLevelEntity name="CustomerPINCode" screen="LM303000">
+            <Fields>
+                <Field name="CustomerID" type="StringValue" />
+                <Field name="Details" type="Detiail[]" />
+            </Fields>
+            <Mappings>
+                <Mapping field="Details">
+                    <Mapping field="PriceClass">
+                        <To object="Transaction" field="CPriceClassID" />
+                    </Mapping>
+                    <Mapping field="EndDate">
+                        <To object="Transaction" field="EndDate" />
+                    </Mapping>
+                    <Mapping field="Active">
+                        <To object="Transaction" field="IsActive" />
+                    </Mapping>
+                    <Mapping field="PIN">
+                        <To object="Transaction" field="Pin" />
+                    </Mapping>
+                    <Mapping field="HCSerialNbr">
+                        <To object="Transaction" field="SerialNbr" />
+                    </Mapping>
+                    <Mapping field="StartDate">
+                        <To object="Transaction" field="StartDate" />
+                    </Mapping>
+                    <Mapping field="LastModifiedDateTime">
+                        <To object="Transaction" field="LastModifiedDateTime" />
+                    </Mapping>
+                </Mapping>
+                <Mapping field="CustomerID">
+                    <To object="Filter" field="BAccountID" />
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="Detiail">
+            <Fields>
+                <Field name="Active" type="BooleanValue" />
+                <Field name="EndDate" type="DateTimeValue" />
+                <Field name="HCSerialNbr" type="StringValue" />
+                <Field name="LastModifiedDateTime" type="DateTimeValue" />
+                <Field name="PIN" type="StringValue" />
+                <Field name="PriceClass" type="StringValue" />
+                <Field name="StartDate" type="DateTimeValue" />
             </Fields>
         </Detail>
     </Endpoint>

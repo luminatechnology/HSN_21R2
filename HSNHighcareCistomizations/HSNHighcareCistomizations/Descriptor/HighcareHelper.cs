@@ -27,15 +27,17 @@ namespace HSNHighcareCistomizations.Descriptor
             return FSEquipment.PK.Find(new PXGraph(), equipmentID);
         }
 
+        /// <summary> Retrieve the corresponding enabled PIN Code based on the equipmen </summary>
         public IEnumerable<LUMEquipmentPINCode> GetEquipmentPINCodeList(int? baccountID, int? equipmentID)
         {
-           return SelectFrom<LUMCustomerPINCode>
-                           .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
-                           .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
-                           .Where<LUMCustomerPINCode.bAccountID.IsEqual<P.AsInt>
-                             .And<FSEquipment.SMequipmentID.IsEqual<P.AsInt>>>
-                 .OrderBy<Asc<LUMCustomerPINCode.startDate>>
-                 .View.Select(new PXGraph(), baccountID, equipmentID).RowCast<LUMEquipmentPINCode>();
+            return SelectFrom<LUMCustomerPINCode>
+                            .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
+                            .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
+                            .Where<LUMCustomerPINCode.bAccountID.IsEqual<P.AsInt>
+                              .And<FSEquipment.SMequipmentID.IsEqual<P.AsInt>>
+                              .And<LUMCustomerPINCode.isActive.IsEqual<True>>>
+                  .OrderBy<Asc<LUMCustomerPINCode.startDate>>
+                  .View.Select(new PXGraph(), baccountID, equipmentID).RowCast<LUMEquipmentPINCode>();
         }
     }
 

@@ -2,7 +2,7 @@
 
 <%@ MasterType VirtualPath="~/MasterPages/FormTab.master" %>
 <asp:Content ID="cont1" ContentPlaceHolderID="phDS" runat="Server">
-    <px:PXDataSource ID="ds" runat="server" Visible="True" UDFTypeField="CustomerClassID" EnableAttributes="true" Width="100%" TypeName="HSNHighcareCistomizations.Graph.CustomerPINCodeMaint" PrimaryView="Document">
+    <px:PXDataSource ID="ds" runat="server" Visible="True" UDFTypeField="CustomerClassID" EnableAttributes="true" Width="100%" TypeName="HSNHighcareCistomizations.Graph.CustomerPINCodeMaint" PrimaryView="Filter">
         <CallbackCommands>
             <px:PXDSCallbackCommand Name="viewDefSchedule" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
             <px:PXDSCallbackCommand Name="viewSalesOrder" Visible="false" DependOnGrid="grid"></px:PXDSCallbackCommand>
@@ -12,15 +12,15 @@
     </px:PXDataSource>
 </asp:Content>
 <asp:Content ID="cont2" ContentPlaceHolderID="phF" runat="Server">
-    <px:PXFormView ID="BAccount" runat="server" Width="100%" Caption="Customer Summary" DataMember="Document" NoteIndicator="True" FilesIndicator="True" ActivityIndicator="false" ActivityField="NoteActivity" LinkIndicator="true" BPEventsIndicator="true" DefaultControlID="edAcctCD">
+    <px:PXFormView ID="BAccount" runat="server" Width="100%" Caption="Filter" DataMember="Filter">
         <Template>
             <px:PXLayoutRule runat="server" StartColumn="True" ControlSize="XM" LabelsWidth="SM" />
-            <px:PXSelector ID="edAcctCD" runat="server" DataField="AcctCD" FilterByAllFields="True" CommitChanges="True" />
+            <px:PXSelector ID="edBAccountID" runat="server" DataField="BAccountID" FilterByAllFields="True" CommitChanges="True" />
         </Template>
     </px:PXFormView>
 </asp:Content>
 <asp:Content ID="cont3" ContentPlaceHolderID="phG" runat="Server">
-    <px:PXGrid ID="grid" runat="server" Style="z-index: 100;" Width="100%" Caption="Customer PIN Code" SkinID="Details" Height="300px">
+    <px:PXGrid ID="grid" runat="server" Style="z-index: 100;" Width="100%" Caption="Customer PIN Code" SkinID="Details" Height="300px" SyncPosition="true">
         <Levels>
             <px:PXGridLevel DataMember="Transaction">
                 <RowTemplate>

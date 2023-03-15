@@ -21,18 +21,13 @@ namespace HSNHighcareCistomizations.Graph
 {
     public class CustomerPINCodeMaint : PXGraph<CustomerPINCodeMaint>
     {
-        public PXSave<Customer> Save;
-        public PXCancel<Customer> Cancel;
+        public PXSave<CustomerPINCodeFilter> Save;
+        public PXCancel<CustomerPINCodeFilter> Cancel;
 
-        public PXSelect<
-                Customer,
-            Where2<
-                Match<Current<AccessInfo.userName>>,
-                And<Where<BAccount.type, Equal<BAccountType.customerType>,
-                    Or<BAccount.type, Equal<BAccountType.combinedType>>>>>> Document;
+        public PXFilter<CustomerPINCodeFilter> Filter;
 
         public SelectFrom<LUMCustomerPINCode>
-               .Where<LUMCustomerPINCode.bAccountID.IsEqual<Customer.bAccountID.FromCurrent>>.View Transaction;
+               .Where<LUMCustomerPINCode.bAccountID.IsEqual<CustomerPINCodeFilter.bAccountID.FromCurrent>>.View Transaction;
 
         public SelectFrom<LUMHSNSetup>.View HSNSetup;
 
@@ -106,9 +101,9 @@ namespace HSNHighcareCistomizations.Graph
 
         public virtual void _(Events.RowPersisting<LUMCustomerPINCode> e)
         {
-            if (e.Row is LUMCustomerPINCode row && row != null && this.Document.Current != null && e.Operation == PXDBOperation.Insert)
+            if (e.Row is LUMCustomerPINCode row && row != null && this.Filter.Current != null && e.Operation == PXDBOperation.Insert)
             {
-                row.BAccountID = this.Document.Current.BAccountID;
+                row.BAccountID = this.Filter.Current.BAccountID;
                 if (!row.StartDate.HasValue || !row.EndDate.HasValue)
                 {
                     row.StartDate = DateTime.Now;
@@ -122,5 +117,14 @@ namespace HSNHighcareCistomizations.Graph
     public class HighcareAttr : PX.Data.BQL.BqlString.Constant<HighcareAttr>
     {
         public HighcareAttr() : base("HIGHCARE") { }
+    }
+
+    [Serializable]
+    [PXHidden]
+    public class CustomerPINCodeFilter : IBqlTable
+    {
+        [Customer(DisplayName = "Customer ID")]
+        public virtual int? BAccountID { get; set; }
+        public abstract class bAccountID : PX.Data.BQL.BqlInt.Field<bAccountID> { }
     }
 }

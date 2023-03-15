@@ -14,6 +14,7 @@ namespace PX.Objects.AR
     {
         public SelectFrom<LUMCustomerPINCode>
                .Where<LUMCustomerPINCode.bAccountID.IsEqual<Customer.bAccountID.FromCurrent>>
+               .OrderBy<Asc<LUMCustomerPINCode.startDate>>
                .View CustomerPINCode;
 
         #region Override Method
@@ -25,14 +26,5 @@ namespace PX.Objects.AR
             this.CustomerPINCode.AllowSelect = hsnSetup.GetExtension<LUMHSNSetupExtension>()?.EnableHighcareFunction ?? false;
         }
         #endregion
-
-        #region Events
-        public virtual void _(Events.RowSelected<LUMCustomerPINCode> e)
-        {
-            if (e.Row != null)
-                this.CustomerPINCode.Cache.SetValueExt<LUMCustomerPINCode.isActive>(e.Row, DateTime.Now.Date >= e.Row.StartDate?.Date && DateTime.Now.Date <= e.Row.EndDate?.Date);
-        }
-        #endregion
-
     }
 }
