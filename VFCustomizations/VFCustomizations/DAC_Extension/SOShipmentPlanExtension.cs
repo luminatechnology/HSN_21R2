@@ -8,15 +8,8 @@ using System.Threading.Tasks;
 
 namespace VFCustomizations.DAC_Extension
 {
-    public class SOShipLineExtension : PXCacheExtension<SOShipLine>
+    public class SOShipmentPlanExtension : PXCacheExtension<SOShipmentPlan>
     {
-        #region UsrPhoneNo
-        [PXDBString(100, IsUnicode = true)]
-        [PXUIField(DisplayName = "Phone Number")]
-        public virtual string UsrPhoneNo { get; set; }
-        public abstract class usrPhoneNo : PX.Data.BQL.BqlString.Field<usrPhoneNo> { }
-        #endregion
-
         #region UsrNodeName
         [PXString(IsUnicode = true)]
         [PXUIField(DisplayName = "Node Name", Visible = false, Enabled = false)]
@@ -24,6 +17,5 @@ namespace VFCustomizations.DAC_Extension
         public virtual string UsrNodeName { get; set; }
         public abstract class usrNodeName : PX.Data.BQL.BqlString.Field<usrNodeName> { }
         #endregion
-
     }
 }

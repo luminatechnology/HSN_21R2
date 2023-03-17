@@ -17,7 +17,7 @@
 	</px:PXFormView>
 </asp:Content>--%>
 <asp:Content ID="cont3" ContentPlaceHolderID="phL" runat="Server">
-    <px:PXGrid AllowPaging="True" SyncPosition="True" ID="grid" runat="server" DataSourceID="ds" Width="100%" Height="150px" SkinID="Primary" AllowAutoHide="false">
+    <px:PXGrid AllowPaging="True" SyncPosition="True" ID="grid" runat="server" DataSourceID="ds" Width="100%" Height="150px" SkinID="Primary" AllowAutoHide="false" PageSize="10">
         <Levels>
             <px:PXGridLevel DataMember="Transactions">
                 <Columns>
@@ -32,7 +32,8 @@
             </px:PXGridLevel>
         </Levels>
         <AutoSize Container="Window" Enabled="True" MinHeight="150"></AutoSize>
-        <ActionBar>
+        <ActionBar PagerVisible="Bottom">
+            <PagerSettings Mode="NumericCompact" />
         </ActionBar>
         <Mode AllowAddNew="False" AllowDelete="False" />
     </px:PXGrid>

@@ -23,6 +23,7 @@ namespace PX.Objects.IN
             PXUIFieldAttribute.SetVisible<INTranExtension.usrSymptom>(Base.transactions.Cache, null, isVisiable);
             PXUIFieldAttribute.SetVisible<INTranExtension.usrResolution>(Base.transactions.Cache, null, isVisiable);
             PXUIFieldAttribute.SetVisible<INTranExtension.usrOwner>(Base.transactions.Cache, null, isVisiable);
+            PXUIFieldAttribute.SetVisible<INTranExtension.usrForMerchant>(Base.transactions.Cache, null, isVisiable);
         }
     }
 }

@@ -5,4 +5,5 @@
     <Column TableName="INTran" ColumnName="UsrSymptom" ColumnType="string" AllowNull="True" MaxLength="500" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="INTran" ColumnName="UsrResolution" ColumnType="string" AllowNull="True" MaxLength="2500" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="INTran" ColumnName="UsrOwner" ColumnType="string" AllowNull="True" MaxLength="1024" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="INTran" ColumnName="UsrForMerchant" ColumnType="string" AllowNull="True" MaxLength="1024" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

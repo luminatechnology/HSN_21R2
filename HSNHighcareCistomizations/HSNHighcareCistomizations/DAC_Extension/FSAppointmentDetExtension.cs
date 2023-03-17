@@ -57,10 +57,10 @@ namespace PX.Objects.FS
         [PXSelector(typeof(SelectFrom<LUMCustomerPINCode>
                            .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
                            .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>
-                                                          .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>
-                                                          .And<LUMCustomerPINCode.isActive.IsEqual<True>>>
+                                                          .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>>
                            .Where<LUMCustomerPINCode.bAccountID.IsEqual<FSAppointment.customerID.FromCurrent>
-                             .And<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>>
+                             .And<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>
+                             .And<AccessInfo.businessDate.FromCurrent.IsBetween<LUMCustomerPINCode.startDate, LUMCustomerPINCode.endDate>>>
                            .SearchFor<LUMCustomerPINCode.pin>),
                     typeof(LUMCustomerPINCode.cPriceClassID),
                     typeof(LUMCustomerPINCode.startDate),

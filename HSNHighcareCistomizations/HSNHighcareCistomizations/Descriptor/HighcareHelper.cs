@@ -35,9 +35,9 @@ namespace HSNHighcareCistomizations.Descriptor
                             .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
                             .Where<LUMCustomerPINCode.bAccountID.IsEqual<P.AsInt>
                               .And<FSEquipment.SMequipmentID.IsEqual<P.AsInt>>
-                              .And<LUMCustomerPINCode.isActive.IsEqual<True>>>
+                              .And<P.AsDateTime.IsBetween<LUMCustomerPINCode.startDate, LUMCustomerPINCode.endDate>>>
                   .OrderBy<Asc<LUMCustomerPINCode.startDate>>
-                  .View.Select(new PXGraph(), baccountID, equipmentID).RowCast<LUMEquipmentPINCode>();
+                  .View.Select(new PXGraph(), baccountID, equipmentID, DateTime.Now).RowCast<LUMEquipmentPINCode>();
         }
     }
 

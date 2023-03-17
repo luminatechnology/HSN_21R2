@@ -37,6 +37,12 @@
                     <Prop Key="Width" Value="280" />
                 </PXGridColumn>
             </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrForMerchant" />
+                    <Prop Key="Width" Value="280" />
+                </PXGridColumn>
+            </AddItem>
         </Children>
     </PXGridLevel>
 </Page>

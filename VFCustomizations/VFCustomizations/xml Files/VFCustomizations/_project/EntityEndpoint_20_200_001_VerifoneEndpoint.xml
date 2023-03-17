@@ -67,14 +67,17 @@
                             <To object="splits" field="Qty" />
                         </Mapping>
                     </Mapping>
+                    <Mapping field="Resolution">
+                        <To object="transactions" field="UsrResolution" />
+                    </Mapping>
                     <Mapping field="Symptom">
                         <To object="transactions" field="UsrSymptom" />
                     </Mapping>
                     <Mapping field="Warehouse">
                         <To object="transactions" field="SiteID" />
                     </Mapping>
-                    <Mapping field="Owner">
-                        <To object="transactions" field="UsrOwner" />
+                    <Mapping field="ForMerchant">
+                        <To object="transactions" field="UsrForMerchant" />
                     </Mapping>
                     <Mapping field="InventoryID">
                         <To object="transactions" field="InventoryID" />
@@ -88,6 +91,9 @@
                     <Mapping field="LotSerialNbr">
                         <To object="transactions" field="LotSerialNbr" />
                     </Mapping>
+                    <Mapping field="Owner">
+                        <To object="transactions" field="UsrOwner" />
+                    </Mapping>
                     <Mapping field="PhoneNo">
                         <To object="transactions" field="UsrPhoneNo" />
                     </Mapping>
@@ -96,9 +102,6 @@
                     </Mapping>
                     <Mapping field="Quantity">
                         <To object="transactions" field="Qty" />
-                    </Mapping>
-                    <Mapping field="Resolution">
-                        <To object="transactions" field="UsrResolution" />
                     </Mapping>
                 </Mapping>
                 <Mapping field="ExtRefNbr">
@@ -118,6 +121,7 @@
         <Detail name="ReceiptDetails">
             <Fields>
                 <Field name="Allocations" type="ReceiptDetailsAllocations[]" />
+                <Field name="ForMerchant" type="StringValue" />
                 <Field name="InventoryID" type="StringValue" />
                 <Field name="JobNo" type="StringValue" />
                 <Field name="Location" type="StringValue" />

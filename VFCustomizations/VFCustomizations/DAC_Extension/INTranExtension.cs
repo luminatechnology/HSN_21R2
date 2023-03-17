@@ -53,5 +53,12 @@ namespace VFCustomizations.DAC_Extension
         public virtual string UsrOwner { get; set; }
         public abstract class usrOwner : PX.Data.BQL.BqlString.Field<usrOwner> { }
         #endregion
+
+        #region UsrForMerchant
+        [PXDBString(1024, IsUnicode = true)]
+        [PXUIField(DisplayName = "For Merchant", Visible = false)]
+        public virtual string UsrForMerchant { get; set; }
+        public abstract class usrForMerchant : PX.Data.BQL.BqlString.Field<usrForMerchant> { }
+        #endregion
     }
 }

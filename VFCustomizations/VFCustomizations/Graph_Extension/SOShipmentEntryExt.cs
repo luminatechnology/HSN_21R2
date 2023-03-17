@@ -89,6 +89,72 @@ namespace VFCustomizations.Graph_Extension
             baseMethod?.Invoke(e.Cache, e.Args);
         }
 
+        public virtual void _(Events.RowSelected<SOShipLine> e, PXRowSelected baseMethod)
+        {
+            // 判斷是否有啟用VF Preference
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+            PXUIFieldAttribute.SetVisible<SOShipLineExtension.usrNodeName>(Base.Transactions.Cache, null, isVisiable);
+            baseMethod?.Invoke(e.Cache, e.Args);
+            if (isVisiable)
+            {
+                // 執行usrNodeName Defaulting 事件
+                object newNodeName;
+                e.Cache.RaiseFieldDefaulting<SOShipLineExtension.usrNodeName>(e.Row, out newNodeName);
+                if (newNodeName != null)
+                    e.Row.GetExtension<SOShipLineExtension>().UsrNodeName = (string)newNodeName;
+            }
+        }
+
+        public virtual void _(Events.FieldUpdated<SOShipLine.origOrderNbr> e, PXFieldUpdated baseMethod)
+        {
+            baseMethod?.Invoke(e.Cache, e.Args);
+            // VF Customization - Show SalesOrder UDF - NodeName
+            object newNodeName;
+            e.Cache.RaiseFieldDefaulting<SOShipLineExtension.usrNodeName>(e.Row, out newNodeName);
+            if (newNodeName != null)
+                (e.Row as SOShipLine).GetExtension<SOShipLineExtension>().UsrNodeName = (string)newNodeName;
+        }
+
+        public virtual void _(Events.FieldDefaulting<SOShipLineExtension.usrNodeName> e)
+        {
+            var row = e.Row as SOShipLine;
+            if (row != null && !string.IsNullOrEmpty(row.OrigOrderNbr))
+            {
+                // VF Customization - Show SalesOrder UDF - NodeName
+                var so = SOOrder.PK.Find(Base, row?.OrigOrderType, row?.OrigOrderNbr);
+                PXCache soCache = Base.Caches<SOOrder>();
+                var udfNodeName = (string)(soCache.GetValueExt(so, PX.Objects.CS.Messages.Attribute + "NODENAME") as PXFieldState)?.Value;
+                e.NewValue = udfNodeName;
+            }
+        }
+
+        public virtual void _(Events.RowSelected<SOShipmentPlan> e, PXRowSelected baseMethod)
+        {
+            baseMethod?.Invoke(e.Cache,e.Args);
+            // 判斷是否有啟用VF Preference
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+            PXUIFieldAttribute.SetVisible<SOShipLineExtension.usrNodeName>(Base.soshipmentplan.Cache, null, isVisiable);
+            // VF Customization - Show SalesOrder UDF - NodeName
+            object newNodeName;
+            e.Cache.RaiseFieldDefaulting<SOShipmentPlanExtension.usrNodeName>(e.Row, out newNodeName);
+            if (newNodeName != null)
+                (e.Row as SOShipmentPlan).GetExtension<SOShipmentPlanExtension>().UsrNodeName = (string)newNodeName;
+        }
+
+        public virtual void _(Events.FieldDefaulting<SOShipmentPlanExtension.usrNodeName> e)
+        {
+            // VF Customization - Show SalesOrder UDF - NodeName
+            var row = e.Row as SOShipmentPlan;
+            if (row != null && !string.IsNullOrEmpty(row.OrderNbr))
+            {
+                // 自動帶出對應SO的UDF - NodeName
+                var so = SOOrder.PK.Find(Base, row?.OrderType, row?.OrderNbr);
+                PXCache soCache = Base.Caches<SOOrder>();
+                var udfNodeName = (string)(soCache.GetValueExt(so, PX.Objects.CS.Messages.Attribute + "NODENAME") as PXFieldState)?.Value;
+                e.NewValue = udfNodeName;
+            }
+        }
+
         #region SETUP
         public virtual void _(Events.RowSelected<LUMVFApisetupResult> e)
         {

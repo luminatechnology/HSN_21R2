@@ -1,0 +1,253 @@
+﻿<Report Name="lm941010.rpx">
+    <Report version="20201103" Name="report1">
+        <Filters>
+            <FilterExp>
+                <DataField>LUMAcquirerItems.OrderType</DataField>
+                <Value>@OrderType</Value>
+            </FilterExp>
+            <FilterExp>
+                <DataField>LUMAcquirerItems.OrderNbr</DataField>
+                <Value>@OrderNbr</Value>
+            </FilterExp>
+            <FilterExp>
+                <Condition>IsNotNull</Condition>
+                <DataField>LUMAcquirerItems.OrderNbr</DataField>
+            </FilterExp>
+        </Filters>
+        <LayoutUnit>Inch</LayoutUnit>
+        <PageSettings>
+            <Margins>
+            </Margins>
+        </PageSettings>
+        <Parameters>
+            <ReportParameter>
+                <Name>OrderNbr</Name>
+                <Prompt>Order Nbr</Prompt>
+            </ReportParameter>
+            <ReportParameter>
+                <Name>OrderType</Name>
+                <Prompt>Order Type</Prompt>
+            </ReportParameter>
+        </Parameters>
+        <SchemaUrl>http://localhost/HSN_2021R2</SchemaUrl>
+        <Tables>
+            <ReportTable Name="LUMAcquirerItems">
+                <Fields>
+                    <ReportField Name="AcquirerName">
+                    </ReportField>
+                    <ReportField Name="CreatedByID">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_Creator_displayName">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_Creator_Username">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_description">
+                    </ReportField>
+                    <ReportField Name="CreatedByScreenID">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Day">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Hour">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Month">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Quarter">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_description">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_Modifier_displayName">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_Modifier_Username">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByScreenID">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Day">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Hour">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Month">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Quarter">
+                    </ReportField>
+                    <ReportField Name="LineNbr">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="MerchantID">
+                    </ReportField>
+                    <ReportField Name="OrderNbr">
+                    </ReportField>
+                    <ReportField Name="OrderType">
+                    </ReportField>
+                    <ReportField Name="TerminaID">
+                    </ReportField>
+                    <ReportField Name="Tstamp">
+                    </ReportField>
+                </Fields>
+                <FullName>VFCustomizations.DAC.LUMAcquirerItems</FullName>
+            </ReportTable>
+        </Tables>
+        <Sections>
+            <PageHeader Name="pageHeaderSection1">
+                <Expanded>False</Expanded>
+                <Height>0in</Height>
+            </PageHeader>
+            <Detail Name="detailSection1">
+                <Expanded>False</Expanded>
+                <Height>0in</Height>
+                <PrintEmpty>False</PrintEmpty>
+            </Detail>
+            <PageFooter Name="pageFooterSection1">
+                <Height>0in</Height>
+            </PageFooter>
+            <ReportHeader Name="reportHeaderSection1">
+                <Height>0.33333in</Height>
+                <Items>
+                    <TextBox Name="textBox1">
+                        <Location>176px, 16px</Location>
+                        <Size>256px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                                <Top>1px</Top>
+                            </BorderWidth>
+                        </Style>
+                        <Value>TerminaID</Value>
+                    </TextBox>
+                    <TextBox Name="textBox2">
+                        <Location>16px, 16px</Location>
+                        <Size>160px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Default>1px</Default>
+                            </BorderWidth>
+                        </Style>
+                        <Value>Acquirer Name</Value>
+                    </TextBox>
+                    <TextBox Name="textBox3">
+                        <Location>432px, 16px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                                <Top>1px</Top>
+                            </BorderWidth>
+                        </Style>
+                        <Value>MerchantID</Value>
+                    </TextBox>
+                </Items>
+            </ReportHeader>
+        </Sections>
+        <Items />
+        <Groups>
+            <Group Name="GrpAcquire">
+                <Grouping>
+                    <GroupExp>
+                        <DataField>=[LUMAcquirerItems.AcquirerName]</DataField>
+                    </GroupExp>
+                </Grouping>
+                <Headers>
+                    <Header Name="groupHeaderSection1">
+                        <Height>0.16667in</Height>
+                        <VisibleExpr>=IIF([LUMAcquirerItems.AcquirerName]&lt;&gt;Null,True,False)</VisibleExpr>
+                        <Items>
+                            <TextBox Name="textBox4">
+                                <Location>16px, 0px</Location>
+                                <Size>160px, 16px</Size>
+                                <Style>
+                                    <BorderColor>
+                                        <Default>Black</Default>
+                                    </BorderColor>
+                                    <BorderStyle>
+                                        <Default>Solid</Default>
+                                    </BorderStyle>
+                                    <BorderWidth>
+                                        <Bottom>1px</Bottom>
+                                        <Left>1px</Left>
+                                    </BorderWidth>
+                                    <Font>
+                                        <Name>Leelawadee UI</Name>
+                                    </Font>
+                                </Style>
+                                <Value>=[LUMAcquirerItems.AcquirerName]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox5">
+                                <Location>176px, 0px</Location>
+                                <Size>256px, 16px</Size>
+                                <Style>
+                                    <BorderColor>
+                                        <Default>Black</Default>
+                                    </BorderColor>
+                                    <BorderStyle>
+                                        <Default>Solid</Default>
+                                    </BorderStyle>
+                                    <BorderWidth>
+                                        <Bottom>1px</Bottom>
+                                        <Left>1px</Left>
+                                    </BorderWidth>
+                                    <Font>
+                                        <Name>Leelawadee UI</Name>
+                                    </Font>
+                                </Style>
+                                <Value>=[LUMAcquirerItems.TerminaID]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox6">
+                                <Location>432px, 0px</Location>
+                                <Size>224px, 16px</Size>
+                                <Style>
+                                    <BorderColor>
+                                        <Default>Black</Default>
+                                    </BorderColor>
+                                    <BorderStyle>
+                                        <Default>Solid</Default>
+                                    </BorderStyle>
+                                    <BorderWidth>
+                                        <Bottom>1px</Bottom>
+                                        <Left>1px</Left>
+                                        <Right>1px</Right>
+                                    </BorderWidth>
+                                    <Font>
+                                        <Name>Leelawadee UI</Name>
+                                    </Font>
+                                </Style>
+                                <Value>=[LUMAcquirerItems.MerchantID]</Value>
+                            </TextBox>
+                        </Items>
+                    </Header>
+                </Headers>
+                <Footers>
+                    <Footer Name="groupFooterSection1">
+                        <Height>0in</Height>
+                    </Footer>
+                </Footers>
+            </Group>
+        </Groups>
+    </Report>
+</Report>

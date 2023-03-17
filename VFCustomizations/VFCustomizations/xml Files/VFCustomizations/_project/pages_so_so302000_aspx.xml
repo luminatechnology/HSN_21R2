@@ -229,6 +229,12 @@
                     <Prop Key="Width" Value="220" />
                 </PXGridColumn>
             </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrNodeName" />
+                    <Prop Key="Width" Value="150" />
+                </PXGridColumn>
+            </AddItem>
         </Children>
     </PXGridLevel>
     <PXFormView ID="form" ParentId="phF_form" TypeFullName="PX.Web.UI.PXFormView">
@@ -262,4 +268,14 @@
             <PXLayoutRule OriginalIndex="7" />
         </Children>
     </PXFormView>
+    <PXGridLevel DataMember="soshipmentplan" ParentId="phG_PanelAddSO_grid4_Levels#0" TypeFullName="PX.Web.UI.PXGridLevel">
+        <Children Key="Columns">
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrNodeName" />
+                    <Prop Key="Width" Value="150" />
+                </PXGridColumn>
+            </AddItem>
+        </Children>
+    </PXGridLevel>
 </Page>

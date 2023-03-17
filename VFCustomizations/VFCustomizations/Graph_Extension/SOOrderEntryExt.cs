@@ -9,6 +9,7 @@ using PX.Data.BQL.Fluent;
 using VFCustomizations.DAC;
 using PX.Objects.CR.Standalone;
 using PX.Data.BQL;
+using System.Collections;
 
 namespace VFCustomizations.Graph_Extension
 {
@@ -33,7 +34,29 @@ namespace VFCustomizations.Graph_Extension
 
         #endregion
 
+        #region Action
+        public PXAction<SOOrder> printVFSalesOrderReport;
+        [PXButton(Category = "Printing and Emailing")]
+        [PXUIField(DisplayName = "Print VF SalesOrder Report", MapEnableRights = PXCacheRights.Select)]
+        protected virtual IEnumerable PrintVFSalesOrderReport(PXAdapter adapter)
+        {
+            // include SubReport: LM941010
+            var doc = Base.Document.Current;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["OrderType"] = doc?.OrderType;
+            parameters["OrderNbr"] = doc?.OrderNbr;
+            throw new PXReportRequiredException(parameters, "LM641010", "LM641010") { Mode = PXBaseRedirectException.WindowMode.New };
+        }
+        #endregion
+
         #region Events
+        public virtual void _(Events.RowSelected<SOOrder> e, PXRowSelected baseMethod)
+        {
+            baseMethod?.Invoke(e.Cache, e.Args);
+            // 判斷是否顯示VF - Print VF Sales Report
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+            printVFSalesOrderReport.SetVisible(isVisiable);
+        }
 
         public virtual void _(Events.FieldDefaulting<LUMAcquirerItems.lineNbr> e)
         {
