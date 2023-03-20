@@ -3169,6 +3169,7 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
+                        <Value>=[SOOrder.AttributeMODEL]</Value>
                     </TextBox>
                     <TextBox Name="textBox29">
                         <Location>240px, 384px</Location>
@@ -3453,7 +3454,7 @@
                                 <Name>Leelawadee UI</Name>
                             </Font>
                         </Style>
-                        <Value>=ISNULL([SOOrder.AttributeREMARK1],'') + #010;ISNULL([SOOrder.AttributeREMARK2],'') +#010;ISNULL([SOOrder.AttributeREMARK3],'') +#010;ISNULL([SOOrder.AttributeREMARK4],'') +#010;ISNULL([SOOrder.AttributeREMARK5],'')</Value>
+                        <Value>=ISNULL([SOOrder.AttributeREMARK1],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK2],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK3],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK4],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK5],'')</Value>
                     </TextBox>
                     <TextBox Name="textBox40">
                         <Location>16px, 48px</Location>

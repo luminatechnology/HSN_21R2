@@ -37,7 +37,7 @@ namespace VFCustomizations.Graph_Extension
         #region Action
         public PXAction<SOOrder> printVFSalesOrderReport;
         [PXButton(Category = "Printing and Emailing")]
-        [PXUIField(DisplayName = "Print VF SalesOrder Report", MapEnableRights = PXCacheRights.Select)]
+        [PXUIField(DisplayName = "Print VF Job Sheet", MapEnableRights = PXCacheRights.Select)]
         protected virtual IEnumerable PrintVFSalesOrderReport(PXAdapter adapter)
         {
             // include SubReport: LM941010
