@@ -109,7 +109,9 @@ namespace HSNHighcareCistomizations.Graph
                     row.StartDate = DateTime.Now;
                     row.EndDate = DateTime.Now.AddYears(1).AddDays(-1);
                 }
-                row.IsActive = Accessinfo.BusinessDate?.Date >= row.StartDate?.Date && Accessinfo.BusinessDate?.Date <= row.EndDate?.Date;
+                // 讓API能夠override active屬性
+                if (!(row?.IsActive ?? false))
+                    row.IsActive = Accessinfo.BusinessDate?.Date >= row.StartDate?.Date && Accessinfo.BusinessDate?.Date <= row.EndDate?.Date;
             }
         }
     }
