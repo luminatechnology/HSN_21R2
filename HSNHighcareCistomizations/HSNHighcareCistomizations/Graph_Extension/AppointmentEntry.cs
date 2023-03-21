@@ -57,7 +57,7 @@ namespace PX.Objects.FS
                 var doc = Base.AppointmentRecords.Current;
                 HighcareHelper helper = new HighcareHelper();
                 var pincodeList = helper.GetEquipmentPINCodeList(doc?.CustomerID, (int?)e.NewValue);
-                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>((FSAppointmentDet)e.Row, pincodeList.FirstOrDefault()?.Pincode);
+                Base.AppointmentDetails.SetValueExt<FSAppointmentDetExtension.usrHighcarePINCode>((FSAppointmentDet)e.Row, pincodeList.FirstOrDefault()?.Pin);
             }
         }
 

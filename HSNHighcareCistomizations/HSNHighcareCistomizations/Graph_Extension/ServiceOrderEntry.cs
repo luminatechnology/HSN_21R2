@@ -102,7 +102,7 @@ namespace PX.Objects.FS
                 var doc = Base.ServiceOrderRecords.Current;
                 HighcareHelper helper = new HighcareHelper();
                 var pincodeList = helper.GetEquipmentPINCodeList(doc?.CustomerID, (int?)e.NewValue);
-                Base.ServiceOrderDetails.SetValueExt<FSSODetExtension.usrHighcarePINCode>(((FSSODet)e.Row), pincodeList.FirstOrDefault()?.Pincode);
+                Base.ServiceOrderDetails.SetValueExt<FSSODetExtension.usrHighcarePINCode>(((FSSODet)e.Row), pincodeList.FirstOrDefault()?.Pin);
             }
         }
 
@@ -192,7 +192,7 @@ namespace PX.Objects.FS
                     Base.ServiceOrderDetails.Cache.SetValueExt<FSSODet.discPct>(row, (servicescopeInfo?.DiscountPrecent ?? 0));
                 // 次數不夠，跳出警示 + 折扣設為0
                 else
-                { 
+                {
                     e.Cache.RaiseExceptionHandling<FSSODet.SMequipmentID>(
                         row,
                         e.NewValue,
