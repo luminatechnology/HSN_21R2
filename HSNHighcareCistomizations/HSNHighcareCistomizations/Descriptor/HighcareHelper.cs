@@ -32,7 +32,8 @@ namespace HSNHighcareCistomizations.Descriptor
         {
             return SelectFrom<LUMCustomerPINCode>
                             .InnerJoin<FSEquipment>.On<LUMCustomerPINCode.bAccountID.IsEqual<FSEquipment.ownerID>>
-                            .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>>
+                            .InnerJoin<LUMEquipmentPINCode>.On<FSEquipment.SMequipmentID.IsEqual<LUMEquipmentPINCode.sMEquipmentID>
+                                                          .And<LUMCustomerPINCode.pin.IsEqual<LUMEquipmentPINCode.pincode>>>
                             .Where<LUMCustomerPINCode.bAccountID.IsEqual<P.AsInt>
                               .And<FSEquipment.SMequipmentID.IsEqual<P.AsInt>>
                               .And<P.AsDateTime.IsBetween<LUMCustomerPINCode.startDate, LUMCustomerPINCode.endDate>>>
