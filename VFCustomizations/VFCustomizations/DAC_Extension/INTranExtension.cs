@@ -60,5 +60,19 @@ namespace VFCustomizations.DAC_Extension
         public virtual string UsrForMerchant { get; set; }
         public abstract class usrForMerchant : PX.Data.BQL.BqlString.Field<usrForMerchant> { }
         #endregion
+
+        #region UsrServiceOrderNbr
+        [PXDBString(15, IsUnicode = true)]
+        [PXUIField(DisplayName = "Service Order Nbr.", Visible = false, Enabled = false)]
+        public virtual string UsrServiceOrderNbr { get; set; }
+        public abstract class usrServiceOrderNbr : PX.Data.BQL.BqlString.Field<usrServiceOrderNbr> { }
+        #endregion
+
+        #region UsrCreateServiceOrderErrorMsg
+        [PXDBString(2048, IsUnicode = true)]
+        [PXUIField(DisplayName = "Error Msg", Visible = false, Enabled = false)]
+        public virtual string UsrCreateServiceOrderErrorMsg { get; set; }
+        public abstract class usrCreateServiceOrderErrorMsg : PX.Data.BQL.BqlString.Field<usrCreateServiceOrderErrorMsg> { }
+        #endregion
     }
 }

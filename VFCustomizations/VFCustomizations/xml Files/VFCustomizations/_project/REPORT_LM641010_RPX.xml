@@ -2724,22 +2724,34 @@
         <Width>18.20106cm</Width>
         <Sections>
             <PageHeader Name="pageHeaderSection1">
-                <Height>11.21693cm</Height>
+                <Height>11.42857cm</Height>
                 <Items>
                     <PictureBox Name="pictureBox1">
                         <BarcodeType>Code128</BarcodeType>
-                        <Location>24px, 24px</Location>
+                        <Location>24px, 16px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>224px, 88px</Size>
+                        <Size>232px, 120px</Size>
                         <Source>Barcode</Source>
                         <Style>
                             <VerticalAlign>Top</VerticalAlign>
                         </Style>
+                        <Value>=[SOOrder.OrderNbr]</Value>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox2">
+                        <BarcodeType>QRCode</BarcodeType>
+                        <Location>264px, 32px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings>
+                            <CodeSize>80</CodeSize>
+                            <LeftMargin>1</LeftMargin>
+                        </QRCodeSettings>
+                        <Size>128px, 88px</Size>
+                        <Source>Barcode</Source>
                         <Value>=[SOOrder.CustomerOrderNbr]</Value>
                     </PictureBox>
                     <TextBox Name="textBox1">
-                        <Location>16px, 128px</Location>
+                        <Location>16px, 144px</Location>
                         <Size>640px, 40px</Size>
                         <Style>
                             <BorderColor>
@@ -2757,7 +2769,7 @@
                         <Value>Goods Withdraw &amp; Setup Form</Value>
                     </TextBox>
                     <TextBox Name="textBox10">
-                        <Location>240px, 224px</Location>
+                        <Location>240px, 240px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2779,7 +2791,7 @@
                         <Value>=[SOOrder.AttributeTERMINALID]</Value>
                     </TextBox>
                     <TextBox Name="textBox11">
-                        <Location>240px, 240px</Location>
+                        <Location>240px, 256px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2801,7 +2813,7 @@
                         <Value>=[SOOrder.AttributeMERCHANT]</Value>
                     </TextBox>
                     <TextBox Name="textBox12">
-                        <Location>240px, 256px</Location>
+                        <Location>240px, 272px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2823,7 +2835,7 @@
                         <Value>=[SOOrder.AttributeMERCHNAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox13">
-                        <Location>16px, 272px</Location>
+                        <Location>16px, 288px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2837,13 +2849,13 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Sim Info</Value>
                     </TextBox>
                     <TextBox Name="textBox14">
-                        <Location>240px, 272px</Location>
+                        <Location>240px, 288px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2864,7 +2876,7 @@
                         </Style>
                     </TextBox>
                     <TextBox Name="textBox15">
-                        <Location>16px, 288px</Location>
+                        <Location>16px, 304px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2878,13 +2890,13 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Bank Name</Value>
                     </TextBox>
                     <TextBox Name="textBox16">
-                        <Location>240px, 288px</Location>
+                        <Location>240px, 304px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2906,26 +2918,6 @@
                         <Value>=[SOOrder.CustomerID_BAccountR_acctName]</Value>
                     </TextBox>
                     <TextBox Name="textBox17">
-                        <Location>16px, 304px</Location>
-                        <Size>224px, 16px</Size>
-                        <Style>
-                            <BorderColor>
-                                <Default>Black</Default>
-                            </BorderColor>
-                            <BorderStyle>
-                                <Default>Solid</Default>
-                            </BorderStyle>
-                            <BorderWidth>
-                                <Bottom>1px</Bottom>
-                                <Left>1px</Left>
-                                <Right>1px</Right>
-                            </BorderWidth>
-                            <TextAlign>Right</TextAlign>
-                            <VerticalAlign>Middle</VerticalAlign>
-                        </Style>
-                        <Value>Key Customer</Value>
-                    </TextBox>
-                    <TextBox Name="textBox18">
                         <Location>16px, 320px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -2940,12 +2932,12 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>Commit Date</Value>
+                        <Value>Key Customer</Value>
                     </TextBox>
-                    <TextBox Name="textBox19">
+                    <TextBox Name="textBox18">
                         <Location>16px, 336px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -2960,13 +2952,33 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Commit Date</Value>
+                    </TextBox>
+                    <TextBox Name="textBox19">
+                        <Location>16px, 352px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Project Name</Value>
                     </TextBox>
                     <TextBox Name="textBox2">
-                        <Location>16px, 176px</Location>
+                        <Location>16px, 192px</Location>
                         <Size>640px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2982,26 +2994,6 @@
                         <Value>Job Detail</Value>
                     </TextBox>
                     <TextBox Name="textBox20">
-                        <Location>16px, 352px</Location>
-                        <Size>224px, 16px</Size>
-                        <Style>
-                            <BorderColor>
-                                <Default>Black</Default>
-                            </BorderColor>
-                            <BorderStyle>
-                                <Default>Solid</Default>
-                            </BorderStyle>
-                            <BorderWidth>
-                                <Bottom>1px</Bottom>
-                                <Left>1px</Left>
-                                <Right>1px</Right>
-                            </BorderWidth>
-                            <TextAlign>Right</TextAlign>
-                            <VerticalAlign>Middle</VerticalAlign>
-                        </Style>
-                        <Value>Kit Name</Value>
-                    </TextBox>
-                    <TextBox Name="textBox21">
                         <Location>16px, 368px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -3016,12 +3008,12 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>Model</Value>
+                        <Value>Kit Name</Value>
                     </TextBox>
-                    <TextBox Name="textBox22">
+                    <TextBox Name="textBox21">
                         <Location>16px, 384px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -3036,12 +3028,12 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>Node Name</Value>
+                        <Value>Model</Value>
                     </TextBox>
-                    <TextBox Name="textBox23">
+                    <TextBox Name="textBox22">
                         <Location>16px, 400px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -3056,13 +3048,33 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Node Name</Value>
+                    </TextBox>
+                    <TextBox Name="textBox23">
+                        <Location>16px, 416px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Request EDC Serial No.</Value>
                     </TextBox>
                     <TextBox Name="textBox24">
-                        <Location>240px, 304px</Location>
+                        <Location>240px, 320px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3084,7 +3096,7 @@
                         <Value>=[SOOrder.AttributeKEYCUST]</Value>
                     </TextBox>
                     <TextBox Name="textBox25">
-                        <Location>240px, 320px</Location>
+                        <Location>240px, 336px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3106,7 +3118,7 @@
                         <Value>=[SOOrder.AttributeCOMMITDATE]</Value>
                     </TextBox>
                     <TextBox Name="textBox26">
-                        <Location>240px, 336px</Location>
+                        <Location>240px, 352px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3128,7 +3140,7 @@
                         <Value>=[SOOrder.AttributePROJNAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox27">
-                        <Location>240px, 352px</Location>
+                        <Location>240px, 368px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3150,7 +3162,7 @@
                         <Value>=[SOOrder.AttributeKITNAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox28">
-                        <Location>240px, 368px</Location>
+                        <Location>240px, 384px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3169,10 +3181,9 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>=[SOOrder.AttributeMODEL]</Value>
                     </TextBox>
                     <TextBox Name="textBox29">
-                        <Location>240px, 384px</Location>
+                        <Location>240px, 400px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3194,7 +3205,7 @@
                         <Value>=[SOOrder.AttributeNODENAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox3">
-                        <Location>16px, 256px</Location>
+                        <Location>16px, 272px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3208,13 +3219,13 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Merchant Name</Value>
                     </TextBox>
                     <TextBox Name="textBox30">
-                        <Location>240px, 400px</Location>
+                        <Location>240px, 416px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3236,7 +3247,7 @@
                         <Value>=[SOOrder.AttributeEDCSERIAL]</Value>
                     </TextBox>
                     <TextBox Name="textBox31">
-                        <Location>0px, 8px</Location>
+                        <Location>0px, 0px</Location>
                         <Size>120px, 16px</Size>
                         <Style>
                             <TextAlign>Center</TextAlign>
@@ -3245,7 +3256,7 @@
                         <Value>JobNo.</Value>
                     </TextBox>
                     <TextBox Name="textBox4">
-                        <Location>240px, 192px</Location>
+                        <Location>240px, 208px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3267,26 +3278,6 @@
                         <Value>=[SOOrder.AttributeSRVCATALOG]</Value>
                     </TextBox>
                     <TextBox Name="textBox5">
-                        <Location>16px, 208px</Location>
-                        <Size>224px, 16px</Size>
-                        <Style>
-                            <BorderColor>
-                                <Default>Black</Default>
-                            </BorderColor>
-                            <BorderStyle>
-                                <Default>Solid</Default>
-                            </BorderStyle>
-                            <BorderWidth>
-                                <Bottom>1px</Bottom>
-                                <Left>1px</Left>
-                                <Right>1px</Right>
-                            </BorderWidth>
-                            <TextAlign>Right</TextAlign>
-                            <VerticalAlign>Middle</VerticalAlign>
-                        </Style>
-                        <Value>JobNo.</Value>
-                    </TextBox>
-                    <TextBox Name="textBox6">
                         <Location>16px, 224px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -3301,12 +3292,12 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>Terminal ID</Value>
+                        <Value>JobNo.</Value>
                     </TextBox>
-                    <TextBox Name="textBox7">
+                    <TextBox Name="textBox6">
                         <Location>16px, 240px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
@@ -3321,13 +3312,13 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>Merchant ID</Value>
+                        <Value>Terminal ID</Value>
                     </TextBox>
-                    <TextBox Name="textBox8">
-                        <Location>16px, 192px</Location>
+                    <TextBox Name="textBox7">
+                        <Location>16px, 256px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3341,13 +3332,33 @@
                                 <Left>1px</Left>
                                 <Right>1px</Right>
                             </BorderWidth>
-                            <TextAlign>Right</TextAlign>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Merchant ID</Value>
+                    </TextBox>
+                    <TextBox Name="textBox8">
+                        <Location>16px, 208px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
                         <Value>Job Type</Value>
                     </TextBox>
                     <TextBox Name="textBox9">
-                        <Location>240px, 208px</Location>
+                        <Location>240px, 224px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3454,7 +3465,7 @@
                                 <Name>Leelawadee UI</Name>
                             </Font>
                         </Style>
-                        <Value>=ISNULL([SOOrder.AttributeREMARK1],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK2],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK3],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK4],'') + '/' +#010;ISNULL([SOOrder.AttributeREMARK5],'')</Value>
+                        <Value>=ISNULL([SOOrder.AttributeREMARK1],'') + #010;ISNULL([SOOrder.AttributeREMARK2],'') +#010;ISNULL([SOOrder.AttributeREMARK3],'') +#010;ISNULL([SOOrder.AttributeREMARK4],'') +#010;ISNULL([SOOrder.AttributeREMARK5],'')</Value>
                     </TextBox>
                     <TextBox Name="textBox40">
                         <Location>16px, 48px</Location>

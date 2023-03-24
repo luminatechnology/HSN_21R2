@@ -10,6 +10,7 @@ using VFCustomizations.DAC;
 using PX.Objects.CR.Standalone;
 using PX.Data.BQL;
 using System.Collections;
+using VFCustomizations.DAC_Extension;
 
 namespace VFCustomizations.Graph_Extension
 {
@@ -56,6 +57,14 @@ namespace VFCustomizations.Graph_Extension
             // 判斷是否顯示VF - Print VF Sales Report
             var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
             printVFSalesOrderReport.SetVisible(isVisiable);
+        }
+
+        public virtual void _(Events.RowSelected<SOLine> e, PXRowSelected baseMethod)
+        {
+            baseMethod?.Invoke(e.Cache, e.Args);
+            // 判斷是否顯示VF - Print VF Sales Report
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+            PXUIFieldAttribute.SetVisible<SOLineExtension.usrForMerchant>(e.Cache, null, isVisiable);
         }
 
         public virtual void _(Events.FieldDefaulting<LUMAcquirerItems.lineNbr> e)

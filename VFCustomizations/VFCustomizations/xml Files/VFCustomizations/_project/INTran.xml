@@ -6,4 +6,6 @@
     <Column TableName="INTran" ColumnName="UsrResolution" ColumnType="string" AllowNull="True" MaxLength="2500" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="INTran" ColumnName="UsrOwner" ColumnType="string" AllowNull="True" MaxLength="1024" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="INTran" ColumnName="UsrForMerchant" ColumnType="string" AllowNull="True" MaxLength="1024" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="INTran" ColumnName="UsrServiceOrderNbr" ColumnType="string" AllowNull="True" MaxLength="15" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="INTran" ColumnName="UsrCreateServiceOrderErrorMsg" ColumnType="string" AllowNull="True" MaxLength="2048" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

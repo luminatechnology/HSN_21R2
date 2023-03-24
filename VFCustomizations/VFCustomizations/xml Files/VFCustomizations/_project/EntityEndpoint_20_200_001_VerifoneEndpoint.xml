@@ -36,6 +36,11 @@
                         <To object="AcquirerItemList" field="TerminaID" />
                     </Mapping>
                 </Mapping>
+                <Mapping field="Details">
+                    <Mapping field="ForMerchant">
+                        <To object="Transactions" field="UsrForMerchant" />
+                    </Mapping>
+                </Mapping>
             </Mappings>
         </TopLevelEntity>
         <TopLevelEntity name="Receipts" screen="IN301000">
@@ -164,5 +169,10 @@
                 </Mapping>
             </Mappings>
         </TopLevelEntity>
+        <Detail name="SalesOrderDetail">
+            <Fields>
+                <Field name="ForMerchant" type="StringValue" />
+            </Fields>
+        </Detail>
     </Endpoint>
 </EntityEndpoint>

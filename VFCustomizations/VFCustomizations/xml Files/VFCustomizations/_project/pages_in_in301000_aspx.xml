@@ -43,6 +43,30 @@
                     <Prop Key="Width" Value="280" />
                 </PXGridColumn>
             </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrServiceOrderNbr" />
+                    <Prop Key="Width" Value="140" />
+                    <Prop Key="LinkCommand" Value="viewServiceOrder" />
+                </PXGridColumn>
+            </AddItem>
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrCreateServiceOrderErrorMsg" />
+                    <Prop Key="Width" Value="280" />
+                </PXGridColumn>
+            </AddItem>
         </Children>
     </PXGridLevel>
+    <PXDataSource ID="ds" ParentId="phDS_ds" TypeFullName="PX.Web.UI.PXDataSource">
+        <Children Key="CallbackCommands">
+            <AddItem>
+                <PXDSCallbackCommand TypeFullName="PX.Web.UI.PXDSCallbackCommand">
+                    <Prop Key="Name" Value="viewServiceOrder" />
+                    <Prop Key="Visible" Value="False" />
+                    <Prop Key="DependOnGrid" Value="grid" />
+                </PXDSCallbackCommand>
+            </AddItem>
+        </Children>
+    </PXDataSource>
 </Page>
