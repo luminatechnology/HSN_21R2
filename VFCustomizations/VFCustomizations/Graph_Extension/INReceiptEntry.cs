@@ -98,7 +98,6 @@ namespace PX.Objects.IN
                     var srvGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
                     // 处理每个记录
                     ProcessingServiceOrder(srvGraph, item, receiptDoc);
-                    baseGraph.transactions.Update(item);
                 }
                 catch (PXOuterException ex)
                 {
@@ -108,6 +107,10 @@ namespace PX.Objects.IN
                 catch (Exception ex)
                 {
                     item.GetExtension<INTranExtension>().UsrCreateServiceOrderErrorMsg = ex.Message;
+                }
+                finally
+                {
+                    baseGraph.transactions.Update(item);
                 }
 
             }
@@ -174,6 +177,7 @@ namespace PX.Objects.IN
 
             srvGraph.Save.Press();
             itemExt.UsrServiceOrderNbr = doc.RefNbr;
+            itemExt.UsrCreateServiceOrderErrorMsg = null;
         }
 
         #endregion
