@@ -84,8 +84,8 @@ namespace VFCustomizations.Graph_Extension
         {
             var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
             PXUIFieldAttribute.SetVisible<SOShipmentExt.usrDeliverDate>(Base.Document.Cache, null, isVisiable);
-            if (e.Row.GetExtension<SOShipmentExt>()?.UsrDeliverDate == null && isVisiable)
-                Base.Document.SetValueExt<SOShipmentExt.usrDeliverDate>(e.Row, e.Row.ShipDate);
+            if (e.Row != null && e.Row.GetExtension<SOShipmentExt>()?.UsrDeliverDate == null && isVisiable)
+                Base.Document.SetValueExt<SOShipmentExt.usrDeliverDate>(e.Row, e.Row?.ShipDate);
             baseMethod?.Invoke(e.Cache, e.Args);
         }
 
@@ -130,7 +130,7 @@ namespace VFCustomizations.Graph_Extension
 
         public virtual void _(Events.RowSelected<SOShipmentPlan> e, PXRowSelected baseMethod)
         {
-            baseMethod?.Invoke(e.Cache,e.Args);
+            baseMethod?.Invoke(e.Cache, e.Args);
             // 判斷是否有啟用VF Preference
             var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
             PXUIFieldAttribute.SetVisible<SOShipLineExtension.usrNodeName>(Base.soshipmentplan.Cache, null, isVisiable);
