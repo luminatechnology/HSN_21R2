@@ -63,5 +63,12 @@ namespace VFCustomizations.DAC
         public virtual bool? EnableVFCustomizeField { get; set; }
         public abstract class enableVFCustomizeField : PX.Data.BQL.BqlBool.Field<enableVFCustomizeField> { }
         #endregion
+
+        #region EnableValidationSerialNbr
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable the Validation of Serial Nbr in Sales Orders")]
+        public virtual bool? EnableValidationSerialNbr { get; set; }
+        public abstract class enableValidationSerialNbr : PX.Data.BQL.BqlBool.Field<enableValidationSerialNbr> { }
+        #endregion
     }
 }

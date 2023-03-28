@@ -9,6 +9,7 @@
   <col name="API2101URL" type="NVarChar(200)" nullable="true" />
   <col name="API2102URL" type="NVarChar(200)" nullable="true" />
   <col name="EnableVFCustomizeField" type="Bit" nullable="true" />
+  <col name="EnableValidationSerialNbr" type="Bit" nullable="true" />
   <index name="PK_LUMVerifonePreference" clustered="true" primary="true" unique="true">
     <col name="CompanyID" />
   </index>

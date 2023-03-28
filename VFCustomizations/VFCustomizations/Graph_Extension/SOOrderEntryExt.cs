@@ -50,6 +50,38 @@ namespace VFCustomizations.Graph_Extension
         }
         #endregion
 
+        #region Override Action
+        public PXAction<SOOrder> createShipmentIssue;
+        [PXButton(CommitChanges = true), PXUIField(DisplayName = "Create Shipment", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable CreateShipmentIssue(PXAdapter adapter, [PXDate] DateTime? shipDate, [PXInt] int? siteID)
+        {
+            // VF Customization - Enable the Validation of Serial Nbr. of Stock Items in Sales Orders
+            var preference = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst;
+            var validResult = true;
+            if (preference?.EnableValidationSerialNbr ?? false)
+            {
+                // Checking Inventory item tracking method = "S"
+                foreach (var line in Base.Transactions.Select().RowCast<SOLine>())
+                {
+                    var itemInfo = PX.Objects.IN.InventoryItem.PK.Find(Base, line.InventoryID);
+                    var lotserialClassInfo = PX.Objects.IN.INLotSerClass.PK.Find(Base, itemInfo.LotSerClassID);
+                    if (lotserialClassInfo?.LotSerTrack != PX.Objects.IN.INLotSerTrack.SerialNumbered)
+                        continue;
+                    var lineSplits = Base.splits.Select().RowCast<SOLineSplit>().Where(x => x.OrderNbr == line.OrderNbr && x.OrderType == line.OrderType && x.LineNbr == line.LineNbr);
+                    if (lineSplits.Any(x => string.IsNullOrEmpty(x.LotSerialNbr)))
+                    {
+                        Base.Transactions.Cache.RaiseExceptionHandling<SOLine.lotSerialNbr>(line, line.LotSerialNbr,
+                            new PXSetPropertyException<SOLine.lotSerialNbr>("The Lot/Serial Nbr is reqiured", PXErrorLevel.Error));
+                        validResult = false;
+                    }
+                }
+                if (!validResult)
+                    throw new PXException("The Lot/Serial Nbr is reqiured");
+            }
+            return Base.CreateShipmentIssue(adapter, shipDate, siteID);
+        }
+        #endregion
+
         #region Events
         public virtual void _(Events.RowSelected<SOOrder> e, PXRowSelected baseMethod)
         {

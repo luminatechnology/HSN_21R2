@@ -134,7 +134,7 @@ namespace PX.Objects.IN
                                    View.Select(srvGraph, "HSNT").TopFirst?.BranchLocationID;
             doc.CustPORefNbr = itemExt?.UsrJobNo;
             doc.CustWorkOrderRefNbr = item?.LotSerialNbr;
-            doc.DocDesc = receiptDoc?.TranDesc;
+            doc.DocDesc = $"{itemExt?.UsrOwner} / {item?.TranDesc} / SN:{item?.LotSerialNbr} /";
             doc = srvGraph.ServiceOrderRecords.Insert(doc);
             #endregion
 
@@ -150,7 +150,7 @@ namespace PX.Objects.IN
                     case "CSTPREPAYM":
                         attr.Value = itemExt?.UsrResolution;
                         break;
-                    case "IRESYMPTOM":
+                    case "RESYMPTOM":
                         attr.Value = itemExt?.UsrSymptom;
                         break;
                     case "WARRANTY":
