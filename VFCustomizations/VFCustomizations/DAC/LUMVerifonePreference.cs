@@ -73,7 +73,7 @@ namespace VFCustomizations.DAC
         #endregion
 
         #region DefaultServiceInventoryID
-        [Inventory(Filterable = true)]
+        [NonStockItem(Filterable = true)]
         [PXUIField(DisplayName = "Default Service Item in Service Order")]
         public virtual int? DefaultServiceInventoryID { get; set; }
         public abstract class defaultServiceInventoryID : PX.Data.BQL.BqlInt.Field<defaultServiceInventoryID> { }
