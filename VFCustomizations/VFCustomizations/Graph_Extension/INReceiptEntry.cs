@@ -88,16 +88,14 @@ namespace PX.Objects.IN
             // 只執行Lot SerialNbr. is not null && service order is null
             var receiptDoc = baseGraph.receipt.Current;
             var receiptLine = baseGraph.transactions.Select().RowCast<INTran>().Where(x => !string.IsNullOrEmpty(x?.LotSerialNbr) && string.IsNullOrEmpty(x.GetExtension<INTranExtension>()?.UsrServiceOrderNbr)).ToList();
-            //System.Threading.Tasks.Parallel.ForEach(receiptLine, item =>
-            //{
-
+            var defaultServiceItem = SelectFrom<LUMVerifonePreference>.View.Select(baseGraph).TopFirst?.DefaultServiceInventoryID;
             foreach (var item in receiptLine)
             {
                 try
                 {
                     var srvGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
                     // 处理每个记录
-                    ProcessingServiceOrder(srvGraph, item, receiptDoc);
+                    ProcessingServiceOrder(srvGraph, item, receiptDoc, defaultServiceItem);
                 }
                 catch (PXOuterException ex)
                 {
@@ -114,13 +112,11 @@ namespace PX.Objects.IN
                 }
 
             }
-            //});
-            //System.Threading.Thread.Sleep(5000);
             baseGraph.Save.Press();
         }
 
         /// <summary> 執行建立Service Order</summary>
-        public static void ProcessingServiceOrder(ServiceOrderEntry srvGraph, INTran item, INRegister receiptDoc)
+        public static void ProcessingServiceOrder(ServiceOrderEntry srvGraph, INTran item, INRegister receiptDoc, int? defaultServiceItem)
         {
             #region Header
             var itemExt = item.GetExtension<INTranExtension>();
@@ -165,14 +161,15 @@ namespace PX.Objects.IN
             #endregion
 
             #region Details(Line)
-            var line = srvGraph.ServiceOrderDetails.Cache.CreateInstance() as FSSODet;
-            line.InventoryID = SelectFrom<InventoryItem>.
-                               Where<InventoryItem.inventoryCD.IsEqual<P.AsString>>.
-                               View.Select(srvGraph, "REPAIR CHG.001").TopFirst?.InventoryID;
-            line.SMEquipmentID = SelectFrom<FSEquipment>.
-                                 Where<FSEquipment.serialNumber.IsEqual<P.AsString>>.
-                                 View.Select(srvGraph, item.LotSerialNbr).TopFirst?.SMEquipmentID;
-            srvGraph.ServiceOrderDetails.Insert(line);
+            if (defaultServiceItem.HasValue)
+            {
+                var line = srvGraph.ServiceOrderDetails.Cache.CreateInstance() as FSSODet;
+                line.InventoryID = defaultServiceItem;
+                line.SMEquipmentID = SelectFrom<FSEquipment>.
+                                     Where<FSEquipment.serialNumber.IsEqual<P.AsString>>.
+                                     View.Select(srvGraph, item.LotSerialNbr).TopFirst?.SMEquipmentID;
+                srvGraph.ServiceOrderDetails.Insert(line);
+            }
             #endregion
 
             srvGraph.Save.Press();

@@ -1,5 +1,6 @@
 using System;
 using PX.Data;
+using PX.Objects.IN;
 
 namespace VFCustomizations.DAC
 {
@@ -69,6 +70,13 @@ namespace VFCustomizations.DAC
         [PXUIField(DisplayName = "Enable the Validation of Serial Nbr in Sales Orders")]
         public virtual bool? EnableValidationSerialNbr { get; set; }
         public abstract class enableValidationSerialNbr : PX.Data.BQL.BqlBool.Field<enableValidationSerialNbr> { }
+        #endregion
+
+        #region DefaultServiceInventoryID
+        [Inventory(Filterable = true)]
+        [PXUIField(DisplayName = "Default Service Item in Service Order")]
+        public virtual int? DefaultServiceInventoryID { get; set; }
+        public abstract class defaultServiceInventoryID : PX.Data.BQL.BqlInt.Field<defaultServiceInventoryID> { }
         #endregion
     }
 }

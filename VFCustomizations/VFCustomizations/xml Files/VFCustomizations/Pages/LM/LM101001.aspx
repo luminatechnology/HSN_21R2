@@ -23,6 +23,7 @@
             <px:PXLayoutRule GroupCaption="OTHER SETTING" runat="server" ID="PXLayoutRule1" StartGroup="True" LabelsWidth="L" ControlSize=""></px:PXLayoutRule>
             <px:PXCheckBox runat="server" ID="edEnableVFCustomizeField" DataField="EnableVFCustomizeField" AlignLeft="True"></px:PXCheckBox>
             <px:PXCheckBox runat="server" ID="edEnableValidationSerialNbr" DataField="EnableValidationSerialNbr" AlignLeft="True"></px:PXCheckBox>
+            <px:PXSelector runat="server" ID="edDefaultServiceInventoryID" DataField="DefaultServiceInventoryID"></px:PXSelector>
         </Template>
     </px:PXFormView>
 </asp:Content>
