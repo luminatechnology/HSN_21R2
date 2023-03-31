@@ -3774,7 +3774,7 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>=[SOOrder.Attribute MERCHCTNO]</Value>
+                        <Value>=[SOOrder.AttributeMERCHCTNO]</Value>
                     </TextBox>
                     <TextBox Name="textBox90">
                         <Location>240px, 384px</Location>
