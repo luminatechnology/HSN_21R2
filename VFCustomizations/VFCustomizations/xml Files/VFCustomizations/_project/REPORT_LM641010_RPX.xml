@@ -65,7 +65,7 @@
                 <ParentName>InventoryItem</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
+        <SchemaUrl>http://localhost/HSN_2021R2/</SchemaUrl>
         <StylesTemplate>TemplateReport.rpx</StylesTemplate>
         <Tables>
             <ReportTable Name="SOOrder">
@@ -2825,7 +2825,7 @@
                 <Visible>False</Visible>
             </PageFooter>
             <ReportHeader Name="reportHeaderSection1">
-                <Height>11.42857cm</Height>
+                <Height>16.08466cm</Height>
                 <Items>
                     <PictureBox Name="pictureBox3">
                         <BarcodeType>QRCode</BarcodeType>
@@ -2851,6 +2851,404 @@
                         </Style>
                         <Value>=[SOOrder.OrderNbr]</Value>
                     </PictureBox>
+                    <TextBox Name="textBox1">
+                        <Location>16px, 240px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Priority</Value>
+                    </TextBox>
+                    <TextBox Name="textBox10">
+                        <Location>240px, 352px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeMERCHADDR]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox11">
+                        <Location>16px, 512px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Region</Value>
+                    </TextBox>
+                    <TextBox Name="textBox12">
+                        <Location>240px, 512px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeREGION]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox13">
+                        <Location>16px, 528px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Ship Via</Value>
+                    </TextBox>
+                    <TextBox Name="textBox14">
+                        <Location>240px, 528px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeSHIPVIA]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox15">
+                        <Location>16px, 544px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Forwarder Name</Value>
+                    </TextBox>
+                    <TextBox Name="textBox16">
+                        <Location>16px, 560px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Staff</Value>
+                    </TextBox>
+                    <TextBox Name="textBox17">
+                        <Location>16px, 576px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Withdraw No</Value>
+                    </TextBox>
+                    <TextBox Name="textBox18">
+                        <Location>16px, 592px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Acquirer Host</Value>
+                    </TextBox>
+                    <TextBox Name="textBox19">
+                        <Location>240px, 544px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeFORWARDER]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox2">
+                        <Location>240px, 240px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributePRIORITY]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox20">
+                        <Location>240px, 560px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeSTAFF]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox21">
+                        <Location>240px, 576px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeWITHDRAWNO]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox22">
+                        <Location>240px, 592px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeACQUIREHOS]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox3">
+                        <Location>16px, 256px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Job Status</Value>
+                    </TextBox>
+                    <TextBox Name="textBox4">
+                        <Location>16px, 320px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Merchant Contact Name</Value>
+                    </TextBox>
+                    <TextBox Name="textBox5">
+                        <Location>240px, 256px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeJOBSTATUS]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox6">
+                        <Location>16px, 336px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Merchant Contact No</Value>
+                    </TextBox>
                     <TextBox Name="textBox67">
                         <Location>240px, 224px</Location>
                         <Size>416px, 16px</Size>
@@ -2894,7 +3292,7 @@
                         <Value>Job Type</Value>
                     </TextBox>
                     <TextBox Name="textBox69">
-                        <Location>16px, 256px</Location>
+                        <Location>16px, 288px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2913,8 +3311,28 @@
                         </Style>
                         <Value>Merchant ID</Value>
                     </TextBox>
+                    <TextBox Name="textBox7">
+                        <Location>16px, 352px</Location>
+                        <Size>224px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Left>1px</Left>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>Merchant Address</Value>
+                    </TextBox>
                     <TextBox Name="textBox70">
-                        <Location>16px, 240px</Location>
+                        <Location>16px, 272px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -2985,7 +3403,7 @@
                         <Value>JobNo.</Value>
                     </TextBox>
                     <TextBox Name="textBox74">
-                        <Location>240px, 416px</Location>
+                        <Location>240px, 496px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3007,7 +3425,7 @@
                         <Value>=[SOOrder.AttributeEDCSERIAL]</Value>
                     </TextBox>
                     <TextBox Name="textBox75">
-                        <Location>16px, 272px</Location>
+                        <Location>16px, 304px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3027,7 +3445,7 @@
                         <Value>Merchant Name</Value>
                     </TextBox>
                     <TextBox Name="textBox76">
-                        <Location>240px, 400px</Location>
+                        <Location>240px, 480px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3049,7 +3467,7 @@
                         <Value>=[SOOrder.AttributeNODENAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox77">
-                        <Location>240px, 384px</Location>
+                        <Location>240px, 464px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3068,9 +3486,10 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
+                        <Value>=[SOOrder.AttributeMODEL]</Value>
                     </TextBox>
                     <TextBox Name="textBox78">
-                        <Location>240px, 368px</Location>
+                        <Location>240px, 448px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3092,7 +3511,7 @@
                         <Value>=[SOOrder.AttributeKITNAME]</Value>
                     </TextBox>
                     <TextBox Name="textBox79">
-                        <Location>240px, 352px</Location>
+                        <Location>240px, 432px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3113,8 +3532,30 @@
                         </Style>
                         <Value>=[SOOrder.AttributePROJNAME]</Value>
                     </TextBox>
+                    <TextBox Name="textBox8">
+                        <Location>240px, 320px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.AttributeMERCHNAME]</Value>
+                    </TextBox>
                     <TextBox Name="textBox80">
-                        <Location>240px, 336px</Location>
+                        <Location>240px, 416px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3136,7 +3577,7 @@
                         <Value>=[SOOrder.AttributeCOMMITDATE]</Value>
                     </TextBox>
                     <TextBox Name="textBox81">
-                        <Location>240px, 320px</Location>
+                        <Location>240px, 400px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3158,7 +3599,7 @@
                         <Value>=[SOOrder.AttributeKEYCUST]</Value>
                     </TextBox>
                     <TextBox Name="textBox82">
-                        <Location>16px, 416px</Location>
+                        <Location>16px, 496px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3178,7 +3619,7 @@
                         <Value>Request EDC Serial No.</Value>
                     </TextBox>
                     <TextBox Name="textBox83">
-                        <Location>16px, 400px</Location>
+                        <Location>16px, 480px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3198,7 +3639,7 @@
                         <Value>Node Name</Value>
                     </TextBox>
                     <TextBox Name="textBox84">
-                        <Location>16px, 384px</Location>
+                        <Location>16px, 464px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3218,7 +3659,7 @@
                         <Value>Model</Value>
                     </TextBox>
                     <TextBox Name="textBox85">
-                        <Location>16px, 368px</Location>
+                        <Location>16px, 448px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3254,7 +3695,7 @@
                         <Value>Job Detail</Value>
                     </TextBox>
                     <TextBox Name="textBox87">
-                        <Location>16px, 352px</Location>
+                        <Location>16px, 432px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3274,7 +3715,7 @@
                         <Value>Project Name</Value>
                     </TextBox>
                     <TextBox Name="textBox88">
-                        <Location>16px, 336px</Location>
+                        <Location>16px, 416px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3294,7 +3735,7 @@
                         <Value>Commit Date</Value>
                     </TextBox>
                     <TextBox Name="textBox89">
-                        <Location>16px, 320px</Location>
+                        <Location>16px, 400px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3313,8 +3754,30 @@
                         </Style>
                         <Value>Key Customer</Value>
                     </TextBox>
+                    <TextBox Name="textBox9">
+                        <Location>240px, 336px</Location>
+                        <Size>416px, 16px</Size>
+                        <Style>
+                            <BorderColor>
+                                <Default>Black</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                                <Default>Solid</Default>
+                            </BorderStyle>
+                            <BorderWidth>
+                                <Bottom>1px</Bottom>
+                                <Right>1px</Right>
+                            </BorderWidth>
+                            <Font>
+                                <Name>Leelawadee UI</Name>
+                            </Font>
+                            <TextAlign>Left</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                        </Style>
+                        <Value>=[SOOrder.Attribute MERCHCTNO]</Value>
+                    </TextBox>
                     <TextBox Name="textBox90">
-                        <Location>240px, 304px</Location>
+                        <Location>240px, 384px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3336,7 +3799,7 @@
                         <Value>=[SOOrder.CustomerID_BAccountR_acctName]</Value>
                     </TextBox>
                     <TextBox Name="textBox91">
-                        <Location>16px, 304px</Location>
+                        <Location>16px, 384px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3356,7 +3819,7 @@
                         <Value>Bank Name</Value>
                     </TextBox>
                     <TextBox Name="textBox92">
-                        <Location>240px, 288px</Location>
+                        <Location>240px, 368px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3375,9 +3838,10 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
+                        <Value>=[SOOrder.AttributeSIMINFO]</Value>
                     </TextBox>
                     <TextBox Name="textBox93">
-                        <Location>16px, 288px</Location>
+                        <Location>16px, 368px</Location>
                         <Size>224px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3397,7 +3861,7 @@
                         <Value>Sim Info</Value>
                     </TextBox>
                     <TextBox Name="textBox94">
-                        <Location>240px, 272px</Location>
+                        <Location>240px, 304px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3416,10 +3880,10 @@
                             <TextAlign>Left</TextAlign>
                             <VerticalAlign>Middle</VerticalAlign>
                         </Style>
-                        <Value>=[SOOrder.AttributeMERCHNAME]</Value>
+                        <Value>=[SOOrder.AttributeMERCHCTNAM]</Value>
                     </TextBox>
                     <TextBox Name="textBox95">
-                        <Location>240px, 256px</Location>
+                        <Location>240px, 288px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
@@ -3441,7 +3905,7 @@
                         <Value>=[SOOrder.AttributeMERCHANT]</Value>
                     </TextBox>
                     <TextBox Name="textBox96">
-                        <Location>240px, 240px</Location>
+                        <Location>240px, 272px</Location>
                         <Size>416px, 16px</Size>
                         <Style>
                             <BorderColor>
