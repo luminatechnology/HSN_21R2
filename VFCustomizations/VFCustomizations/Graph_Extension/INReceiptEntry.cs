@@ -89,10 +89,16 @@ namespace PX.Objects.IN
             var receiptDoc = baseGraph.receipt.Current;
             var receiptLine = baseGraph.transactions.Select().RowCast<INTran>().Where(x => !string.IsNullOrEmpty(x?.LotSerialNbr) && string.IsNullOrEmpty(x.GetExtension<INTranExtension>()?.UsrServiceOrderNbr)).ToList();
             var defaultServiceItem = SelectFrom<LUMVerifonePreference>.View.Select(baseGraph).TopFirst?.DefaultServiceInventoryID;
+            var skipItemClassID = SelectFrom<INItemClass>.Where<INItemClass.itemClassCD.IsEqual<P.AsString>>
+                                  .View.Select(baseGraph, "SIM CARD").TopFirst?.ItemClassID;
             foreach (var item in receiptLine)
             {
                 try
                 {
+                    // Skip ItemClass = SIM CARD
+                    var inventoryInfo = InventoryItem.PK.Find(baseGraph, item?.InventoryID);
+                    if (inventoryInfo?.ItemClassID == skipItemClassID)
+                        continue;
                     var srvGraph = PXGraph.CreateInstance<ServiceOrderEntry>();
                     // 处理每个记录
                     ProcessingServiceOrder(srvGraph, item, receiptDoc, defaultServiceItem);
