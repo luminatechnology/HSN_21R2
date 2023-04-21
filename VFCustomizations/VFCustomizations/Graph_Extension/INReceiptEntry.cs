@@ -76,6 +76,23 @@ namespace PX.Objects.IN
 
             PXUIFieldAttribute.SetEnabled<INTranExtension.usrServiceOrderNbr>(Base.transactions.Cache, null, false);
             PXUIFieldAttribute.SetEnabled<INTranExtension.usrCreateServiceOrderErrorMsg>(Base.transactions.Cache, null, false);
+
+            if (isVisiable)
+                Base.receipt.Cache.AllowUpdate = true;
+        }
+
+        public virtual void _(Events.RowSelected<INTran> e, PXRowSelected baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+            var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
+
+            if (e.Row != null && isVisiable)
+            {
+                Base.receipt.Cache.AllowUpdate = true;
+                e.Cache.AllowUpdate = true;
+                Base.transactions.Cache.AllowUpdate = true;
+                PXUIFieldAttribute.SetEnabled<INTranExtension.usrForMerchant>(e.Cache, null, true);
+            }
         }
 
         #endregion
