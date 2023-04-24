@@ -86,12 +86,13 @@ namespace PX.Objects.IN
             baseHandler?.Invoke(e.Cache, e.Args);
             var isVisiable = SelectFrom<LUMVerifonePreference>.View.Select(Base).TopFirst?.EnableVFCustomizeField ?? false;
 
-            if (e.Row != null && isVisiable)
+            if (e.Row != null && isVisiable && Base.receipt.Current?.Status == INDocStatus.Released)
             {
                 Base.receipt.Cache.AllowUpdate = true;
                 e.Cache.AllowUpdate = true;
                 Base.transactions.Cache.AllowUpdate = true;
                 PXUIFieldAttribute.SetEnabled<INTranExtension.usrForMerchant>(e.Cache, null, true);
+                PXUIFieldAttribute.SetEnabled<INTran.lotSerialNbr>(e.Cache, null, false);
             }
         }
 
