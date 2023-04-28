@@ -76,9 +76,6 @@ namespace PX.Objects.IN
 
             PXUIFieldAttribute.SetEnabled<INTranExtension.usrServiceOrderNbr>(Base.transactions.Cache, null, false);
             PXUIFieldAttribute.SetEnabled<INTranExtension.usrCreateServiceOrderErrorMsg>(Base.transactions.Cache, null, false);
-
-            if (isVisiable)
-                Base.receipt.Cache.AllowUpdate = true;
         }
 
         public virtual void _(Events.RowSelected<INTran> e, PXRowSelected baseHandler)
@@ -89,10 +86,9 @@ namespace PX.Objects.IN
             if (e.Row != null && isVisiable && Base.receipt.Current?.Status == INDocStatus.Released)
             {
                 Base.receipt.Cache.AllowUpdate = true;
-                e.Cache.AllowUpdate = true;
                 Base.transactions.Cache.AllowUpdate = true;
                 PXUIFieldAttribute.SetEnabled<INTranExtension.usrForMerchant>(e.Cache, null, true);
-                PXUIFieldAttribute.SetEnabled<INTran.lotSerialNbr>(e.Cache, null, false);
+                PXUIFieldAttribute.SetEnabled<INTran.lotSerialNbr>(Base.transactions.Cache, e.Row, false);
             }
         }
 

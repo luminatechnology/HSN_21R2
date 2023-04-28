@@ -1,0 +1,5 @@
+﻿<Automation screen="IN301000">
+    <Fields ScreenID="IN301000">
+        <Field IsActive="True" DisplayName="Lot/Serial Nbr." FieldName="LotSerialNbr" DisableCondition="aed0fd7d-06eb-0a75-a655-8223b608023b" ObjectName="PX.Objects.IN.INTran" />
+    </Fields>
+</Automation>
