@@ -1,5 +1,4 @@
-﻿using HSNCustomizations.DAC;
-using PX.Data;
+﻿using PX.Data;
 
 namespace PX.Objects.FS
 {
@@ -45,6 +44,13 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "Enable Location Validation for Quick Process")]
         public virtual bool? UsrEnableLocationValidForQuickProcess { get; set; }
         public abstract class usrEnableLocationValidForQuickProcess : PX.Data.BQL.BqlBool.Field<usrEnableLocationValidForQuickProcess> { }
+        #endregion
+
+        #region UsrAllowOneStepProcOfRMA
+        [PXDBBool()]
+        [PXUIField(DisplayName = "Allow One-Step Processing Of RMA")]
+        public virtual bool? UsrAllowOneStepProcOfRMA { get; set; }
+        public abstract class usrAllowOneStepProcOfRMA : PX.Data.BQL.BqlBool.Field<usrAllowOneStepProcOfRMA> { }
         #endregion
     }
 }

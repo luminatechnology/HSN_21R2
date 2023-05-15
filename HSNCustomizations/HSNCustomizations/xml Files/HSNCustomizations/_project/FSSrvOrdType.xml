@@ -5,4 +5,5 @@
     <Column TableName="FSSrvOrdType" ColumnName="UsrStaffFilterByBranch" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrStaffFilterByCustomerLocation" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrEnableLocationValidForQuickProcess" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="FSSrvOrdType" ColumnName="UsrAllowOneStepProcOfRMA" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>
