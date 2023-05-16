@@ -266,7 +266,8 @@ namespace PX.Objects.FS
                 }
 
                 if (this.INRegisterView.Select().RowCast<INRegister>().Where(x => x.DocType == INDocType.Transfer &&
-                                                                                  x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() <= 0)
+                                                                                  x.GetExtension<INRegisterExt>().UsrTransferPurp == LUMTransferPurposeType.RMARetu).Count() <= 0 &&
+                    (Base.ServiceOrderTypeSelected.Current?.GetExtension<FSSrvOrdTypeExt>()?.UsrAllowOneStepProcOfRMA ?? false) != true)
                 {
                     throw new PXException(HSNMessages.MustReturnRMA);
                 }
