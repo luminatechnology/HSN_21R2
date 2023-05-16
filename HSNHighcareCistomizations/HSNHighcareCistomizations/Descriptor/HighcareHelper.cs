@@ -1,4 +1,6 @@
 ﻿using HSNHighcareCistomizations.DAC;
+using HSNHighcareCistomizations.Entity;
+using Newtonsoft.Json;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
@@ -7,6 +9,7 @@ using PX.Objects.IN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +43,29 @@ namespace HSNHighcareCistomizations.Descriptor
                   .OrderBy<Asc<LUMCustomerPINCode.startDate>>
                   .View.Select(new PXGraph(), baccountID, equipmentID, DateTime.Now).RowCast<LUMCustomerPINCode>();
         }
+
+        public (bool success, string errorMessage) CallReturnAPI(HighcareReturnEntity entity)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var preference = PXDatabase.Select<LUMHighcarePreference>().FirstOrDefault();
+                    client.DefaultRequestHeaders.Add("Authorization", $"bearer {preference?.SecretKey}");
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, preference?.ReturnUrl);
+                    request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        return (true, string.Empty);
+                    else
+                        throw new Exception("Call return api failed");
+                }
+                catch (Exception ex)
+                {
+                    return (false, ex.Message);
+                }
+            }
+        }
     }
 
     public class HighcareClassAttr : PX.Data.BQL.BqlString.Constant<HighcareClassAttr>
@@ -57,5 +83,20 @@ namespace HSNHighcareCistomizations.Descriptor
         public virtual string CPriceClassID { get; set; }
         public abstract class cPriceClassID : PX.Data.BQL.BqlString.Field<cPriceClassID> { }
         #endregion
+    }
+
+    [Serializable]
+    public class HighcareReturnFilter : IBqlTable
+    {
+
+        public const string NewReturn = "New";
+        public const string ReleaseReturn = "Release";
+
+        [PXDBString(50, IsUnicode = true, InputMask = "")]
+        [PXDefault(HighcareReturnFilter.NewReturn)]
+        [PXUIField(DisplayName = "Process type")]
+        [PXStringList(new string[] { HighcareReturnFilter.NewReturn, HighcareReturnFilter.ReleaseReturn }, new string[] { "Process New Return", "Process Released Return" })]
+        public virtual string ProcessType { get; set; }
+        public abstract class processType : PX.Data.BQL.BqlString.Field<processType> { }
     }
 }
