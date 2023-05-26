@@ -6,4 +6,5 @@
     <Column TableName="FSSrvOrdType" ColumnName="UsrStaffFilterByCustomerLocation" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrEnableLocationValidForQuickProcess" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
     <Column TableName="FSSrvOrdType" ColumnName="UsrAllowOneStepProcOfRMA" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="FSSrvOrdType" ColumnName="UsrOrderTypeForZeroBilling" ColumnType="string" AllowNull="True" MaxLength="2" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

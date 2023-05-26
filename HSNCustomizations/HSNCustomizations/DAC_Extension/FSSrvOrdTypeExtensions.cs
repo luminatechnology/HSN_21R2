@@ -1,4 +1,5 @@
 ﻿using PX.Data;
+using PX.Objects.SO;
 
 namespace PX.Objects.FS
 {
@@ -51,6 +52,21 @@ namespace PX.Objects.FS
         [PXUIField(DisplayName = "Allow One-Step Processing Of RMA")]
         public virtual bool? UsrAllowOneStepProcOfRMA { get; set; }
         public abstract class usrAllowOneStepProcOfRMA : PX.Data.BQL.BqlBool.Field<usrAllowOneStepProcOfRMA> { }
+        #endregion
+
+        #region UsrOrderTypeForZeroBilling
+
+        [PXDBString(2, IsFixed = true, InputMask = ">aa")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
+        [PXUIField(DisplayName = "Order Type for 0 Amount Billing", Visibility = PXUIVisibility.Visible)]
+        [PXSelector(typeof(Search<SOOrderType.orderType,
+                            Where<
+                                SOOrderType.active, Equal<True>,
+                                And<FSxSOOrderType.enableFSIntegration, Equal<True>>>>),
+                    DescriptionField = typeof(SOOrderType.descr))]
+        public virtual string UsrOrderTypeForZeroBilling { get; set; }
+        public abstract class usrOrderTypeForZeroBilling : PX.Data.BQL.BqlString.Field<usrOrderTypeForZeroBilling> { }
+
         #endregion
     }
 }

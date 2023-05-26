@@ -15,6 +15,8 @@ using System.Collections;
 using System.Collections.Generic;
 using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
+using static PX.Objects.FS.AppointmentEntry;
+using PX.Objects.FS.ParallelProcessing;
 
 namespace PX.Objects.FS
 {
@@ -319,7 +321,98 @@ namespace PX.Objects.FS
                         throw new PXException($"Inventory quantity for {item.InventoryCD} in warehouse will go negative.");
                 }
             }
-            return Base.InvoiceAppointment(adapter);
+
+            #region Override Standard Code
+
+            List<FSAppointment> list = adapter.Get<FSAppointment>().ToList();
+            List<AppointmentToPost> rows = new List<AppointmentToPost>();
+
+            if (!adapter.MassProcess)
+            {
+                Base.SaveWithRecalculateExternalTaxesSync();
+            }
+
+            foreach (FSAppointment fsAppointmentRow in list)
+            {
+                PXLongOperation.StartOperation(
+                Base,
+                delegate ()
+                {
+                    Base.SetServiceOrderStatusFromAppointment(Base.ServiceOrderRelated.Current, fsAppointmentRow, ActionButton.InvoiceAppointment);
+
+                    CreateInvoiceByAppointmentPost graphCreateInvoiceByAppointmentPost = PXGraph.CreateInstance<CreateInvoiceByAppointmentPost>();
+                    graphCreateInvoiceByAppointmentPost.Filter.Current.PostTo = Base.ServiceOrderTypeSelected.Current.PostTo == ID.SrvOrdType_PostTo.ACCOUNTS_RECEIVABLE_MODULE ? ID.Batch_PostTo.AR_AP : Base.ServiceOrderTypeSelected.Current.PostTo;
+                    graphCreateInvoiceByAppointmentPost.Filter.Current.IgnoreBillingCycles = true;
+                    graphCreateInvoiceByAppointmentPost.Filter.Current.BranchID = fsAppointmentRow.BranchID;
+                    graphCreateInvoiceByAppointmentPost.Filter.Current.LoadData = true;
+                    graphCreateInvoiceByAppointmentPost.Filter.Current.IsGenerateInvoiceScreen = false;
+
+                    if (fsAppointmentRow.ActualDateTimeEnd > Base.Accessinfo.BusinessDate)
+                    {
+                        graphCreateInvoiceByAppointmentPost.Filter.Current.UpToDate = fsAppointmentRow.ActualDateTimeEnd;
+                        graphCreateInvoiceByAppointmentPost.Filter.Current.InvoiceDate = fsAppointmentRow.ActualDateTimeEnd;
+                    }
+
+                    graphCreateInvoiceByAppointmentPost.Filter.Insert(graphCreateInvoiceByAppointmentPost.Filter.Current);
+
+                    AppointmentToPost appointmentToPostRow = graphCreateInvoiceByAppointmentPost.PostLines.Current =
+                                graphCreateInvoiceByAppointmentPost.PostLines.Search<AppointmentToPost.refNbr>(fsAppointmentRow.RefNbr, fsAppointmentRow.SrvOrdType);
+
+                    if (appointmentToPostRow == null)
+                    {
+                        throw new PXSetPropertyException(TX.Error.DocumentCannotBeInvoiced, fsAppointmentRow.SrvOrdType, fsAppointmentRow.RefNbr);
+                    }
+
+                    rows = new List<AppointmentToPost>
+                    {
+                        appointmentToPostRow
+                    };
+
+                    #region 當 CuryDocTotal = 0 改產生SalesOrder
+                    var srvOrdertype = SelectFrom<FSSrvOrdType>
+                                                   .Where<FSSrvOrdType.srvOrdType.IsEqual<P.AsString>>
+                                                   .View.Select(Base, fsAppointmentRow.SrvOrdType).TopFirst;
+
+                    if (fsAppointmentRow.CuryDocTotal == 0 && !string.IsNullOrEmpty(srvOrdertype.GetExtension<FSSrvOrdTypeExt>()?.UsrOrderTypeForZeroBilling))
+                    {
+                        graphCreateInvoiceByAppointmentPost.Filter.Current.PostTo = ID.Batch_PostTo.SO;
+                        rows.ForEach(x => { x.PostOrderType = srvOrdertype.GetExtension<FSSrvOrdTypeExt>().UsrOrderTypeForZeroBilling; });
+                    } 
+                    #endregion
+
+                    var jobExecutor = new JobExecutor<InvoicingProcessStepGroupShared>(processorCount: 1);
+                    Guid currentProcessID = graphCreateInvoiceByAppointmentPost.CreateInvoices(graphCreateInvoiceByAppointmentPost, rows, graphCreateInvoiceByAppointmentPost.Filter.Current, null, jobExecutor, adapter.QuickProcessFlow);
+
+                    if (graphCreateInvoiceByAppointmentPost.Filter.Current.PostTo == ID.SrvOrdType_PostTo.SALES_ORDER_MODULE
+                        || graphCreateInvoiceByAppointmentPost.Filter.Current.PostTo == ID.SrvOrdType_PostTo.SALES_ORDER_INVOICE)
+                    {
+                        foreach (PXResult<FSPostBatch> result in SharedFunctions.GetPostBachByProcessID(Base, currentProcessID))
+                        {
+                            FSPostBatch fSPostBatchRow = (FSPostBatch)result;
+
+                            graphCreateInvoiceByAppointmentPost.ApplyPrepayments(fSPostBatchRow);
+                        }
+                    }
+
+                    AppointmentEntry apptGraph = PXGraph.CreateInstance<AppointmentEntry>();
+                    apptGraph.AppointmentRecords.Current =
+                            apptGraph.AppointmentRecords.Search<FSAppointment.refNbr>
+                                                (fsAppointmentRow.RefNbr, fsAppointmentRow.SrvOrdType);
+
+                    if (!adapter.MassProcess || Base.IsMobile == true)
+                    {
+                        using (new PXTimeStampScope(null))
+                        {
+                            apptGraph.AppointmentPostedIn.Current = apptGraph.AppointmentPostedIn.SelectWindowed(0, 1);
+                            apptGraph.openPostingDocument();
+                        }
+                    }
+                });
+            }
+
+            return list;
+
+            #endregion
         }
 
         // [All-Phase2] Enable the modification of TAX Amt in Appointment
@@ -1376,7 +1469,7 @@ namespace PX.Objects.FS
             {
                 var doc = graph.AppointmentRecords.Current;
                 var maxLineNbr = graph.AppointmentDetails.Select().RowCast<FSAppointmentDet>().Max(x => x.LineNbr);
-                if(doc != null && doc.LineCntr < maxLineNbr)
+                if (doc != null && doc.LineCntr < maxLineNbr)
                 {
                     doc.LineCntr = maxLineNbr;
                     graph.AppointmentRecords.UpdateCurrent();
