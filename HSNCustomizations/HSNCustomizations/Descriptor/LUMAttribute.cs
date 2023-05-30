@@ -12,6 +12,7 @@ using PX.Objects.FS;
 using PX.Objects.AP;
 using PX.Objects.SO;
 using HSNCustomizations.DAC;
+using PX.SM;
 
 namespace HSNCustomizations.Descriptor
 {
@@ -577,6 +578,28 @@ namespace HSNCustomizations.Descriptor
         {
             SubstituteKey = typeof(FSEquipment.refNbr);
             DescriptionField = typeof(FSEquipment.descr);
+        }
+    }
+    #endregion
+
+    #region LUMUserNameBySpecificRoleAttribute
+    public class LUMUserNameBySpecificRoleAttribute : PXEventSubscriberAttribute, IPXFieldSelectingSubscriber
+    {
+        protected string _RoleName;
+
+        public LUMUserNameBySpecificRoleAttribute(string roleName)
+        {
+            _RoleName = roleName;
+        }
+
+        public void FieldSelecting(PXCache sender, PXFieldSelectingEventArgs e)
+        {
+            if (e.Row != null && e.ReturnValue == null)
+            {
+                e.ReturnValue = SelectFrom<UsersInRoles>.Where<UsersInRoles.rolename.IsEqual<@P.AsString>
+                                                        .And<UsersInRoles.username.IsEqual<AccessInfo.userName.FromCurrent>>>
+                                                        .View.ReadOnly.Select(sender.Graph, _RoleName).TopFirst?.Username;
+            }
         }
     }
     #endregion
