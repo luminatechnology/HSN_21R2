@@ -372,12 +372,12 @@ namespace PX.Objects.FS
                     var srvOrdertype = SelectFrom<FSSrvOrdType>
                                                    .Where<FSSrvOrdType.srvOrdType.IsEqual<P.AsString>>
                                                    .View.Select(Base, fsAppointmentRow.SrvOrdType).TopFirst;
-
-                    if (fsAppointmentRow.CuryDocTotal == 0 && !string.IsNullOrEmpty(srvOrdertype.GetExtension<FSSrvOrdTypeExt>()?.UsrOrderTypeForZeroBilling))
+                    var isRepleaceEquipment = Base.AppointmentDetails.Cache.Cached.RowCast<FSAppointmentDet>().Any(x => x.EquipmentAction == ID.Equipment_Action.REPLACING_TARGET_EQUIPMENT);
+                    if (fsAppointmentRow.CuryDocTotal == 0 && !string.IsNullOrEmpty(srvOrdertype.GetExtension<FSSrvOrdTypeExt>()?.UsrOrderTypeForZeroBilling) && !isRepleaceEquipment)
                     {
                         graphCreateInvoiceByAppointmentPost.Filter.Current.PostTo = ID.Batch_PostTo.SO;
                         rows.ForEach(x => { x.PostOrderType = srvOrdertype.GetExtension<FSSrvOrdTypeExt>().UsrOrderTypeForZeroBilling; });
-                    } 
+                    }
                     #endregion
 
                     var jobExecutor = new JobExecutor<InvoicingProcessStepGroupShared>(processorCount: 1);
