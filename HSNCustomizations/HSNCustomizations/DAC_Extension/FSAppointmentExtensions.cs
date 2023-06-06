@@ -18,5 +18,16 @@ namespace PX.Objects.FS
         public virtual DateTime? UsrLastSatusModDate { get; set; }
         public abstract class usrLastSatusModDate : PX.Data.BQL.BqlDateTime.Field<usrLastSatusModDate> { }
         #endregion
+
+        #region Unbound Fields
+
+        #region UsrRoleSpecificUserName
+        [PXString()]
+        [HSNCustomizations.Descriptor.LUMUserNameBySpecificRole("ASP")]
+        public virtual string UsrRoleSpecificUserName { get; set; }
+        public abstract class usrRoleSpecificUserName : PX.Data.BQL.BqlString.Field<usrRoleSpecificUserName> { }
+        #endregion
+
+        #endregion
     }
 }
