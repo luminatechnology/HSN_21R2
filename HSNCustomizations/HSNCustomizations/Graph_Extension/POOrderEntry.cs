@@ -1,4 +1,5 @@
-﻿using PX.Data;
+﻿using PX.Common;
+using PX.Data;
 
 namespace PX.Objects.PO
 {
@@ -11,7 +12,8 @@ namespace PX.Objects.PO
 
             if (e.Row == null) { return; }
 
-            Base.printPurchaseOrder.SetEnabled((e.Row?.Approved ?? false) == true);
+            // Since the field "Approved" would be hidden or skipped updating by standard approval config settings, then change to use status to the condition.
+            Base.printPurchaseOrder.SetEnabled(!e.Row.Status.IsIn(POOrderStatus.Hold, POOrderStatus.PendingApproval, POOrderStatus.Rejected, POOrderStatus.Cancelled));
         }
         #endregion
     }
