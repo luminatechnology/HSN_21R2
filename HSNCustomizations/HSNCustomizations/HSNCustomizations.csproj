@@ -122,6 +122,7 @@
     <Compile Include="Graph_Extension\INTransferEntry.cs" />
     <Compile Include="Graph_Extension\InventoryItemMaint.cs" />
     <Compile Include="Graph_Extension\OpportunityMaint.cs" />
+    <Compile Include="Graph_Extension\POOrderEntry.cs" />
     <Compile Include="Graph_Extension\QuoteMaint.cs" />
     <Compile Include="Graph_Extension\ServiceContractEntry.cs" />
     <Compile Include="Graph_Extension\SM_SOInvoiceEntry.cs" />
