@@ -92,7 +92,7 @@ namespace VFCustomizations.Graph
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
-                    entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                    entity.ExportDate = PX.Common.PXTimeZoneInfo.Now.ToString("dd/MM/yyyy HH:mm");
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
                     //entity.DeliveryDate = selectedItem.GetExtension<SOShipmentExt>()?.UsrDeliverDate?.ToString("dd/MM/yyyy HH:mm");
                     entity.DeliveryDate = entity.ExportDate;
