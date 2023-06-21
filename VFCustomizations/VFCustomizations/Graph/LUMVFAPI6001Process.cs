@@ -77,7 +77,7 @@ namespace VFCustomizations.Graph
                     PXProcessing.SetCurrentItem(selectedItem);
                     entity.DeliveryNo = selectedItem?.ExtRefNbr;
                     //entity.DeliveryDate = selectedItem.TranDate?.ToString("dd/MM/yyyy HH:mm");
-                    entity.ETDDate = selectedItem.TranDate?.AddTicks(DateTime.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
+                    entity.ETDDate = selectedItem.TranDate?.AddTicks(PX.Common.PXTimeZoneInfo.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
                     // Get Attribute AWBNO
                     var attrAWBNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "AWBNO") as PXFieldState;
                     entity.AWBNo = (string)attrAWBNO?.Value;
@@ -126,7 +126,7 @@ namespace VFCustomizations.Graph
                         // Get Attribute PACKINGNO
                         var attrPACKINGNO = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "PACKINGNO") as PXFieldState;
                         entity.PackingNo = (string)attrPACKINGNO?.Value;
-                        entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                        entity.ExportDate = PX.Common.PXTimeZoneInfo.Now.ToString("dd/MM/yyyy HH:mm");
                     }
 
                     var ftpResponse = helper.CallFTP6(entity, apiTokenObj);

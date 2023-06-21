@@ -153,7 +153,7 @@ namespace VFCustomizations.Graph
                     entity.PackingNo = (string)shipmentAttrPACKINGNO?.Value;
                     // Shipment Attribute ETA
                     var shipmentAttrETA = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "ETA") as PXFieldState;
-                    entity.ETA = ((DateTime?)shipmentAttrETA?.Value)?.AddTicks(DateTime.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
+                    entity.ETA = ((DateTime?)shipmentAttrETA?.Value)?.AddTicks(PX.Common.PXTimeZoneInfo.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
                     entity.ShipVia = soAttributeSHIPVIA?.Value;
