@@ -35,12 +35,12 @@ namespace PX.Objects.AR
                 if (TWNGUIValidation.ActivateTWGUI(Base) == true &&
                     doc != null &&
                     doc.Released == true &&
-                    (doc.DocType.Equals(ARDocType.Invoice) || doc.DocType.Equals(ARDocType.CreditMemo) || doc.DocType.Equals(ARDocType.CashSale)) &&
+                    doc.DocType.IsIn(ARDocType.Invoice, ARDocType.CreditMemo, ARDocType.CashSale) &&
                     !string.IsNullOrEmpty(docExt.UsrVATOutCode)
                    )
                 {
-                    if ((docExt.UsrVATOutCode.Equals(TWGUIFormatCode.vATOutCode33) || docExt.UsrVATOutCode.Equals(TWGUIFormatCode.vATOutCode34)) &&
-                        docExt.UsrCreditAction.Equals(TWNCreditAction.NO))
+                    if (docExt.UsrVATOutCode.IsIn(TWGUIFormatCode.vATOutCode33, TWGUIFormatCode.vATOutCode34) &&
+                        docExt.UsrCreditAction == TWNCreditAction.NO)
                     {
                         throw new PXException(TWMessages.CRACIsNone);
                     }
@@ -48,131 +48,134 @@ namespace PX.Objects.AR
                     // Avoid standard logic calling this method twice and inserting duplicate records into TWNGUITrans.
                     if (APReleaseProcess_Extension.CountExistedRec(Base, docExt.UsrGUINo, docExt.UsrVATOutCode, doc.RefNbr) > 0) { return; }
 
-                    Customer customer = SelectFrom<Customer>.Where<Customer.bAccountID.IsEqual<@P.AsInt>>.View.ReadOnly.Select(Base, doc.CustomerID);
-
                     TaxTran xTran = APReleaseProcess_Extension.SelectTaxTran(Base, doc.DocType, doc.RefNbr, BatchModule.AR);
 
-                    TaxExt taxExt = PXCache<Tax>.GetExtension<TaxExt>(APReleaseProcess_Extension.SelectTax(Base, xTran.TaxID));
-
-                    if (taxExt.UsrTWNGUI == false || taxExt.UsrTWNGUI == null) { return; }
-
-                    using (PXTransactionScope ts = new PXTransactionScope())
+                    if ((APReleaseProcess_Extension.SelectTax(Base, xTran.TaxID)?.GetExtension<TaxExt>()?.UsrTWNGUI ?? false) == true)
                     {
-                        TWNReleaseProcess rp = PXGraph.CreateInstance<TWNReleaseProcess>();
+                        bool generateGUINbr = true;
 
-                        TWNGUITrans tWNGUITrans = rp.InitAndCheckOnAR(docExt.UsrGUINo, docExt.UsrVATOutCode);
-
-                        decimal? netAmt = xTran.TaxableAmt + xTran.RetainedTaxableAmt;
-                        decimal? taxAmt = xTran.TaxAmt + xTran.RetainedTaxAmt;
-
-                        FSAppointment appointment = SelectFrom<FSAppointment>.LeftJoin<FSPostDoc>.On<FSPostDoc.appointmentID.IsEqual<FSAppointment.appointmentID>>
-                                                                             .Where<FSPostDoc.postDocType.IsEqual<@P.AsString>
-                                                                                    .And<FSPostDoc.postRefNbr.IsEqual<@P.AsString>>>
-                                                                             .View.ReadOnly.Select(Base, doc.DocType, doc.RefNbr);
-
-                        string remark      = (appointment is null) ? string.Empty : appointment.RefNbr;
-                        string taxCateID   = string.Empty;
-                        int    branchID    = 0;
-                        bool   onlineStore = false;
-
-                        foreach (ARTran row in Base.ARTran_TranType_RefNbr.Cache.Cached)
+                        using (PXTransactionScope ts = new PXTransactionScope())
                         {
-                            taxCateID = row.TaxCategoryID;
-                            branchID  = row.BranchID.Value;
+                            TWNReleaseProcess rp = PXGraph.CreateInstance<TWNReleaseProcess>();
 
-                            if (row.SOOrderType == "EO")
+                            TWNGUITrans tWNGUITrans = rp.InitAndCheckOnAR(docExt.UsrGUINo, docExt.UsrVATOutCode);
+
+                            decimal? netAmt = xTran.TaxableAmt + xTran.RetainedTaxableAmt;
+                            decimal? taxAmt = xTran.TaxAmt + xTran.RetainedTaxAmt;
+
+                            FSAppointment appointment = SelectFrom<FSAppointment>.LeftJoin<FSPostDoc>.On<FSPostDoc.appointmentID.IsEqual<FSAppointment.appointmentID>>
+                                                                                 .Where<FSPostDoc.postDocType.IsEqual<@P.AsString>
+                                                                                        .And<FSPostDoc.postRefNbr.IsEqual<@P.AsString>>>
+                                                                                 .View.ReadOnly.Select(Base, doc.DocType, doc.RefNbr);
+
+                            int    branchID = 0;
+                            bool   onlineStore = false;
+                            string remark = (appointment is null) ? string.Empty : appointment.RefNbr, taxCateID = string.Empty;
+                            
+                            foreach (ARTran row in Base.ARTran_TranType_RefNbr.Cache.Cached)
                             {
-                                Base.soOrder.Current = SO.SOOrder.PK.Find(Base, row.SOOrderType, row.SOOrderNbr);
+                                taxCateID = row.TaxCategoryID;
+                                branchID  = row.BranchID.Value;
 
-                                var UDFValue = new SO.SOInvoiceEntry_Extension().GetSOrderUDFValue(Base.soOrder.Current, "ESTORE", Base.soOrder.Cache);
+                                if (row.SOOrderType == "EO")
+                                {
+                                    Base.soOrder.Current = SO.SOOrder.PK.Find(Base, row.SOOrderType, row.SOOrderNbr);
 
-                                onlineStore = Convert.ToBoolean(Convert.ToInt32(UDFValue ?? "0"));
+                                    var UDFValue = new SO.SOInvoiceEntry_Extension().GetSOrderUDFValue(Base.soOrder.Current, "ESTORE", Base.soOrder.Cache);
+
+                                    onlineStore = Convert.ToBoolean(Convert.ToInt32(UDFValue ?? "0"));
+                                }
+
+                                goto CreatGUI;
                             }
 
-                            goto CreatGUI;
-                        }
-
-                    CreatGUI:
-                        if (docExt.UsrCreditAction.IsIn(TWNCreditAction.CN, TWNCreditAction.NO))
-                        {
-                            if (docExt.UsrCreditAction == TWNCreditAction.NO)
+                        CreatGUI:
+                            if (docExt.UsrCreditAction.IsIn(TWNCreditAction.CN, TWNCreditAction.NO))
                             {
-                                TWNGUIPreferences gUIPreferences = SelectFrom<TWNGUIPreferences>.View.Select(Base);
+                                generateGUINbr = docExt.UsrCreditAction == TWNCreditAction.NO && docExt.UsrGUIDate != null;
 
-                                docExt.UsrGUINo = ARGUINbrAutoNumAttribute.GetNextNumber(Base.ARDocument.Cache, 
-                                                                                         doc, 
-                                                                                         (docExt.UsrVATOutCode == TWGUIFormatCode.vATOutCode32) ? gUIPreferences.GUI2CopiesNumbering : gUIPreferences.GUI3CopiesNumbering, 
-                                                                                         doc.DocDate);
+                                if (generateGUINbr == true)
+                                {
+                                    TWNGUIPreferences gUIPreferences = SelectFrom<TWNGUIPreferences>.View.Select(Base);
+
+                                    docExt.UsrGUINo = ARGUINbrAutoNumAttribute.GetNextNumber(Base.ARDocument.Cache,
+                                                                                             doc,
+                                                                                             (docExt.UsrVATOutCode == TWGUIFormatCode.vATOutCode32) ? gUIPreferences.GUI2CopiesNumbering : gUIPreferences.GUI3CopiesNumbering,
+                                                                                             docExt.UsrGUIDate);
+
+                                    Customer customer = Customer.PK.Find(Base, doc.CustomerID);
+
+                                    rp.CreateGUITrans(new STWNGUITran()
+                                    {
+                                        VATCode = docExt.UsrVATOutCode,
+                                        GUINbr = docExt.UsrGUINo,
+                                        GUIStatus = doc.CuryOrigDocAmt == 0m ? TWNGUIStatus.Voided : TWNGUIStatus.Used,
+                                        BranchID = branchID,
+                                        GUIDirection = TWNGUIDirection.Issue,
+                                        GUIDate = docExt.UsrGUIDate.Value.Date.Add(doc.CreatedDateTime.Value.TimeOfDay),
+                                        GUITitle = Base.ARDocument.Current?.GetExtension<ARRegisterExt2>().UsrGUITitle,//customer.AcctName,
+                                        TaxZoneID = Base.ARInvoice_DocType_RefNbr.Current.TaxZoneID,
+                                        TaxCategoryID = taxCateID,
+                                        TaxID = xTran.TaxID,
+                                        TaxNbr = docExt.UsrTaxNbr,
+                                        OurTaxNbr = docExt.UsrOurTaxNbr,
+                                        NetAmount = netAmt,
+                                        TaxAmount = taxAmt,
+                                        AcctCD = customer.AcctCD,
+                                        AcctName = customer.AcctName,
+                                        Remark = remark,
+                                        BatchNbr = doc.BatchNbr,
+                                        OrderNbr = doc.RefNbr,
+                                        CarrierType = ARReleaseProcess_Extension.GetCarrierType(docExt.UsrCarrierID),
+                                        CarrierID = (docExt.UsrB2CType == TWNB2CType.MC) ? ARReleaseProcess_Extension.GetCarrierID(docExt.UsrTaxNbr, docExt.UsrCarrierID) : null,
+                                        NPONbr = (docExt.UsrB2CType == TWNB2CType.NPO) ? ARReleaseProcess_Extension.GetNPOBAN(docExt.UsrTaxNbr, docExt.UsrNPONbr) : null,
+                                        B2CPrinted = (docExt.UsrB2CType == TWNB2CType.DEF && string.IsNullOrEmpty(docExt.UsrTaxNbr)),
+                                        OnlineStore = onlineStore
+                                    });
+                                }
                             }
 
-                            rp.CreateGUITrans(new STWNGUITran()
+                            if (tWNGUITrans != null)
                             {
-                                VATCode       = docExt.UsrVATOutCode,
-                                GUINbr        = docExt.UsrGUINo,
-                                GUIStatus     = doc.CuryOrigDocAmt == 0m ? TWNGUIStatus.Voided : TWNGUIStatus.Used,
-                                BranchID      = branchID,
-                                GUIDirection  = TWNGUIDirection.Issue,
-                                GUIDate       = docExt.UsrGUIDate.Value.Date.Add(doc.CreatedDateTime.Value.TimeOfDay),
-                                GUITitle      = Base.ARDocument.Current?.GetExtension<ARRegisterExt2>().UsrGUITitle,//customer.AcctName,
-                                TaxZoneID     = Base.ARInvoice_DocType_RefNbr.Current.TaxZoneID,
-                                TaxCategoryID = taxCateID,
-                                TaxID         = xTran.TaxID,
-                                TaxNbr        = docExt.UsrTaxNbr,
-                                OurTaxNbr     = docExt.UsrOurTaxNbr,
-                                NetAmount     = netAmt,
-                                TaxAmount     = taxAmt,
-                                AcctCD        = customer.AcctCD,
-                                AcctName      = customer.AcctName,
-                                Remark        = remark,
-                                BatchNbr      = doc.BatchNbr,
-                                OrderNbr      = doc.RefNbr,
-                                CarrierType   = ARReleaseProcess_Extension.GetCarrierType(docExt.UsrCarrierID),
-                                CarrierID     = (docExt.UsrB2CType == TWNB2CType.MC) ? ARReleaseProcess_Extension.GetCarrierID(docExt.UsrTaxNbr, docExt.UsrCarrierID) : null,
-                                NPONbr        = (docExt.UsrB2CType == TWNB2CType.NPO) ? ARReleaseProcess_Extension.GetNPOBAN(docExt.UsrTaxNbr, docExt.UsrNPONbr) : null,
-                                B2CPrinted    = (docExt.UsrB2CType == TWNB2CType.DEF && string.IsNullOrEmpty(docExt.UsrTaxNbr)) ? true : false,
-                                OnlineStore   = onlineStore
-                            });
-                        }
+                                if (docExt.UsrCreditAction == TWNCreditAction.VG)
+                                {
+                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.gUIStatus>(tWNGUITrans, TWNGUIStatus.Voided);
+                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.eGUIExported>(tWNGUITrans, false);
+                                }
+                                else
+                                {
+                                    if (tWNGUITrans.NetAmtRemain < netAmt) { throw new PXException(TWMessages.RemainAmt); }
 
-                        if (tWNGUITrans != null)
-                        {
-                            if (docExt.UsrCreditAction == TWNCreditAction.VG)
-                            {
-                                Base1.ViewGUITrans.SetValueExt<TWNGUITrans.gUIStatus>(tWNGUITrans, TWNGUIStatus.Voided);
-                                Base1.ViewGUITrans.SetValueExt<TWNGUITrans.eGUIExported>(tWNGUITrans, false);
-                            }
-                            else
-                            {
-                                if (tWNGUITrans.NetAmtRemain < netAmt) { throw new PXException(TWMessages.RemainAmt); }
+                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= netAmt));
+                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= taxAmt));
+                                }
 
-                                Base1.ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= netAmt));
-                                Base1.ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= taxAmt));
+                                Base1.ViewGUITrans.Update(tWNGUITrans);
                             }
 
-                            Base1.ViewGUITrans.Update(tWNGUITrans);
+                            // Manually Saving as base code will not call base graph persist.
+                            Base1.ViewGUITrans.Cache.Persist(PXDBOperation.Insert);
+                            Base1.ViewGUITrans.Cache.Persist(PXDBOperation.Update);
+
+                            ts.Complete(Base);
+
+                            if (doc.DocType == ARDocType.Invoice && !string.IsNullOrEmpty(docExt.UsrGUINo) && rp.ViewGUITrans.Current.GUIStatus == TWNGUIStatus.Used && docExt.UsrB2CType == TWNB2CType.DEF && onlineStore == false)
+                            {
+                                Base.ARTran_TranType_RefNbr.WhereAnd<Where<ARTran.curyExtPrice, Greater<CS.decimal0>>>();
+                                PXGraph.CreateInstance<eGUIInquiry2>().PrintReport(Base.ARTran_TranType_RefNbr.Select(doc.DocType, doc.RefNbr), rp.ViewGUITrans.Current, false);
+                            }
                         }
+                        // Triggering after save events.
+                        Base1.ViewGUITrans.Cache.Persisted(false);
 
-                        // Manually Saving as base code will not call base graph persis.
-                        Base1.ViewGUITrans.Cache.Persist(PXDBOperation.Insert);
-                        Base1.ViewGUITrans.Cache.Persist(PXDBOperation.Update);
-
-                        ts.Complete(Base);
-
-                        if (doc.DocType == ARDocType.Invoice && !string.IsNullOrEmpty(docExt.UsrGUINo) && rp.ViewGUITrans.Current.GUIStatus == TWNGUIStatus.Used && docExt.UsrB2CType == TWNB2CType.DEF && onlineStore == false)
+                        if (generateGUINbr == true)
                         {
-                            Base.ARTran_TranType_RefNbr.WhereAnd<Where<ARTran.curyExtPrice, Greater<CS.decimal0>>>();
-                            PXGraph.CreateInstance<eGUIInquiry2>().PrintReport(Base.ARTran_TranType_RefNbr.Select(doc.DocType, doc.RefNbr), rp.ViewGUITrans.Current, false);
+                            Base.ARDocument.Cache.SetValue<ARRegisterExt.usrGUINo>(doc, docExt.UsrGUINo);
+                            Base.ARDocument.Cache.Update(doc);
                         }
-                    }
-                    // Triggering after save events.
-                    Base1.ViewGUITrans.Cache.Persisted(false);
-                    
-                    if (docExt.UsrCreditAction == TWNCreditAction.NO)
-                    {
-                        Base.ARDocument.Cache.SetValue<ARRegisterExt.usrGUINo>(doc, docExt.UsrGUINo);
-                        Base.ARDocument.Cache.Update(doc);
                     }
                 }
+
                 Base1.skipPersist = true;
                 baseMethod();
             }
@@ -183,7 +186,7 @@ namespace PX.Objects.AR
         }
         #endregion
 
-        #region Extended Classes
+        #region Extended Classes From Other Custom Project
         public class eGUIInquiry2 : eGUIInquiry
         {
             public override void PrintReport(PXResultset<ARTran> results, TWNGUITrans tWNGUITrans, bool rePrint)
