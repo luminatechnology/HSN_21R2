@@ -92,7 +92,7 @@ namespace VFCustomizations.Graph
                     var firstSORecord = SaleOrderDocument.Select(shipmentLine.FirstOrDefault()?.OrigOrderType, shipmentLine.FirstOrDefault()?.OrigOrderNbr).TopFirst;
                     // Get Ship to Contact Info
                     var shipContactInfo = SOShipmentContact.PK.Find(baseGraph, selectedItem.ShipContactID);
-                    entity.ExportDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                    entity.ExportDate = PX.Common.PXTimeZoneInfo.Now.ToString("dd/MM/yyyy HH:mm");
                     entity.DeliveryNo = selectedItem.ShipmentNbr;
                     //entity.DeliveryDate = selectedItem.GetExtension<SOShipmentExt>()?.UsrDeliverDate?.ToString("dd/MM/yyyy HH:mm");
                     entity.DeliveryDate = entity.ExportDate;
@@ -153,7 +153,7 @@ namespace VFCustomizations.Graph
                     entity.PackingNo = (string)shipmentAttrPACKINGNO?.Value;
                     // Shipment Attribute ETA
                     var shipmentAttrETA = Transactions.Cache.GetValueExt(selectedItem, PX.Objects.CS.Messages.Attribute + "ETA") as PXFieldState;
-                    entity.ETA = ((DateTime?)shipmentAttrETA?.Value)?.AddTicks(DateTime.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
+                    entity.ETA = ((DateTime?)shipmentAttrETA?.Value)?.AddTicks(PX.Common.PXTimeZoneInfo.Now.TimeOfDay.Ticks).ToString("dd/MM/yyyy HH:mm");
                     // Sales Order Attribute SHIPVIA
                     var soAttributeSHIPVIA = SaleOrderDocument.Cache.GetValueExt(firstSORecord, PX.Objects.CS.Messages.Attribute + "SHIPVIA") as PXFieldState;
                     entity.ShipVia = soAttributeSHIPVIA?.Value;

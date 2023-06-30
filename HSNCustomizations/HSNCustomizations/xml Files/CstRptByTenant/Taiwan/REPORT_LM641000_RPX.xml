@@ -1,0 +1,2624 @@
+﻿<Report Name="lm641000.rpx">
+    <Report version="20201103" Name="report1">
+        <Filters>
+            <FilterExp>
+                <DataField>InventoryItem.InventoryCD</DataField>
+                <Value>@InventoryID</Value>
+            </FilterExp>
+        </Filters>
+        <PageSettings>
+            <Margins>
+                <Bottom>0px</Bottom>
+                <Left>0px</Left>
+                <Right>0px</Right>
+                <Top>0px</Top>
+            </Margins>
+        </PageSettings>
+        <Parameters>
+            <ReportParameter>
+                <ColumnSpan>2</ColumnSpan>
+                <Name>InventoryID</Name>
+                <Prompt>Inventory ID</Prompt>
+                <Required>True</Required>
+                <ViewName>=Report.GetFieldSchema('FilterItemByClass.InventoryID')</ViewName>
+            </ReportParameter>
+            <ReportParameter>
+                <ColumnSpan>2</ColumnSpan>
+                <DefaultValue>1</DefaultValue>
+                <Name>PrintQty</Name>
+                <Prompt>Print Quantity</Prompt>
+                <Required>True</Required>
+                <Type>Integer</Type>
+                <ValidValues>
+                    <ParameterValue>
+                        <Label>1</Label>
+                        <Value>1</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>2</Label>
+                        <Value>2</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>3</Label>
+                        <Value>3</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>4</Label>
+                        <Value>4</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>5</Label>
+                        <Value>5</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>6</Label>
+                        <Value>6</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>7</Label>
+                        <Value>7</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>8</Label>
+                        <Value>8</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>9</Label>
+                        <Value>9</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>10</Label>
+                        <Value>10</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>11</Label>
+                        <Value>11</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>12</Label>
+                        <Value>12</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>13</Label>
+                        <Value>13</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>14</Label>
+                        <Value>14</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>15</Label>
+                        <Value>15</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>16</Label>
+                        <Value>16</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>17</Label>
+                        <Value>17</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>18</Label>
+                        <Value>18</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>19</Label>
+                        <Value>19</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>20</Label>
+                        <Value>20</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>21</Label>
+                        <Value>21</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>22</Label>
+                        <Value>22</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>23</Label>
+                        <Value>23</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>24</Label>
+                        <Value>24</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>25</Label>
+                        <Value>25</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>26</Label>
+                        <Value>26</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>27</Label>
+                        <Value>27</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>28</Label>
+                        <Value>28</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>29</Label>
+                        <Value>29</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>30</Label>
+                        <Value>30</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>31</Label>
+                        <Value>31</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>32</Label>
+                        <Value>32</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>33</Label>
+                        <Value>33</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>34</Label>
+                        <Value>34</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>35</Label>
+                        <Value>35</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>36</Label>
+                        <Value>36</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>37</Label>
+                        <Value>37</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>38</Label>
+                        <Value>38</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>39</Label>
+                        <Value>39</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>40</Label>
+                        <Value>40</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>41</Label>
+                        <Value>41</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>42</Label>
+                        <Value>42</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>43</Label>
+                        <Value>43</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>44</Label>
+                        <Value>44</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>45</Label>
+                        <Value>45</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>46</Label>
+                        <Value>46</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>47</Label>
+                        <Value>47</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>48</Label>
+                        <Value>48</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>49</Label>
+                        <Value>49</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>50</Label>
+                        <Value>50</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>51</Label>
+                        <Value>51</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>52</Label>
+                        <Value>52</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>53</Label>
+                        <Value>53</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>54</Label>
+                        <Value>54</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>55</Label>
+                        <Value>55</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>56</Label>
+                        <Value>56</Value>
+                    </ParameterValue>
+                </ValidValues>
+            </ReportParameter>
+            <ReportParameter>
+                <ColumnSpan>2</ColumnSpan>
+                <DefaultValue>1</DefaultValue>
+                <Name>StartFromSeq</Name>
+                <Prompt>Start From Sequence</Prompt>
+                <Required>True</Required>
+                <Type>Integer</Type>
+                <ValidValues>
+                    <ParameterValue>
+                        <Label>1st</Label>
+                        <Value>1</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>2nd</Label>
+                        <Value>2</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>3rd</Label>
+                        <Value>3</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>4th</Label>
+                        <Value>4</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>5th</Label>
+                        <Value>5</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>6th</Label>
+                        <Value>6</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>7th</Label>
+                        <Value>7</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>8th</Label>
+                        <Value>8</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>9th</Label>
+                        <Value>9</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>10th</Label>
+                        <Value>10</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>11th</Label>
+                        <Value>11</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>12th</Label>
+                        <Value>12</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>13th</Label>
+                        <Value>13</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>14th</Label>
+                        <Value>14</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>15th</Label>
+                        <Value>15</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>16th</Label>
+                        <Value>16</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>17th</Label>
+                        <Value>17</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>18th</Label>
+                        <Value>18</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>19th</Label>
+                        <Value>19</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>20th</Label>
+                        <Value>20</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>21st</Label>
+                        <Value>21</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>22nd</Label>
+                        <Value>22</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>23rd</Label>
+                        <Value>23</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>24th</Label>
+                        <Value>24</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>25th</Label>
+                        <Value>25</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>26th</Label>
+                        <Value>26</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>27th</Label>
+                        <Value>27</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>28th</Label>
+                        <Value>28</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>29th</Label>
+                        <Value>29</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>30th</Label>
+                        <Value>30</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>31st</Label>
+                        <Value>31</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>32nd</Label>
+                        <Value>32</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>33rd</Label>
+                        <Value>33</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>34th</Label>
+                        <Value>34</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>35th</Label>
+                        <Value>35</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>36th</Label>
+                        <Value>36</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>37th</Label>
+                        <Value>37</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>38th</Label>
+                        <Value>38</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>39th</Label>
+                        <Value>39</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>40th</Label>
+                        <Value>40</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>41st</Label>
+                        <Value>41</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>42nd</Label>
+                        <Value>42</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>43rd</Label>
+                        <Value>43</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>44th</Label>
+                        <Value>44</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>45th</Label>
+                        <Value>45</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>46th</Label>
+                        <Value>46</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>47th</Label>
+                        <Value>47</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>48th</Label>
+                        <Value>48</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>49th</Label>
+                        <Value>49</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>50th</Label>
+                        <Value>50</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>51st</Label>
+                        <Value>51</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>52nd</Label>
+                        <Value>52</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>53rd</Label>
+                        <Value>53</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>54th</Label>
+                        <Value>54</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>55th</Label>
+                        <Value>55</Value>
+                    </ParameterValue>
+                    <ParameterValue>
+                        <Label>56th</Label>
+                        <Value>56</Value>
+                    </ParameterValue>
+                </ValidValues>
+            </ReportParameter>
+        </Parameters>
+        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <StylesTemplate>TemplateReport.rpx</StylesTemplate>
+        <Tables>
+            <ReportTable Name="InventoryItem">
+                <Fields>
+                    <ReportField Name="ABCCodeID">
+                    </ReportField>
+                    <ReportField Name="ABCCodeID_description">
+                    </ReportField>
+                    <ReportField Name="ABCCodeID_INABCCode_descr">
+                    </ReportField>
+                    <ReportField Name="ABCCodeIsFixed">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="AccrueCost">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="ActionType">
+                    </ReportField>
+                    <ReportField Name="AttributeDescriptionGroupID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="Availability">
+                    </ReportField>
+                    <ReportField Name="BaseItemVolume">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="BaseItemWeight">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="BasePrice">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="BasePriceDate">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="BaseUnit">
+                    </ReportField>
+                    <ReportField Name="BaseVolume">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="BaseWeight">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="BillingRule">
+                    </ReportField>
+                    <ReportField Name="Body">
+                    </ReportField>
+                    <ReportField Name="chkEquipmentManagement">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="chkServiceManagement">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="ClassID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="COGSAcctID">
+                    </ReportField>
+                    <ReportField Name="COGSAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="COGSAcctID_description">
+                    </ReportField>
+                    <ReportField Name="COGSAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="COGSAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="COGSAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="COGSSubID">
+                    </ReportField>
+                    <ReportField Name="COGSSubID_description">
+                    </ReportField>
+                    <ReportField Name="COGSSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="COGSSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="COGSSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="COGSSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="ColumnAttributeValue">
+                    </ReportField>
+                    <ReportField Name="Commisionable">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="CompletePOLine">
+                    </ReportField>
+                    <ReportField Name="CostBasis">
+                    </ReportField>
+                    <ReportField Name="CountryOfOrigin">
+                    </ReportField>
+                    <ReportField Name="CountryOfOrigin_Country_description">
+                    </ReportField>
+                    <ReportField Name="CountryOfOrigin_description">
+                    </ReportField>
+                    <ReportField Name="CpnyWarrantyType">
+                    </ReportField>
+                    <ReportField Name="CpnyWarrantyValue">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="CreatedByID">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_Creator_displayName">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_Creator_Username">
+                    </ReportField>
+                    <ReportField Name="CreatedByID_description">
+                    </ReportField>
+                    <ReportField Name="CreatedByScreenID">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Day">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Hour">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Month">
+                    </ReportField>
+                    <ReportField Name="CreatedDateTime_Quarter">
+                    </ReportField>
+                    <ReportField Name="CycleID">
+                    </ReportField>
+                    <ReportField Name="CycleID_description">
+                    </ReportField>
+                    <ReportField Name="CycleID_INPICycle_descr">
+                    </ReportField>
+                    <ReportField Name="DecimalBaseUnit">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="DecimalPurchaseUnit">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="DecimalSalesUnit">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="DefaultColumnMatrixAttributeID">
+                    </ReportField>
+                    <ReportField Name="DefaultColumnMatrixAttributeID_CSAttribute_description">
+                    </ReportField>
+                    <ReportField Name="DefaultColumnMatrixAttributeID_description">
+                    </ReportField>
+                    <ReportField Name="DefaultRowMatrixAttributeID">
+                    </ReportField>
+                    <ReportField Name="DefaultRowMatrixAttributeID_CSAttribute_description">
+                    </ReportField>
+                    <ReportField Name="DefaultRowMatrixAttributeID_description">
+                    </ReportField>
+                    <ReportField Name="DefaultSubItemID">
+                    </ReportField>
+                    <ReportField Name="DefaultSubItemID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DefaultSubItemOnEntry">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="DefaultTerm">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="DefaultTermUOM">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID_description">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="DeferralAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID_description">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="DeferralSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="DeferredCode">
+                    </ReportField>
+                    <ReportField Name="Descr">
+                    </ReportField>
+                    <ReportField Name="DfltEarningType">
+                    </ReportField>
+                    <ReportField Name="DfltReceiptLocationID">
+                    </ReportField>
+                    <ReportField Name="DfltReceiptLocationID_description">
+                    </ReportField>
+                    <ReportField Name="DfltReceiptLocationID_INLocation_descr">
+                    </ReportField>
+                    <ReportField Name="DfltReceiptLocationID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DfltShipLocationID">
+                    </ReportField>
+                    <ReportField Name="DfltShipLocationID_description">
+                    </ReportField>
+                    <ReportField Name="DfltShipLocationID_INLocation_descr">
+                    </ReportField>
+                    <ReportField Name="DfltShipLocationID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DfltSiteID">
+                    </ReportField>
+                    <ReportField Name="DfltSiteID_description">
+                    </ReportField>
+                    <ReportField Name="DfltSiteID_INSite_descr">
+                    </ReportField>
+                    <ReportField Name="DfltSiteID_Segment1">
+                    </ReportField>
+                    <ReportField Name="DiscAcctID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="DiscSubID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="EntityTypeID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="EQEnabled">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="EquipmentItemClass">
+                    </ReportField>
+                    <ReportField Name="EquipmentTypeID">
+                    </ReportField>
+                    <ReportField Name="EquipmentTypeID_description">
+                    </ReportField>
+                    <ReportField Name="EquipmentTypeID_FSEquipmentType_descr">
+                    </ReportField>
+                    <ReportField Name="EstimatedDuration">
+                    </ReportField>
+                    <ReportField Name="ExpenseAccrualAcctID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="ExpenseAccrualSubID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="ExpenseAcctID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="ExpenseSubID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="ExportToExternal">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="GenerationRuleCntr">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="GroupMask">
+                        <DataType>Object</DataType>
+                    </ReportField>
+                    <ReportField Name="HasChild">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="HSTariffCode">
+                    </ReportField>
+                    <ReportField Name="ImageUrl">
+                    </ReportField>
+                    <ReportField Name="Included">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="InventoryCD">
+                    </ReportField>
+                    <ReportField Name="InventoryCD_Segment1">
+                    </ReportField>
+                    <ReportField Name="InventoryID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="InvtAcctID">
+                    </ReportField>
+                    <ReportField Name="InvtAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="InvtAcctID_description">
+                    </ReportField>
+                    <ReportField Name="InvtAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="InvtAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="InvtAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="InvtSubID">
+                    </ReportField>
+                    <ReportField Name="InvtSubID_description">
+                    </ReportField>
+                    <ReportField Name="InvtSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="InvtSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="InvtSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="InvtSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="IsSplitted">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="IsTemplate">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="IsTravelItem">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="ItemClassID">
+                    </ReportField>
+                    <ReportField Name="ItemClassID_description">
+                    </ReportField>
+                    <ReportField Name="ItemClassID_INItemClass_descr">
+                    </ReportField>
+                    <ReportField Name="ItemClassID_Segment1">
+                    </ReportField>
+                    <ReportField Name="ItemStatus">
+                    </ReportField>
+                    <ReportField Name="ItemType">
+                    </ReportField>
+                    <ReportField Name="KitItem">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="LastBasePrice">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_description">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_Modifier_displayName">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByID_Modifier_Username">
+                    </ReportField>
+                    <ReportField Name="LastModifiedByScreenID">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Day">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Hour">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Month">
+                    </ReportField>
+                    <ReportField Name="LastModifiedDateTime_Quarter">
+                    </ReportField>
+                    <ReportField Name="LastSiteID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="LastStdCost">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID">
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID_description">
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="LCVarianceAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID_description">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="LCVarianceSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="LotSerClassID">
+                    </ReportField>
+                    <ReportField Name="LotSerClassID_description">
+                    </ReportField>
+                    <ReportField Name="LotSerClassID_INLotSerClass_descr">
+                    </ReportField>
+                    <ReportField Name="LotSerNumberResult">
+                    </ReportField>
+                    <ReportField Name="ManufacturerID">
+                    </ReportField>
+                    <ReportField Name="ManufacturerID_description">
+                    </ReportField>
+                    <ReportField Name="ManufacturerID_FSManufacturer_descr">
+                    </ReportField>
+                    <ReportField Name="ManufacturerModelID">
+                    </ReportField>
+                    <ReportField Name="ManufacturerModelID_description">
+                    </ReportField>
+                    <ReportField Name="ManufacturerModelID_FSManufacturerModel_descr">
+                    </ReportField>
+                    <ReportField Name="MarkupPct">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="Mem_ShowComponent">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="MinGrossProfitPct">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="ModelType">
+                    </ReportField>
+                    <ReportField Name="MovementClassID">
+                    </ReportField>
+                    <ReportField Name="MovementClassID_description">
+                    </ReportField>
+                    <ReportField Name="MovementClassID_INMovementClass_descr">
+                    </ReportField>
+                    <ReportField Name="MovementClassIsFixed">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="MyCustomField">
+                    </ReportField>
+                    <ReportField Name="NegQty">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="NonStockReceipt">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="NonStockReceiptAsService">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="NonStockShip">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="NotAvailMode">
+                    </ReportField>
+                    <ReportField Name="NoteActivity">
+                    </ReportField>
+                    <ReportField Name="NoteFiles">
+                    </ReportField>
+                    <ReportField Name="NoteID">
+                        <DataType>Object</DataType>
+                    </ReportField>
+                    <ReportField Name="NoteImages">
+                    </ReportField>
+                    <ReportField Name="NotePopupText">
+                    </ReportField>
+                    <ReportField Name="NoteText">
+                    </ReportField>
+                    <ReportField Name="OrigLotSerClassID">
+                    </ReportField>
+                    <ReportField Name="OvershipThreshold">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="PackageOption">
+                    </ReportField>
+                    <ReportField Name="PackSeparately">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="ParentItemClassID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="PendingBasePrice">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="PendingBasePriceDate">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="PendingStdCost">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="PendingStdCostDate">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="PendingStdCostDate_Day">
+                    </ReportField>
+                    <ReportField Name="PendingStdCostDate_Hour">
+                    </ReportField>
+                    <ReportField Name="PendingStdCostDate_Month">
+                    </ReportField>
+                    <ReportField Name="PendingStdCostDate_Quarter">
+                    </ReportField>
+                    <ReportField Name="PercentOfSalesPrice">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID">
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID_description">
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="POAccrualAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID_description">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="POAccrualSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="PostClassID">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID_description">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="PPVAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="PPVSubID">
+                    </ReportField>
+                    <ReportField Name="PPVSubID_description">
+                    </ReportField>
+                    <ReportField Name="PPVSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="PPVSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="PPVSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="PPVSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorID">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorID_BAccountR_acctName">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorID_description">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorID_Segment1">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorID_Vendor_acctName">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorLocationID">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorLocationID_description">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorLocationID_Location_descr">
+                    </ReportField>
+                    <ReportField Name="PreferredVendorLocationID_Segment1">
+                    </ReportField>
+                    <ReportField Name="PriceClassID">
+                    </ReportField>
+                    <ReportField Name="PriceClassID_description">
+                    </ReportField>
+                    <ReportField Name="PriceClassID_INPriceClass_description">
+                    </ReportField>
+                    <ReportField Name="PriceManagerID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="PriceManagerID_description">
+                    </ReportField>
+                    <ReportField Name="PriceManagerID_Owner_displayName">
+                    </ReportField>
+                    <ReportField Name="PriceWorkgroupID">
+                    </ReportField>
+                    <ReportField Name="ProductManagerID">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="ProductManagerID_description">
+                    </ReportField>
+                    <ReportField Name="ProductManagerID_Owner_displayName">
+                    </ReportField>
+                    <ReportField Name="ProductWorkgroupID">
+                    </ReportField>
+                    <ReportField Name="PurchaseUnit">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID_description">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="ReasonCodeSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="RecPrice">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="RowAttributeValue">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID_description">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="SalesAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="SalesSubID">
+                    </ReportField>
+                    <ReportField Name="SalesSubID_description">
+                    </ReportField>
+                    <ReportField Name="SalesSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="SalesSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="SalesSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="SalesSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="SalesUnit">
+                    </ReportField>
+                    <ReportField Name="SampleDescription">
+                    </ReportField>
+                    <ReportField Name="SampleID">
+                    </ReportField>
+                    <ReportField Name="Secured">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="Selected">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="StdCost">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="StdCostDate">
+                        <DataType>DateTime</DataType>
+                    </ReportField>
+                    <ReportField Name="StdCostDate_Day">
+                    </ReportField>
+                    <ReportField Name="StdCostDate_Hour">
+                    </ReportField>
+                    <ReportField Name="StdCostDate_Month">
+                    </ReportField>
+                    <ReportField Name="StdCostDate_Quarter">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID_description">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="StdCstRevAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID_description">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="StdCstRevSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID_Account_description">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID_description">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID_Segment1">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID_Segment2">
+                    </ReportField>
+                    <ReportField Name="StdCstVarAcctID_Segment3">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID_description">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID_Segment1">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID_Segment3">
+                    </ReportField>
+                    <ReportField Name="StdCstVarSubID_Sub_description">
+                    </ReportField>
+                    <ReportField Name="StkItem">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="TaxCalcMode">
+                    </ReportField>
+                    <ReportField Name="TaxCategoryID">
+                    </ReportField>
+                    <ReportField Name="TaxCategoryID_description">
+                    </ReportField>
+                    <ReportField Name="TaxCategoryID_TaxCategory_descr">
+                    </ReportField>
+                    <ReportField Name="TemplateItemID">
+                    </ReportField>
+                    <ReportField Name="TemplateItemID_description">
+                    </ReportField>
+                    <ReportField Name="TemplateItemID_InventoryItem_descr">
+                    </ReportField>
+                    <ReportField Name="TemplateItemID_Segment1">
+                    </ReportField>
+                    <ReportField Name="TotalPercentage">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="tstamp">
+                    </ReportField>
+                    <ReportField Name="UndershipThreshold">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="UpdateOnlySelected">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="UseParentSubID">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="ValMethod">
+                    </ReportField>
+                    <ReportField Name="VendorWarrantyType">
+                    </ReportField>
+                    <ReportField Name="VendorWarrantyValue">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                    <ReportField Name="Visibility">
+                    </ReportField>
+                    <ReportField Name="VolumeUOM">
+                    </ReportField>
+                    <ReportField Name="WeightItem">
+                        <DataType>Boolean</DataType>
+                    </ReportField>
+                    <ReportField Name="WeightUOM">
+                    </ReportField>
+                </Fields>
+                <FullName>PX.Objects.IN.InventoryItem</FullName>
+            </ReportTable>
+        </Tables>
+        <Version>20201103</Version>
+        <Width>21.4cm</Width>
+        <Sections>
+            <PageHeader Name="pageHeaderSection1">
+                <Height>29.62963cm</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Variables>
+                    <ReportVariable>
+                        <Name>PrintCount</Name>
+                        <ValueExpr>=[@StartFromSeq] + [@PrintQty] - 1</ValueExpr>
+                    </ReportVariable>
+                </Variables>
+                <Items>
+                    <PictureBox Name="pictureBox1">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=1 &gt;= [@StartFromSeq] And 1 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox10">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 160px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=17 &gt;= [@StartFromSeq] And 17 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox11">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 160px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=31 &gt;= [@StartFromSeq] And 31 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox12">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 160px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=45 &gt;= [@StartFromSeq] And 45 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox13">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 240px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=4 &gt;= [@StartFromSeq] And 4 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox14">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 240px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=18 &gt;= [@StartFromSeq] And 18 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox15">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 240px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=32 &gt;= [@StartFromSeq] And 32 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox16">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 240px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=46 &gt;= [@StartFromSeq] And 46 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox17">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 320px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=47 &gt;= [@StartFromSeq] And 47 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox18">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 320px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=33 &gt;= [@StartFromSeq] And 33 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox19">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 320px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=19 &gt;= [@StartFromSeq] And 19 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox2">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=15 &gt;= [@StartFromSeq] And 15 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox20">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 320px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=5 &gt;= [@StartFromSeq] And 5 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox21">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 400px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=48 &gt;= [@StartFromSeq] And 48 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox22">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 400px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=34 &gt;= [@StartFromSeq] And 34 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox23">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 400px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=20 &gt;= [@StartFromSeq] And 20 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox24">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 400px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=6 &gt;= [@StartFromSeq] And 6 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox25">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 480px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=49 &gt;= [@StartFromSeq] And 49 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox26">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 480px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=35 &gt;= [@StartFromSeq] And 35 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox27">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 480px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=21 &gt;= [@StartFromSeq] And 21 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox28">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 480px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=7 &gt;= [@StartFromSeq] And 7 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox29">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 640px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=37 &gt;= [@StartFromSeq] And 37 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox3">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=29 &gt;= [@StartFromSeq] And 29 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox30">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 560px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=36 &gt;= [@StartFromSeq] And 36 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox31">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 560px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=22 &gt;= [@StartFromSeq] And 22 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox32">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 560px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=8 &gt;= [@StartFromSeq] And 8 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox33">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 720px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=24 &gt;= [@StartFromSeq] And 24 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox34">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 640px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=23 &gt;= [@StartFromSeq] And 23 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox35">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 800px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=25 &gt;= [@StartFromSeq] And 25 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox36">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 878px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=26 &gt;= [@StartFromSeq] And 26 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox37">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 958px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>190px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=27 &gt;= [@StartFromSeq] And 27 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox38">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 1038px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>190px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=28 &gt;= [@StartFromSeq] And 28 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox39">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 720px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=38 &gt;= [@StartFromSeq] And 38 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox4">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=43 &gt;= [@StartFromSeq] And 43 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox40">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 800px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=39 &gt;= [@StartFromSeq] And 39 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox41">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 878px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=40 &gt;= [@StartFromSeq] And 40 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox42">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 958px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=41 &gt;= [@StartFromSeq] And 41 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox43">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 1038px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=42 &gt;= [@StartFromSeq] And 42 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox44">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 560px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=50 &gt;= [@StartFromSeq] And 50 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox45">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 640px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=51 &gt;= [@StartFromSeq] And 51 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox46">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 720px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=52 &gt;= [@StartFromSeq] And 52 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox47">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 800px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=53 &gt;= [@StartFromSeq] And 53 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox48">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 878px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=54 &gt;= [@StartFromSeq] And 54 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox49">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 958px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=55 &gt;= [@StartFromSeq] And 55 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox5">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 80px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=2 &gt;= [@StartFromSeq] And 2 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox50">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 1038px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=56 &gt;= [@StartFromSeq] And 56 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox51">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 640px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=9 &gt;= [@StartFromSeq] And 9 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox52">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 1038px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=14 &gt;= [@StartFromSeq] And 14 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox53">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 958px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=13 &gt;= [@StartFromSeq] And 13 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox54">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 878px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=12 &gt;= [@StartFromSeq] And 12 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox55">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 800px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=11 &gt;= [@StartFromSeq] And 11 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox56">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 720px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=10 &gt;= [@StartFromSeq] And 10 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox6">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>208px, 80px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=16 &gt;= [@StartFromSeq] And 16 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox7">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>408px, 80px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=30 &gt;= [@StartFromSeq] And 30 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox8">
+                        <BarcodeSettings>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>616px, 80px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=44 &gt;= [@StartFromSeq] And 44 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox9">
+                        <BarcodeSettings>
+                            <LeftMargin>10</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code128</BarcodeType>
+                        <Location>8px, 160px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>189px, 60px</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=3 &gt;= [@StartFromSeq] And 3 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <TextBox Name="textBox1">
+                        <Location>8px, 60px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=1 &gt;= [@StartFromSeq] And 1 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox10">
+                        <Location>208px, 220px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=17 &gt;= [@StartFromSeq] And 17 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox11">
+                        <Location>408px, 220px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=31 &gt;= [@StartFromSeq] And 31 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox12">
+                        <Location>616px, 220px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=45 &gt;= [@StartFromSeq] And 45 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox13">
+                        <Location>8px, 300px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=4 &gt;= [@StartFromSeq] And 4 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox14">
+                        <Location>208px, 300px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=18 &gt;= [@StartFromSeq] And 18 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox15">
+                        <Location>408px, 300px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=32 &gt;= [@StartFromSeq] And 32 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox16">
+                        <Location>616px, 300px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=46 &gt;= [@StartFromSeq] And 46 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox17">
+                        <Location>616px, 380px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=47 &gt;= [@StartFromSeq] And 47 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox18">
+                        <Location>408px, 380px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=33 &gt;= [@StartFromSeq] And 33 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox19">
+                        <Location>208px, 380px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=19 &gt;= [@StartFromSeq] And 19 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox2">
+                        <Location>208px, 60px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=15 &gt;= [@StartFromSeq] And 15 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox20">
+                        <Location>8px, 380px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=5 &gt;= [@StartFromSeq] And 5 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox21">
+                        <Location>616px, 460px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=48 &gt;= [@StartFromSeq] And 48 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox22">
+                        <Location>408px, 460px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=34 &gt;= [@StartFromSeq] And 34 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox23">
+                        <Location>208px, 460px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=20 &gt;= [@StartFromSeq] And 20 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox24">
+                        <Location>8px, 460px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=6 &gt;= [@StartFromSeq] And 6 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox25">
+                        <Location>616px, 540px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=49 &gt;= [@StartFromSeq] And 49 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox26">
+                        <Location>408px, 540px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=35 &gt;= [@StartFromSeq] And 35 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox27">
+                        <Location>208px, 540px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=21 &gt;= [@StartFromSeq] And 21 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox28">
+                        <Location>8px, 540px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=7 &gt;= [@StartFromSeq] And 7 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox29">
+                        <Location>408px, 700px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=37 &gt;= [@StartFromSeq] And 37 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox3">
+                        <Location>408px, 60px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=29 &gt;= [@StartFromSeq] And 29 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox30">
+                        <Location>408px, 620px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=36 &gt;= [@StartFromSeq] And 36 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox31">
+                        <Location>208px, 620px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=22 &gt;= [@StartFromSeq] And 22 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox32">
+                        <Location>8px, 620px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=8 &gt;= [@StartFromSeq] And 8 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox33">
+                        <Location>208px, 780px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=24 &gt;= [@StartFromSeq] And 24 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox34">
+                        <Location>208px, 700px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=23 &gt;= [@StartFromSeq] And 23 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox35">
+                        <Location>208px, 860px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=25 &gt;= [@StartFromSeq] And 25 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox36">
+                        <Location>208px, 938px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=26 &gt;= [@StartFromSeq] And 26 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox37">
+                        <Location>208px, 1018px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=27 &gt;= [@StartFromSeq] And 27 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox38">
+                        <Location>208px, 1098px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=28 &gt;= [@StartFromSeq] And 28 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox39">
+                        <Location>408px, 780px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=38 &gt;= [@StartFromSeq] And 38 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox4">
+                        <Location>616px, 60px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=43 &gt;= [@StartFromSeq] And 43 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox40">
+                        <Location>408px, 860px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=39 &gt;= [@StartFromSeq] And 39 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox41">
+                        <Location>408px, 938px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=40 &gt;= [@StartFromSeq] And 40 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox42">
+                        <Location>408px, 1018px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=41 &gt;= [@StartFromSeq] And 41 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox43">
+                        <Location>408px, 1098px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=42 &gt;= [@StartFromSeq] And 42 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox44">
+                        <Location>616px, 620px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=50 &gt;= [@StartFromSeq] And 50 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox45">
+                        <Location>616px, 700px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=51 &gt;= [@StartFromSeq] And 51 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox46">
+                        <Location>616px, 780px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=52 &gt;= [@StartFromSeq] And 52 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox47">
+                        <Location>616px, 860px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=53 &gt;= [@StartFromSeq] And 53 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox48">
+                        <Location>616px, 938px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=54 &gt;= [@StartFromSeq] And 54 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox49">
+                        <Location>616px, 1018px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=55 &gt;= [@StartFromSeq] And 55 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox5">
+                        <Location>8px, 140px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=2 &gt;= [@StartFromSeq] And 2 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox50">
+                        <Location>616px, 1098px</Location>
+                        <Size>189px, 15.59px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=56 &gt;= [@StartFromSeq] And 56 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox51">
+                        <Location>8px, 700px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=9 &gt;= [@StartFromSeq] And 9 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox52">
+                        <Location>8px, 1098px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=14 &gt;= [@StartFromSeq] And 14 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox53">
+                        <Location>8px, 1018px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=13 &gt;= [@StartFromSeq] And 13 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox54">
+                        <Location>8px, 938px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=12 &gt;= [@StartFromSeq] And 12 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox55">
+                        <Location>8px, 860px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=11 &gt;= [@StartFromSeq] And 11 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox56">
+                        <Location>8px, 780px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=10 &gt;= [@StartFromSeq] And 10 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox6">
+                        <Location>208px, 140px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=16 &gt;= [@StartFromSeq] And 16 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox7">
+                        <Location>408px, 140px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=30 &gt;= [@StartFromSeq] And 30 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox8">
+                        <Location>616px, 140px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=44 &gt;= [@StartFromSeq] And 44 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                    <TextBox Name="textBox9">
+                        <Location>8px, 220px</Location>
+                        <Size>189px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=3 &gt;= [@StartFromSeq] And 3 &lt;= $PrintCount</VisibleExpr>
+                    </TextBox>
+                </Items>
+            </PageHeader>
+            <Detail Name="detailSection1">
+                <Expanded>False</Expanded>
+                <Height>0px</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Visible>False</Visible>
+            </Detail>
+            <PageFooter Name="pageFooterSection1">
+                <Height>0px</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Visible>False</Visible>
+            </PageFooter>
+        </Sections>
+    </Report>
+</Report>
