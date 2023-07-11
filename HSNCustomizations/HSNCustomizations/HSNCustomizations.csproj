@@ -126,6 +126,7 @@
     <Compile Include="Graph_Extension\QuoteMaint.cs" />
     <Compile Include="Graph_Extension\ServiceContractEntry.cs" />
     <Compile Include="Graph_Extension\SM_SOInvoiceEntry.cs" />
+    <Compile Include="Graph_Extension\SM_SOOrderEntry.cs" />
     <Compile Include="Graph_Extension\SOInvoiceEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderEntry.cs" />
     <Compile Include="Graph_Extension\SvrOrdTypeMaint.cs" />
