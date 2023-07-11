@@ -1,0 +1,24 @@
+﻿<Page path="~/pages/in/in501000.aspx" ControlId="1" pageSource="vVddc9o6EH3PTP6Dx5k8FkinfcmYzAUTWmaAcoEmebsjbAXUyJKrjwB9uL/97toIzEfMZULL8GCvVnv2rFZHcnD9lzcgU+p1iZhaeKj74ZXv9Yg2VOFAm3Gw/VvdWHS1y7R5YHReSTKj7zWskfevVJhHpqhN675RlvreA+EsJoYO6U9Ltan7z4RrsIcyXsXt9D/Xbmq1WoXodFGJtH954cGvI2ZUMaPrPgL+47x8b8wMTvsuDD7EWeq+d313eXF5EQCVPMvxMqXeA1PGEj4gZnY0fwwQQAq3oRQGaHidVt2P4PkGk81MA04i+lXymCocTGetke8pKwjQGlH1CmHu8uSDdHE7eGoRQ0bSqohmwWLte48sxlyAyfV6qs6nQraaTZDaOKscMuiTBN4HT5Vvkx80MrrS6cO/JSObQD5DyinBYg4US4haIh+spxtHjn4VeVULxN7i+fFtnt1Sml8Ui7MoU3jYY/WVsukM3j/VaulipwAjs0S+vz4wEdPFrXeD69vgXM5hkZiYulI0IsOk0AOpGT6AWaarNsFfNmNEiYpmru02pXeVbxITzb6n2IvOqRH/sNpgP4zYL7BiC0NSL0zgpFVRO+KnhY6G4pA0B3flhaCjpYgKWWHUu01eQZe+Uq4Llu2iZcNZqj2aTKjaW7udmdnsoZyPaZJy4HFgeAPQJUtpzdByursiI0OUCSW3icsZdv4EEl2tTS9vBCV5XpYnMFRLscIZjV6acpH30uxlBI0ZGbrfDMi1zSiPsZOcT3nsMV2Y+5jlfUrjb4pNezIGWmXBi173gsCuAmM7V55yuJaSaUvOxQoOlgP3YRnW2uU0oJy/VCugIX3uT1QZjvN4Fx9Ye2N16bqsPE6EgXYcs4QWVmqsiEBzGdjG513FazMxgMNCxp1WGdqW22mAfYsbtMhOGsL/NstSdmufc4A1EmmFOYrn3E6D3NllTViXaNaEwyW0IIGlVd33fRd01hJUR0fbJvP5P1BBtVwzg1wLd3V6O0vU69wvP276lvM16kFZy9wyZWyg6+pQB7INzqagvCGoPPJC8YC3lYQeq9ZuHu5E28+kqIHnirnWuiGFEztrUamQk+N3LiAndl0mXkKZJESAEe837nz0z4Xk9O53M9pI3bkibslZi2no72VbqgQ3zdXVhyv4nQq21dXHCK3VrdDUQ7zs/XbUUMLl6M/DOml9L/DbMPtaetb2yyTzsEQe1sCgun1ZLV5uq3u32yC/pzeJ8lr0mVhuckPJzg3wzo3XzOzKSZjAW/AjfA7IeUHc853YY8J9THzEDwUXp5DkgW+d/wA=">
+    <PXGridLevel DataMember="INDocumentList" ParentId="phL_grid_Levels#0" TypeFullName="PX.Web.UI.PXGridLevel">
+        <Children Key="Columns">
+            <AddItem>
+                <PXGridColumn TypeFullName="PX.Web.UI.PXGridColumn">
+                    <Prop Key="DataField" Value="UsrSrvOrdType" />
+                    <Prop Key="Width" Value="70" />
+                </PXGridColumn>
+            </AddItem>
+            <PXGridColumn DataField="Status" OriginalIndex="4" />
+        </Children>
+        <Children Key="RowTemplate">
+            <AddItem>
+                <PXSelector TypeFullName="PX.Web.UI.PXSelector">
+                    <Prop Key="Virtual:ApplyStylesheetSkin" />
+                    <Prop Key="ID" Value="CstPXSelector1" />
+                    <Prop Key="DataField" Value="UsrSrvOrdType" />
+                    <Prop Key="AllowEdit" Value="True" />
+                </PXSelector>
+            </AddItem>
+            <PXDropDown DataField="Status" OriginalIndex="5" />
+        </Children>
+    </PXGridLevel>
+</Page>
