@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PX.Objects.FS
 {
-    public class FSEquipmentExtension : PXCacheExtension<FSEquipment>
+    public class FSEquipmentExtension_Highcare : PXCacheExtension<FSEquipment>
     {
         #region UsrPINCode
         [PXDBString(100, IsUnicode = true, InputMask = "")]

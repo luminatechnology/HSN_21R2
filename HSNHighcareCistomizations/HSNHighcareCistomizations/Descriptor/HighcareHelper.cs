@@ -51,14 +51,15 @@ namespace HSNHighcareCistomizations.Descriptor
                 try
                 {
                     var preference = PXDatabase.Select<LUMHighcarePreference>().FirstOrDefault();
-                    client.DefaultRequestHeaders.Add("Authorization", $"bearer {preference?.SecretKey}");
+                    //client.DefaultRequestHeaders.Add("Authorization", $"bearer {preference?.SecretKey}");
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, preference?.ReturnUrl);
+                    client.DefaultRequestHeaders.Add("User-Agent", "Acumatica");
                     request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
                     HttpResponseMessage response = client.SendAsync(request).GetAwaiter().GetResult();
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         return (true, string.Empty);
                     else
-                        throw new Exception("Call return api failed");
+                        throw new Exception($"Call return api failed ({response.StatusCode})");
                 }
                 catch (Exception ex)
                 {

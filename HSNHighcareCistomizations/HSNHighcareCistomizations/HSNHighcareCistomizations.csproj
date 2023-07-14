@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAC\ARRegisterKvExt.cs" />
     <Compile Include="DAC\LumCustomerPINCode.cs" />
     <Compile Include="DAC_Extension\FSAppointmentDetExtension.cs" />
     <Compile Include="DAC_Extension\FSEquipmentExtension.cs" />
