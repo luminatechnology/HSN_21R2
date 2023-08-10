@@ -170,7 +170,7 @@ namespace PX.Objects.FS
                     sOLineRow.SiteID = docLine.SiteID;
                     #region Fix Create Sales lot Serial Number can not be empty bug from Appointment (Customization)
                     // Fix Create Sales lot Serial Number can not be empty bug from Appointment( LotSerialClass == When Used will happen) 
-                    if (docLine.SiteLocationID != null && lotserialclass.LotSerAssign == PX.Objects.IN.INLotSerAssign.WhenReceived)
+                    if (docLine.SiteLocationID != null && lotserialclass?.LotSerAssign == PX.Objects.IN.INLotSerAssign.WhenReceived)
                     {
                         sOLineRow.LocationID = docLine.SiteLocationID;
                     }
@@ -237,7 +237,7 @@ namespace PX.Objects.FS
 
                                 #region Fix Create Sales lot Serial Number can not be empty bug from Appointment (Customization)
                                 // Fix Create Sales lot Serial Number can not be empty bug from Appointment( LotSerialClass == When Used will happen) 
-                                if (lotserialclass.LotSerAssign == PX.Objects.IN.INLotSerAssign.WhenReceived)
+                                if (lotserialclass?.LotSerAssign == PX.Objects.IN.INLotSerAssign.WhenReceived)
                                 {
                                     newSplit.LocationID = split.LocationID != null ? split.LocationID : newSplit.LocationID;
                                     newSplit.LotSerialNbr = split.LotSerialNbr;
