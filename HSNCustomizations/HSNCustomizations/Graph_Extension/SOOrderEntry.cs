@@ -1,15 +1,16 @@
 ﻿using HSNCustomizations.DAC;
+using HSNCustomizations.Descriptor;
+using PX.Common;
 using PX.Data;
 using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.CS;
+using PX.Objects.CR;
+using PX.Objects.IN;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PX.Objects.CR;
-using HSNCustomizations.Descriptor;
 
 namespace PX.Objects.SO
 {
@@ -19,31 +20,51 @@ namespace PX.Objects.SO
                 .InnerJoin<BAccount>.On<Contact.bAccountID.IsEqual<BAccount.bAccountID>>
                 .Where<Contact.bAccountID.IsEqual<SOOrder.customerID.FromCurrent>>.View StandardContactSelector;
 
-        #region Events
+        #region Delegate Actions
+        public delegate IEnumerable CreateShipmentIssueDelegate(PXAdapter adapter, [PXDate] DateTime? shipDate, [PXInt] int? siteID);
+        [PXOverride]
+        public IEnumerable CreateShipmentIssue(PXAdapter adapter, [PXDate] DateTime? shipDate, [PXInt] int? siteID, CreateShipmentIssueDelegate baseMethod)
+        {
+            ///<remarks>
+            /// The system should verify that the Details tab contains a minimum of one inventory item with its type (InventoryItem.ItemType) marked as "Service" 
+            /// and its amount is greater than 0 at the time the 'Create Shipment' action is executed. 
+            ///</remarks>
+            List<SOLine> lines = Base.Transactions.Select().RowCast<SOLine>().Where(w => InventoryItem.PK.Find(Base, w.InventoryID)?.ItemType == INItemTypes.ServiceItem).ToList();
 
+            if (Base.soordertype.Current?.GetExtension<SOOrderTypeExt>().UsrRequireAtLeastOneSrvItemInSO == true &&
+                lines.Exists(f => f.CuryLineAmt > 0m) == false)
+            {
+                throw new PXSetPropertyException<SOLine.inventoryID>(HSNMessages.SrvItemWithNoAmt);
+            }
+
+            return baseMethod(adapter, shipDate, siteID);
+        }
+        #endregion
+
+        #region Events
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         [PXUIEnabled(typeof(Where<SOOrder.customerID, IsNotNull>))]
         [ContactRaw(typeof(SOOrder.customerID), null, null, null, new[]
         {
-             typeof(Contact.displayName),
-             typeof(ContactExtensions.usrLocationID),
-             typeof(Contact.salutation),
-             typeof(Contact.fullName),
-             typeof(BAccount.acctCD),
-             typeof(Contact.eMail),
-             typeof(Contact.phone1),
-             typeof(Contact.contactType)
-            }, new string[]
+            typeof(Contact.displayName),
+            typeof(ContactExtensions.usrLocationID),
+            typeof(Contact.salutation),
+            typeof(Contact.fullName),
+            typeof(BAccount.acctCD),
+            typeof(Contact.eMail),
+            typeof(Contact.phone1),
+            typeof(Contact.contactType)
+        }, new string[]
         {
             "Contact",
-                        "Location",
-                        "Job Title",
-                        "Account Name",
-                        "Business Account",
-                        "Email",
-                        "Phone GG",
-                        "Type"
-            }, WithContactDefaultingByBAccount = true)]
+            "Location",
+            "Job Title",
+            "Account Name",
+            "Business Account",
+            "Email",
+            "Phone GG",
+            "Type"
+        }, WithContactDefaultingByBAccount = true)]
         public virtual void _(Events.CacheAttached<SOOrder.contactID> e) { }
 
         public virtual void _(Events.FieldUpdated<SOOrder.customerID> e, PXFieldUpdated baseHandler)
@@ -68,7 +89,6 @@ namespace PX.Objects.SO
                     Base.Document.Ask(PXMessages.LocalizeFormatNoPrefix("This is a Cash Sale Customer, please alter the Order Type to “CS” accordingly."), MessageButtons.OK);
             }
         }
-
         #endregion
     }
 }

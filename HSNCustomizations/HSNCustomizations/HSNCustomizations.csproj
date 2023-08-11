@@ -95,6 +95,7 @@
     <Compile Include="DAC_Extension\FSManufacturerModelExtension.cs" />
     <Compile Include="DAC_Extension\FSServiceOrderExtensions.cs" />
     <Compile Include="DAC_Extension\FSSrvOrdTypeExtensions.cs" />
+    <Compile Include="DAC_Extension\SOOrderTypeExtensions.cs" />
     <Compile Include="Descriptor\FSStageControlHandler.cs" />
     <Compile Include="Descriptor\FSWorkflowStageHandler.cs" />
     <Compile Include="Descriptor\HSNMessages.cs" />
