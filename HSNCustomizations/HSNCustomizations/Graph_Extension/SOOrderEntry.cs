@@ -9,6 +9,7 @@ using PX.Objects.CR;
 using PX.Objects.IN;
 using System.Collections.Generic;
 using System.Linq;
+using PX.Objects.CN.JointChecks.AP.Services.ChecksAndPaymentsServices.Validation;
 
 namespace PX.Objects.SO
 {
@@ -60,9 +61,9 @@ namespace PX.Objects.SO
                 
                 var line = lines.Find(f => f.CuryLineAmt <= 0m);
 
-                if (line != null)
+                if (lines.Count == 0 || line != null)
                 {
-                    Base.Transactions.Cache.RaiseExceptionHandling<SOLine.inventoryID>(line, null, new PXSetPropertyException(HSNMessages.NonStkItemWithNoAmt, PXErrorLevel.RowError));
+                    throw new PXException(HSNMessages.NonStkItemWithNoAmt);
                 }
             }
         }
