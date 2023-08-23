@@ -82,6 +82,7 @@
     <Compile Include="Graph_Extensions\APInvoiceEntry.cs" />
     <Compile Include="Graph_Extensions\AppointmentEntry.cs" />
     <Compile Include="Graph_Extensions\AssetMaint.cs" />
+    <Compile Include="Graph_Extensions\JournalEntry.cs" />
     <Compile Include="LSLedgerStlmtEntry.cs" />
     <Compile Include="LSLedgerStlmtInq.cs" />
     <Compile Include="LSStlmtAccountMaint.cs" />

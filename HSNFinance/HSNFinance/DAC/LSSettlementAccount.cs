@@ -10,11 +10,13 @@ namespace HSNFinance.DAC
     [PXCacheName("Settlement Account")]
     public class LSSettlementAccount : PX.Data.IBqlTable //Account
     {
-		#region AccountID	
-		[Account(DisplayName = "Account", IsKey = true,
-                 Visibility = PXUIVisibility.Visible, 
-                 DescriptionField = typeof(Account.description), 
-                 AvoidControlAccounts = true)]
+        #region AccountID	
+        //[Account(DisplayName = "Account", IsKey = true,
+        //               Visibility = PXUIVisibility.Visible, 
+        //               DescriptionField = typeof(Account.description), 
+        //               AvoidControlAccounts = true)]
+        [PXDBInt(IsKey = true)]
+        [PXDimensionSelector(AccountAttribute.DimensionName, typeof(Account.accountID), typeof(Account.accountCD))]
 		public virtual int? AccountID { get; set; }
 		public abstract class accountID : PX.Data.BQL.BqlInt.Field<accountID> { }
 		#endregion
