@@ -1,5 +1,9 @@
 ﻿<Report Name="lm641000.rpx">
     <Report version="20201103" Name="report1">
+        <CommonSettings>
+            <PdfCompressed>False</PdfCompressed>
+            <ViewPdf>True</ViewPdf>
+        </CommonSettings>
         <Filters>
             <FilterExp>
                 <DataField>InventoryItem.InventoryCD</DataField>
@@ -9,9 +13,9 @@
         <PageSettings>
             <Margins>
                 <Bottom>0px</Bottom>
-                <Left>0px</Left>
+                <Left>15mm</Left>
                 <Right>0px</Right>
-                <Top>0px</Top>
+                <Top>10mm</Top>
             </Margins>
         </PageSettings>
         <Parameters>
@@ -222,38 +226,6 @@
                         <Label>48</Label>
                         <Value>48</Value>
                     </ParameterValue>
-                    <ParameterValue>
-                        <Label>49</Label>
-                        <Value>49</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>50</Label>
-                        <Value>50</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>51</Label>
-                        <Value>51</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>52</Label>
-                        <Value>52</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>53</Label>
-                        <Value>53</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>54</Label>
-                        <Value>54</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>55</Label>
-                        <Value>55</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>56</Label>
-                        <Value>56</Value>
-                    </ParameterValue>
                 </ValidValues>
             </ReportParameter>
             <ReportParameter>
@@ -455,38 +427,6 @@
                     <ParameterValue>
                         <Label>48th</Label>
                         <Value>48</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>49th</Label>
-                        <Value>49</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>50th</Label>
-                        <Value>50</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>51st</Label>
-                        <Value>51</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>52nd</Label>
-                        <Value>52</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>53rd</Label>
-                        <Value>53</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>54th</Label>
-                        <Value>54</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>55th</Label>
-                        <Value>55</Value>
-                    </ParameterValue>
-                    <ParameterValue>
-                        <Label>56th</Label>
-                        <Value>56</Value>
                     </ParameterValue>
                 </ValidValues>
             </ReportParameter>
@@ -1236,10 +1176,10 @@
             </ReportTable>
         </Tables>
         <Version>20201103</Version>
-        <Width>21.4cm</Width>
+        <Width>19.5cm</Width>
         <Sections>
             <PageHeader Name="pageHeaderSection1">
-                <Height>29.62963cm</Height>
+                <Height>28.5cm</Height>
                 <PrintEmpty>False</PrintEmpty>
                 <Variables>
                     <ReportVariable>
@@ -1250,1362 +1190,820 @@
                 <Items>
                     <PictureBox Name="pictureBox1">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 0px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 0px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
                         <VisibleExpr>=1 &gt;= [@StartFromSeq] And 1 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox10">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 160px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 594px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=17 &gt;= [@StartFromSeq] And 17 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=10 &gt;= [@StartFromSeq] And 10 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox11">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 160px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 660px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=31 &gt;= [@StartFromSeq] And 31 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=11 &gt;= [@StartFromSeq] And 11 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox12">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 160px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 726px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=45 &gt;= [@StartFromSeq] And 45 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=12 &gt;= [@StartFromSeq] And 12 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox13">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 240px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 792px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=4 &gt;= [@StartFromSeq] And 4 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=13 &gt;= [@StartFromSeq] And 13 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox14">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 240px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 858px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=18 &gt;= [@StartFromSeq] And 18 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=14 &gt;= [@StartFromSeq] And 14 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox15">
                         <BarcodeSettings>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 240px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 924px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=32 &gt;= [@StartFromSeq] And 32 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=15 &gt;= [@StartFromSeq] And 15 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox16">
                         <BarcodeSettings>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 240px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 990px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=46 &gt;= [@StartFromSeq] And 46 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=16 &gt;= [@StartFromSeq] And 16 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox17">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 320px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 0px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=47 &gt;= [@StartFromSeq] And 47 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=17 &gt;= [@StartFromSeq] And 17 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox18">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 320px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 66px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=33 &gt;= [@StartFromSeq] And 33 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=18 &gt;= [@StartFromSeq] And 18 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox19">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 320px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 132px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
                         <VisibleExpr>=19 &gt;= [@StartFromSeq] And 19 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox2">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 0px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 132px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=15 &gt;= [@StartFromSeq] And 15 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=3 &gt;= [@StartFromSeq] And 3 &lt;= $PrintCount</VisibleExpr>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox2_a67">
+                        <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
+                            <TopMargin>0</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 66px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>60mm, 16mm</Size>
+                        <Sizing>AutoSize</Sizing>
+                        <Source>Barcode</Source>
+                        <Value>=[InventoryItem.InventoryCD]</Value>
+                        <VisibleExpr>=2 &gt;= [@StartFromSeq] And 2 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox20">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 320px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 198px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=5 &gt;= [@StartFromSeq] And 5 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=20 &gt;= [@StartFromSeq] And 20 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox21">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 400px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 264px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=48 &gt;= [@StartFromSeq] And 48 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=21 &gt;= [@StartFromSeq] And 21 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox22">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 400px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 330px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=34 &gt;= [@StartFromSeq] And 34 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=22 &gt;= [@StartFromSeq] And 22 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox23">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 400px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 396px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=20 &gt;= [@StartFromSeq] And 20 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=23 &gt;= [@StartFromSeq] And 23 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox24">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 400px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 462px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=6 &gt;= [@StartFromSeq] And 6 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=24 &gt;= [@StartFromSeq] And 24 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox25">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 480px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 528px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=49 &gt;= [@StartFromSeq] And 49 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=25 &gt;= [@StartFromSeq] And 25 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox26">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 480px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 594px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=35 &gt;= [@StartFromSeq] And 35 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=26 &gt;= [@StartFromSeq] And 26 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox27">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 480px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 660px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=21 &gt;= [@StartFromSeq] And 21 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=27 &gt;= [@StartFromSeq] And 27 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox28">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 480px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 726px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=7 &gt;= [@StartFromSeq] And 7 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=28 &gt;= [@StartFromSeq] And 28 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox29">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 640px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 792px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=37 &gt;= [@StartFromSeq] And 37 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=29 &gt;= [@StartFromSeq] And 29 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox3">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 0px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 198px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=29 &gt;= [@StartFromSeq] And 29 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=4 &gt;= [@StartFromSeq] And 4 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox30">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 560px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 858px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=36 &gt;= [@StartFromSeq] And 36 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=30 &gt;= [@StartFromSeq] And 30 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox31">
                         <BarcodeSettings>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 560px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 924px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=22 &gt;= [@StartFromSeq] And 22 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=31 &gt;= [@StartFromSeq] And 31 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox32">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 560px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 990px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=8 &gt;= [@StartFromSeq] And 8 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=32 &gt;= [@StartFromSeq] And 32 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox33">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 720px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 0px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=24 &gt;= [@StartFromSeq] And 24 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=33 &gt;= [@StartFromSeq] And 33 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox34">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 640px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 66px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=23 &gt;= [@StartFromSeq] And 23 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=34 &gt;= [@StartFromSeq] And 34 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox35">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 800px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 132px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=25 &gt;= [@StartFromSeq] And 25 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=35 &gt;= [@StartFromSeq] And 35 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox36">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 878px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 198px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=26 &gt;= [@StartFromSeq] And 26 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=36 &gt;= [@StartFromSeq] And 36 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox37">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 958px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 264px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>190px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=27 &gt;= [@StartFromSeq] And 27 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=37 &gt;= [@StartFromSeq] And 37 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox38">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 1038px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 330px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>190px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=28 &gt;= [@StartFromSeq] And 28 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=38 &gt;= [@StartFromSeq] And 38 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox39">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 720px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 396px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=38 &gt;= [@StartFromSeq] And 38 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox4">
-                        <BarcodeSettings>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 0px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=43 &gt;= [@StartFromSeq] And 43 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=39 &gt;= [@StartFromSeq] And 39 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox40">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 800px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 462px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=39 &gt;= [@StartFromSeq] And 39 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=40 &gt;= [@StartFromSeq] And 40 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox41">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 878px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 528px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=40 &gt;= [@StartFromSeq] And 40 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=41 &gt;= [@StartFromSeq] And 41 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox42">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 958px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 594px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=41 &gt;= [@StartFromSeq] And 41 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=42 &gt;= [@StartFromSeq] And 42 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox43">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 1038px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 660px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=42 &gt;= [@StartFromSeq] And 42 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=43 &gt;= [@StartFromSeq] And 43 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox44">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 560px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 726px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=50 &gt;= [@StartFromSeq] And 50 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=44 &gt;= [@StartFromSeq] And 44 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox45">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 640px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 792px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=51 &gt;= [@StartFromSeq] And 51 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=45 &gt;= [@StartFromSeq] And 45 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox46">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 720px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 858px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=52 &gt;= [@StartFromSeq] And 52 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=46 &gt;= [@StartFromSeq] And 46 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox47">
                         <BarcodeSettings>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 800px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 924px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=53 &gt;= [@StartFromSeq] And 53 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=47 &gt;= [@StartFromSeq] And 47 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox48">
                         <BarcodeSettings>
+                            <BarHeight>540</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 878px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 990px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 17mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=54 &gt;= [@StartFromSeq] And 54 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox49">
-                        <BarcodeSettings>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 958px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=55 &gt;= [@StartFromSeq] And 55 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=48 &gt;= [@StartFromSeq] And 48 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox5">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 80px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 264px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=2 &gt;= [@StartFromSeq] And 2 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox50">
-                        <BarcodeSettings>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 1038px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=56 &gt;= [@StartFromSeq] And 56 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox51">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 640px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=9 &gt;= [@StartFromSeq] And 9 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox52">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 1038px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=14 &gt;= [@StartFromSeq] And 14 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox53">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 958px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=13 &gt;= [@StartFromSeq] And 13 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox54">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 878px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=12 &gt;= [@StartFromSeq] And 12 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox55">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 800px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=11 &gt;= [@StartFromSeq] And 11 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <PictureBox Name="pictureBox56">
-                        <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
-                            <TopMargin>0</TopMargin>
-                        </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 720px</Location>
-                        <MimeType>image/bmp</MimeType>
-                        <QRCodeSettings />
-                        <Size>189px, 60px</Size>
-                        <Sizing>AutoSize</Sizing>
-                        <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=10 &gt;= [@StartFromSeq] And 10 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=5 &gt;= [@StartFromSeq] And 5 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox6">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>208px, 80px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 330px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=16 &gt;= [@StartFromSeq] And 16 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=6 &gt;= [@StartFromSeq] And 6 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox7">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>408px, 80px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 396px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=30 &gt;= [@StartFromSeq] And 30 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=7 &gt;= [@StartFromSeq] And 7 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox8">
                         <BarcodeSettings>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>616px, 80px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 462px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
                         <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=44 &gt;= [@StartFromSeq] And 44 &lt;= $PrintCount</VisibleExpr>
+                        <VisibleExpr>=8 &gt;= [@StartFromSeq] And 8 &lt;= $PrintCount</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox9">
                         <BarcodeSettings>
-                            <LeftMargin>10</LeftMargin>
+                            <BarHeight>500</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
                             <TopMargin>0</TopMargin>
                         </BarcodeSettings>
-                        <BarcodeType>Code128</BarcodeType>
-                        <Location>8px, 160px</Location>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 528px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
-                        <Size>189px, 60px</Size>
+                        <Size>60mm, 16mm</Size>
                         <Sizing>AutoSize</Sizing>
                         <Source>Barcode</Source>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=3 &gt;= [@StartFromSeq] And 3 &lt;= $PrintCount</VisibleExpr>
-                    </PictureBox>
-                    <TextBox Name="textBox1">
-                        <Location>8px, 60px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=1 &gt;= [@StartFromSeq] And 1 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox10">
-                        <Location>208px, 220px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=17 &gt;= [@StartFromSeq] And 17 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox11">
-                        <Location>408px, 220px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=31 &gt;= [@StartFromSeq] And 31 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox12">
-                        <Location>616px, 220px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=45 &gt;= [@StartFromSeq] And 45 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox13">
-                        <Location>8px, 300px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=4 &gt;= [@StartFromSeq] And 4 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox14">
-                        <Location>208px, 300px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=18 &gt;= [@StartFromSeq] And 18 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox15">
-                        <Location>408px, 300px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=32 &gt;= [@StartFromSeq] And 32 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox16">
-                        <Location>616px, 300px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=46 &gt;= [@StartFromSeq] And 46 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox17">
-                        <Location>616px, 380px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=47 &gt;= [@StartFromSeq] And 47 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox18">
-                        <Location>408px, 380px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=33 &gt;= [@StartFromSeq] And 33 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox19">
-                        <Location>208px, 380px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=19 &gt;= [@StartFromSeq] And 19 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox2">
-                        <Location>208px, 60px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=15 &gt;= [@StartFromSeq] And 15 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox20">
-                        <Location>8px, 380px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=5 &gt;= [@StartFromSeq] And 5 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox21">
-                        <Location>616px, 460px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=48 &gt;= [@StartFromSeq] And 48 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox22">
-                        <Location>408px, 460px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=34 &gt;= [@StartFromSeq] And 34 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox23">
-                        <Location>208px, 460px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=20 &gt;= [@StartFromSeq] And 20 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox24">
-                        <Location>8px, 460px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=6 &gt;= [@StartFromSeq] And 6 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox25">
-                        <Location>616px, 540px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=49 &gt;= [@StartFromSeq] And 49 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox26">
-                        <Location>408px, 540px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=35 &gt;= [@StartFromSeq] And 35 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox27">
-                        <Location>208px, 540px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=21 &gt;= [@StartFromSeq] And 21 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox28">
-                        <Location>8px, 540px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=7 &gt;= [@StartFromSeq] And 7 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox29">
-                        <Location>408px, 700px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=37 &gt;= [@StartFromSeq] And 37 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox3">
-                        <Location>408px, 60px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=29 &gt;= [@StartFromSeq] And 29 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox30">
-                        <Location>408px, 620px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=36 &gt;= [@StartFromSeq] And 36 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox31">
-                        <Location>208px, 620px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=22 &gt;= [@StartFromSeq] And 22 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox32">
-                        <Location>8px, 620px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=8 &gt;= [@StartFromSeq] And 8 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox33">
-                        <Location>208px, 780px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=24 &gt;= [@StartFromSeq] And 24 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox34">
-                        <Location>208px, 700px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=23 &gt;= [@StartFromSeq] And 23 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox35">
-                        <Location>208px, 860px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=25 &gt;= [@StartFromSeq] And 25 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox36">
-                        <Location>208px, 938px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=26 &gt;= [@StartFromSeq] And 26 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox37">
-                        <Location>208px, 1018px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=27 &gt;= [@StartFromSeq] And 27 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox38">
-                        <Location>208px, 1098px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=28 &gt;= [@StartFromSeq] And 28 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox39">
-                        <Location>408px, 780px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=38 &gt;= [@StartFromSeq] And 38 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox4">
-                        <Location>616px, 60px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=43 &gt;= [@StartFromSeq] And 43 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox40">
-                        <Location>408px, 860px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=39 &gt;= [@StartFromSeq] And 39 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox41">
-                        <Location>408px, 938px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=40 &gt;= [@StartFromSeq] And 40 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox42">
-                        <Location>408px, 1018px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=41 &gt;= [@StartFromSeq] And 41 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox43">
-                        <Location>408px, 1098px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=42 &gt;= [@StartFromSeq] And 42 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox44">
-                        <Location>616px, 620px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=50 &gt;= [@StartFromSeq] And 50 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox45">
-                        <Location>616px, 700px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=51 &gt;= [@StartFromSeq] And 51 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox46">
-                        <Location>616px, 780px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=52 &gt;= [@StartFromSeq] And 52 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox47">
-                        <Location>616px, 860px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=53 &gt;= [@StartFromSeq] And 53 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox48">
-                        <Location>616px, 938px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=54 &gt;= [@StartFromSeq] And 54 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox49">
-                        <Location>616px, 1018px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=55 &gt;= [@StartFromSeq] And 55 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox5">
-                        <Location>8px, 140px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=2 &gt;= [@StartFromSeq] And 2 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox50">
-                        <Location>616px, 1098px</Location>
-                        <Size>189px, 15.59px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=56 &gt;= [@StartFromSeq] And 56 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox51">
-                        <Location>8px, 700px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
                         <Value>=[InventoryItem.InventoryCD]</Value>
                         <VisibleExpr>=9 &gt;= [@StartFromSeq] And 9 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox52">
-                        <Location>8px, 1098px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=14 &gt;= [@StartFromSeq] And 14 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox53">
-                        <Location>8px, 1018px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=13 &gt;= [@StartFromSeq] And 13 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox54">
-                        <Location>8px, 938px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=12 &gt;= [@StartFromSeq] And 12 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox55">
-                        <Location>8px, 860px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=11 &gt;= [@StartFromSeq] And 11 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox56">
-                        <Location>8px, 780px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=10 &gt;= [@StartFromSeq] And 10 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox6">
-                        <Location>208px, 140px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=16 &gt;= [@StartFromSeq] And 16 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox7">
-                        <Location>408px, 140px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=30 &gt;= [@StartFromSeq] And 30 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox8">
-                        <Location>616px, 140px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=44 &gt;= [@StartFromSeq] And 44 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox9">
-                        <Location>8px, 220px</Location>
-                        <Size>189px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[InventoryItem.InventoryCD]</Value>
-                        <VisibleExpr>=3 &gt;= [@StartFromSeq] And 3 &lt;= $PrintCount</VisibleExpr>
-                    </TextBox>
+                    </PictureBox>
                 </Items>
             </PageHeader>
             <Detail Name="detailSection1">
@@ -2614,11 +2012,6 @@
                 <PrintEmpty>False</PrintEmpty>
                 <Visible>False</Visible>
             </Detail>
-            <PageFooter Name="pageFooterSection1">
-                <Height>0px</Height>
-                <PrintEmpty>False</PrintEmpty>
-                <Visible>False</Visible>
-            </PageFooter>
         </Sections>
     </Report>
 </Report>
