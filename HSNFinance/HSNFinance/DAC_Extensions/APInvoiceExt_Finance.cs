@@ -4,7 +4,7 @@ using PX.Objects.GL;
 
 namespace PX.Objects.AP
 {
-    public class APInvoiceExt2 : PXCacheExtension<PX.Objects.AP.APInvoice>
+    public class APInvoiceExt_Finance : PXCacheExtension<APInvoice>
     {
         #region UsrInvoiceDate
         [PXDBDate()]
