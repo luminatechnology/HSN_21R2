@@ -70,12 +70,23 @@
     <Compile Include="DAC\LumINItemCostHist.cs" />
     <Compile Include="DAC\LUMLAInterestExp.cs" />
     <Compile Include="DAC\LUMLLSetup.cs" />
-    <Compile Include="DAC_Extensions\APRegisterExtensions.cs" />
+    <Compile Include="DAC_Extensions\APInvoiceExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\APRegisterExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\APSetupExtensions.cs" />
+    <Compile Include="DAC_Extensions\ARSetupExtensions.cs" />
     <Compile Include="DAC_Extensions\ARTranExt_Finance.cs" />
     <Compile Include="DAC_Extensions\CATranExtensions.cs" />
     <Compile Include="DAC_Extensions\FADetailsExtensions.cs" />
+    <Compile Include="DAC_Extensions\FSServiceOrderExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\FSSetupExtensions.cs" />
     <Compile Include="DAC_Extensions\FSSrvOrdTypeExt_Finance.cs" />
     <Compile Include="DAC_Extensions\GLTranExtensions.cs" />
+    <Compile Include="DAC_Extensions\INRegisterExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\INSetupExtensions.cs" />
+    <Compile Include="DAC_Extensions\POOrderExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\POSetupExtensions.cs" />
+    <Compile Include="DAC_Extensions\SOOrderExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\SOSetupExtensions.cs" />
     <Compile Include="Graph\LumARAgedPeriodMaint.cs" />
     <Compile Include="Graph\LumINItemCostHistMaint.cs" />
     <Compile Include="Graph\LUMRevenueInventoryAccountMaint.cs" />
@@ -83,15 +94,15 @@
     <Compile Include="Graph_Extensions\AppointmentEntry.cs" />
     <Compile Include="Graph_Extensions\AssetMaint.cs" />
     <Compile Include="Graph_Extensions\JournalEntry.cs" />
-    <Compile Include="LSLedgerStlmtEntry.cs" />
-    <Compile Include="LSLedgerStlmtInq.cs" />
-    <Compile Include="LSStlmtAccountMaint.cs" />
-    <Compile Include="LUMCalcInterestExpProc.cs" />
-    <Compile Include="LUMHyperionAcctMapMaint.cs" />
-    <Compile Include="LUMLLSetupMaint.cs" />
+    <Compile Include="Graph\LSLedgerStlmtEntry.cs" />
+    <Compile Include="Graph\LSLedgerStlmtInq.cs" />
+    <Compile Include="Graph\LSStlmtAccountMaint.cs" />
+    <Compile Include="Graph\LUMCalcInterestExpProc.cs" />
+    <Compile Include="Graph\LUMHyperionAcctMapMaint.cs" />
+    <Compile Include="Graph\LUMLLSetupMaint.cs" />
     <Compile Include="DAC\LUMRevenueInventoryAccounts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UtilFunctions.cs" />
+    <Compile Include="Descriptor\UtilFunctions.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces">
