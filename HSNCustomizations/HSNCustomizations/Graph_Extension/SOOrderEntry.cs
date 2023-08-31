@@ -9,7 +9,6 @@ using PX.Objects.CR;
 using PX.Objects.IN;
 using System.Collections.Generic;
 using System.Linq;
-using PX.Objects.CN.JointChecks.AP.Services.ChecksAndPaymentsServices.Validation;
 
 namespace PX.Objects.SO
 {
@@ -52,7 +51,7 @@ namespace PX.Objects.SO
         {
             baseHandler?.Invoke(e.Cache, e.Args);
 
-            if (Base.soordertype.Current?.GetExtension<SOOrderTypeExt>().UsrRequireAtLeastOneNonStkItemInSO == true)
+            if (e.Operation != PXDBOperation.Delete && Base.soordertype.Current?.GetExtension<SOOrderTypeExt>().UsrRequireAtLeastOneNonStkItemInSO == true)
             {
                 ///<remarks>
                 /// The system should verify that the Details tab contains a minimum of one non-stock inventory item and its amount is greater than 0 at the time the 'Save' action is executed. 
