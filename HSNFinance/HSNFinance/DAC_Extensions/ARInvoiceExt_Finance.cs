@@ -1,28 +1,27 @@
 ﻿using PX.Data;
 using PX.Data.BQL.Fluent;
 
-namespace PX.Objects.PO
+namespace PX.Objects.AR
 {
     [PXNonInstantiatedExtension()]
-    public class POOrderExt_ExistingColumn : PXCacheExtension<POOrder>
+    public class ARInvoiceExt_ExistingColumn : PXCacheExtension<ARInvoice>
     {
-        #region OrderDesc
+        #region DocDesc
         [PXMergeAttributes(Method = MergeMethod.Append)]
         [PXDefault()]
-        [PXUIRequired(typeof(Where<POOrderExt_Finance.usrIsRequireHeaderDesc, Equal<True>>))]
-        public virtual string OrderDesc { get; set; }
+        [PXUIRequired(typeof(Where<ARInvoiceExt_Finance.usrIsRequireHeaderDesc, Equal<True>>))]
+        public virtual string DocDesc { get; set; }
         #endregion
     }
-
-    public class POOrderExt_Finance : PXCacheExtension<POOrder>
+    public class ARInvoiceExt_Finance : PXCacheExtension<ARInvoice>
     {
         #region Unbound Fields
 
         #region UsrIsRequireHeaderDesc
         [PXBool()]
-        [PXDefault(typeof(SelectFrom<POSetup>.SearchFor<POSetupExt.usrReqHeaderDescInPO>),
+        [PXDefault(typeof(SelectFrom<ARSetup>.SearchFor<ARSetupExt.usrReqHeaderDescInINV>),
                    PersistingCheck = PXPersistingCheck.Nothing)]
-        [PXDBScalar(typeof(SelectFrom<POSetup>.SearchFor<POSetupExt.usrReqHeaderDescInPO>))]
+        [PXDBScalar(typeof(SelectFrom<ARSetup>.SearchFor<ARSetupExt.usrReqHeaderDescInINV>))]
         public virtual bool? UsrIsRequireHeaderDesc { get; set; }
         public abstract class usrIsRequireHeaderDesc : PX.Data.BQL.BqlBool.Field<usrIsRequireHeaderDesc> { }
         #endregion

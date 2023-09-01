@@ -20,6 +20,8 @@ namespace PX.Objects.FS
 
         #region UsrIsRequireHeaderDesc
         [PXBool()]
+        [PXDefault(typeof(SelectFrom<FSSetup>.SearchFor<FSSetupExt.usrReqHeaderDescInSrvOrd>),
+                   PersistingCheck = PXPersistingCheck.Nothing)]
         [PXDBScalar(typeof(SelectFrom<FSSetup>.SearchFor<FSSetupExt.usrReqHeaderDescInSrvOrd>))]
         public virtual bool? UsrIsRequireHeaderDesc { get; set; }
         public abstract class usrIsRequireHeaderDesc : PX.Data.BQL.BqlBool.Field<usrIsRequireHeaderDesc> { }
