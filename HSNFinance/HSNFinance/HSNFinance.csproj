@@ -71,8 +71,9 @@
     <Compile Include="DAC\LUMLAInterestExp.cs" />
     <Compile Include="DAC\LUMLLSetup.cs" />
     <Compile Include="DAC_Extensions\APInvoiceExt_Finance.cs" />
-    <Compile Include="DAC_Extensions\APRegisterExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\APPaymentExt_Finance.cs" />
     <Compile Include="DAC_Extensions\APSetupExtensions.cs" />
+    <Compile Include="DAC_Extensions\ARInvoiceExt_Finance.cs" />
     <Compile Include="DAC_Extensions\ARSetupExtensions.cs" />
     <Compile Include="DAC_Extensions\ARTranExt_Finance.cs" />
     <Compile Include="DAC_Extensions\CATranExtensions.cs" />
