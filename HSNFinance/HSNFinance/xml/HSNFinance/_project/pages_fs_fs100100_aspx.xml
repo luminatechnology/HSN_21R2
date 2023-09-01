@@ -6,6 +6,7 @@
                     <Prop Key="Virtual:ApplyStylesheetSkin" />
                     <Prop Key="ID" Value="CstPXCheckBox1" />
                     <Prop Key="DataField" Value="UsrReqHeaderDescInSrvOrd" />
+                    <Prop Key="AlignLeft" Value="True" />
                 </PXCheckBox>
             </AddItem>
             <PXLayoutRule OriginalIndex="16" />
