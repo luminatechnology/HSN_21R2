@@ -1,0 +1,4 @@
+﻿<Table TableName="POSetup">
+    <Column TableName="POSetup" ColumnName="UsrReqHeaderDescInPO" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="POSetup" ColumnName="UsrCopyHeaderDescFromPO" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+</Table>

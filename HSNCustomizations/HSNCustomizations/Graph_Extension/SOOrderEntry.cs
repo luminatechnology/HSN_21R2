@@ -1,41 +1,40 @@
 ﻿using HSNCustomizations.DAC;
+using HSNCustomizations.Descriptor;
+using PX.Common;
 using PX.Data;
 using PX.Data.BQL.Fluent;
 using PX.Objects.AR;
 using PX.Objects.CS;
-using System;
+using PX.Objects.CR;
+using PX.Objects.IN;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PX.Objects.CR;
-using HSNCustomizations.Descriptor;
 
 namespace PX.Objects.SO
 {
     public class SOOrderEntryExt_HSN : PXGraphExtension<SOOrderEntry>
     {
-        public SelectFrom<Contact>
-                .InnerJoin<BAccount>.On<Contact.bAccountID.IsEqual<BAccount.bAccountID>>
-                .Where<Contact.bAccountID.IsEqual<SOOrder.customerID.FromCurrent>>.View StandardContactSelector;
+        public SelectFrom<Contact>.InnerJoin<BAccount>.On<Contact.bAccountID.IsEqual<BAccount.bAccountID>>
+                                  .Where<Contact.bAccountID.IsEqual<SOOrder.customerID.FromCurrent>>.View StandardContactSelector;
 
-        #region Events
-
+        #region Cache Attached
         [PXMergeAttributes(Method = MergeMethod.Replace)]
         [PXUIEnabled(typeof(Where<SOOrder.customerID, IsNotNull>))]
-        [ContactRaw(typeof(SOOrder.customerID), null, null, null, new[]
-        {
-             typeof(Contact.displayName),
-             typeof(ContactExtensions.usrLocationID),
-             typeof(Contact.salutation),
-             typeof(Contact.fullName),
-             typeof(BAccount.acctCD),
-             typeof(Contact.eMail),
-             typeof(Contact.phone1),
-             typeof(Contact.contactType)
-            }, new string[]
-        {
-            "Contact",
+        [ContactRaw(typeof(SOOrder.customerID), null, null, null, 
+                    new[]
+                    {
+                        typeof(Contact.displayName),
+                        typeof(ContactExtensions.usrLocationID),
+                        typeof(Contact.salutation),
+                        typeof(Contact.fullName),
+                        typeof(BAccount.acctCD),
+                        typeof(Contact.eMail),
+                        typeof(Contact.phone1),
+                        typeof(Contact.contactType)
+                    }, 
+                    new string[]
+                    { 
+                        "Contact",
                         "Location",
                         "Job Title",
                         "Account Name",
@@ -43,10 +42,31 @@ namespace PX.Objects.SO
                         "Email",
                         "Phone GG",
                         "Type"
-            }, WithContactDefaultingByBAccount = true)]
+                    }, WithContactDefaultingByBAccount = true)]
         public virtual void _(Events.CacheAttached<SOOrder.contactID> e) { }
+        #endregion
 
-        public virtual void _(Events.FieldUpdated<SOOrder.customerID> e, PXFieldUpdated baseHandler)
+        #region Events
+        protected void _(Events.RowPersisting<SOOrder> e, PXRowPersisting baseHandler)
+        {
+            baseHandler?.Invoke(e.Cache, e.Args);
+
+            if (e.Operation != PXDBOperation.Delete && Base.soordertype.Current?.GetExtension<SOOrderTypeExt>().UsrRequireAtLeastOneNonStkItemInSO == true)
+            {
+                ///<remarks>
+                /// The system should verify that the Details tab contains a minimum of one non-stock inventory item and its amount is greater than 0 at the time the 'Save' action is executed. 
+                ///</remarks>
+                List<SOLine> lines = Base.Transactions.Select().RowCast<SOLine>().Where(w => InventoryItem.PK.Find(Base, w.InventoryID)?.StkItem == false).ToList();
+                
+                var line = lines.Find(f => f.CuryLineAmt <= 0m);
+
+                if (lines.Count == 0 || line != null)
+                {
+                    throw new PXException(HSNMessages.NonStkItemWithNoAmt);
+                }
+            }
+        }
+        public void _(Events.FieldUpdated<SOOrder.customerID> e, PXFieldUpdated baseHandler)
         {
             baseHandler?.Invoke(e.Cache, e.Args);
             var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
@@ -68,7 +88,6 @@ namespace PX.Objects.SO
                     Base.Document.Ask(PXMessages.LocalizeFormatNoPrefix("This is a Cash Sale Customer, please alter the Order Type to “CS” accordingly."), MessageButtons.OK);
             }
         }
-
         #endregion
     }
 }

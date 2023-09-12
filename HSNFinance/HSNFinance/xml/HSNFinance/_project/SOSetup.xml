@@ -1,0 +1,4 @@
+﻿<Table TableName="SOSetup">
+    <Column TableName="SOSetup" ColumnName="UsrReqHeaderDescInSO" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="SOSetup" ColumnName="UsrCopyHeaderDescFromSO" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+</Table>

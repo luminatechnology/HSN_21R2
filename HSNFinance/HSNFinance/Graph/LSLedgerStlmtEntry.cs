@@ -7,6 +7,7 @@ using PX.Data.BQL.Fluent;
 using PX.Objects.GL;
 using PX.Objects.IN;
 using HSNFinance.DAC;
+using PX.Objects.CS;
 
 namespace HSNFinance
 {
@@ -44,42 +45,41 @@ namespace HSNFinance
         //                                                                And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>,
         //                                                          Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
         //                                                             And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranDebit;
-        //public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
-        //                                               .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-        //                         .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-        //                                .And<GLTran.released.IsEqual<True>>
-        //                                    .And<GLTran.posted.IsEqual<True>
-        //                                         .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>.Or<GLTran.uOM.IsNull>>>
-        //                                              .And<Where2<Where<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.asset>,
-        //                                                                And<GLTran.curyCreditAmt, Greater<PX.Objects.CS.decimal0>>>,
-        //                                                          Or<Current<LedgerTranFilter.stlmtAcctType>, Equal<AccountType.liability>,
-        //                                                             And<GLTran.curyDebitAmt, Greater<PX.Objects.CS.decimal0>>>>>>>.View GLTranCredit;
         /// <remarks>
         /// Since the standard copy/paste functionality includes GLTran.UOM, the special UOM value for settlement is also copied, affecting the filter incorrectly.
-        /// </remarks> 
+        ///// </remarks> 
+        //public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
+        //                                               .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
+        //                         .Where<NotExists<Select4<LSLedgerSettlement,
+        //                                                  Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
+        //                                                       .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
+        //                                                            .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
+        //                                                                 .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>,
+        //                                                  Aggregate<GroupBy<LSLedgerSettlement.branchID,
+        //                                                                    GroupBy<LSLedgerSettlement.module,
+        //                                                                            GroupBy<LSLedgerSettlement.batchNbr,
+        //                                                                                    GroupBy<LSLedgerSettlement.lineNbr,
+        //                                                                                            Sum<LSLedgerSettlement.settledDebitAmt>>>>>>>.>
+        //                                .And<GLTran.curyDebitAmt.IsGreater<PX.Objects.CS.decimal0>
+        //                                     .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+        //                                          .And<GLTran.released.IsEqual<True>
+        //                                               .And<GLTran.posted.IsEqual<True>>>>>>.View GLTranDebit;
+
         public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
                                                        .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-                                 .Where<NotExists<Select<LSLedgerSettlement,
-                                                     Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
-                                                           .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
-                                                                .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
-                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
-                                        .And<GLTran.curyDebitAmt.IsGreater<PX.Objects.CS.decimal0>
-                                             .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-                                                  .And<GLTran.released.IsEqual<True>
-                                                       .And<GLTran.posted.IsEqual<True>>>>>>.View GLTranDebit;
-        
+                                 .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+                                        .And<GLTran.curyDebitAmt.IsGreater<decimal0>
+                                             .And<GLTran.posted.IsEqual<True>
+                                                  .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>
+                                                             .Or<GLTran.uOM.IsNull>>>>>>.View GLTranDebit;
+
         public SelectFrom<GLTran>.InnerJoin<Ledger>.On<Ledger.ledgerID.IsEqual<GLTran.ledgerID>
                                                        .And<Ledger.balanceType.IsEqual<LedgerBalanceType.actual>>>
-                                 .Where<NotExists<Select<LSLedgerSettlement,
-                                                     Where<LSLedgerSettlement.branchID.IsEqual<GLTran.branchID>
-                                                           .And<LSLedgerSettlement.lineNbr.IsEqual<GLTran.lineNbr>
-                                                                .And<LSLedgerSettlement.module.IsEqual<GLTran.module>
-                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<GLTran.batchNbr>>>>>>>
-                                        .And<GLTran.curyCreditAmt.IsGreater<PX.Objects.CS.decimal0>
-                                             .And<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
-                                                  .And<GLTran.released.IsEqual<True>
-                                                       .And<GLTran.posted.IsEqual<True>>>>>>.View GLTranCredit;
+                                 .Where<GLTran.accountID.IsEqual<LedgerTranFilter.stlmtAcctID.FromCurrent>
+                                        .And<GLTran.curyCreditAmt.IsGreater<decimal0>
+                                             .And<GLTran.posted.IsEqual<True>
+                                                  .And<Where<GLTran.uOM.IsNotEqual<ZZUOM>
+                                                             .Or<GLTran.uOM.IsNull>>>>>>.View GLTranCredit;
         #endregion
 
         #region Actions
@@ -345,11 +345,6 @@ namespace HSNFinance
                 ts.Complete();
             }
         }
-
-        private LedgerStlmtKey GetKey(LSLedgerSettlement record)
-        {
-            return new LedgerStlmtKey(record.BranchID.Value, record.LineNbr.Value, record.Module, record.BatchNbr);
-        }
         #endregion
 
         #region Static Methods
@@ -381,12 +376,10 @@ namespace HSNFinance
         #region StlmtAcctID
         [PXDBInt()]
         [PXUIField(DisplayName = "Account", Visibility = PXUIVisibility.SelectorVisible)]
-        [PXSelector(typeof(Search<LSSettlementAccount.accountID, Where<LSSettlementAccount.type, Equal<AccountType.asset>,
-                                                                       Or<LSSettlementAccount.type, Equal<AccountType.liability>>>>),
-                    typeof(LSSettlementAccount.accountID),
-                    typeof(LSSettlementAccount.type),    
-                    SubstituteKey = typeof(LSSettlementAccount.accountCD),
-                    DescriptionField = typeof(LSSettlementAccount.description))]
+        [PXDimensionSelector(AccountAttribute.DimensionName, typeof(LSSettlementAccount.accountID), typeof(LSSettlementAccount.accountCD),
+                             typeof(LSSettlementAccount.accountID),
+                             typeof(LSSettlementAccount.type),
+                             DescriptionField = typeof(LSSettlementAccount.description))]
         public virtual int? StlmtAcctID { get; set; }
         public abstract class stlmtAcctID : PX.Data.BQL.BqlInt.Field<stlmtAcctID> { }
         #endregion
