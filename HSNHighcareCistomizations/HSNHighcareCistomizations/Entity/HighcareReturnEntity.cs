@@ -18,6 +18,10 @@ namespace HSNHighcareCistomizations.Entity
 
     public class Details
     {
+        public int? InventoryID { get;set;}
+
         public string InventoryCD { get; set; }
+
+        public decimal? Quantity { get; set; }
     }
 }

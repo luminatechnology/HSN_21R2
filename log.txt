@@ -1,0 +1,892 @@
+commit 715e89adb51e748cf10baa95da638288ed310aae
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Aug 10 09:49:54 2023 +0800
+
+    This is another scenario because the appointment "Service" line type specifies where the system enables lot serial number assignment by location.
+
+commit ad6b233fdc00021d5d761f92e7c43527d9d30fc1
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Jul 14 11:17:40 2023 +0800
+
+    1.Highcare customization - 新增 Return process功能
+    2.Highcare Customization - Fix appointment selector missing field issue
+
+commit 4e2939dbacac99868470d3b82de855c9e6c1d512
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Wed Jul 12 14:15:24 2023 +0800
+
+    Make up the missing aspx add field modification.
+
+commit 6996d4b80d29cd750a512c0deb2145656305f126
+Merge: 954b050 ba2ee0a
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Jul 11 14:37:15 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 954b050466c0fc36fae990f9b1abe040f5027ace
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Jul 11 14:37:02 2023 +0800
+
+    Added a new column per spec [Design Concept - HSS Customization May 2023] #1.10
+
+commit ba2ee0aba7b8bdb0249bf59c1deaaebe714ecab2
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Jul 7 14:44:58 2023 +0800
+
+    1.HSN Customization - Fix the error of requiring a serial number occurs when creating a sales order from an appointment
+
+commit 2b4826312b93d394d07eaa611fc91dd4c0fc984c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Fri Jun 30 23:15:55 2023 +0800
+
+    Fill in missing site map.
+
+commit 610a006a17d0fc0e20626c6aa829a922ba2bfb51
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Fri Jun 30 16:04:54 2023 +0800
+
+    Add condition to bypass GUI number generation.
+
+commit f794bfff62d36e7aebece391bafefc6f50cfd821
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Fri Jun 30 16:02:35 2023 +0800
+
+    Per spec [Design Concept - HSS Customization May 2023]
+    1. Add new report to barcode label.
+    2. Modified standard report to add a column.
+
+commit e69722df40ed83491cc4b9c1832f20c2520cda37
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Jun 21 11:54:06 2023 +0800
+
+    1.VF Customization  - 調整API6001 Export date timezone issue
+
+commit 37e3e2c1fefdda746267f27aa8084ecd2d028cc2
+Merge: 2916270 79dd11b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jun 20 16:10:13 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 2916270368abf593704665d24990137a5c3e057b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jun 20 16:09:42 2023 +0800
+
+    1.VF Customization  - Fix API3001 incorrect timezone of deliver date and export date
+
+commit 79dd11bb6fa0fd2115649cfb6e20896b6560ce06
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Wed Jun 14 21:36:16 2023 +0800
+
+    Added a report button control by spec.
+
+commit d7fbdcd3cef7339e12e0c1210fdd22f350867efc
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jun 6 12:38:15 2023 +0800
+
+    1.HSN Customization  - update dll after merge git
+
+commit 192f06e1664270bbf400d215fb32cc3037aed2eb
+Merge: 7510058 e9f0b3b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jun 6 12:31:20 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 751005867c41a3e945adb4aeb114318b4be2c5b8
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jun 6 12:31:16 2023 +0800
+
+    1.HSN Customization - RUN APPPOINTMEN BILLING 新增邏輯條件(REPLACING_TARGET_EQUIPMENT)
+
+commit e9f0b3b250c761042884189ca5d46f62e74850fd
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue May 30 14:16:52 2023 +0800
+
+    Move the folder location to avoid affecting the xmls in the project.
+
+commit 850271b62053c47fa648d07f439087ccc9993c4d
+Merge: 106a768 f27b582
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue May 30 14:12:55 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 106a76811991402e354529364ffdd45ecf9fe8e2
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue May 30 14:12:42 2023 +0800
+
+    Added elements visibility on report according to spec [Design Concept - HSS Customization May 2023-1.5].
+
+commit f27b582a96a1021ea0712722e98d645d2a727879
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri May 26 10:31:54 2023 +0800
+
+    1.HSN Customization - 新增Appointment run as billing CuryDocTotal = 0 執行產生SalesOrder邏輯
+
+commit bda9e0e13bf0fefd4b78e230cd4782ce7ef3c1f8
+Merge: 07af2d9 f23bd2a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue May 16 09:14:50 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 07af2d9f47dfff09aaeed6603ea1b9a495f33c9c
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue May 16 09:14:27 2023 +0800
+
+    1.Highcare - 完成Return process (multiple-thread)
+
+commit f23bd2a2f6a92218a29eab57203d0440c9ec2731
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon May 15 11:38:00 2023 +0800
+
+    Added a new condition for simple the work process.
+
+commit 0cb065f9e38aa4d237080b6b34a4ff0b77baca4d
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon May 15 11:36:42 2023 +0800
+
+    Added a new field as validation condition according to spec [Design Concept - HSNM BRC].
+
+commit a9fb5e9a5f74e659b6e7ec550374c9420e41c0d8
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Apr 28 10:39:10 2023 +0800
+
+    1.VF Customization  -  fix lotsernbr can edit where status is released (Receipt)
+
+commit c301781292c69cf65c4d6cb92ebed042345cae54
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Apr 24 14:47:10 2023 +0800
+
+    1.VF Customization - 調整Receipt release 後 可維護的欄位控制
+
+commit d2f378af9a7fad96076d09c46af9866222625051
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Apr 21 15:16:07 2023 +0800
+
+    1.VF Customization - Set for merchant editable after receipt release
+
+commit 911ba318fbb0899585720de29a9c34cd45353bc8
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Apr 12 10:19:53 2023 +0800
+
+    1.VF Customization - 新增Create service order skip 邏輯
+
+commit 3f1edca03a3558dfbb58297a57f49dce86c8c5bb
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Mar 31 13:42:05 2023 +0800
+
+    1.VF Customization - 調整Job sheet report
+
+commit a35bc6fc587a5bbdd04d8c759fba1e1cfd0e08dd
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Mar 31 12:52:53 2023 +0800
+
+    1.VF Customization - Job sheet report 調整
+
+commit 8761ffa6b68fd972bc3413a0fc87fa0b1f64540a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Mar 30 12:06:23 2023 +0800
+
+    1.VF Customization - 將Default service order item 改成non stock item
+
+commit dac1e92bbd02a4387d6e33f9c79ba7b1a2e82ec5
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Mar 30 11:16:17 2023 +0800
+
+    1.VF Customization - 新增Default Service Item 欄位 + 調整 Create Service Order 中的Detail邏輯
+    2.VF Customization - 調整Job Sheet report
+
+commit 5e7c9ca0f35618490cbd8c6534e891b595225092
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Mar 28 12:05:47 2023 +0800
+
+    1.VF Customization - Fix Process shipment bug
+
+commit 257fb2a6d581be5cd4fa15ce71f9f7cb97790ae5
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Mar 28 10:29:01 2023 +0800
+
+    1. VF Customization - 新增當Sales Order Create Shiment 時會檢查lot seria lNbr
+    2.VF Customization - 新增控制是否檢查lot Serial Nbr in VF preference
+    3.VF Customization - 當刪除Service order 會一起刪除INTran(Receipt) 的UsrServiceOrder & 其他欄位邏輯調整
+
+commit 03c80f21d1d63243c182d41ad4d2f01c482e791b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Sat Mar 25 10:00:32 2023 +0800
+
+    1.VF Customization - fix create service order error incorrect issue
+
+commit e4b9e528de76418efbab571a9158118a17284e08
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Mar 24 14:48:15 2023 +0800
+
+    1.VF Customization - Add For merchant feild in SOLine (endpoint)
+    2.VF Customization - Add Create Service Order from Receipt Action
+    3.VF Customization  - Adjustment Print VF job sheet report
+
+commit 370f91b8280a2f21754f876713373dba58966f62
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Mar 21 17:21:12 2023 +0800
+
+    1.Highcare Customization - Fix pin code default value issue (under server order & appointment)
+
+commit 48cf4e514e915c9b00d5de66e5c156f3bb1b9a66
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Mar 21 14:59:08 2023 +0800
+
+    1.Highcare Customization - Fix pin code default value issue under service order/appointment
+
+commit b1d76187c140f34a85f7273e9e3b5d1a15e82660
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Mar 20 10:55:01 2023 +0800
+
+    1.VF Customization - VF SOReport調整+按鈕Display name調整
+
+commit 98122c66ea1284a0132b15bf9d3ae8f4ffbe20ce
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Mar 20 09:52:24 2023 +0800
+
+    1.Highcare Customization - 調整Customer PIN Code 判斷Active邏輯(讓API可以override)
+
+commit 7037c44b362a4b12dedef2341a371db989bc9ee2
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Mar 17 16:55:07 2023 +0800
+
+    1.Highcare Customization - Adjusting the logic of highcare PIN code selecotr under service order and appointment(Change to datetime)
+    1.VF Customization - 新增 VF Sales Order Report
+    2.VF Cutomization - 新增UsrForMerchant Field in Recepot
+    3.VF Customization  - 新增NodeName in ShipmentLine & Add Order smartpanel
+
+commit 72da70c383fc899c27983bccdd31e59c1785c910
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Mar 15 11:48:19 2023 +0800
+
+    1.Highcare Customization - 調整Service Order/ Appointment 中的Customer PIN Code Selector(只呈現Active)
+    2.Highcare Customization - 調整Cusomter 下的PIN Code 頁簽(與Customer pin code同步)
+    3.Highcare Customizatioin  - 調整Customer PIN Code 寫法 & Endpoint
+
+commit 96680ec73f1515218da9df597557be4c1e38e367
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Mar 8 11:48:08 2023 +0800
+
+    1.HSN Customization - 移除Appointment Override TargetEquipment Field(與highcare 衝突)
+    2.HSN Customization - 新增SQL View - v_SUMINSiteStatusWithItem(Group by sum INSiteStatus)
+    3.Highcare Customization - Fix Appointment TargetEquipment DAC error
+    4.Highcare Customization  - 調整LM101000頁面客製控制項ID
+
+commit 41335b01b2428f677104de45431a04a5dd5eb020
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Feb 7 20:30:19 2023 +0800
+
+    Create an unbound field that is only used to display in the appointment details selector.
+
+commit 800e7a10ec57fcc1d5787aefd8bfcee0f5003a8c
+Merge: 3b281fd 08fbea5
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Sat Feb 4 13:22:27 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 3b281fd302ac90266dde06d8c59b33e0627e20b5
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Sat Feb 4 13:22:14 2023 +0800
+
+    Changed from rounding each to rounding after summing
+
+commit 08fbea5c0dbecb9f858e771e8dacfae67e198540
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Sat Feb 4 10:25:12 2023 +0800
+
+    1.HSN Finance - Fix ServerOrder Type "ASNR" Run as billing null reference exception bug
+
+commit 952171bb71edff5a08d18eb024ed2c88da97a7aa
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Feb 3 13:54:42 2023 +0800
+
+    1.HSN Finance - 調整Invetory aging report 更改成Processing 模式
+
+commit 1532040db626be8abdec6e0338a0f9b219421111
+Merge: a00d115 81d33c7
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Jan 30 11:05:24 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit a00d1159203eed86e6359d2b171dfff6286ea94c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Jan 30 11:05:15 2023 +0800
+
+    Adjust the report according to Joyce's testing report.
+
+commit 81d33c7d5c36b31169ec2a45a01e11b82046125b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Jan 18 15:19:34 2023 +0800
+
+    1.VF Customization - Fix api3001 ShipToName mapping value issue
+
+commit b70e13851b66e1d54abfc8de9d95da4460dc9093
+Merge: f115f4b 67932e2
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Jan 18 12:15:25 2023 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit f115f4b32941b0db8a569f4322d5cd0af54a501a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Jan 18 12:15:18 2023 +0800
+
+    1.VF Customization - 調整API3001中DeliveryDate欄位
+
+commit 67932e29838ea6792135806aaa8f8030dd205c31
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Jan 17 13:00:41 2023 +0800
+
+    Added some display fields and a control field according to spec [Design Concept - HSS Jan. 2023].
+
+commit 159764d34fc9d87584aeac138384a471fa8ccc03
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Jan 17 12:59:41 2023 +0800
+
+    Added a new report according to spec [Design Concept - HSS Finance Oct. 2022]-1.8
+
+commit 11c8c91fff7514624e962c150a9b7b7a7d5f7a2b
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Jan 9 11:53:47 2023 +0800
+
+    1.VF Customization - Fix can not delete shipment bug
+
+commit a5b6f285d5701ac660468167acda891c17bda1cb
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Jan 4 13:30:39 2023 +0800
+
+    1.VF Customization - 新增Deliver date, API3001欄位調整
+
+commit e8881a580b2baf4eaf6d3130e3ab4a5e468a08b9
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Jan 3 13:53:35 2023 +0800
+
+    1.HSN Finance - inventory aging report sp sql adjustment
+
+commit 8b5bf44709ddce57d2d56ad6ad5d7fc5c145903d
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 30 14:23:35 2022 +0800
+
+    1.HSN Finance - 調整Revenue and Inventory mapping功能
+
+commit 15df82627b2e57c6e1b401d38c284b7702f0c99f
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 29 18:58:00 2022 +0800
+
+    1.HSN Finance - Inventory aging report調整
+
+commit f0ed768a9b1a3cfc3e6f346dd674409d10444f14
+Merge: 641d0fb d5f1f81
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 29 14:10:59 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 641d0fba26ffccfb442d4a718b5ab23f95888bb1
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 29 14:10:42 2022 +0800
+
+    1.HSN Finance - Inventory aging report 調整
+
+commit d5f1f81a3942187829cd95372303095a768e4b15
+Merge: e62da52 4cba919
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 29 12:42:54 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit e62da52bb05449ddddbdaed8fbc270ca36b02e53
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 29 12:42:43 2022 +0800
+
+    Bug fixes,
+    1. FTP URL string combination correction.
+    2. Data view query conditions correction.
+
+commit 4cba9197e8f469b2d2082400f39f133e5f761ff6
+Merge: e2e0b8f 8c31e0f
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 22 15:35:16 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit e2e0b8fc72e4f5b3c5e7f24bf26f69479c41efe6
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 22 15:35:12 2022 +0800
+
+    1.VF Customization - 調整API3001欄位+新增同步SOShipment & SalesOrder Attribute Field value 功能
+
+commit 8c31e0f2cdd5275700794abf4f98970c878e483b
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Dec 20 15:41:34 2022 +0800
+
+    1. Enhanced tax verification time, no need to trigger on initial save.
+    2. With GUI date default source.
+
+commit e0dd74c86c0b76e152d93675127758e371b00519
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Dec 20 15:39:31 2022 +0800
+
+    Set VAT in code field isn't mandatory.
+
+commit 1ef2412ddabb739b5e6af1abbe031b8cd7ebe6b8
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Dec 19 21:38:03 2022 +0800
+
+    Add conditions to judge online store presets.
+
+commit 540283f97ad43f8261fe26868a70c538a964fe90
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Dec 19 21:36:59 2022 +0800
+
+    UTF 8 will make all Traditional Chinese garbled so change it back.
+
+commit 592895dd51d49da203c179ecab7438e718687603
+Merge: 0fd7b5c 6cefdff
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Dec 19 10:14:55 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 0fd7b5c1f3a9002cf2dddb5b8ce1b99a2c1a57d9
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Mon Dec 19 10:14:43 2022 +0800
+
+    Added new event enhancement.
+
+commit 6cefdff40558762de43f08dafd1768ce40eca30c
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 16 12:33:13 2022 +0800
+
+    1.VF Customization - 調整Displayname
+    2.Highcare Customization - 調整Tab Text
+
+commit 585c5135e412a7d37ee1913185c8af300f1c26eb
+Merge: 1a60bb2 3fe75ce
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 16 09:58:02 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 1a60bb2e39935994ac7f2309a75e70539557730f
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 16 09:52:33 2022 +0800
+
+    1.VF Customization - 新增VF客製欄位控制項 + Receipt客製欄位控制
+
+commit 3fe75ce5efee90fff0a2a5e579f852371fd4880c
+Merge: 5062619 ce90016
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 15 16:32:55 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 50626192186896fea876bddd3527c9f7382a9d24
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 15 16:32:44 2022 +0800
+
+    Solve the problem and adjust layout.
+
+commit c8e2adbf292f1513bc78acc1b6e9e5b4f70725c3
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 15 16:32:07 2022 +0800
+
+    Changed from one bill to one GUI AP to one bill to many GUI APs.
+
+commit 913545701b7b9229bc0b39d5553ff1a22a22cae7
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 15 16:28:22 2022 +0800
+
+    Add a new attribute.
+
+commit cd1ed593aa81e64847aca773060d001abd38ae5e
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 15 16:27:57 2022 +0800
+
+    Add a string message.
+
+commit ce90016907626a7f909901517d2c4d30af8b07e9
+Merge: 842d0bf 299d807
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Dec 12 11:59:58 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 842d0bf32dac3d0d296e8ac3a01977f6b337add0
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Mon Dec 12 11:59:44 2022 +0800
+
+    1.Highcare Customization - 調整highcare endpoint
+
+commit 299d8075d9042f9bfe1b495ce66b43dd03039bfa
+Merge: d9479bc 1c0b639
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Sat Dec 10 13:11:00 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit d9479bcc2b9ab00780df89742d453029300b8200
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Sat Dec 10 13:10:06 2022 +0800
+
+    Issue fixed, object null reference error exception.
+
+commit 1c0b639ed10b9a0ccdb1526fb88521890910e2ba
+Merge: d48325d d0419b6
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 9 09:51:42 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit d48325d4fb6b937a51078e2109eb778b30db562d
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 9 09:51:38 2022 +0800
+
+    1.HSN Customization - 調整SCB Refund Report
+
+commit d0419b6c132c91d0fc0079d5504a64d539ded328
+Merge: 3d18a80 d1d0ea0
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 8 14:27:01 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 3d18a807350774a66e4f41848ffb172abe1e8911
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Thu Dec 8 14:26:48 2022 +0800
+
+    1. Add another FTP location information for the online store.
+    2. Issue fixed, uploading files successfully does not need to display error failure status.
+
+commit d1d0ea0110f4dcd9a7baeac47bdeb730fe4df3db
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Dec 7 17:08:26 2022 +0800
+
+    1.VF Customization - 調整API3001 & API6001錯誤顯示方式
+
+commit 5fab7dcba270e1d194aed39d26489653da25e879
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Dec 7 14:34:28 2022 +0800
+
+    1.VF Customization - Fix API3001 Paging error
+
+commit 18a2035cafe44fa8274ac86c31136bb1d1aee219
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Dec 7 11:01:11 2022 +0800
+
+    1.Highcare Customization - Fix calculate discount issue + Appointment service scopoe filter add commit change
+    2.VF Customization - Fix bug after remove attribute + revmoce bankShotName Field on API 6001
+
+commit e8f94c56fcaa29ef6bf31ee561e8e891d2622ad3
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Dec 6 12:23:27 2022 +0800
+
+    1.Highcare Customization - 同步Highcare endpoint from UAT
+    2.Highcare Customization - Fix Appointment/ServiceOrder Calculate discount issue
+
+commit 47069049fc9bd1529771f22cfb7b36b971ab5bb0
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Dec 6 12:22:43 2022 +0800
+
+    1.HSN Finance - 新增Inventory Aging report功能
+
+commit ae02a58059959f81c2c77a3cdce89b58d2fd066e
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Sat Dec 3 16:23:21 2022 +0800
+
+    1.VF Customization - 調整API3001某些欄位長度過長問題
+
+commit 4b00d599623c3269866094607b8e20a4c00f4bb8
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Dec 2 13:08:19 2022 +0800
+
+    1.HSN Customization - 調整Questionnaire 畫面
+    2.HSN Finance - 完成Revenue Customization
+
+commit e1a04df6d07e233cc19e0804cd0322e061b3bfc6
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 1 17:52:23 2022 +0800
+
+    1.HSN Customization - 調整Questionnaire 畫面
+
+commit d67a9d670faa4810cd76ce79d9d55c28274c15f7
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 1 17:44:38 2022 +0800
+
+    1.HSN Customization - Fix Questionnaire aspx error
+
+commit bcda049a490ebc70e4e15a3b551a52e9df2c6de4
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 1 16:54:39 2022 +0800
+
+    1.HSN Customization - Fix Appointment Questionnaire bug
+
+commit dcc091d79239a2ec0cf0d31789e726f47adc0748
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 1 10:50:21 2022 +0800
+
+    1.HSN Customization - update xml
+    2.Highcare Customization - update xml
+
+commit f6838aeecab02e8f00844dcbd884fe8008af8367
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Dec 1 10:33:16 2022 +0800
+
+    1.HSN Customization - 補上消失的Code
+    2.Highcare Customization - 補上消失的Code
+
+commit 64c97934351ba40ee6ddadd73e2ca49a7f0f4b61
+Merge: 8dc927e 2cb768c
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Nov 30 11:52:09 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 8dc927e02571c37f248c61191ed76026650c0738
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Nov 30 11:51:59 2022 +0800
+
+    1.HSN Customization - 調整SCB Refund report
+
+commit 2cb768c4562bfb29a40e83ecce396846a5af9dcc
+Merge: 1d5fba8 899a378
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 29 14:18:50 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 1d5fba861c10e83d40fae7a33f0124ec354077f4
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 29 14:18:41 2022 +0800
+
+    New enhancement according to YJ's email [HSN eGUI enhancement].
+
+commit 899a37869e2a7a38404a3edb1c35fc379174b68a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 29 10:49:09 2022 +0800
+
+    1.VF Customization -  API 6001 新增Owner欄位
+
+commit a489e6cafd18fd3115d9ec7ee954888af8650375
+Merge: a428bc7 117ea05
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Nov 24 13:15:51 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit a428bc7c47a1193cfac7b448f7b0c9e814092f6a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Nov 24 13:15:47 2022 +0800
+
+    1.HSN Customization - HSN Prefernece新增Enable Storage Validation for Inventory Transactions。並移除原本Part Reqeust 檢核
+
+commit 117ea05e06bca4b1ad1d4b7e986a49a63743630a
+Merge: 983af60 01f545f
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Wed Nov 23 23:20:31 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/luminatechnology/HSN_21R2 into DEV
+
+commit 983af609eccda282b31cb5bb8b586ac96e4dfcb0
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Wed Nov 23 23:20:20 2022 +0800
+
+    Added a new enhancement condition.
+
+commit 01f545f6b73a2b524e3216d355fec52db6b6f338
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Nov 23 16:19:40 2022 +0800
+
+    1.HighCare Customization  - Highcare2.0調整
+
+commit c9fa5b538c265ee38d015a55576626f4da629ae1
+Merge: 0b47527 2245500
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Nov 23 10:09:18 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 0b47527745f7af2df7b9e14e3374cf0a662c6cab
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Nov 23 10:09:13 2022 +0800
+
+    1.VF Customization - 移除Bank 欄位 新增Owner欄位
+
+commit 2245500896827765d523bb03e6a5abac78214942
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 22 21:19:27 2022 +0800
+
+    Fill in missing files.
+
+commit 66a943856001da47fa0f49800ebca64c13b06ae9
+Merge: 745918d b7f2123
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 22 21:16:25 2022 +0800
+
+    Merge conflicts.
+
+commit 745918dce873f8d876f48fde129beefe8020a2ea
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 22 21:14:48 2022 +0800
+
+    New enhancements according to Joyce's spec [Design Concept - HSN Highcare 2.0 EGUI]
+
+commit b7f21236082146a3b49ac05a4877d201652dac8a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 22 16:39:24 2022 +0800
+
+    1.VF Customization - Receipt 新增 Bank欄位
+
+commit d9da274035f6bd42da7aa136a5d0da1577378fc4
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 22 16:37:44 2022 +0800
+
+    1.HSN Customization - 調整SCB Refund CSV format
+
+commit 70340217268b24833d7148d4bdebd18145c362f7
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 22 16:31:40 2022 +0800
+
+    Revert "1.VF Customization - Receipt 新增Bank Field and Endpoint Field"
+    
+    This reverts commit 76db1a7ecb36cc7af32bfd39aec0f443776ce388.
+
+commit 76db1a7ecb36cc7af32bfd39aec0f443776ce388
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 22 13:54:39 2022 +0800
+
+    1.VF Customization - Receipt 新增Bank Field and Endpoint Field
+
+commit 52f951e7c2aaf3c15cf22d74ce8bc90af0e871bc
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Nov 18 17:25:27 2022 +0800
+
+    1.HSN Customization  - 調整Appointment Sync LineCtrl
+
+commit 4cc5fb8eff197f95067bec7d253d9a4811f17db4
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Thu Nov 17 09:38:04 2022 +0800
+
+    1.HSN Customization - 新增Appointment SyncLineCtrl 功能
+
+commit 8ef5beedf8b77c4696f340d317978b5fe474cc48
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 8 15:20:18 2022 +0800
+
+    Solve encoding issue.
+
+commit 76c423a1debca432d1f75356b06c9e1d4718de9c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Nov 8 15:20:00 2022 +0800
+
+    Added a new enhancement.
+
+commit 4d75ca60f71baadec18f49b79e5a095c148817d3
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Nov 8 11:08:42 2022 +0800
+
+    1.Highcare Customiztion - 增加HSN Preference Highcare enable 判斷
+
+commit b837b0410d6f0b2b44d3ac369535987fc7a93c39
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Nov 4 11:32:29 2022 +0800
+
+    1.Highcare Customization - Deferred Revenue Process for Appointment
+
+commit 3d6081e79f927f2b7d46e6bba53cf16647298137
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 26 14:53:56 2022 +0800
+
+    1.HSN Customization - 調整Quenstionnaire 畫面
+
+commit 6c3ee191e2f244e7ab713a24cf446de46046b76f
+Merge: ab1dd88 f55307d
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 26 10:25:40 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit ab1dd8830255f2c44fe26a655d1ffb354264555a
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 26 10:25:36 2022 +0800
+
+    1.HSN Customiztion - Questionnaire 調整
+
+commit 44168eaaa44c3527f1d7d6fbbc90b06b56f7c129
+Merge: 4d8bf9e f55307d
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 25 13:13:43 2022 +0800
+
+    Only merge eGUI from DEV to master.
+
+commit f55307db378f0d0f6e8602b727d1ccae923aa1fa
+Merge: 0f2f675 146f74c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 25 13:09:04 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit 0f2f6759125a6493c112ac769fe6abd2dc1eede8
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 25 13:08:48 2022 +0800
+
+    Strengthen the insufficient credit action of eGUI invoice.
+
+commit 146f74c7fb399a23411e41ee8636689495297144
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Tue Oct 25 12:32:46 2022 +0800
+
+    1.Highcare Customiztion - 新增兩個GI + API endpoint
+
+commit 72b0b82365b83185e7f23159e67593de002b4e09
+Merge: a298ea7 2b57853
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 19 15:25:20 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit a298ea702260b798185c17300b5080e17a69a475
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 19 15:25:17 2022 +0800
+
+    1.HSN Customization - 調整Appointment 中的控制向ID(eduStaffID 、會導致與highcare Project衝突)
+    2.Highcare Customization - 完成裝置鞛定多組Pin code功能
+
+commit 4d8bf9e4b671d238c1cd8174608f89fc4b3cdf5c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 11 13:00:09 2022 +0800
+
+    Modified the enhancement based on [JIRA] (HSN-34).
+
+commit 2b57853586f187865fe1b387dd75629261cee1ff
+Merge: fe77bdb 5bc82fd
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 11 12:58:01 2022 +0800
+
+    Merge branch 'DEV' of https://github.com/JeffJave/HSN_21R2 into DEV
+
+commit fe77bdb5cb87dee3c40548b6264f7793cc75f20c
+Author: Administrator <Administrator@EC2AMAZ-DVS6HJL>
+Date:   Tue Oct 11 12:57:52 2022 +0800
+
+    Modified the enhancement based on [JIRA] (HSN-34).
+
+commit 5bc82fdaa2c7c5ad9917c9ca3230cb33f89a26e7
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Fri Oct 7 09:42:26 2022 +0800
+
+    1.HSN Customization - SCB Refund csv format調整
+    2.HSN Customization - SalesOrder DiscountPrescent 欄位新增CommitChange = true
+
+commit 77aafdf75e35b86bf5bedfe807aa2edc5f98c7f6
+Author: 林子瑋 <JO3.JO3@hotmail.com>
+Date:   Wed Oct 5 09:56:28 2022 +0800
+
+    1.Highcare API Endpoint 調整(新增SalesOrder-DiscountDetails)
