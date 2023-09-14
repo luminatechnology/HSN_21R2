@@ -95,6 +95,7 @@
     <Compile Include="DAC_Extension\FSManufacturerModelExtension.cs" />
     <Compile Include="DAC_Extension\FSServiceOrderExtensions.cs" />
     <Compile Include="DAC_Extension\FSSrvOrdTypeExtensions.cs" />
+    <Compile Include="DAC_Extension\SOOrderTypeExtensions.cs" />
     <Compile Include="Descriptor\FSStageControlHandler.cs" />
     <Compile Include="Descriptor\FSWorkflowStageHandler.cs" />
     <Compile Include="Descriptor\HSNMessages.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Graph_Extension\QuoteMaint.cs" />
     <Compile Include="Graph_Extension\ServiceContractEntry.cs" />
     <Compile Include="Graph_Extension\SM_SOInvoiceEntry.cs" />
+    <Compile Include="Graph_Extension\SM_SOOrderEntry.cs" />
     <Compile Include="Graph_Extension\SOInvoiceEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderEntry.cs" />
     <Compile Include="Graph_Extension\SvrOrdTypeMaint.cs" />
@@ -152,7 +154,6 @@
     <Compile Include="DAC\LUMApptQuensionnaireContactHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

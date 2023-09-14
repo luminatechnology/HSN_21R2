@@ -1,0 +1,4 @@
+﻿<Table TableName="APSetup">
+    <Column TableName="APSetup" ColumnName="UsrReqHeaderDescInCHK" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="APSetup" ColumnName="UsrReqHeaderDescInINV" ColumnType="bool" AllowNull="True" MaxLength="25" DecimalPrecision="2" IsNewColumn="True" IsUnicode="True" />
+</Table>

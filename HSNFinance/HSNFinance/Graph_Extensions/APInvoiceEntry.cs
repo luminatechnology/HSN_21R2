@@ -6,7 +6,7 @@ namespace PX.Objects.AP
     public class APInvoiceEntry_Extensions : PXGraphExtension<PX.Objects.AP.APInvoiceEntry>
     {
         #region Event Handlers
-        public virtual void _(Events.FieldUpdated<APInvoiceExt2.usrInvoiceDate> e)
+        public virtual void _(Events.FieldUpdated<APInvoiceExt_Finance.usrInvoiceDate> e)
         {
             var row = e.Row as APInvoice;
 

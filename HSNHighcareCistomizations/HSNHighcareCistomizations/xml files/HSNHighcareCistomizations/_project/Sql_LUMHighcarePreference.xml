@@ -1,0 +1,10 @@
+﻿<Sql TableName="LUMHighcarePreference" TableSchemaXml="#CDATA">
+    <CDATA name="TableSchemaXml"><![CDATA[<table name="LUMHighcarePreference">
+  <col name="CompanyID" type="Int" default="Zero" />
+  <col name="ReturnUrl" type="NVarChar(1024)" nullable="true" />
+  <col name="SecretKey" type="NVarChar(1024)" nullable="true" />
+  <index name="PK_LUMHighcarePreference" clustered="true" primary="true" unique="true">
+    <col name="CompanyID" />
+  </index>
+</table>]]></CDATA>
+</Sql>

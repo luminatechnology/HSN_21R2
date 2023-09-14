@@ -12,6 +12,8 @@ using HSNHighcareCistomizations.Entity;
 using PX.Data.BQL.Fluent;
 using PX.Data.BQL;
 using System.Threading;
+using Newtonsoft.Json;
+using HSNHighcareCistomizations.DAC;
 
 namespace HSNHighcareCistomizations.Graph
 {
@@ -23,13 +25,20 @@ namespace HSNHighcareCistomizations.Graph
         public PXCancel<HighcareReturnFilter> Cancel;
 
         public PXFilter<HighcareReturnFilter> Filter;
-        public PXFilteredProcessingJoin<ARInvoice, HighcareReturnFilter,
+        public PXFilteredProcessingJoinGroupBy<ARInvoice, HighcareReturnFilter,
                       InnerJoin<ARTran, On<ARInvoice.docType, Equal<ARTran.tranType>,
                             And<ARInvoice.refNbr, Equal<ARTran.refNbr>>>,
                       InnerJoin<SOInvoice, On<ARTran.origInvoiceType, Equal<SOInvoice.docType>,
                             And<ARTran.origInvoiceNbr, Equal<SOInvoice.refNbr>>>>>,
                       Where<ARInvoice.docType, Equal<ARInvoiceType.creditMemo>,
-                          And<SOInvoice.sOOrderType, Equal<EOTypeAttr>>>> Transactions;
+                          And<SOInvoice.sOOrderType, Equal<EOTypeAttr>>>,
+                      Aggregate<GroupBy<ARInvoice.refNbr,
+                                GroupBy<ARInvoice.docType,
+                                GroupBy<ARInvoice.status,
+                                GroupBy<ARInvoice.customerID,
+                                Max<ARInvoice.curyOrigDocAmt,
+                                GroupBy<SOInvoice.sOOrderNbr>
+                          >>>>>>> Transactions;
 
         #region Delegate Data View
 
@@ -74,22 +83,20 @@ namespace HSNHighcareCistomizations.Graph
 
         #region Method
 
-
         public static void GoProcessing(List<ARInvoice> list, HighcareReturnFilter filter)
         {
             var baseGraph = PXGraph.CreateInstance<HighcareReturnProcess>();
 
-            var invoiceGraph = PXGraph.CreateInstance<SOInvoiceEntry>();
             foreach (var record in list)
             {
-                baseGraph.ProcessReturn(invoiceGraph, record, filter);
+                baseGraph.ProcessReturn(record, filter);
             }
 
         }
 
-        public void ProcessReturn(SOInvoiceEntry invoiceGraph, ARInvoice item, HighcareReturnFilter filter)
+        public void ProcessReturn(ARInvoice item, HighcareReturnFilter filter)
         {
-            invoiceGraph.Clear();
+            var invoiceGraph = PXGraph.CreateInstance<SOInvoiceEntry>();
             invoiceGraph.Document.Current = item;
 
             var mapData = SelectFrom<ARInvoice>
@@ -104,27 +111,48 @@ namespace HSNHighcareCistomizations.Graph
             HighcareHelper helper = new HighcareHelper();
 
             HighcareReturnEntity entity = new HighcareReturnEntity();
-
             try
             {
                 #region Mapping Entity
+                var soOrder = mapData.RowCast<SOOrder>().FirstOrDefault();
                 entity.Status = filter?.ProcessType == HighcareReturnFilter.NewReturn ? "On Hold" : "Release";
                 entity.ModifiedTime = filter.ProcessType == HighcareReturnFilter.NewReturn ? item.CreatedDateTime : item.LastModifiedDateTime;
                 entity.Amount = item?.CuryOrigDocAmt;
-                entity.EOOrderNbr = mapData.RowCast<SOOrder>().FirstOrDefault()?.CustomerOrderNbr;
+                entity.ECOrderNumber = soOrder?.CustomerOrderNbr;
+                entity.OrderNumber = soOrder?.OrderNbr;
+                var soLines = SelectFrom<SOLine>
+                              .Where<SOLine.orderNbr.IsEqual<P.AsString>
+                                .And<SOLine.orderType.IsEqual<P.AsString>>>
+                              .View.Select(invoiceGraph, soOrder?.OrderNbr, soOrder?.OrderType).RowCast<SOLine>();
+                entity.Details = new List<Details>();
+                foreach (var soItems in soLines)
+                {
+                    var itemInfo = PX.Objects.IN.InventoryItem.PK.Find(invoiceGraph, soItems?.InventoryID);
+                    entity.Details.Add(new Details()
+                        {
+                            InventoryID = itemInfo?.InventoryID,
+                            InventoryCD = itemInfo?.InventoryCD,
+                            Quantity = soItems?.Qty
+                        }
+                    );
+                }
                 #endregion
                 var apiResult = helper.CallReturnAPI(entity);
                 if (!apiResult.success)
                     throw new PXException(apiResult.errorMessage);
+                // Update json to note
+                PXNoteAttribute.SetNote(invoiceGraph.Document.Cache, invoiceGraph.Document.Current, JsonConvert.SerializeObject(entity));
+
+                // Update User-defined
                 if (filter?.ProcessType == HighcareReturnFilter.NewReturn)
                 {
                     invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMSENT", true);
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMSTIME", DateTime.Now);
+                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMSTIME", PX.Common.PXTimeZoneInfo.Now);
                 }
                 else
                 {
                     invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED", true);
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMRTIME", DateTime.Now);
+                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMRTIME", PX.Common.PXTimeZoneInfo.Now);
                 }
             }
             catch (Exception ex)
@@ -133,12 +161,9 @@ namespace HSNHighcareCistomizations.Graph
             }
             finally
             {
-                invoiceGraph.Actions.PressSave();
+                invoiceGraph.Save.Press();
             }
         }
-
-
-
         #endregion
     }
 

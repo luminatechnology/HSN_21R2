@@ -35,5 +35,6 @@ namespace HSNCustomizations.Descriptor
         public const string CannotToggleRMA    = "Initiate RMA / Return RMA Already Exists, Cannot Toggle RMA.";
         public const string ApptHasInvetTrans  = "The Appointment Has At Least One Related Inventory Transaction. Delete It First Or Cancal The Appointment.";
         public const string ApptDetExistInvtTran = "The Inventory Is In Part Request/Initiate RMA And Can't Be Delete.";
+        public const string NonStkItemWithNoAmt  = "A Minimum Of One Non-Stock Item Is Necessary For Continued Processing.";
     }
 }
