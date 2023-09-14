@@ -75,7 +75,7 @@
         <Parameters>
             <ReportParameter>
                 <ColumnSpan>2</ColumnSpan>
-                <DefaultValue>=Report.GetDefExt('OrganizationBranchReportParameters.OrgBAccountID')</DefaultValue>
+                <DefaultValue>=Report.GetDefExt('OrganizationBranchReportParameters.OrganizationID')</DefaultValue>
                 <Name>OrgBAccountID</Name>
                 <Nullable>True</Nullable>
                 <Prompt>Company/Branch</Prompt>
@@ -340,7 +340,7 @@
                 <ParentName>GLHistoryByPeriod</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
+        <SchemaUrl>http://localhost/HSN</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>GLHistoryByPeriod.BranchID</DataField>
@@ -359,6 +359,10 @@
             </SortExp>
             <SortExp>
                 <DataField>GLTran.TranPeriodID</DataField>
+            </SortExp>
+            <SortExp>
+                <DataField>LSLedgerSettlement.SettlementNbr</DataField>
+                <SortOrder>Descending</SortOrder>
             </SortExp>
         </Sorting>
         <StylesTemplate>TemplateReport.rpx</StylesTemplate>
@@ -749,6 +753,10 @@
                     </ReportField>
                     <ReportField Name="AccountID_Segment1">
                     </ReportField>
+                    <ReportField Name="AccountID_Segment2">
+                    </ReportField>
+                    <ReportField Name="AccountID_Segment3">
+                    </ReportField>
                     <ReportField Name="AccountRequireUnits">
                         <DataType>Boolean</DataType>
                     </ReportField>
@@ -772,12 +780,6 @@
                     <ReportField Name="CostCodeID_PMCostCode_description">
                     </ReportField>
                     <ReportField Name="CostCodeID_Segment1">
-                    </ReportField>
-                    <ReportField Name="CostCodeID_Segment2">
-                    </ReportField>
-                    <ReportField Name="CostCodeID_Segment3">
-                    </ReportField>
-                    <ReportField Name="CostCodeID_Segment4">
                     </ReportField>
                     <ReportField Name="CreatedByID">
                     </ReportField>
@@ -903,6 +905,10 @@
                     </ReportField>
                     <ReportField Name="OrigAccountID_Segment1">
                     </ReportField>
+                    <ReportField Name="OrigAccountID_Segment2">
+                    </ReportField>
+                    <ReportField Name="OrigAccountID_Segment3">
+                    </ReportField>
                     <ReportField Name="OrigBatchNbr">
                     </ReportField>
                     <ReportField Name="OrigLineNbr">
@@ -920,6 +926,8 @@
                     <ReportField Name="OrigSubID_Segment1">
                     </ReportField>
                     <ReportField Name="OrigSubID_Segment2">
+                    </ReportField>
+                    <ReportField Name="OrigSubID_Segment3">
                     </ReportField>
                     <ReportField Name="OrigSubID_Sub_description">
                     </ReportField>
@@ -1016,6 +1024,8 @@
                     </ReportField>
                     <ReportField Name="SubID_Segment2">
                     </ReportField>
+                    <ReportField Name="SubID_Segment3">
+                    </ReportField>
                     <ReportField Name="SubID_Sub_description">
                     </ReportField>
                     <ReportField Name="SummPost">
@@ -1028,10 +1038,6 @@
                     <ReportField Name="TaskID_PMTask_description">
                     </ReportField>
                     <ReportField Name="TaskID_Segment1">
-                    </ReportField>
-                    <ReportField Name="TaskID_Segment2">
-                    </ReportField>
-                    <ReportField Name="TaskID_Segment3">
                     </ReportField>
                     <ReportField Name="TaxCategoryID">
                     </ReportField>
@@ -1071,6 +1077,18 @@
                     <ReportField Name="tstamp">
                     </ReportField>
                     <ReportField Name="UOM">
+                    </ReportField>
+                    <ReportField Name="UsrRmngCreditAmt">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="UsrRmngDebitAmt">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="UsrSetldCreditAmt">
+                        <DataType>Decimal</DataType>
+                    </ReportField>
+                    <ReportField Name="UsrSetldDebitAmt">
+                        <DataType>Decimal</DataType>
                     </ReportField>
                     <ReportField Name="ZeroPost">
                         <DataType>Boolean</DataType>
@@ -1882,6 +1900,7 @@
                 <ExcelMargin>
                     <bottom>1</bottom>
                 </ExcelMargin>
+                <Expanded>False</Expanded>
                 <Height>64px</Height>
                 <StyleName>PageHeaderSection</StyleName>
                 <Items>
@@ -2119,6 +2138,7 @@
                 </Items>
             </PageHeader>
             <Detail Name="Details">
+                <Expanded>False</Expanded>
                 <Height>16px</Height>
                 <ProcessOrder>Always</ProcessOrder>
                 <Variables>
@@ -2130,10 +2150,6 @@
                         <Name>IsVisible</Name>
                         <ProcessOrder>Always</ProcessOrder>
                         <ValueExpr>=[GLTran.AccountID] &lt;&gt; null #010;And [GLTran.TranDate] &gt;= $ParmStartDate#010;And [GLTran.TranDate] &lt;= $ParmEndDate</ValueExpr>
-                    </ReportVariable>
-                    <ReportVariable>
-                        <Name>RptUDF</Name>
-                        <ValueExpr>=IIf($IsVisible = true, ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), '')</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>BegBalance</Name>
@@ -2158,7 +2174,7 @@
                     <ReportVariable>
                         <Name>LineBalance</Name>
                         <ProcessOrder>Always</ProcessOrder>
-                        <ValueExpr>=$LineBalance #010;+$SignTurn #010;*IsNull(IIF((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;	    [GLTran.ReclassRemainingAmt], #010;            IIf([GLTran.UOM] = 'YY', #010;                [LSLedgerSettlement.OrigDebitAmt] - $AggreSettledDebit, #010;                [GLTran.DebitAmt])), #010;            0) #010;-$SignTurn #010;*IsNull(IIF((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;            [GLTran.ReclassRemainingAmt], #010;            IIf([GLTran.UOM] = 'YY',#010;                [LSLedgerSettlement.OrigCreditAmt] - $AggreSettledCredit,#010;                [GLTran.CreditAmt])), #010;            0)</ValueExpr>
+                        <ValueExpr>=$LineBalance #010;+$SignTurn * IsNull(IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         [GLTran.DebitAmt]#010;        )#010;     ) ,0) #010;-$SignTurn * IsNull(IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [GLTran.CreditAmt] - IsNull([GLTran.UsrSetldCreditAmt], 0),#010;         [GLTran.CreditAmt]#010;        )#010;     ) ,0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>LineCuryBalance</Name>
@@ -2166,46 +2182,27 @@
                         <ValueExpr>=$LineCuryBalance + $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigDebitAmt] - [LSLedgerSettlement.SettledDebitAmt], [GLTran.CuryDebitAmt])), 0) - $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigCreditAmt] - [LSLedgerSettlement.SettledCreditAmt], [GLTran.CuryCreditAmt])), 0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
-                        <Name>SettlementCredit</Name>
-                        <ProcessOrder>Always</ProcessOrder>
-                        <ValueExpr>=IIf($ParmStartDate &gt;= [LSLedgerSettlement.TranDate],#010;     IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = True Or#010;         ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = False,#010;         [LSLedgerSettlement.SettledCreditAmt], #010;         0),#010;     0)#010;+ $SettlementCredit</ValueExpr>
+                        <Name>SettledDebit</Name>
+                        <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
+                        <ValueExpr>=$SettledDebit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledDebitAmt], 0), 0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
-                        <Name>SettlementDebit</Name>
-                        <ProcessOrder>Always</ProcessOrder>
-                        <ValueExpr>=IIf($ParmStartDate &gt;= [LSLedgerSettlement.TranDate],#010;     IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = True  Or#010;         ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr]) = False,#010;         [LSLedgerSettlement.SettledDebitAmt], #010;         0),#010;     0)#010;+ $SettlementDebit</ValueExpr>
-                    </ReportVariable>
-                    <ReportVariable>
-                        <Name>TranDebit</Name>
-                        <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [LSLedgerSettlement.OrigDebitAmt] - $SettledDebitLine,#010;         [GLTran.DebitAmt]#010;        )#010;     )</ValueExpr>
-                    </ReportVariable>
-                    <ReportVariable>
-                        <Name>TranCredit</Name>
-                        <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [LSLedgerSettlement.OrigCreditAmt] - $SettledCreditLine,#010;         [GLTran.CreditAmt]#010;        )#010;     )</ValueExpr>
+                        <Name>SettledCredit</Name>
+                        <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
+                        <ValueExpr>=$SettledCredit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledCreditAmt], 0), 0)</ValueExpr>
                     </ReportVariable>
                 </Variables>
-                <VisibleExpr>=$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;        IIf([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr]) And [GLTran.UOM] = 'YY', True, False))#010;And ($TranDebit &lt;&gt; 0 Or $TranCredit &lt;&gt; 0)</VisibleExpr>
+                <VisibleExpr>=False#010;/*$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;	(IsNull([GLTran.UsrSetldCreditAmt], 0) = 0 Or $TranCredit &gt; 0) And#010;	(IsNull([GLTran.UsrSetldDebitAmt], 0) = 0 Or $TranDebit &gt; 0)#010;        )#010;*/#010;    /*IIf(([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr])#010;          And [GLTran.UOM] = 'YY')#010;          Or($TranDebit &lt;&gt; 0 Or $TranCredit &lt;&gt; 0), True, False))*/</VisibleExpr>
                 <Items>
                     <TextBox Name="textBox10">
+                        <CanGrow>True</CanGrow>
                         <Excel>
-                            <column>2</column>
+                            <column>8</column>
                         </Excel>
-                        <Location>56px, 0px</Location>
-                        <Size>70px, 16px</Size>
+                        <Location>496px, 0px</Location>
+                        <Size>224px, 16px</Size>
                         <StyleName>Normal</StyleName>
-                        <Value>=[GLTran.TranDate]</Value>
-                    </TextBox>
-                    <TextBox Name="textBox27">
-                        <Excel>
-                            <column>3</column>
-                        </Excel>
-                        <Location>126px, 0px</Location>
-                        <Size>40px, 16px</Size>
-                        <Style>
-                            <TextAlign>Center</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[Batch.Module]</Value>
+                        <Value>=Format('{0}/{1}/{2}', Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 0, 4),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 4, 2),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 6, 2))</Value>
                     </TextBox>
                     <TextBox Name="textBox28">
                         <Excel>
@@ -2215,25 +2212,6 @@
                         <Size>80px, 16px</Size>
                         <StyleName>Normal</StyleName>
                         <Value>=[GLTran.LineNbr]#010;/*[GLTran.RefNbr]*/</Value>
-                    </TextBox>
-                    <TextBox Name="textBox29">
-                        <Excel>
-                            <column>7</column>
-                        </Excel>
-                        <Location>400px, 0px</Location>
-                        <Size>92px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[GLTran.SubID]</Value>
-                    </TextBox>
-                    <TextBox Name="textBox30">
-                        <Excel>
-                            <column>5</column>
-                        </Excel>
-                        <Format>=Switch(#010;[GLTran.Module]='AP',Report.GetFormat('APRegister.DocType'),#010;[GLTran.Module]='AR',Report.GetFormat('ARRegister.DocType'), #010;[GLTran.Module]='CA',Report.GetFormat('CATran.OrigTranType'), #010;[GLTran.Module]='IN',Report.GetFormat('INTran.TranType'),#010;[GLTran.Module]='FA',Report.GetFormat('FATran.TranType'),#010;[GLTran.Module]='CM',Report.GetFormat('CMReportTranType.TranType'))</Format>
-                        <Location>250px, 0px</Location>
-                        <Size>70px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=iif([GLTran.Module]='GL','',[GLTran.TranType])</Value>
                     </TextBox>
                     <TextBox Name="textBox35">
                         <Excel>
@@ -2275,12 +2253,6 @@
                         <StyleName>Normal</StyleName>
                         <Value>=$LineBalance</Value>
                     </TextBox>
-                    <TextBox Name="textBox39">
-                        <Location>4px, 0px</Location>
-                        <Size>52px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=IIf(@UseMasterCalendar=True, [GLTran.TranPeriodID], [GLTran.FinPeriodID])</Value>
-                    </TextBox>
                     <TextBox Name="textBox4">
                         <Excel>
                             <column>4</column>
@@ -2290,16 +2262,6 @@
                         <Size>70px, 16px</Size>
                         <StyleName>Normal</StyleName>
                         <Value>=[Batch.BatchNbr]</Value>
-                    </TextBox>
-                    <TextBox Name="textBox48">
-                        <CanGrow>True</CanGrow>
-                        <Excel>
-                            <column>8</column>
-                        </Excel>
-                        <Location>496px, 0px</Location>
-                        <Size>224px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[GLTran.TranDesc]</Value>
                     </TextBox>
                     <TextBox Name="textBox56">
                         <Excel>
@@ -2439,6 +2401,7 @@
                 <Height>8px</Height>
             </ReportHeader>
             <PageHeader Name="pageHeaderSection2">
+                <Expanded>False</Expanded>
                 <Height>24px</Height>
                 <StyleName>ColumnsHeaderSection</StyleName>
                 <Items>
@@ -2574,6 +2537,7 @@
                 </Items>
             </PageHeader>
             <PageHeader Name="pageHeaderSection3">
+                <Expanded>False</Expanded>
                 <Height>4px</Height>
             </PageHeader>
         </Sections>
@@ -2590,6 +2554,7 @@
                 </Grouping>
                 <Headers>
                     <Header Name="groupHeaderSection1">
+                        <Expanded>False</Expanded>
                         <GridSize>8px, 8px</GridSize>
                         <Height>16px</Height>
                         <ProcessOrder>Always</ProcessOrder>
@@ -2606,7 +2571,7 @@
                                 <Name>LineBalance</Name>
                                 <ProcessOrder>WhilePrint</ProcessOrder>
                                 <ResetGroup>Ledger_Account</ResetGroup>
-                                <ValueExpr>=IIf([@Module] = null, $SignBegBalance * ($BegBalance - $SettlementDebit + $SettlementCredit), 0)</ValueExpr>
+                                <ValueExpr>=IIf([@Module] = null, $SignBegBalance * $BegBalance, 0)#010;/*IIf([@Module] = null, $SignBegBalance * ($BegBalance - $SettlementDebit + $SettlementCredit), 0)*/</ValueExpr>
                             </ReportVariable>
                             <ReportVariable>
                                 <Name>LineCuryBalance</Name>
@@ -2625,36 +2590,6 @@
                         </Variables>
                         <VisibleExpr>= IIF( [@Module] = null,#010; IIF (#010;        ([Account.Type] = 'I' or [Account.Type] = 'E' ) and Not(Payments.ArePeriodsInSameYear(Prev([GLHistoryByPeriod.FinPeriodID.Raw]), [GLHistoryByPeriod.FinPeriodID.Raw]))#010;        or Prev([GLHistoryByPeriod.FinPeriodID]) = null#010;         , True, False)#010;, True)</VisibleExpr>
                         <Items>
-                            <TextBox Name="textBox21">
-                                <Excel>
-                                    <column>11</column>
-                                </Excel>
-                                <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>716px, 0px</Location>
-                                <ProcessOrder>Always</ProcessOrder>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Heading 1</StyleName>
-                                <Value>=$SettlementDebit</Value>
-                                <Visible>False</Visible>
-                            </TextBox>
-                            <TextBox Name="textBox22">
-                                <Excel>
-                                    <column>11</column>
-                                </Excel>
-                                <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>920px, 0px</Location>
-                                <ProcessOrder>Always</ProcessOrder>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Heading 1</StyleName>
-                                <Value>=$SettlementCredit</Value>
-                                <Visible>False</Visible>
-                            </TextBox>
                             <TextBox Name="textBox34">
                                 <Excel>
                                     <column>13</column>
@@ -2743,13 +2678,12 @@
                                 </Excel>
                                 <Format>=[GLTran.CuryDebitAmt.Format]</Format>
                                 <Location>1116px, 4px</Location>
-                                <ProcessOrder>WhilePrint</ProcessOrder>
                                 <Size>100px, 16px</Size>
                                 <Style>
                                     <TextAlign>Right</TextAlign>
                                 </Style>
                                 <StyleName>Heading 1</StyleName>
-                                <Value>= $LineBalance</Value>
+                                <Value>=$Grp3_TotalLineBalance</Value>
                             </TextBox>
                         </Items>
                     </Footer>
@@ -2787,44 +2721,213 @@
                     </Footer>
                 </Footers>
             </Group>
-            <Group Name="Settle BatchNbr">
+            <Group Name="Module_BatchNbr_LineNbr">
                 <Grouping>
                     <GroupExp>
-                        <DataField>=[LSLedgerSettlement.BatchNbr]</DataField>
+                        <DataField>=[GLTran.Module]</DataField>
+                    </GroupExp>
+                    <GroupExp>
+                        <DataField>=[GLTran.BatchNbr]</DataField>
+                    </GroupExp>
+                    <GroupExp>
+                        <DataField>=[GLTran.LineNbr]</DataField>
                     </GroupExp>
                 </Grouping>
                 <Headers>
                     <Header Name="groupHeaderSection3">
                         <GridSize>8px, 8px</GridSize>
                         <Height>0px</Height>
-                        <Variables>
-                            <ReportVariable>
-                                <Name>AggreSettledDebit</Name>
-                                <ResetGroup>Settle BatchNbr</ResetGroup>
-                                <ValueExpr>=Sum(IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.SettledDebitAmt], 0)) + $AggreSettledDebit</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>AggreSettledCredit</Name>
-                                <ResetGroup>Settle BatchNbr</ResetGroup>
-                                <ValueExpr>=Sum(IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.SettledCreditAmt], 0)) + $AggreSettledCredit</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>SettledDebitLine</Name>
-                                <ValueExpr>=Sum(IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.SettledDebitAmt], 0))</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>SettledCreditLine</Name>
-                                <ValueExpr>=Sum(IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.SettledCreditAmt], 0))</ValueExpr>
-                            </ReportVariable>
-                        </Variables>
                         <Visible>False</Visible>
                     </Header>
                 </Headers>
                 <Footers>
                     <Footer Name="groupFooterSection3">
                         <GridSize>8px, 8px</GridSize>
-                        <Height>0cm</Height>
-                        <Visible>False</Visible>
+                        <Height>16px</Height>
+                        <ProcessOrder>Always</ProcessOrder>
+                        <Variables>
+                            <ReportVariable>
+                                <Name>RptUDF</Name>
+                                <ValueExpr>=$IsVisible And ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr])</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>Visibility</Name>
+                                <ValueExpr>=$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;        /* No settled record OR column of credit has value*/#010;	(IsNull([GLTran.UsrSetldCreditAmt], 0) = 0 Or $TranCredit &gt; 0) Or#010;	(IsNull([GLTran.UsrSetldDebitAmt], 0) = 0 Or $TranDebit &gt; 0)#010;        )</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>DebitAmt</Name>
+                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledDebit, [GLTran.DebitAmt])#010;        )#010;     )</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>CreditAmt</Name>
+                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.CreditAmt] - IsNull([GLTran.UsrSetldCreditAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledCredit, [GLTran.CreditAmt])#010;        )#010;     )</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>Grp3_LineBalance</Name>
+                                <ValueExpr>=$Grp3_LineBalance#010;+IIf($Visibility, $SignTurn * $DebitAmt - ($SignTurn * $CreditAmt), 0)</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>Grp3_TotalLineBalance</Name>
+                                <ValueExpr>=$Grp3_LineBalance</ValueExpr>
+                            </ReportVariable>
+                        </Variables>
+                        <VisibleExpr>=$Visibility</VisibleExpr>
+                        <Items>
+                            <TextBox Name="textBox67">
+                                <Excel>
+                                    <column>10</column>
+                                </Excel>
+                                <Location>820px, 0px</Location>
+                                <Size>100px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [GLTran.CuryCreditAmt] - [GLTran.UsrSetldCreditAmt],#010;         [GLTran.CuryCreditAmt]#010;        )#010;     )</Value>
+                            </TextBox>
+                            <TextBox Name="textBox68">
+                                <Excel>
+                                    <column>9</column>
+                                </Excel>
+                                <Location>720px, 0px</Location>
+                                <Size>100px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.CuryDebitAmt] - [GLTran.UsrSetldDebitAmt],#010;         [GLTran.CuryDebitAmt]#010;        )#010;     )</Value>
+                            </TextBox>
+                            <TextBox Name="textBox69">
+                                <Excel>
+                                    <column>12</column>
+                                </Excel>
+                                <Location>1216px, 0px</Location>
+                                <Size>8px, 16px</Size>
+                                <Style>
+                                    <Color>Red</Color>
+                                    <Font>
+                                        <Style>Bold</Style>
+                                    </Font>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>*</Value>
+                                <VisibleExpr>=[GLTran.Reclassified]=True</VisibleExpr>
+                            </TextBox>
+                            <TextBox Name="textBox70">
+                                <CanGrow>True</CanGrow>
+                                <Excel>
+                                    <column>8</column>
+                                </Excel>
+                                <Location>496px, 0px</Location>
+                                <Size>224px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[GLTran.TranDesc]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox71">
+                                <Excel>
+                                    <column>4</column>
+                                </Excel>
+                                <Location>172px, 0px</Location>
+                                <NavigateMethod>Server</NavigateMethod>
+                                <Size>70px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[Batch.BatchNbr]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox72">
+                                <Location>4px, 0px</Location>
+                                <Size>52px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=IIf(@UseMasterCalendar=True, [GLTran.TranPeriodID], [GLTran.FinPeriodID])</Value>
+                            </TextBox>
+                            <TextBox Name="textBox73">
+                                <Excel>
+                                    <column>13</column>
+                                </Excel>
+                                <Format>=[GLTran.CuryDebitAmt.Format]</Format>
+                                <Location>1120px, 0px</Location>
+                                <Size>96px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=$Grp3_LineBalance</Value>
+                            </TextBox>
+                            <TextBox Name="textBox74">
+                                <Excel>
+                                    <column>12</column>
+                                </Excel>
+                                <Format>=[GLTran.CreditAmt.Format]</Format>
+                                <Location>1020px, 0px</Location>
+                                <Size>100px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=$CreditAmt</Value>
+                            </TextBox>
+                            <TextBox Name="textBox75">
+                                <Excel>
+                                    <column>11</column>
+                                </Excel>
+                                <Format>=[GLTran.DebitAmt.Format]</Format>
+                                <Location>920px, 0px</Location>
+                                <Size>100px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=$DebitAmt</Value>
+                            </TextBox>
+                            <TextBox Name="textBox76">
+                                <Excel>
+                                    <column>5</column>
+                                </Excel>
+                                <Format>=Switch(#010;[GLTran.Module]='AP',Report.GetFormat('APRegister.DocType'),#010;[GLTran.Module]='AR',Report.GetFormat('ARRegister.DocType'), #010;[GLTran.Module]='CA',Report.GetFormat('CATran.OrigTranType'), #010;[GLTran.Module]='IN',Report.GetFormat('INTran.TranType'),#010;[GLTran.Module]='FA',Report.GetFormat('FATran.TranType'),#010;[GLTran.Module]='CM',Report.GetFormat('CMReportTranType.TranType'))</Format>
+                                <Location>250px, 0px</Location>
+                                <Size>70px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=IIf([GLTran.Module]='GL','',[GLTran.TranType])</Value>
+                            </TextBox>
+                            <TextBox Name="textBox77">
+                                <Excel>
+                                    <column>7</column>
+                                </Excel>
+                                <Location>400px, 0px</Location>
+                                <Size>92px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[GLTran.SubID]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox78">
+                                <Excel>
+                                    <column>6</column>
+                                </Excel>
+                                <Location>320px, 0px</Location>
+                                <Size>80px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[GLTran.LineNbr]#010;/*[GLTran.RefNbr]*/</Value>
+                            </TextBox>
+                            <TextBox Name="textBox79">
+                                <Excel>
+                                    <column>3</column>
+                                </Excel>
+                                <Location>126px, 0px</Location>
+                                <Size>40px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Center</TextAlign>
+                                </Style>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[Batch.Module]</Value>
+                            </TextBox>
+                            <TextBox Name="textBox80">
+                                <Excel>
+                                    <column>2</column>
+                                </Excel>
+                                <Location>56px, 0px</Location>
+                                <Size>70px, 16px</Size>
+                                <StyleName>Normal</StyleName>
+                                <Value>=[GLTran.TranDate]</Value>
+                            </TextBox>
+                        </Items>
                     </Footer>
                 </Footers>
             </Group>
