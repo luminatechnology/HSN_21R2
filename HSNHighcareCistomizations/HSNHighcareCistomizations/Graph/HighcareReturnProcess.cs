@@ -60,7 +60,7 @@ namespace HSNHighcareCistomizations.Graph
                 var attrHCCRMRLSED = this.Transactions.Cache.GetValueExt(invRow, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED") as PXFieldState;
                 if (filter.ProcessType == HighcareReturnFilter.NewReturn && !((bool?)attrHCCRMSENT?.Value ?? false))
                     yield return row;
-                else if (filter.ProcessType == HighcareReturnFilter.ReleaseReturn && ((bool?)attrHCCRMSENT?.Value ?? false) && !((bool?)attrHCCRMRLSED?.Value ?? false))
+                else if (filter.ProcessType == HighcareReturnFilter.ReleaseReturn && ((bool?)attrHCCRMSENT?.Value ?? false) && !((bool?)attrHCCRMRLSED?.Value ?? false) && invRow.Status == ARDocStatus.Open)
                     yield return row;
             }
         }
