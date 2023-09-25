@@ -74,6 +74,7 @@
     <Compile Include="DAC_Extensions\APPaymentExt_Finance.cs" />
     <Compile Include="DAC_Extensions\APSetupExtensions.cs" />
     <Compile Include="DAC_Extensions\ARInvoiceExt_Finance.cs" />
+    <Compile Include="DAC_Extensions\ARPaymentExt_Finance.cs" />
     <Compile Include="DAC_Extensions\ARSetupExtensions.cs" />
     <Compile Include="DAC_Extensions\ARTranExt_Finance.cs" />
     <Compile Include="DAC_Extensions\CATranExtensions.cs" />
