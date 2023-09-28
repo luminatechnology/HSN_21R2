@@ -117,7 +117,9 @@ namespace HSNHighcareCistomizations.Graph
                 #region Mapping Entity
                 var soOrder = mapData.RowCast<SOOrder>().FirstOrDefault();
                 entity.Status = filter?.ProcessType == HighcareReturnFilter.NewReturn ? "On Hold" : "Release";
-                entity.ModifiedTime = filter.ProcessType == HighcareReturnFilter.NewReturn ? item.CreatedDateTime : item.LastModifiedDateTime;
+                entity.ModifiedTime = filter.ProcessType == HighcareReturnFilter.NewReturn 
+                                        ? TimeZoneInfo.ConvertTimeToUtc(item.CreatedDateTime.Value, TimeZoneInfo.FindSystemTimeZoneById(PX.Common.PXContext.PXIdentity.TimeZone.RegionId)) 
+                                        : TimeZoneInfo.ConvertTimeToUtc(item.LastModifiedDateTime.Value, TimeZoneInfo.FindSystemTimeZoneById(PX.Common.PXContext.PXIdentity.TimeZone.RegionId));
                 entity.Amount = item?.CuryOrigDocAmt;
                 entity.ECOrderNumber = soOrder?.CustomerOrderNbr;
                 entity.OrderNumber = soOrder?.OrderNbr;
@@ -143,20 +145,6 @@ namespace HSNHighcareCistomizations.Graph
                     throw new PXException(apiResult.errorMessage);
                 // Update json to note
                 PXNoteAttribute.SetNote(invoiceGraph.Document.Cache, invoiceGraph.Document.Current, JsonConvert.SerializeObject(entity));
-
-                //// Update User-defined
-                //if (filter?.ProcessType == HighcareReturnFilter.NewReturn)
-                //{
-                //    //invoiceGraph.Document.Cache.SetValueExt(item, PX.Objects.CS.Messages.Attribute + "HCCRMSENT", true);
-                //    //invoiceGraph.Document.Cache.SetValueExt(item, PX.Objects.CS.Messages.Attribute + "HCCRMSTIME", PX.Common.PXTimeZoneInfo.Now);
-                //    InsertOrUpdateKvextManualWithNew(item.NoteID, baseGraph);
-                //}
-                //else
-                //{
-                //    //invoiceGraph.Document.Cache.SetValueExt(item, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED", true);
-                //    //invoiceGraph.Document.Cache.SetValueExt(item, PX.Objects.CS.Messages.Attribute + "HCCRMRTIME", PX.Common.PXTimeZoneInfo.Now);
-                //    InsertOrUpdateKvextManualWithReleased(item.NoteID, baseGraph);
-                //}
             }
             catch (Exception ex)
             {
