@@ -1,0 +1,112 @@
+﻿<Report Name="lm641001.rpx">
+    <Report version="20201103" Name="report1">
+        <CommonSettings>
+            <PdfCompressed>False</PdfCompressed>
+            <ViewPdf>True</ViewPdf>
+        </CommonSettings>
+        <PageSettings>
+            <Margins>
+                <Bottom>0px</Bottom>
+                <Left>15mm</Left>
+                <Right>0px</Right>
+                <Top>13mm</Top>
+            </Margins>
+        </PageSettings>
+        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <StylesTemplate>TemplateReport.rpx</StylesTemplate>
+        <Tables>
+            <ReportTable Name="LUMBarcodeReportData">
+                <Fields>
+                    <ReportField Name="InventoryID1">
+                    </ReportField>
+                    <ReportField Name="InventoryID1_description">
+                    </ReportField>
+                    <ReportField Name="InventoryID1_InventoryItem_descr">
+                    </ReportField>
+                    <ReportField Name="InventoryID1_Segment1">
+                    </ReportField>
+                    <ReportField Name="InventoryID2">
+                    </ReportField>
+                    <ReportField Name="InventoryID2_description">
+                    </ReportField>
+                    <ReportField Name="InventoryID2_InventoryItem_descr">
+                    </ReportField>
+                    <ReportField Name="InventoryID2_Segment1">
+                    </ReportField>
+                    <ReportField Name="InventoryID3">
+                    </ReportField>
+                    <ReportField Name="InventoryID3_description">
+                    </ReportField>
+                    <ReportField Name="InventoryID3_InventoryItem_descr">
+                    </ReportField>
+                    <ReportField Name="InventoryID3_Segment1">
+                    </ReportField>
+                    <ReportField Name="LineNbr">
+                        <DataType>Int32</DataType>
+                    </ReportField>
+                </Fields>
+                <FullName>HSNCustomizations.Graph.LUMBarcodeReportData</FullName>
+            </ReportTable>
+        </Tables>
+        <Version>20231104</Version>
+        <Width>19.5cm</Width>
+        <Sections>
+            <PageHeader Name="pageHeaderSection1">
+                <Height>0px</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Visible>False</Visible>
+            </PageHeader>
+            <Detail Name="detailSection1">
+                <Height>17mm</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Items>
+                    <PictureBox Name="pictureBox1">
+                        <BarcodeSettings>
+                            <BarHeight>450</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
+                            <TopMargin>2</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>2px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>60mm, 17mm</Size>
+                        <Source>Barcode</Source>
+                        <Value>=[LUMBarcodeReportData.InventoryID1]</Value>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox2">
+                        <BarcodeSettings>
+                            <BarHeight>450</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
+                            <TopMargin>2</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>233px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>60mm, 17mm</Size>
+                        <Source>Barcode</Source>
+                        <Value>=[LUMBarcodeReportData.InventoryID2]</Value>
+                    </PictureBox>
+                    <PictureBox Name="pictureBox3">
+                        <BarcodeSettings>
+                            <BarHeight>450</BarHeight>
+                            <BarWidth>6</BarWidth>
+                            <LeftMargin>0</LeftMargin>
+                            <TopMargin>2</TopMargin>
+                        </BarcodeSettings>
+                        <BarcodeType>Code93</BarcodeType>
+                        <Location>462px, 0px</Location>
+                        <MimeType>image/bmp</MimeType>
+                        <QRCodeSettings />
+                        <Size>60mm, 17mm</Size>
+                        <Source>Barcode</Source>
+                        <Value>=[LUMBarcodeReportData.InventoryID3]</Value>
+                    </PictureBox>
+                </Items>
+            </Detail>
+        </Sections>
+    </Report>
+</Report>
