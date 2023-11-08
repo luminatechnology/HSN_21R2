@@ -1,3 +1,4 @@
 ﻿<Table TableName="ARTran">
     <Column TableName="ARTran" ColumnName="UsrReasonCode" ColumnType="string" AllowNull="True" MaxLength="20" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="ARTran" ColumnName="usrSettled" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

@@ -70,6 +70,7 @@
     <Compile Include="DAC\LumINItemCostHist.cs" />
     <Compile Include="DAC\LUMLAInterestExp.cs" />
     <Compile Include="DAC\LUMLLSetup.cs" />
+    <Compile Include="DAC\v_PrepaymentMappingTable.cs" />
     <Compile Include="DAC_Extensions\APInvoiceExt_Finance.cs" />
     <Compile Include="DAC_Extensions\APPaymentExt_Finance.cs" />
     <Compile Include="DAC_Extensions\APSetupExtensions.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="DAC_Extensions\SOSetupExtensions.cs" />
     <Compile Include="Graph\LumARAgedPeriodMaint.cs" />
     <Compile Include="Graph\LumINItemCostHistMaint.cs" />
+    <Compile Include="Graph\LUMPrepaymentForCashSalesProcess.cs" />
     <Compile Include="Graph\LUMRevenueInventoryAccountMaint.cs" />
     <Compile Include="Graph_Extensions\APInvoiceEntry.cs" />
     <Compile Include="Graph_Extensions\AppointmentEntry.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Graph\LUMHyperionAcctMapMaint.cs" />
     <Compile Include="Graph\LUMLLSetupMaint.cs" />
     <Compile Include="DAC\LUMRevenueInventoryAccounts.cs" />
+    <Compile Include="Graph_Extensions\SOInvoiceEntry_Finance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Descriptor\UtilFunctions.cs" />
   </ItemGroup>
