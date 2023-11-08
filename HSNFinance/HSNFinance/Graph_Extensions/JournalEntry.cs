@@ -2,6 +2,7 @@
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
+using PX.Objects.AR;
 using PX.Objects.IN;
 using PX.Objects.PO;
 using PX.Objects.SO;
@@ -42,7 +43,7 @@ namespace PX.Objects.GL
             if (batch.Status == BatchStatus.Unposted && string.IsNullOrEmpty(batch.Description))
             {
                 const string PurchaseReceipt = "PO302000";
-                const string Shipment        = "SO302000";
+                //const string Shipment        = "SO302000";
                 
                 string description = null;
 
@@ -68,7 +69,8 @@ namespace PX.Objects.GL
                     /// the Journal Transactions that triggered by Releasing the Shipment or related Invoices,
                     /// it will copy the Description (SOOrder.OrderDesc) to Batch.Description (Inventory Issues).
                     /// </remarks>
-                    case Shipment:
+                    case SOInvoiceShipment.WellKnownActions.SOShipmentScreen.ScreenID: // Shipment
+                    case SOReleaseInvoice.WellKnownActions.SOInvoiceScreen.ScreenID:   // Invoice
                         if (SelectFrom<SOSetup>.View.SelectSingleBound(Base, null).TopFirst?.GetExtension<SOSetupExt>().UsrCopyHeaderDescFromSO == true)
                         {
                             description = SelectFrom<SOOrder>.InnerJoin<SOOrderShipment>.On<SOOrderShipment.orderNoteID.IsEqual<SOOrder.noteID>>
@@ -76,6 +78,14 @@ namespace PX.Objects.GL
                                                                                       .And<INRegister.sOShipmentNbr.IsEqual<SOOrderShipment.shipmentNbr>>>
                                                              .Where<INRegister.refNbr.IsEqual<@P.AsString>>.View
                                                              .SelectSingleBound(Base, null, iNRefNbr).TopFirst?.OrderDesc;
+
+                            if (string.IsNullOrEmpty(description))
+                            {
+                                description = SelectFrom<ARRegister>.InnerJoin<ARTran>.On<ARTran.tranType.IsEqual<ARRegister.docType>
+                                                                                          .And<ARTran.refNbr.IsEqual<ARRegister.refNbr>>>
+                                                                    .Where<ARTran.invtRefNbr.IsEqual<@P.AsString>>.View
+                                                                    .SelectSingleBound(Base, null, iNRefNbr).TopFirst?.DocDesc;
+                            }
                         }
                         break;
                     default:
