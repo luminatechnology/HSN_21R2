@@ -1,0 +1,35 @@
+﻿<Sql TableName="Create_v_PrepaymentMappingTable" SqlScriptPriority="10" CustomScript="#CDATA">
+    <CDATA name="CustomScript"><![CDATA[IF EXISTS
+(
+	SELECT *
+	FROM SYS.views
+	WHERE name = 'v_PrepaymentMappingTable' AND SCHEMA_ID = SCHEMA_ID('dbo')
+)
+DROP VIEW [dbo].[v_PrepaymentMappingTable]	
+GO
+CREATE VIEW v_PrepaymentMappingTable AS
+SELECT t.CompanyID,
+	   g.CustomerID,
+	   r.RefNbr AS PrepaymentRefNbr,
+	   g.Status AS Status,
+	   t.RefNbr AS InvoiceNbr,
+	   t.CuryExtPrice * -1 AS CuryExtPrice,
+	   t.LineNbr AS LineNbr,
+	   t.BranchID,
+	   t.AccountID,
+	   t.SubID
+from ARTran t
+INNER JOIN ARRegister invoice ON t.CompanyID = invoice.CompanyID
+							 AND t.RefNbr = invoice.RefNbr
+							 AND t.CompanyID > 0
+							 AND invoice.Status = 'C'
+INNER JOIN ARPayment r ON t.CompanyID = r.CompanyID 
+				      AND t.TranDesc = r.RefNbr 
+					  AND r.DocType = 'PPM'
+					  AND t.CompanyID > 0
+INNER JOIN ARRegister g ON r.CompanyID = g.CompanyID
+					   AND r.RefNbr = g.RefNbr
+					   AND g.Status = 'N'
+					   AND r.CompanyID > 0
+where t.CompanyID > 0]]></CDATA>
+</Sql>

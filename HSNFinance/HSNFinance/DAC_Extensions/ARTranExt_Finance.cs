@@ -15,5 +15,12 @@ namespace PX.Objects.AR
         public virtual string UsrReasonCode { get; set; }
         public abstract class usrReasonCode : PX.Data.BQL.BqlString.Field<usrReasonCode> { }
         #endregion
+
+        #region UsrSettled
+        [PXDBBool]
+        [PXUIField(DisplayName = "Settled", Enabled = false, Visible = true)]
+        public virtual bool? UsrSettled { get; set; }
+        public abstract class usrSettled : PX.Data.BQL.BqlBool.Field<usrSettled> { }
+        #endregion
     }
 }
