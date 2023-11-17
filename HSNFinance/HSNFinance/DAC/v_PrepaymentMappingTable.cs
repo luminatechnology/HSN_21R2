@@ -46,23 +46,23 @@ namespace HSNFinance.DAC
         public abstract class invoiceNbr : PX.Data.BQL.BqlString.Field<invoiceNbr> { }
         #endregion
 
-        #region CuryExtPrice
+        #region PendingSettledAmt
         [PXDBDecimal()]
-        [PXUIField(DisplayName = "Invoice Amt.", Enabled = false)]
-        public virtual Decimal? CuryExtPrice { get; set; }
-        public abstract class curyExtPrice : PX.Data.BQL.BqlDecimal.Field<curyExtPrice> { }
+        [PXUIField(DisplayName = "Pending Settled Amt.", Enabled = false)]
+        public virtual Decimal? PendingSettledAmt { get; set; }
+        public abstract class pendingSettledAmt : PX.Data.BQL.BqlDecimal.Field<pendingSettledAmt> { }
         #endregion
 
-        #region LineNbr
-        [PXDBInt(IsKey = true)]
-        [PXUIField(DisplayName = "Line Nbr", Enabled = false)]
-        public virtual int? LineNbr { get; set; }
-        public abstract class lineNbr : PX.Data.BQL.BqlInt.Field<lineNbr> { }
-        #endregion
+        //#region LineNbr
+        //[PXDBInt(IsKey = true)]
+        //[PXUIField(DisplayName = "Line Nbr", Enabled = false)]
+        //public virtual int? LineNbr { get; set; }
+        //public abstract class lineNbr : PX.Data.BQL.BqlInt.Field<lineNbr> { }
+        //#endregion
 
         #region CuryTranAmt
         [PXDecimal()]
-        [PXUIField(DisplayName = "•	Prepayment Available Amt.", Enabled = false)]
+        [PXUIField(DisplayName = "Prepayment Available Amt.", Enabled = false)]
         public virtual Decimal? CuryUnappliedBal { get; set; }
         public abstract class curyUnappliedBal : PX.Data.BQL.BqlDecimal.Field<curyUnappliedBal> { }
         #endregion
