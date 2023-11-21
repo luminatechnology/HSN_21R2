@@ -27,7 +27,7 @@
                     <px:PXGridColumn DataField="PrepaymentRefNbr" Width="280"></px:PXGridColumn>
                     <px:PXGridColumn DataField="Status" Width="180"></px:PXGridColumn>
                     <px:PXGridColumn DataField="InvoiceNbr" Width="120"></px:PXGridColumn>
-                    <px:PXGridColumn DataField="CuryExtPrice" Width="120"></px:PXGridColumn>
+                    <px:PXGridColumn DataField="PendingSettledAmt" Width="120"></px:PXGridColumn>
                     <px:PXGridColumn DataField="CuryUnappliedBal" Width="120"></px:PXGridColumn>
                 </Columns>
                 <RowTemplate>

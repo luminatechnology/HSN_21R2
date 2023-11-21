@@ -21,23 +21,38 @@ namespace HSNFinance.Graph
               .Where<v_PrepaymentMappingTable.customerID.IsEqual<PrepaymentFilter.customerID.FromCurrent>>
               .View Transactions;
 
-        public IEnumerable transactions()
+        //public IEnumerable transactions()
+        //{
+        //    var arPaymentEntry = PXGraph.CreateInstance<ARPaymentEntry>();
+        //    PXView select = new PXView(this, true, Transactions.View.BqlSelect);
+        //    Int32 totalrow = 0;
+        //    Int32 startrow = PXView.StartRow;
+        //    List<object> result = select.Select(PXView.Currents, PXView.Parameters,
+        //           PXView.Searches, PXView.SortColumns, PXView.Descendings,
+        //           PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
+        //    PXView.StartRow = 0;
+        //    foreach (v_PrepaymentMappingTable row in result)
+        //    {
+        //        arPaymentEntry.Document.Current = arPaymentEntry.Document.Search<ARPayment.refNbr>(row.PrepaymentRefNbr, "PPM");
+        //        row.CuryUnappliedBal = arPaymentEntry.Document.Current.CuryUnappliedBal;
+        //        yield return row;
+        //    }
+        //}
+
+        #region Events
+
+        public virtual void _(Events.RowSelected<v_PrepaymentMappingTable> e)
         {
-            var arPaymentEntry = PXGraph.CreateInstance<ARPaymentEntry>();
-            PXView select = new PXView(this, true, Transactions.View.BqlSelect);
-            Int32 totalrow = 0;
-            Int32 startrow = PXView.StartRow;
-            List<object> result = select.Select(PXView.Currents, PXView.Parameters,
-                   PXView.Searches, PXView.SortColumns, PXView.Descendings,
-                   PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
-            PXView.StartRow = 0;
-            foreach (v_PrepaymentMappingTable row in result)
+            var row = e.Row;
+            if(row != null)
             {
+                var arPaymentEntry = PXGraph.CreateInstance<ARPaymentEntry>();
                 arPaymentEntry.Document.Current = arPaymentEntry.Document.Search<ARPayment.refNbr>(row.PrepaymentRefNbr, "PPM");
                 row.CuryUnappliedBal = arPaymentEntry.Document.Current.CuryUnappliedBal;
-                yield return row;
             }
         }
+
+        #endregion
 
         #region Action
         public PXAction<PrepaymentFilter> Process;
@@ -84,6 +99,9 @@ namespace HSNFinance.Graph
             }
 
             var soInvEntry = PXGraph.CreateInstance<SOInvoiceEntry>();
+            var arPaymentEntry = PXGraph.CreateInstance<ARPaymentEntry>();
+
+
             #region Debit memo Header
             var doc = soInvEntry.Document.Cache.CreateInstance() as ARInvoice;
             doc.DocType = "DRM";
@@ -96,11 +114,13 @@ namespace HSNFinance.Graph
             #region Debit memo Details & Applications
             foreach (var item in selectedTrans)
             {
+                arPaymentEntry.Document.Current = arPaymentEntry.Document.Search<ARPayment.refNbr>(item?.PrepaymentRefNbr, "PPM");
+
                 #region Details
                 var line = soInvEntry.Transactions.Cache.CreateInstance() as ARTran;
                 line.BranchID = item?.BranchID;
                 line.TranDesc = "Settle Open Prepayment";
-                line.CuryExtPrice = item?.CuryExtPrice;
+                line.CuryExtPrice = arPaymentEntry.Document.Current?.CuryUnappliedBal;
                 line.AccountID = item?.AccountID;
                 line.SubID = item?.SubID;
                 line = soInvEntry.Transactions.Insert(line);
@@ -110,7 +130,7 @@ namespace HSNFinance.Graph
                 var appt = soInvEntry.Adjustments.Cache.CreateInstance() as ARAdjust2;
                 appt.AdjgDocType = ARPaymentType.Prepayment;
                 appt.AdjgRefNbr = item?.PrepaymentRefNbr;
-                appt.CuryAdjdAmt = item?.CuryExtPrice;
+                appt.CuryAdjdAmt = arPaymentEntry.Document.Current?.CuryUnappliedBal;
                 appt = soInvEntry.Adjustments.Insert(appt);
                 #endregion
             }
