@@ -14,7 +14,8 @@ namespace PX.Objects.IN
                                    And<INRegister.docType, In3<INDocType.receipt, INDocType.issue, INDocType.transfer>,
                                        And<INRegister.sOShipmentNbr, IsNull,
                                            And<INRegister.pOReceiptNbr, IsNull,
-                                               And<INRegister.origModule.IsEqual<BatchModule.moduleIN>>>>>>))]
+                                               And<INRegister.origModule, Equal<BatchModule.moduleIN>,
+                                                   And<INRegister.released, Equal<False>>>>>>>))]
         public virtual string TranDesc { get; set; }
         #endregion
     }
