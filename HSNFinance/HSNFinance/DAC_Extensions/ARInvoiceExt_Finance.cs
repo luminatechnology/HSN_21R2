@@ -9,7 +9,8 @@ namespace PX.Objects.AR
         #region DocDesc
         [PXMergeAttributes(Method = MergeMethod.Append)]
         [PXDefault()]
-        [PXUIRequired(typeof(Where<ARInvoiceExt_Finance.usrIsRequireHeaderDesc, Equal<True>>))]
+        [PXUIRequired(typeof(Where<ARInvoiceExt_Finance.usrIsRequireHeaderDesc, Equal<True>,
+                                   And<ARInvoice.released, Equal<False>>>))]
         public virtual string DocDesc { get; set; }
         #endregion
     }

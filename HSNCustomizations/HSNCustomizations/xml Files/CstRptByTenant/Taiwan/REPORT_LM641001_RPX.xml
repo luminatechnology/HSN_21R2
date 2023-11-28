@@ -68,12 +68,13 @@
                             <TopMargin>2</TopMargin>
                         </BarcodeSettings>
                         <BarcodeType>Code93</BarcodeType>
-                        <Location>2px, 0px</Location>
+                        <Location>4px, 0px</Location>
                         <MimeType>image/bmp</MimeType>
                         <QRCodeSettings />
                         <Size>60mm, 17mm</Size>
                         <Source>Barcode</Source>
                         <Value>=[LUMBarcodeReportData.InventoryID1]</Value>
+                        <VisibleExpr>=[LUMBarcodeReportData.InventoryID1] &lt;&gt; Null</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox2">
                         <BarcodeSettings>
@@ -89,6 +90,7 @@
                         <Size>60mm, 17mm</Size>
                         <Source>Barcode</Source>
                         <Value>=[LUMBarcodeReportData.InventoryID2]</Value>
+                        <VisibleExpr>=[LUMBarcodeReportData.InventoryID2] &lt;&gt; Null</VisibleExpr>
                     </PictureBox>
                     <PictureBox Name="pictureBox3">
                         <BarcodeSettings>
@@ -104,6 +106,7 @@
                         <Size>60mm, 17mm</Size>
                         <Source>Barcode</Source>
                         <Value>=[LUMBarcodeReportData.InventoryID3]</Value>
+                        <VisibleExpr>=[LUMBarcodeReportData.InventoryID3] &lt;&gt; Null</VisibleExpr>
                     </PictureBox>
                 </Items>
             </Detail>
