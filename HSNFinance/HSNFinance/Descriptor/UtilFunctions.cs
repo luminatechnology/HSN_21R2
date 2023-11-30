@@ -10,8 +10,7 @@ namespace ReportUDF
     public class UtilFunctions
     {
         /// <summary>
-        /// Check whether the settlement number has a corresponding record that is greater than the end date. 
-        /// --Summarize all settlement records by the report parameter of "End Date", If the report parameter of the "Settlement Nbr." has the same balance as the aggregated record, then return true.--
+        /// Check whether the settlement number has a corresponding record that is greater than the end date and all have been settled. 
         /// </summary>
         public bool IncludeSettledAmt(DateTime endDate, string settlementNbr)
         {
@@ -21,34 +20,31 @@ namespace ReportUDF
                                                         .And<LSLedgerSettlement.settlementNbr.IsEqual<@P.AsString>>>
                                                  .OrderBy<Asc<LSLedgerSettlement.tranDate,
                                                               Asc<LSLedgerSettlement.batchNbr>>>.View.Select(PXGraph.CreateInstance<PXGraph>(), endDate, settlementNbr).Any();
-            //List<LSLedgerSettlement> list = SelectFrom<LSLedgerSettlement>.Where<LSLedgerSettlement.tranDate.IsLessEqual<@P.AsDateTime>>
-            //                                                                        .OrderBy<Asc<LSLedgerSettlement.tranDate,
-            //                                                                                    Asc<LSLedgerSettlement.batchNbr>>>.View.Select(new PXGraph(), endDate).RowCast<LSLedgerSettlement>().ToList();
-            //var aggregate = list.GroupBy(x => new { x.SettlementNbr }).Select(x => new  {
-            //                                                                                SettlementNbr = x.Key.SettlementNbr,
-            //                                                                                TotalDebit = x.Sum(y => y.SettledDebitAmt),
-            //                                                                                TotalCredit = x.Sum(y => y.SettledCreditAmt)
-            //                                                                            }).ToList();
-            //return aggregate.Find(x => x.TotalCredit - x.TotalDebit == decimal.Zero && x.SettlementNbr == settlementNbr)?.SettlementNbr != null;
         }
 
         /// <summary>
-        /// Summarize all settlement records by the report parameter of "End Date", and return true to display line if the report parameter of the "Settlement Nbr." is the same as the aggregation record and has no balance.
+        /// Summarize all settlement records by the report parameter of "End Date", and return true to display line if the report parameter of GLTran PK is the same as the aggregation record and has no balance.
         /// </summary>
-        public bool DisplayGLTran(DateTime endDate, string settlementNbr)
+        public bool DisplayGLTran(DateTime endDate, string module, string batchNbr, int lineNbr)
         {
-            if (string.IsNullOrEmpty(settlementNbr)) { return true; }
+            //if (string.IsNullOrEmpty(settlementNbr)) { return true; }
 
             LSLedgerSettlement aggregate = SelectFrom<LSLedgerSettlement>.Where<LSLedgerSettlement.tranDate.IsLessEqual<@P.AsDateTime>
-                                                                                .And<LSLedgerSettlement.settlementNbr.IsEqual<@P.AsString>>>
-                                                                         .AggregateTo<GroupBy<LSLedgerSettlement.settlementNbr,
+                                                                                .And<LSLedgerSettlement.module.IsEqual<@P.AsString>
+                                                                                     .And<LSLedgerSettlement.batchNbr.IsEqual<@P.AsString>
+                                                                                          .And<LSLedgerSettlement.lineNbr.IsEqual<@P.AsInt>>>>>
+                                                                         .AggregateTo<GroupBy<LSLedgerSettlement.batchNbr,
+                                                                                      GroupBy<LSLedgerSettlement.lineNbr,
                                                                                               Sum<LSLedgerSettlement.settledDebitAmt,
-                                                                                                  Sum<LSLedgerSettlement.settledCreditAmt>>>>
+                                                                                              Sum<LSLedgerSettlement.settledCreditAmt,
+                                                                                              Avg<LSLedgerSettlement.origDebitAmt,
+                                                                                              Avg<LSLedgerSettlement.origCreditAmt>>>>>>>
                                                                          .OrderBy<Asc<LSLedgerSettlement.tranDate,
                                                                                       Asc<LSLedgerSettlement.batchNbr>>>
-                                                                         .View.Select(PXGraph.CreateInstance<PXGraph>(), endDate, settlementNbr);
+                                                                         .View.Select(PXGraph.CreateInstance<PXGraph>(), endDate, module, batchNbr, lineNbr);
 
-            return (aggregate.SettledCreditAmt - aggregate.SettledDebitAmt) != decimal.Zero;
+            return (aggregate.OrigCreditAmt - aggregate.SettledCreditAmt != decimal.Zero) ||
+                   (aggregate.OrigDebitAmt - aggregate.SettledDebitAmt != decimal.Zero);
 
             //List<LSLedgerSettlement> list = SelectFrom<LSLedgerSettlement>.Where<LSLedgerSettlement.tranDate.IsLessEqual<@P.AsDateTime>>
             //                                                                        .OrderBy<Asc<LSLedgerSettlement.tranDate,
