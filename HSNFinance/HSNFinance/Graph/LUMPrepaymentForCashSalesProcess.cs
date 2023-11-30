@@ -21,24 +21,6 @@ namespace HSNFinance.Graph
               .Where<v_PrepaymentMappingTable.customerID.IsEqual<PrepaymentFilter.customerID.FromCurrent>>
               .View Transactions;
 
-        //public IEnumerable transactions()
-        //{
-        //    var arPaymentEntry = PXGraph.CreateInstance<ARPaymentEntry>();
-        //    PXView select = new PXView(this, true, Transactions.View.BqlSelect);
-        //    Int32 totalrow = 0;
-        //    Int32 startrow = PXView.StartRow;
-        //    List<object> result = select.Select(PXView.Currents, PXView.Parameters,
-        //           PXView.Searches, PXView.SortColumns, PXView.Descendings,
-        //           PXView.Filters, ref startrow, PXView.MaximumRows, ref totalrow);
-        //    PXView.StartRow = 0;
-        //    foreach (v_PrepaymentMappingTable row in result)
-        //    {
-        //        arPaymentEntry.Document.Current = arPaymentEntry.Document.Search<ARPayment.refNbr>(row.PrepaymentRefNbr, "PPM");
-        //        row.CuryUnappliedBal = arPaymentEntry.Document.Current.CuryUnappliedBal;
-        //        yield return row;
-        //    }
-        //}
-
         #region Events
 
         public virtual void _(Events.RowSelected<v_PrepaymentMappingTable> e)
