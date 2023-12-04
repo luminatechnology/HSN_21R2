@@ -51,16 +51,15 @@ namespace PX.Objects.SO
         {
             baseHandler?.Invoke(e.Cache, e.Args);
 
-            if (e.Operation != PXDBOperation.Delete && Base.soordertype.Current?.GetExtension<SOOrderTypeExt>().UsrRequireAtLeastOneNonStkItemInSO == true)
+            var ordTypeExt = Base.soordertype.Current?.GetExtension<SOOrderTypeExt>();
+
+            if (e.Operation != PXDBOperation.Delete && ordTypeExt.UsrRequireAtLeastOneNonStkItemInSO == true)
             {
                 ///<remarks>
-                /// The system should verify that the Details tab contains a minimum of one non-stock inventory item and its amount is greater than 0 at the time the 'Save' action is executed. 
+                /// Moreover, if the combo was selected, the system should verify if the selected non-stock item has been inserted in Details Tab
                 ///</remarks>
-                List<SOLine> lines = Base.Transactions.Select().RowCast<SOLine>().Where(w => InventoryItem.PK.Find(Base, w.InventoryID)?.StkItem == false).ToList();
-                
-                var line = lines.Find(f => f.CuryLineAmt <= 0m);
-
-                if (lines.Count == 0 || line != null)
+                if (Base.Transactions.Select().RowCast<SOLine>()
+                                              .Where(w => w.InventoryID == ordTypeExt.UsrMandatoryNonStkItem).Any() == false)
                 {
                     throw new PXException(HSNMessages.NonStkItemWithNoAmt);
                 }
