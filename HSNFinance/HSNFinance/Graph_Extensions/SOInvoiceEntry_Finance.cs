@@ -49,6 +49,7 @@ namespace PX.Objects.SO
             // Cash Sales Mapping Service Order
             if (preference?.EnableChgInvTypeOnBill ?? false)
             {
+                PXTrace.WriteInformation("Process Open Prepayments for Cash Sales");
                 var mapFSARTran = SelectFrom<FSARTran>
                                  .Where<FSARTran.tranType.IsEqual<P.AsString>
                                    .And<FSARTran.refNbr.IsEqual<P.AsString>>>
