@@ -340,7 +340,7 @@
                 <ParentName>GLHistoryByPeriod</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <SchemaUrl>http://localhost/Hakuhodo</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>GLHistoryByPeriod.BranchID</DataField>
@@ -2138,7 +2138,6 @@
                 </Items>
             </PageHeader>
             <Detail Name="Details">
-                <Expanded>False</Expanded>
                 <Height>16px</Height>
                 <ProcessOrder>Always</ProcessOrder>
                 <Variables>
@@ -2184,12 +2183,12 @@
                     <ReportVariable>
                         <Name>SettledDebit</Name>
                         <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
-                        <ValueExpr>=$SettledDebit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledDebitAmt], 0), 0)</ValueExpr>
+                        <ValueExpr>=$SettledDebit #010;+IIf([GLTran.UOM] = 'ZZ', #010;     IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]),                           #010;         [LSLedgerSettlement.SettledDebitAmt], #010;         0), #010;     [LSLedgerSettlement.OrigDebitAmt] - [LSLedgerSettlement.SettledDebitAmt])</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>SettledCredit</Name>
                         <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
-                        <ValueExpr>=$SettledCredit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledCreditAmt], 0), 0)</ValueExpr>
+                        <ValueExpr>=$SettledCredit #010;+IIf([GLTran.UOM] = 'ZZ', #010;     IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), #010;	 [LSLedgerSettlement.SettledCreditAmt], #010;         0), #010;     [LSLedgerSettlement.OrigCreditAmt] - [LSLedgerSettlement.SettledCreditAmt])</ValueExpr>
                     </ReportVariable>
                 </Variables>
                 <VisibleExpr>=False#010;/*$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;	(IsNull([GLTran.UsrSetldCreditAmt], 0) = 0 Or $TranCredit &gt; 0) And#010;	(IsNull([GLTran.UsrSetldDebitAmt], 0) = 0 Or $TranDebit &gt; 0)#010;        )#010;*/#010;    /*IIf(([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr])#010;          And [GLTran.UOM] = 'YY')#010;          Or($TranDebit &lt;&gt; 0 Or $TranCredit &lt;&gt; 0), True, False))*/</VisibleExpr>
@@ -2202,7 +2201,7 @@
                         <Location>496px, 0px</Location>
                         <Size>224px, 16px</Size>
                         <StyleName>Normal</StyleName>
-                        <Value>=Format('{0}/{1}/{2}', Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 0, 4),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 4, 2),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 6, 2))</Value>
+                        <Value>=Format('{0}/{1}/{2}', [LSLedgerSettlement.SettlementNbr], $SettledDebit, $SettledCredit)</Value>
                     </TextBox>
                     <TextBox Name="textBox28">
                         <Excel>
@@ -2748,7 +2747,7 @@
                         <Variables>
                             <ReportVariable>
                                 <Name>RptUDF</Name>
-                                <ValueExpr>=$IsVisible And ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr])</ValueExpr>
+                                <ValueExpr>=$IsVisible And IIf([LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.Module], [LSLedgerSettlement.BatchNbr], [LSLedgerSettlement.LineNbr]), True)</ValueExpr>
                             </ReportVariable>
                             <ReportVariable>
                                 <Name>Visibility</Name>
@@ -2756,7 +2755,7 @@
                             </ReportVariable>
                             <ReportVariable>
                                 <Name>DebitAmt</Name>
-                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledDebit, [GLTran.DebitAmt])#010;        )#010;     )</ValueExpr>
+                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;	  IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledDebit, [GLTran.DebitAmt])#010;		 )#010;     )</ValueExpr>
                             </ReportVariable>
                             <ReportVariable>
                                 <Name>CreditAmt</Name>
@@ -2879,12 +2878,13 @@
                                 <Value>=$DebitAmt</Value>
                             </TextBox>
                             <TextBox Name="textBox76">
+                                <CanGrow>True</CanGrow>
                                 <Excel>
                                     <column>5</column>
                                 </Excel>
                                 <Format>=Switch(#010;[GLTran.Module]='AP',Report.GetFormat('APRegister.DocType'),#010;[GLTran.Module]='AR',Report.GetFormat('ARRegister.DocType'), #010;[GLTran.Module]='CA',Report.GetFormat('CATran.OrigTranType'), #010;[GLTran.Module]='IN',Report.GetFormat('INTran.TranType'),#010;[GLTran.Module]='FA',Report.GetFormat('FATran.TranType'),#010;[GLTran.Module]='CM',Report.GetFormat('CMReportTranType.TranType'))</Format>
                                 <Location>250px, 0px</Location>
-                                <Size>70px, 16px</Size>
+                                <Size>90px, 16px</Size>
                                 <StyleName>Normal</StyleName>
                                 <Value>=IIf([GLTran.Module]='GL','',[GLTran.TranType])</Value>
                             </TextBox>
@@ -2901,8 +2901,11 @@
                                 <Excel>
                                     <column>6</column>
                                 </Excel>
-                                <Location>320px, 0px</Location>
-                                <Size>80px, 16px</Size>
+                                <Location>345px, 0px</Location>
+                                <Size>39px, 16px</Size>
+                                <Style>
+                                    <TextAlign>Right</TextAlign>
+                                </Style>
                                 <StyleName>Normal</StyleName>
                                 <Value>=[GLTran.LineNbr]#010;/*[GLTran.RefNbr]*/</Value>
                             </TextBox>
