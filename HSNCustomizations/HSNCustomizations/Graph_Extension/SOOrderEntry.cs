@@ -61,7 +61,7 @@ namespace PX.Objects.SO
                 if (Base.Transactions.Select().RowCast<SOLine>()
                                               .Where(w => w.InventoryID == ordTypeExt.UsrMandatoryNonStkItem).Any() == false)
                 {
-                    throw new PXException(HSNMessages.NonStkItemWithNoAmt);
+                    throw new PXException(HSNMessages.NonStkItemNoSelected);
                 }
             }
         }
