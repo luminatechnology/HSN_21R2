@@ -45,8 +45,8 @@ namespace HSNCustomizations.Graph_Extension
                     if (!string.IsNullOrEmpty(srvType.GetExtension<FSSrvOrdTypeExt>()?.UsrOrderTypeForZeroBilling))
                         InsertSplitLine(shipLine, apptLinesplit?.LocationID, apptLinesplit?.LotSerialNbr);
                 }
-                Base.Save.Press();
             }
+            Base.Save.Press();
         }
         #endregion
 
