@@ -132,6 +132,7 @@
     <Compile Include="Graph_Extension\SOInvoiceEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderEntry.cs" />
     <Compile Include="Graph_Extension\SOOrderTypeMaint.cs" />
+    <Compile Include="Graph_Extension\SOShipmentEntry.cs" />
     <Compile Include="Graph_Extension\SvrOrdTypeMaint.cs" />
     <Compile Include="DAC\LUMAppEventHistory.cs" />
     <Compile Include="Graph_Extension\AppointmentEntry.cs" />
