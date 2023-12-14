@@ -1,6 +1,6 @@
 ﻿<Report Name="po641000.rpx">
     <Report version="20201103" Name="report1">
-        <ExportFileName>=Format('{0} ({1:yyyy-MM-dd})', [POOrder.OrderNbr], Today())</ExportFileName>
+        <ExportFileName>=[POOrder.OrderNbr]</ExportFileName>
         <Filters>
             <FilterExp>
                 <DataField>POOrder.OrderNbr</DataField>
@@ -174,7 +174,7 @@
                 <ParentName>INSite</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
         <Tables>
             <ReportTable Name="POOrder">
                 <Fields>
