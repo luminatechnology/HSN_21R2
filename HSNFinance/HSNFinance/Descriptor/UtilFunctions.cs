@@ -43,8 +43,8 @@ namespace ReportUDF
                                                                                       Asc<LSLedgerSettlement.batchNbr>>>
                                                                          .View.Select(PXGraph.CreateInstance<PXGraph>(), endDate, module, batchNbr, lineNbr);
 
-            return (aggregate.OrigCreditAmt - aggregate.SettledCreditAmt != decimal.Zero) ||
-                   (aggregate.OrigDebitAmt - aggregate.SettledDebitAmt != decimal.Zero);
+            return ((aggregate.OrigCreditAmt ?? 0m) - (aggregate.SettledCreditAmt ?? 0m) != decimal.Zero) ||
+                   ((aggregate.OrigDebitAmt ?? 0m) - (aggregate.SettledDebitAmt ?? 0m) != decimal.Zero);
 
             //List<LSLedgerSettlement> list = SelectFrom<LSLedgerSettlement>.Where<LSLedgerSettlement.tranDate.IsLessEqual<@P.AsDateTime>>
             //                                                                        .OrderBy<Asc<LSLedgerSettlement.tranDate,
