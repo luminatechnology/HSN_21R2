@@ -40,10 +40,19 @@ namespace HSNCustomizations.Graph_Extension
                                        .Where<FSSODet.refNbr.IsEqual<P.AsString>
                                           .And<FSSODet.lineNbr.IsEqual<P.AsInt>>>
                                       .View.Select(Base, currentFSxSOLineRow?.ServiceOrderRefNbr, currentFSxSOLineRow.ServiceOrderLineNbr).RowCast<FSApptLineSplit>().FirstOrDefault();
-
                     var srvType = SelectFrom<FSSrvOrdType>.Where<FSSrvOrdType.srvOrdType.IsEqual<P.AsString>>.View.Select(Base, apptLinesplit?.SrvOrdType).TopFirst;
                     if (!string.IsNullOrEmpty(srvType.GetExtension<FSSrvOrdTypeExt>()?.UsrOrderTypeForZeroBilling))
-                        InsertSplitLine(shipLine, apptLinesplit?.LocationID, apptLinesplit?.LotSerialNbr);
+                    {
+                        var split = Base.splits.Cache.Cached.RowCast<SOShipLineSplit>()
+                                   .Where(x => x.InventoryID == shipLine.InventoryID && x.LineNbr == shipLine.LineNbr).FirstOrDefault();
+                        if (split != null)
+                        { 
+                            Base.splits.SetValueExt<SOShipLineSplit.lotSerialNbr>(split, apptLinesplit?.LotSerialNbr);
+                            Base.splits.Cache.Update(split);
+                        }
+                        else
+                            InsertSplitLine(shipLine, apptLinesplit?.LocationID, apptLinesplit?.LotSerialNbr);
+                    }
                 }
             }
             Base.Save.Press();
