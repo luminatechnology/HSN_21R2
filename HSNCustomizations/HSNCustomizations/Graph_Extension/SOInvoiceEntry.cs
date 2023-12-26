@@ -97,6 +97,23 @@ namespace PX.Objects.SO
 
         #endregion
 
+        #region Action
+        public PXAction<ARInvoice> PrintBillingStatement;
+        [PXButton(Category = "Printing and Emailing",DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Billing Statement", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printBillingStatement(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643000","Print Billing Statement", PXBaseRedirectException.WindowMode.NewWindow );
+            }
+            return adapter.Get();
+        }
+        #endregion
+
         #region Method
         public bool UpdateAppointmentStageManual(string appointmentRefNbr, string serviceOrderRefNbr, string srvType)
         {
