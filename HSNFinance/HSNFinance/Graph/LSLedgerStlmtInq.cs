@@ -44,7 +44,7 @@ namespace HSNFinance
                                                                                  .Where(w => w.Module == delRow.Module && w.BatchNbr == delRow.BatchNbr && w.LineNbr == delRow.LineNbr)
                                                                                  .Any())
                         {
-                            trans.Add(tran, "YY");
+                            trans.Add(tran, LSLedgerStlmtEntry.YY_UOM);
                         }
                         else
                         {
