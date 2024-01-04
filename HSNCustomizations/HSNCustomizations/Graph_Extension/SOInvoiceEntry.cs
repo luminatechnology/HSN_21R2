@@ -82,6 +82,9 @@ namespace PX.Objects.SO
         {
             try
             {
+                // Mark invoice is printed
+                Base.Document.Cache.SetValueExt(Base.Document.Current, PX.Objects.CS.Messages.Attribute + "REPRINT", true);
+                Base.Save.Press();
                 baseMethod(adapter, reportID);
             }
             catch (Exception ex)
@@ -99,7 +102,7 @@ namespace PX.Objects.SO
 
         #region Action
         public PXAction<ARInvoice> PrintBillingStatement;
-        [PXButton(Category = "Printing and Emailing",DisplayOnMainToolbar = false)]
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
         [PXUIField(DisplayName = "Print Billing Statement", MapEnableRights = PXCacheRights.Select)]
         public virtual IEnumerable printBillingStatement(PXAdapter adapter)
         {
@@ -108,7 +111,7 @@ namespace PX.Objects.SO
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters["DocType"] = Base.Document.Current.DocType;
                 parameters["RefNbr"] = Base.Document.Current.RefNbr;
-                throw new PXReportRequiredException(parameters, "LM643000","Print Billing Statement", PXBaseRedirectException.WindowMode.NewWindow );
+                throw new PXReportRequiredException(parameters, "LM643000", "Print Billing Statement", PXBaseRedirectException.WindowMode.NewWindow);
             }
             return adapter.Get();
         }
