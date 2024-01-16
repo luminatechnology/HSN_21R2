@@ -26,13 +26,9 @@
   <LayoutUnit>Inch</LayoutUnit>
   <MailSettings>
     <ActivitySource>ARInvoice.NoteID</ActivitySource>
-    <Bcc></Bcc>
     <Body>='Dear Customer,#010;#010;This is an automatic email to notify you that you have a new Invoice available on your account.  #010;You will find a copy of'+' '+[ARInvoice.PrintDocType]+' '+'#'+' '+[ARInvoice.RefNbr]+' '+'attached to this email.  #010;#010;If you have any questions, please don’t hesitate to contact us at Email.  #010;#010;Thank you for choosing'+' '+[CompanyContact.FullName]+'.'#010;</Body>
-    <Cc></Cc>
-    <Format></Format>
     <ParentSource>Customer.NoteID</ParentSource>
     <Subject>=[CompanyContact.FullName]+' '+[ARInvoice.PrintDocType]+' '+'#'+' '+[ARInvoice.RefNbr]</Subject>
-    <TemplateID></TemplateID>
     <To>=IsNull([BillingContact.EMail],'')</To>
   </MailSettings>
   <PageSettings>
@@ -4754,7 +4750,7 @@
       </Variables>
       <Items>
         <Line Name="line7">
-          <Location>0px, 30px</Location>
+          <Location>0px, 21px</Location>
           <Size>700px, 1px</Size>
         </Line>
         <TextBox Name="textBox14">
@@ -4869,6 +4865,15 @@
               <StyleName>Heading 1</StyleName>
               <Value>Series: 000001-999999</Value>
             </TextBox>
+            <TextBox Name="textBox86">
+              <CanGrow>True</CanGrow>
+              <Location>360px, 8px</Location>
+              <ProcessOrder>Always</ProcessOrder>
+              <Size>336px, 16px</Size>
+              <StyleName>Heading 1</StyleName>
+              <Value>THIS DOCUMENT IS VALID FOR CLAIMING OF INPUT TAXES</Value>
+              <VisibleExpr>=([ARInvoice.DocType] = 'Debit Memo' Or [ARInvoice.DocType] = 'Credit Memo')</VisibleExpr>
+            </TextBox>
           </Items>
         </Panel>
         <TextBox Name="textBox67">
@@ -4937,7 +4942,7 @@
       </Grouping>
       <Headers>
         <Header Name="groupHeaderSection1">
-          <Height>5.66667in</Height>
+          <Height>5.41667in</Height>
           <PrintForEmptyGroup>True</PrintForEmptyGroup>
           <PrintOnEveryPage>True</PrintOnEveryPage>
           <Items>
@@ -5136,13 +5141,13 @@
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
               <StyleName>Document Name</StyleName>
-              <Value>=iif([ARInvoice.DocType]='CSL','INVOICE',IIF([ARInvoice.DocType] = 'INV','Sales Invoice',[ARInvoice.PrintDocType]))</Value>
+              <Value>=iif([ARInvoice.DocType]='CSL','INVOICE',#010;IIF([ARInvoice.DocType] = 'INV','Sales Invoice',#010;IIF([ARInvoice.DocType] = 'CRM','Credit Memo',#010;IIF([ARInvoice.DocType] = 'DRM','Debit Memo',[ARInvoice.PrintDocType]))))</Value>
             </TextBox>
             <TextBox Name="textBox29">
               <Location>392px, 40px</Location>
               <Size>88px, 16px</Size>
               <StyleName>Heading 1</StyleName>
-              <Value>Invoice Number:</Value>
+              <Value>=IIF([ARInvoice.DocType] = 'CRM' Or [ARInvoice.DocType] = 'DRM' , 'Reference Nbr.:','Invoice Number:')</Value>
             </TextBox>
             <TextBox Name="textBox3">
               <Format>dd-MMM-yyyy</Format>
@@ -5228,12 +5233,13 @@
         </Header>
       </Headers>
       <Footers>
-        <Footer Name="groupFooterSection1">
+        <Footer Name="Normal_groupFooterSection1">
           <Height>1in</Height>
           <PrintAtBottom>True</PrintAtBottom>
           <PrintOnEveryPage>True</PrintOnEveryPage>
           <ProcessOrder>Always</ProcessOrder>
           <ResetPageNumber>True</ResetPageNumber>
+          <VisibleExpr>=IIF([ARInvoice.DocType] = 'CRM' Or [ARInvoice.DocType] = 'DRM', False, True)</VisibleExpr>
           <Items>
             <Panel Name="panel3">
               <Location>0px, 0px</Location>
@@ -5361,24 +5367,114 @@
             </Panel>
           </Items>
         </Footer>
-        <Footer Name="groupFooterSection3">
-          <Height>0.16667in</Height>
+        <Footer Name="CRM_groupFooterSection3">
+          <Height>1in</Height>
           <PrintAtBottom>True</PrintAtBottom>
           <PrintOnEveryPage>True</PrintOnEveryPage>
           <ProcessOrder>Always</ProcessOrder>
           <ResetPageNumber>True</ResetPageNumber>
+          <VisibleExpr>=IIF([ARInvoice.DocType] = 'CRM' Or [ARInvoice.DocType] = 'DRM', True, False)</VisibleExpr>
           <Items>
-            <TextBox Name="textBox41">
-              <Location>576px, 0px</Location>
-              <ProcessOrder>WhilePrint</ProcessOrder>
-              <Size>120px, 16px</Size>
-              <Style>
-                <TextAlign>Right</TextAlign>
-              </Style>
-              <StyleName>Normal</StyleName>
-              <Value>='Page: ' + [PageOf]</Value>
-            </TextBox>
-            <TextBox Name="textBox44">
+            <Panel Name="panel7">
+              <Location>0px, 0px</Location>
+              <ProcessOrder>Always</ProcessOrder>
+              <Size>696px, 96px</Size>
+              <StyleName>BoxedPanel</StyleName>
+              <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
+              <Items>
+                <TextBox Name="textBox41">
+                  <Location>480px, 8px</Location>
+                  <ProcessOrder>WhilePrint</ProcessOrder>
+                  <Size>120px, 16px</Size>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>SALES:</Value>
+                  <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
+                </TextBox>
+                <TextBox Name="textBox44">
+                  <Location>480px, 24px</Location>
+                  <Size>120px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Size>10px</Size>
+                    </Font>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>VALUE ADDED TAX:</Value>
+                </TextBox>
+                <TextBox Name="textBox82">
+                  <Location>480px, 56px</Location>
+                  <Size>120px, 16px</Size>
+                  <Style>
+                    <BackColor>Transparent</BackColor>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>='TOTAL AMOUNT DUE:'</Value>
+                </TextBox>
+                <TextBox Name="textBox83">
+                  <Location>600px, 8px</Location>
+                  <ProcessOrder>WhilePrint</ProcessOrder>
+                  <Size>96px, 16px</Size>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Normal</StyleName>
+                  <Value>=[ARInvoice.CuryLineTotal]</Value>
+                  <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
+                </TextBox>
+                <TextBox Name="textBox84">
+                  <CanGrow>True</CanGrow>
+                  <Location>48px, 8px</Location>
+                  <Size>424px, 80px</Size>
+                  <StyleName>Normal</StyleName>
+                  <Value>=[InvoiceNote.NoteText]</Value>
+                </TextBox>
+                <TextBox Name="textBox85">
+                  <Location>8px, 8px</Location>
+                  <Size>40px, 16px</Size>
+                  <StyleName>Normal</StyleName>
+                  <Value>NOTE: </Value>
+                </TextBox>
+                <TextBox Name="textBox88">
+                  <Location>600px, 24px</Location>
+                  <Size>96px, 16px</Size>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Normal</StyleName>
+                  <Value>=[ARInvoice.CuryTaxTotal]</Value>
+                </TextBox>
+                <TextBox Name="textBox91">
+                  <Location>480px, 40px</Location>
+                  <Size>120px, 12px</Size>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>DISCOUNT TOTAL:</Value>
+                </TextBox>
+                <TextBox Name="textBox92">
+                  <Location>600px, 40px</Location>
+                  <Size>96px, 12px</Size>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Normal</StyleName>
+                  <Value>=[ARInvoice.CuryDiscTot]</Value>
+                </TextBox>
+                <TextBox Name="textBox93">
+                  <Location>600px, 56px</Location>
+                  <Size>96px, 16px</Size>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>=[ARInvoice.CuryOrigDocAmt]</Value>
+                </TextBox>
+              </Items>
+            </Panel>
+          </Items>
+        </Footer>
+        <Footer Name="groupFooterSection5">
+          <Height>0.16667in</Height>
+          <Items>
+            <TextBox Name="textBox77">
               <Location>280px, 0px</Location>
               <ProcessOrder>Always</ProcessOrder>
               <Size>160px, 16px</Size>
@@ -5389,7 +5485,22 @@
               <Value>Continued...</Value>
               <VisibleExpr>=([PageIndex]&lt;&gt;[PageCount])</VisibleExpr>
             </TextBox>
+            <TextBox Name="textBox78">
+              <Location>576px, 0px</Location>
+              <ProcessOrder>WhilePrint</ProcessOrder>
+              <Size>120px, 16px</Size>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+              <StyleName>Normal</StyleName>
+              <Value>='Page: ' + [PageOf]</Value>
+            </TextBox>
           </Items>
+        </Footer>
+        <Footer Name="groupFooterSection6">
+          <Expanded>False</Expanded>
+          <Height>0px</Height>
+          <Visible>False</Visible>
         </Footer>
       </Footers>
     </Group>

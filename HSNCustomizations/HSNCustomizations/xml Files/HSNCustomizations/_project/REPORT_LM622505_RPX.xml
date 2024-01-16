@@ -1,5 +1,5 @@
 ﻿<Report Name="lm622505.rpx">
-    <Report Name="report1" version="20200826">
+    <Report Name="report1" version="20201103">
         <ExcelColumns>
             <item>12</item>
             <item>16</item>
@@ -3133,7 +3133,7 @@
                     <ReportField Name="Selected">
                         <DataType>Boolean</DataType>
                     </ReportField>
-                    <ReportField Name="Status">
+                    <ReportField Name="VStatus">
                     </ReportField>
                     <ReportField Name="SVATInputTaxEntryRefNbr">
                     </ReportField>

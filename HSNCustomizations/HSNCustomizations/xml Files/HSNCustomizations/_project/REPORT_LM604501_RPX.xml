@@ -1,5 +1,5 @@
 ﻿<Report Name="lm604501.rpx">
-    <Report version="20200826" Name="report1">
+    <Report version="20201103" Name="report1">
         <CommonSettings>
             <ViewPdf>True</ViewPdf>
         </CommonSettings>
@@ -2527,7 +2527,7 @@ ooDZQGZloD/weCc1Xzo5IPugAAAABJRU5ErkJggg==</ImageData>
                     <ReportField Name="Selected">
                         <DataType>Boolean</DataType>
                     </ReportField>
-                    <ReportField Name="Status">
+                    <ReportField Name="VStatus">
                     </ReportField>
                     <ReportField Name="SupervisorID">
                     </ReportField>
