@@ -115,6 +115,97 @@ namespace PX.Objects.SO
             }
             return adapter.Get();
         }
+
+        /// <summary>
+        /// Print Original Delivery Order (LM643001)
+        /// </summary>
+        public PXAction<ARInvoice> PrintOriginalDeliveryOrder;
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Original Delivery Order", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printOriginalDeliveryOrder(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643001", "Print Original Delivery Order", PXBaseRedirectException.WindowMode.NewWindow);
+            }
+            return adapter.Get();
+        }
+
+        /// <summary>
+        /// Print Original Tax Invoice for Customer (LM643002)
+        /// </summary>
+        public PXAction<ARInvoice> PrintOriginalTaxInvoiceforCustomer;
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Original Tax Invoice for Customer", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printOriginalTaxInvoiceforCustomer(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643002", "Print Original Tax Invoice for Customer", PXBaseRedirectException.WindowMode.NewWindow);
+            }
+            return adapter.Get();
+        }
+
+        /// <summary>
+        /// Print Copy Tax Invoice/Delivery Order for Customer (LM643003)
+        /// </summary>
+        public PXAction<ARInvoice> PrintCopyTaxInvoiceDeliveryOrderForCustomer;
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Copy Tax Invoice/Delivery Order for Customer", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printCopyTaxInvoiceDeliveryOrderForCustomer(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643003", "Print Copy Tax Invoice/Delivery Order for Customer", PXBaseRedirectException.WindowMode.NewWindow);
+            }
+            return adapter.Get();
+        }
+
+        /// <summary>
+        /// Print Original Invoice/Copy Tax Invoice (LM643004)
+        /// </summary>
+        public PXAction<ARInvoice> PrintOriginalInvoiceCopyTaxInvoice;
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Original Invoice/Copy Tax Invoice", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printOriginalInvoiceCopyTaxInvoice(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643004", "Print Original Invoice/Copy Tax Invoice", PXBaseRedirectException.WindowMode.NewWindow);
+            }
+            return adapter.Get();
+        }
+
+        /// <summary>
+        /// Print Tax Invoice for Finance (LM643005)
+        /// </summary>
+        public PXAction<ARInvoice> PrintTaxInvoiceforFinance;
+        [PXButton(Category = "Printing and Emailing", DisplayOnMainToolbar = false)]
+        [PXUIField(DisplayName = "Print Tax Invoice for Finance", MapEnableRights = PXCacheRights.Select)]
+        public virtual IEnumerable printTaxInvoiceforFinance(PXAdapter adapter)
+        {
+            if (Base.Document.Current != null)
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters["DocType"] = Base.Document.Current.DocType;
+                parameters["RefNbr"] = Base.Document.Current.RefNbr;
+                throw new PXReportRequiredException(parameters, "LM643005", "Print Tax Invoice for Finance", PXBaseRedirectException.WindowMode.NewWindow);
+            }
+            return adapter.Get();
+        }
+
         #endregion
 
         #region Method
