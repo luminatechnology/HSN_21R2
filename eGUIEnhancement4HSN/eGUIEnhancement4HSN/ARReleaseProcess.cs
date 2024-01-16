@@ -142,18 +142,18 @@ namespace PX.Objects.AR
                             {
                                 if (docExt.UsrCreditAction == TWNCreditAction.VG)
                                 {
-                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.gUIStatus>(tWNGUITrans, TWNGUIStatus.Voided);
-                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.eGUIExported>(tWNGUITrans, false);
+                                    rp.ViewGUITrans.SetValueExt<TWNGUITrans.gUIStatus>(tWNGUITrans, TWNGUIStatus.Voided);
+                                    rp.ViewGUITrans.SetValueExt<TWNGUITrans.eGUIExported>(tWNGUITrans, false);
                                 }
                                 else
                                 {
                                     if (tWNGUITrans.NetAmtRemain < netAmt) { throw new PXException(TWMessages.RemainAmt); }
 
-                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= netAmt));
-                                    Base1.ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= taxAmt));
+                                    rp.ViewGUITrans.SetValueExt<TWNGUITrans.netAmtRemain>(tWNGUITrans, (tWNGUITrans.NetAmtRemain -= netAmt));
+                                    rp.ViewGUITrans.SetValueExt<TWNGUITrans.taxAmtRemain>(tWNGUITrans, (tWNGUITrans.TaxAmtRemain -= taxAmt));
                                 }
 
-                                Base1.ViewGUITrans.Update(tWNGUITrans);
+                                rp.ViewGUITrans.Update(tWNGUITrans);
                             }
 
                             // Manually Saving as base code will not call base graph persist.
