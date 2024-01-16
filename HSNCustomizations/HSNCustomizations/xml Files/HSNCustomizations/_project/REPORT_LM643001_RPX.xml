@@ -408,7 +408,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                 <ParentName>ARInvoice</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <SchemaUrl>http://localhost/HSN_2021R2</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>ARTran.SortOrder</DataField>
@@ -6877,6 +6877,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     <Header Name="groupHeaderSection1">
                         <Height>488px</Height>
                         <PrintForEmptyGroup>True</PrintForEmptyGroup>
+                        <PrintOnEveryPage>True</PrintOnEveryPage>
                         <Items>
                             <Panel Name="panel1">
                                 <Location>0px, 150px</Location>
@@ -7885,107 +7886,6 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                         <Height>200px</Height>
                         <PrintOnEveryPage>True</PrintOnEveryPage>
                         <Items>
-                            <Panel Name="panel10">
-                                <Location>520px, 0px</Location>
-                                <Size>272px, 64px</Size>
-                                <Style>
-                                    <BorderStyle>
-                                        <Bottom>Solid</Bottom>
-                                        <Left>Solid</Left>
-                                        <Right>Solid</Right>
-                                        <Top>Solid</Top>
-                                    </BorderStyle>
-                                    <BorderWidth>
-                                        <Bottom>1px</Bottom>
-                                        <Left>1px</Left>
-                                        <Right>1px</Right>
-                                        <Top>1px</Top>
-                                    </BorderWidth>
-                                </Style>
-                                <Items>
-                                    <TextBox Name="textBox122">
-                                        <Location>140px, 40px</Location>
-                                        <Size>96px, 16px</Size>
-                                        <Style>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Heading 1</StyleName>
-                                        <Value>=[ARInvoice.CuryOrigDocAmt]</Value>
-                                    </TextBox>
-                                    <TextBox Name="textBox123">
-                                        <Location>140px, 24px</Location>
-                                        <Size>96px, 16px</Size>
-                                        <Style>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Normal</StyleName>
-                                        <Value>=[ARInvoice.CuryTaxTotal]</Value>
-                                    </TextBox>
-                                    <TextBox Name="textBox124">
-                                        <Location>140px, 8px</Location>
-                                        <ProcessOrder>WhilePrint</ProcessOrder>
-                                        <Size>96px, 16px</Size>
-                                        <Style>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Normal</StyleName>
-                                        <Value>=[ARInvoice.CuryLineTotal]</Value>
-                                    </TextBox>
-                                    <TextBox Name="textBox125">
-                                        <Location>52px, 40px</Location>
-                                        <Size>88px, 16px</Size>
-                                        <Style>
-                                            <BackColor>Transparent</BackColor>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Heading 1</StyleName>
-                                        <Value>='TOTAL(' + [ARInvoice.CuryID] + ')'</Value>
-                                    </TextBox>
-                                    <TextBox Name="textBox126">
-                                        <Location>52px, 24px</Location>
-                                        <Size>88px, 16px</Size>
-                                        <Style>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Heading 1</StyleName>
-                                        <Value>='VAT ' + IIf([ARTT.TaxRate] &lt;&gt; null, CInt([ARTT.TaxRate]),'') + '.00%'</Value>
-                                    </TextBox>
-                                    <TextBox Name="textBox127">
-                                        <Location>52px, 8px</Location>
-                                        <Size>88px, 16px</Size>
-                                        <Style>
-                                            <Font>
-                                                <Name>cordia new</Name>
-                                                <Size>12px</Size>
-                                            </Font>
-                                            <TextAlign>Right</TextAlign>
-                                        </Style>
-                                        <StyleName>Heading 1</StyleName>
-                                        <Value>='SUB TOTAL'</Value>
-                                        <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
-                                    </TextBox>
-                                </Items>
-                            </Panel>
                             <PictureBox Name="pictureBox4">
                                 <Location>565px, 128px</Location>
                                 <MimeType>image/png</MimeType>

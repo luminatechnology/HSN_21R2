@@ -17,6 +17,20 @@ namespace PX.Objects.SO
 {
     public class SOInvoiceEntryExt : PXGraphExtension<SOInvoiceEntry>
     {
+        #region Events
+        public virtual void _(Events.RowSelected<ARInvoice> e, PXRowSelected baseMethod)
+        {
+            baseMethod?.Invoke(e.Cache, e.Args);
+            var setup = SelectFrom<LUMHSNSetup>.View.Select(Base).TopFirst;
+            PrintOriginalDeliveryOrder.SetVisible(setup?.EnableMultipleInvoicesReports ?? false);
+            PrintCopyTaxInvoiceDeliveryOrderForCustomer.SetVisible(setup?.EnableMultipleInvoicesReports ?? false);
+            PrintOriginalTaxInvoiceforCustomer.SetVisible(setup?.EnableMultipleInvoicesReports ?? false);
+            PrintOriginalInvoiceCopyTaxInvoice.SetVisible(setup?.EnableMultipleInvoicesReports ?? false);
+            PrintTaxInvoiceforFinance.SetVisible(setup?.EnableMultipleInvoicesReports ?? false);
+        }
+
+        #endregion
+
         #region Delegate Method
         public delegate IEnumerable ReleaseDelegate(PXAdapter adapter);
         [PXOverride]

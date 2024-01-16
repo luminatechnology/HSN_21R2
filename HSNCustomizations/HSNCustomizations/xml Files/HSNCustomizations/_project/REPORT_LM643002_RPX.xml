@@ -7373,7 +7373,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                                     </TextBox>
                                     <TextBox Name="textBox75">
                                         <Location>5px, 44px</Location>
-                                        <Size>264px, 58px</Size>
+                                        <Size>264px, 68px</Size>
                                         <Style>
                                             <Font>
                                                 <Name>Arial</Name>
@@ -7594,7 +7594,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                             </TextBox>
                             <TextBox Name="textBox6">
                                 <Location>0px, 376px</Location>
-                                <Size>519px, 76px</Size>
+                                <Size>519px, 88px</Size>
                                 <Style>
                                     <Font>
                                         <Name>Arial</Name>
