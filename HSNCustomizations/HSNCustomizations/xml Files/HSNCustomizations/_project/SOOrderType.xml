@@ -1,3 +1,4 @@
 ﻿<Table TableName="SOOrderType">
     <Column TableName="SOOrderType" ColumnName="UsrRequireAtLeastOneNonStkItemInSO" ColumnType="bool" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
+    <Column TableName="SOOrderType" ColumnName="UsrMandatoryNonStkItem" ColumnType="int" AllowNull="True" DecimalPrecision="0" DecimalLength="0" IsNewColumn="True" IsUnicode="True" />
 </Table>

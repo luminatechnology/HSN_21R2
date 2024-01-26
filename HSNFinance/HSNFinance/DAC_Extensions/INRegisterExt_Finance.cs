@@ -1,5 +1,6 @@
 ﻿using PX.Data;
 using PX.Data.BQL.Fluent;
+using PX.Objects.GL;
 
 namespace PX.Objects.IN
 {
@@ -12,7 +13,9 @@ namespace PX.Objects.IN
         [PXUIRequired(typeof(Where<INRegisterExt_Finance.usrIsRequireHeaderDesc, Equal<True>,
                                    And<INRegister.docType, In3<INDocType.receipt, INDocType.issue, INDocType.transfer>,
                                        And<INRegister.sOShipmentNbr, IsNull,
-                                           And<INRegister.pOReceiptNbr, IsNull>>>>))]
+                                           And<INRegister.pOReceiptNbr, IsNull,
+                                               And<INRegister.origModule, Equal<BatchModule.moduleIN>,
+                                                   And<INRegister.released, Equal<False>>>>>>>))]
         public virtual string TranDesc { get; set; }
         #endregion
     }

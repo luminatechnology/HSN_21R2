@@ -52,7 +52,7 @@ namespace PX.Objects.FS
         }
 
         [PXString(255, IsUnicode = true)]
-        [PXUIField(DisplayName = "Equip. Asset Nbr.", Enabled = false)]
+        [PXUIField(DisplayName = "°]²£½s¸¹", Enabled = false)]
         [PXUnboundDefault(typeof(SelectFrom<CSAnswers>.InnerJoin<FSEquipment>.On<FSEquipment.noteID.IsEqual<CSAnswers.refNoteID>
                                                                           .And<CSAnswers.attributeID.IsEqual<ASSETNBR_Attr>>>
                                                .Where<FSEquipment.SMequipmentID.IsEqual<FSAppointmentDet.SMequipmentID.FromCurrent>>

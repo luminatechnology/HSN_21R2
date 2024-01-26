@@ -372,6 +372,7 @@
         </Detail>
         <TopLevelEntity name="SalesOrder" screen="SO301000">
             <Fields>
+                <Field name="Branch" type="StringValue" />
                 <Field name="Contact" type="IntValue" />
                 <Field name="CurrencyID" type="StringValue" />
                 <Field name="CurrencyRate" type="DecimalValue" />
@@ -510,6 +511,9 @@
                 </Mapping>
                 <Mapping field="TaxTotal">
                     <To object="Document" field="CuryTaxTotal" />
+                </Mapping>
+                <Mapping field="Branch">
+                    <To object="CurrentDocument: 1" field="BranchID" />
                 </Mapping>
                 <Mapping field="CustomerID">
                     <To object="Document" field="CustomerID" />

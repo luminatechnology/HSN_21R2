@@ -60,7 +60,7 @@ namespace HSNHighcareCistomizations.Graph
                 var attrHCCRMRLSED = this.Transactions.Cache.GetValueExt(invRow, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED") as PXFieldState;
                 if (filter.ProcessType == HighcareReturnFilter.NewReturn && !((bool?)attrHCCRMSENT?.Value ?? false))
                     yield return row;
-                else if (filter.ProcessType == HighcareReturnFilter.ReleaseReturn && ((bool?)attrHCCRMSENT?.Value ?? false) && !((bool?)attrHCCRMRLSED?.Value ?? false))
+                else if (filter.ProcessType == HighcareReturnFilter.ReleaseReturn && ((bool?)attrHCCRMSENT?.Value ?? false) && !((bool?)attrHCCRMRLSED?.Value ?? false) && invRow.Status == ARDocStatus.Open)
                     yield return row;
             }
         }
@@ -89,14 +89,15 @@ namespace HSNHighcareCistomizations.Graph
 
             foreach (var record in list)
             {
-                baseGraph.ProcessReturn(record, filter);
+                baseGraph.ProcessReturn(record, filter, baseGraph);
             }
 
         }
 
-        public void ProcessReturn(ARInvoice item, HighcareReturnFilter filter)
+        public void ProcessReturn(ARInvoice item, HighcareReturnFilter filter, HighcareReturnProcess baseGraph)
         {
             var invoiceGraph = PXGraph.CreateInstance<SOInvoiceEntry>();
+            var arinvoiceGraph = PXGraph.CreateInstance<ARInvoiceEntry>();
             invoiceGraph.Document.Current = item;
 
             var mapData = SelectFrom<ARInvoice>
@@ -116,7 +117,9 @@ namespace HSNHighcareCistomizations.Graph
                 #region Mapping Entity
                 var soOrder = mapData.RowCast<SOOrder>().FirstOrDefault();
                 entity.Status = filter?.ProcessType == HighcareReturnFilter.NewReturn ? "On Hold" : "Release";
-                entity.ModifiedTime = filter.ProcessType == HighcareReturnFilter.NewReturn ? item.CreatedDateTime : item.LastModifiedDateTime;
+                entity.ModifiedTime = filter.ProcessType == HighcareReturnFilter.NewReturn 
+                                        ? TimeZoneInfo.ConvertTimeToUtc(item.CreatedDateTime.Value, TimeZoneInfo.FindSystemTimeZoneById(PX.Common.PXContext.PXIdentity.TimeZone.RegionId)) 
+                                        : TimeZoneInfo.ConvertTimeToUtc(item.LastModifiedDateTime.Value, TimeZoneInfo.FindSystemTimeZoneById(PX.Common.PXContext.PXIdentity.TimeZone.RegionId));
                 entity.Amount = item?.CuryOrigDocAmt;
                 entity.ECOrderNumber = soOrder?.CustomerOrderNbr;
                 entity.OrderNumber = soOrder?.OrderNbr;
@@ -125,15 +128,15 @@ namespace HSNHighcareCistomizations.Graph
                                 .And<SOLine.orderType.IsEqual<P.AsString>>>
                               .View.Select(invoiceGraph, soOrder?.OrderNbr, soOrder?.OrderType).RowCast<SOLine>();
                 entity.Details = new List<Details>();
-                foreach (var soItems in soLines)
+                foreach (var arItem in mapData.RowCast<ARTran>())
                 {
-                    var itemInfo = PX.Objects.IN.InventoryItem.PK.Find(invoiceGraph, soItems?.InventoryID);
+                    var itemInfo = PX.Objects.IN.InventoryItem.PK.Find(invoiceGraph, arItem?.InventoryID);
                     entity.Details.Add(new Details()
-                        {
-                            InventoryID = itemInfo?.InventoryID,
-                            InventoryCD = itemInfo?.InventoryCD,
-                            Quantity = soItems?.Qty
-                        }
+                    {
+                        InventoryID = itemInfo?.InventoryID,
+                        InventoryCD = itemInfo?.InventoryCD,
+                        Quantity = arItem?.Qty
+                    }
                     );
                 }
                 #endregion
@@ -142,28 +145,117 @@ namespace HSNHighcareCistomizations.Graph
                     throw new PXException(apiResult.errorMessage);
                 // Update json to note
                 PXNoteAttribute.SetNote(invoiceGraph.Document.Cache, invoiceGraph.Document.Current, JsonConvert.SerializeObject(entity));
-
-                // Update User-defined
-                if (filter?.ProcessType == HighcareReturnFilter.NewReturn)
-                {
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMSENT", true);
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMSTIME", PX.Common.PXTimeZoneInfo.Now);
-                }
-                else
-                {
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED", true);
-                    invoiceGraph.Document.Cache.SetValueExt(invoiceGraph.Document.Current, PX.Objects.CS.Messages.Attribute + "HCCRMRTIME", PX.Common.PXTimeZoneInfo.Now);
-                }
             }
             catch (Exception ex)
             {
                 PXNoteAttribute.SetNote(invoiceGraph.Document.Cache, invoiceGraph.Document.Current, ex.Message);
+                PXProcessing.SetError<ARInvoice>(ex.Message);
             }
             finally
             {
                 invoiceGraph.Save.Press();
+                if (filter?.ProcessType == HighcareReturnFilter.NewReturn)
+                    InsertOrUpdateKvextManualWithNew(item.NoteID, baseGraph);
+                else
+                    InsertOrUpdateKvextManualWithReleased(item.NoteID, baseGraph);
             }
         }
+
+        /// <summary> 手動Insert/Update Attribute (Filter = New)</summary>
+        public void InsertOrUpdateKvextManualWithNew(Guid? noteid, HighcareReturnProcess baseGraph)
+        {
+            var kvextInfo = SelectFrom<ARRegisterKvExt>
+                            .Where<ARRegisterKvExt.recordID.IsEqual<P.AsGuid>>
+                            .View.Select(this, noteid).RowCast<ARRegisterKvExt>();
+
+            #region Insert or Update Attribute HCCRMSENT and HCCRMSTIME
+            if (kvextInfo.Any(x => x.FieldName == PX.Objects.CS.Messages.Attribute + "HCCRMSENT"))
+            {
+                // Update
+                PXUpdate<Set<ARRegisterKvExt.valueNumeric, Required<ARRegisterKvExt.valueNumeric>>,
+                    ARRegisterKvExt,
+                    Where<ARRegisterKvExt.recordID, Equal<Required<ARRegisterKvExt.recordID>>,
+                      And<ARRegisterKvExt.fieldName, Equal<Required<ARRegisterKvExt.fieldName>>>>>
+                    .Update(this, 1, noteid, PX.Objects.CS.Messages.Attribute + "HCCRMSENT");
+            }
+            else
+            {
+                // Insert
+                List<PXDataFieldAssign> assigns = new List<PXDataFieldAssign>();
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.recordID>(noteid));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.valueNumeric>(1));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.fieldName>(PX.Objects.CS.Messages.Attribute + "HCCRMSENT"));
+                PXDatabase.Insert<ARRegisterKvExt>(assigns.ToArray());
+            }
+            if (kvextInfo.Any(x => x.FieldName == PX.Objects.CS.Messages.Attribute + "HCCRMSTIME"))
+            {
+                // Update
+                PXUpdate<Set<ARRegisterKvExt.valueDate, Required<ARRegisterKvExt.valueDate>>,
+                    ARRegisterKvExt,
+                    Where<ARRegisterKvExt.recordID, Equal<Required<ARRegisterKvExt.recordID>>,
+                      And<ARRegisterKvExt.fieldName, Equal<Required<ARRegisterKvExt.fieldName>>>>>
+                    .Update(baseGraph, PX.Common.PXTimeZoneInfo.Now, noteid, PX.Objects.CS.Messages.Attribute + "HCCRMSTIME");
+            }
+            else
+            {
+                // Insert
+                List<PXDataFieldAssign> assigns = new List<PXDataFieldAssign>();
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.recordID>(noteid));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.valueDate>(PX.Common.PXTimeZoneInfo.Now));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.fieldName>(PX.Objects.CS.Messages.Attribute + "HCCRMSTIME"));
+                PXDatabase.Insert<ARRegisterKvExt>(assigns.ToArray());
+            }
+            #endregion
+        }
+
+        /// <summary> 手動Insert/Update Attribute (Filter = Released)</summary>
+        public void InsertOrUpdateKvextManualWithReleased(Guid? noteid, HighcareReturnProcess baseGraph)
+        {
+            var kvextInfo = SelectFrom<ARRegisterKvExt>
+                            .Where<ARRegisterKvExt.recordID.IsEqual<P.AsGuid>>
+                            .View.Select(baseGraph, noteid).RowCast<ARRegisterKvExt>();
+
+            #region Insert or Update Attribute HCCRMRLSED and HCCRMRTIME
+            if (kvextInfo.Any(x => x.FieldName == PX.Objects.CS.Messages.Attribute + "HCCRMRLSED"))
+            {
+                // Update
+                PXUpdate<Set<ARRegisterKvExt.valueNumeric, Required<ARRegisterKvExt.valueNumeric>>,
+                    ARRegisterKvExt,
+                    Where<ARRegisterKvExt.recordID, Equal<Required<ARRegisterKvExt.recordID>>,
+                      And<ARRegisterKvExt.fieldName, Equal<Required<ARRegisterKvExt.fieldName>>>>>
+                    .Update(baseGraph, 1, noteid, PX.Objects.CS.Messages.Attribute + "HCCRMRLSED");
+            }
+            else
+            {
+                // Insert
+                List<PXDataFieldAssign> assigns = new List<PXDataFieldAssign>();
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.recordID>(noteid));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.valueNumeric>(1));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.fieldName>(PX.Objects.CS.Messages.Attribute + "HCCRMRLSED"));
+                PXDatabase.Insert<ARRegisterKvExt>(assigns.ToArray());
+            }
+            if (kvextInfo.Any(x => x.FieldName == PX.Objects.CS.Messages.Attribute + "HCCRMRTIME"))
+            {
+                // Update
+                PXUpdate<Set<ARRegisterKvExt.valueDate, Required<ARRegisterKvExt.valueDate>>,
+                    ARRegisterKvExt,
+                    Where<ARRegisterKvExt.recordID, Equal<Required<ARRegisterKvExt.recordID>>,
+                      And<ARRegisterKvExt.fieldName, Equal<Required<ARRegisterKvExt.fieldName>>>>>
+                    .Update(this, PX.Common.PXTimeZoneInfo.Now, noteid, PX.Objects.CS.Messages.Attribute + "HCCRMRTIME");
+            }
+            else
+            {
+                // Insert
+                List<PXDataFieldAssign> assigns = new List<PXDataFieldAssign>();
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.recordID>(noteid));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.valueDate>(PX.Common.PXTimeZoneInfo.Now));
+                assigns.Add(new PXDataFieldAssign<ARRegisterKvExt.fieldName>(PX.Objects.CS.Messages.Attribute + "HCCRMRTIME"));
+                PXDatabase.Insert<ARRegisterKvExt>(assigns.ToArray());
+            }
+            #endregion
+        }
+
+
         #endregion
     }
 

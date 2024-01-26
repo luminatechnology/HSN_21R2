@@ -6,7 +6,7 @@ namespace PX.Objects.SO
     {
         #region UsrReqHeaderDescInSO
         [PXDBBool]
-        [PXUIField(DisplayName = "Require Header Description In Sales Orders")]
+        [PXUIField(DisplayName = "Require Header Description In Sales & Payments")]
         public virtual bool? UsrReqHeaderDescInSO { get; set; }
         public abstract class usrReqHeaderDescInSO : PX.Data.BQL.BqlBool.Field<usrReqHeaderDescInSO> { }
         #endregion

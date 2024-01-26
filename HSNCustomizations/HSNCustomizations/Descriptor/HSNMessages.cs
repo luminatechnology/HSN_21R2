@@ -29,12 +29,12 @@ namespace HSNCustomizations.Descriptor
         public const string DuplicSortOrder    = "The Sort Order Cannot Be Repeated.";
         public const string SortOrdMustGreater = "The Sort Order Must Be Greater Than The Last One.";
         public const string NoPartRequest      = "All Parts Requested Have Been Submitted.";
-        public const string WHLocDiffFromAppt  = "The Warehouse / Warehouse Location Is Different Between The Receipts And Appointment Details.";
-        public const string StartApptNoStaff   = "You Cannot Start Appointment Without Staff Assigned";
-        public const string NoRMARequired      = "No Record Of RMA Required.";
-        public const string CannotToggleRMA    = "Initiate RMA / Return RMA Already Exists, Cannot Toggle RMA.";
-        public const string ApptHasInvetTrans  = "The Appointment Has At Least One Related Inventory Transaction. Delete It First Or Cancal The Appointment.";
-        public const string ApptDetExistInvtTran = "The Inventory Is In Part Request/Initiate RMA And Can't Be Delete.";
-        public const string NonStkItemWithNoAmt  = "A Minimum Of One Non-Stock Item Is Necessary For Continued Processing.";
+        public const string WHLocDiffFromAppt     = "The Warehouse / Warehouse Location Is Different Between The Receipts And Appointment Details.";
+        public const string StartApptNoStaff      = "You Cannot Start Appointment Without Staff Assigned";
+        public const string NoRMARequired         = "No Record Of RMA Required.";
+        public const string CannotToggleRMA       = "Initiate RMA / Return RMA Already Exists, Cannot Toggle RMA.";
+        public const string ApptHasInvetTrans     = "The Appointment Has At Least One Related Inventory Transaction. Delete It First Or Cancal The Appointment.";
+        public const string ApptDetExistInvtTran  = "The Inventory Is In Part Request/Initiate RMA And Can't Be Delete.";
+        public const string NonStkItemNoSelected  = "The Specified Non-Stock Item Is Necessary For Continued Processing.";
     }
 }

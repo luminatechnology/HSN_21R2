@@ -1,5 +1,8 @@
 ﻿<Report Name="ls601000.rpx">
     <Report version="20201103" Name="report1">
+        <CommonSettings>
+            <ViewPdf>True</ViewPdf>
+        </CommonSettings>
         <ExcelColumns>
             <item>9</item>
             <item>9</item>
@@ -71,6 +74,7 @@
             <Landscape>True</Landscape>
             <Margins>
             </Margins>
+            <PaperKind>A3</PaperKind>
         </PageSettings>
         <Parameters>
             <ReportParameter>
@@ -340,7 +344,7 @@
                 <ParentName>GLHistoryByPeriod</ParentName>
             </ReportRelation>
         </Relations>
-        <SchemaUrl>http://localhost/HSN</SchemaUrl>
+        <SchemaUrl>http://localhost/Hakuhodo</SchemaUrl>
         <Sorting>
             <SortExp>
                 <DataField>GLHistoryByPeriod.BranchID</DataField>
@@ -1734,10 +1738,6 @@
                     </ReportField>
                     <ReportField Name="AccountID_Segment1">
                     </ReportField>
-                    <ReportField Name="AccountID_Segment2">
-                    </ReportField>
-                    <ReportField Name="AccountID_Segment3">
-                    </ReportField>
                     <ReportField Name="BatchNbr">
                     </ReportField>
                     <ReportField Name="BranchID">
@@ -1778,10 +1778,6 @@
                     <ReportField Name="CreatedDateTime_Quarter">
                     </ReportField>
                     <ReportField Name="InventoryID">
-                    </ReportField>
-                    <ReportField Name="InventoryID_description">
-                    </ReportField>
-                    <ReportField Name="InventoryID_InventoryItem_descr">
                     </ReportField>
                     <ReportField Name="InventoryID_Segment1">
                     </ReportField>
@@ -1852,6 +1848,8 @@
                     <ReportField Name="SettledDebitAmt">
                         <DataType>Decimal</DataType>
                     </ReportField>
+                    <ReportField Name="SettledPeriodID">
+                    </ReportField>
                     <ReportField Name="SettlementNbr">
                     </ReportField>
                     <ReportField Name="SubID">
@@ -1890,17 +1888,16 @@
                     <ReportField Name="Tstamp">
                     </ReportField>
                 </Fields>
-                <FullName>HSNFinance.DAC.LSLedgerSettlement</FullName>
+                <FullName>UCGLedgerSettlement.DAC.LSLedgerSettlement</FullName>
             </ReportTable>
         </Tables>
         <Version>20201103</Version>
-        <Width>1232.64001px</Width>
+        <Width>1434.57996px</Width>
         <Sections>
             <PageHeader Name="pageHeaderSection1">
                 <ExcelMargin>
                     <bottom>1</bottom>
                 </ExcelMargin>
-                <Expanded>False</Expanded>
                 <Height>64px</Height>
                 <StyleName>PageHeaderSection</StyleName>
                 <Items>
@@ -1946,40 +1943,40 @@
                     </TextBox>
                     <TextBox Name="textBox14">
                         <Excel>
-                            <column>12</column>
+                            <column>14</column>
                             <row>2</row>
                         </Excel>
-                        <Location>1080px, 20px</Location>
+                        <Location>1276px, 20px</Location>
                         <Size>36px, 16px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>Date:</Value>
                     </TextBox>
                     <TextBox Name="textBox15">
                         <Excel>
-                            <column>12</column>
+                            <column>14</column>
                         </Excel>
                         <ExcelVisible>False</ExcelVisible>
-                        <Location>1080px, 4px</Location>
+                        <Location>1276px, 4px</Location>
                         <Size>36px, 16px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>Page:</Value>
                     </TextBox>
                     <TextBox Name="textBox16">
                         <Excel>
-                            <column>12</column>
+                            <column>14</column>
                             <row>3</row>
                         </Excel>
-                        <Location>1080px, 36px</Location>
+                        <Location>1276px, 36px</Location>
                         <Size>36px, 14px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>User:</Value>
                     </TextBox>
                     <TextBox Name="textBox17">
                         <Excel>
-                            <column>13</column>
+                            <column>15</column>
                         </Excel>
                         <ExcelVisible>False</ExcelVisible>
-                        <Location>1116px, 4px</Location>
+                        <Location>1312px, 4px</Location>
                         <Size>112px, 16px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>=[PageOf]</Value>
@@ -1987,21 +1984,21 @@
                     <TextBox Name="textBox18">
                         <CanGrow>True</CanGrow>
                         <Excel>
-                            <column>13</column>
+                            <column>15</column>
                             <row>3</row>
                         </Excel>
-                        <Location>1116px, 36px</Location>
+                        <Location>1312px, 36px</Location>
                         <Size>112px, 14px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>=Report.GetDefUI('RowAccessInfo.DisplayName')</Value>
                     </TextBox>
                     <TextBox Name="textBox19">
                         <Excel>
-                            <column>13</column>
+                            <column>15</column>
                             <row>2</row>
                         </Excel>
                         <Format>g</Format>
-                        <Location>1116px, 20px</Location>
+                        <Location>1312px, 20px</Location>
                         <Size>112px, 16px</Size>
                         <StyleName>Report Params</StyleName>
                         <Value>=Now()</Value>
@@ -2017,15 +2014,6 @@
                         <Value>=Report.ExtToUI('OrganizationBranchReportParameters.FinPeriodID', @StartPeriod)</Value>
                         <Visible>False</Visible>
                     </TextBox>
-                    <TextBox Name="textBox23">
-                        <Excel>
-                            <column>7</column>
-                        </Excel>
-                        <Location>388px, 4px</Location>
-                        <Size>64px, 16px</Size>
-                        <StyleName>Report Params</StyleName>
-                        <Value>Account:</Value>
-                    </TextBox>
                     <TextBox Name="textBox24">
                         <Excel>
                             <column>7</column>
@@ -2036,15 +2024,6 @@
                         <StyleName>Report Params</StyleName>
                         <Value>Subaccount:</Value>
                         <VisibleExpr>=[@SubCD]&lt;&gt; null</VisibleExpr>
-                    </TextBox>
-                    <TextBox Name="textBox25">
-                        <Excel>
-                            <column>8</column>
-                        </Excel>
-                        <Location>452px, 4px</Location>
-                        <Size>420px, 16px</Size>
-                        <StyleName>Report Params</StyleName>
-                        <Value>=Report.ExtToUI('GLTran.AccountID', @AccountCD) + ' - ' + Report.GetDescription( 'GLTran.AccountID', @AccountCD )</Value>
                     </TextBox>
                     <TextBox Name="textBox26">
                         <Excel>
@@ -2137,19 +2116,13 @@
                     </TextBox>
                 </Items>
             </PageHeader>
-            <Detail Name="Details">
-                <Expanded>False</Expanded>
+            <Detail Name="Details_GLTran">
                 <Height>16px</Height>
                 <ProcessOrder>Always</ProcessOrder>
                 <Variables>
                     <ReportVariable>
                         <Name>$AnyReclassified</Name>
                         <ValueExpr>= IIf([GLTran.Reclassified] = True, True, $AnyReclassified)</ValueExpr>
-                    </ReportVariable>
-                    <ReportVariable>
-                        <Name>IsVisible</Name>
-                        <ProcessOrder>Always</ProcessOrder>
-                        <ValueExpr>=[GLTran.AccountID] &lt;&gt; null #010;And [GLTran.TranDate] &gt;= $ParmStartDate#010;And [GLTran.TranDate] &lt;= $ParmEndDate</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>BegBalance</Name>
@@ -2174,7 +2147,7 @@
                     <ReportVariable>
                         <Name>LineBalance</Name>
                         <ProcessOrder>Always</ProcessOrder>
-                        <ValueExpr>=$LineBalance #010;+$SignTurn * IsNull(IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         [GLTran.DebitAmt]#010;        )#010;     ) ,0) #010;-$SignTurn * IsNull(IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [GLTran.CreditAmt] - IsNull([GLTran.UsrSetldCreditAmt], 0),#010;         [GLTran.CreditAmt]#010;        )#010;     ) ,0)</ValueExpr>
+                        <ValueExpr>=$LineBalance + $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), [GLTran.ReclassRemainingAmt], [GLTran.DebitAmt]), 0) - $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), [GLTran.ReclassRemainingAmt], [GLTran.CreditAmt]), 0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>LineCuryBalance</Name>
@@ -2182,92 +2155,210 @@
                         <ValueExpr>=$LineCuryBalance + $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigDebitAmt] - [LSLedgerSettlement.SettledDebitAmt], [GLTran.CuryDebitAmt])), 0) - $SignTurn * IsNull(iif((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigCreditAmt] - [LSLedgerSettlement.SettledCreditAmt], [GLTran.CuryCreditAmt])), 0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
+                        <Name>Settlement_Display</Name>
+                        <ValueExpr>=IIf([LSLedgerSettlement.SettledPeriodID] &lt;&gt; Null, DateAdd(DateAdd(CDate(Format('{0}/{1}/{2}', Right([LSLedgerSettlement.SettledPeriodID], 4), Left([LSLedgerSettlement.SettledPeriodID], 2), 1)), 'M', 1), 'd', -1), '9999/12/31') &lt;= $ParmEndDate</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
+                        <Name>Settlement_Cur</Name>
+                        <ValueExpr>=IsNull([LSLedgerSettlement.Module], '') + '-' + IsNull([LSLedgerSettlement.BatchNbr], '') + '-' + IsNull([LSLedgerSettlement.LineNbr], '0')</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
+                        <Name>Settlement_Pre</Name>
+                        <ValueExpr>=Prev(IsNull([LSLedgerSettlement.Module], '')) + '-' + Prev(IsNull([LSLedgerSettlement.BatchNbr], '')) + '-' + Prev(IsNull([LSLedgerSettlement.LineNbr], '0'))</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
                         <Name>SettledDebit</Name>
                         <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
-                        <ValueExpr>=$SettledDebit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledDebitAmt], 0), 0)</ValueExpr>
+                        <ValueExpr>=$SettledDebit + IIf($Settlement_Display = true, IsNull([LSLedgerSettlement.SettledDebitAmt], 0), 0)</ValueExpr>
                     </ReportVariable>
                     <ReportVariable>
                         <Name>SettledCredit</Name>
                         <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
-                        <ValueExpr>=$SettledCredit + IIf([GLTran.UOM] = 'ZZ', IIf(ReportUDF.IncludeSettledAmt($ParmEndDate, [LSLedgerSettlement.SettlementNbr]), [LSLedgerSettlement.SettledCreditAmt], 0), 0)</ValueExpr>
+                        <ValueExpr>=$SettledCredit + IIf($Settlement_Display = true, IsNull([LSLedgerSettlement.SettledCreditAmt], 0), 0)</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
+                        <Name>SettledLineBalance</Name>
+                        <ResetGroup>Module_BatchNbr_LineNbr</ResetGroup>
+                        <ValueExpr>=($Debit - $Credit) - ($SettledDebit - $SettledCredit)</ValueExpr>
+                    </ReportVariable>
+                    <ReportVariable>
+                        <Name>EndingBalance</Name>
+                        <ValueExpr>=$EndingBalance + IIf($Settlement_Cur &lt;&gt; $Settlement_Pre, ($Debit - $Credit) - $TotalSettledBalance, 0)</ValueExpr>
                     </ReportVariable>
                 </Variables>
-                <VisibleExpr>=False#010;/*$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;	(IsNull([GLTran.UsrSetldCreditAmt], 0) = 0 Or $TranCredit &gt; 0) And#010;	(IsNull([GLTran.UsrSetldDebitAmt], 0) = 0 Or $TranDebit &gt; 0)#010;        )#010;*/#010;    /*IIf(([Batch.BatchNbr] &lt;&gt; Prev([Batch.BatchNbr])#010;          And [GLTran.UOM] = 'YY')#010;          Or($TranDebit &lt;&gt; 0 Or $TranCredit &lt;&gt; 0), True, False))*/</VisibleExpr>
+                <VisibleExpr>=$IsVisible And $Settlement_Cur &lt;&gt; $Settlement_Pre</VisibleExpr>
                 <Items>
                     <TextBox Name="textBox10">
-                        <CanGrow>True</CanGrow>
-                        <Excel>
-                            <column>8</column>
-                        </Excel>
-                        <Location>496px, 0px</Location>
-                        <Size>224px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=Format('{0}/{1}/{2}', Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 0, 4),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 4, 2),#010;				 Substring(IsNull([LSLedgerSettlement.SettlementNbr], '99991231'), 6, 2))</Value>
-                    </TextBox>
-                    <TextBox Name="textBox28">
-                        <Excel>
-                            <column>6</column>
-                        </Excel>
-                        <Location>320px, 0px</Location>
-                        <Size>80px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[GLTran.LineNbr]#010;/*[GLTran.RefNbr]*/</Value>
-                    </TextBox>
-                    <TextBox Name="textBox35">
-                        <Excel>
-                            <column>11</column>
-                        </Excel>
-                        <Format>=[GLTran.DebitAmt.Format]</Format>
-                        <Location>920px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=$TranDebit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox36">
-                        <Excel>
-                            <column>12</column>
-                        </Excel>
-                        <Format>=[GLTran.CreditAmt.Format]</Format>
-                        <Location>1020px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=$TranCredit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox37">
-                        <Excel>
-                            <column>13</column>
-                        </Excel>
-                        <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                        <Location>1120px, 0px</Location>
-                        <ProcessOrder>WhilePrint</ProcessOrder>
-                        <Size>96px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=$LineBalance</Value>
-                    </TextBox>
-                    <TextBox Name="textBox4">
                         <Excel>
                             <column>4</column>
                         </Excel>
-                        <Location>172px, 0px</Location>
-                        <NavigateMethod>Server</NavigateMethod>
-                        <Size>70px, 16px</Size>
+                        <Location>248px, 0px</Location>
+                        <Size>40px, 16px</Size>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
                         <StyleName>Normal</StyleName>
-                        <Value>=[Batch.BatchNbr]</Value>
+                        <Value>=[Batch.Module]</Value>
                     </TextBox>
-                    <TextBox Name="textBox56">
+                    <TextBox Name="textBox21">
+                        <CanGrow>True</CanGrow>
+                        <Excel>
+                            <column>7</column>
+                        </Excel>
+                        <Location>444px, 0px</Location>
+                        <Size>100px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[GLTran.LineNbr] + IIf([GLTran.RefNbr] &lt;&gt; Null And [GLTran.RefNbr] &lt;&gt; '', '-' + [GLTran.RefNbr], '')</Value>
+                    </TextBox>
+                    <TextBox Name="textBox22">
+                        <Excel>
+                            <column>8</column>
+                        </Excel>
+                        <Location>544px, 0px</Location>
+                        <Size>86px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[GLTran.SubID]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox23">
+                        <Excel>
+                            <column>14</column>
+                        </Excel>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
+                        <Location>1220px, 0px</Location>
+                        <ProcessOrder>Always</ProcessOrder>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$SettledLineBalance</Value>
+                    </TextBox>
+                    <TextBox Name="textBox27">
+                        <CanGrow>True</CanGrow>
+                        <Excel>
+                            <column>6</column>
+                        </Excel>
+                        <Format>=Switch(#010;[GLTran.Module]='AP',Report.GetFormat('APRegister.DocType'),#010;[GLTran.Module]='AR',Report.GetFormat('ARRegister.DocType'), #010;[GLTran.Module]='CA',Report.GetFormat('CATran.OrigTranType'), #010;[GLTran.Module]='IN',Report.GetFormat('INTran.TranType'),#010;[GLTran.Module]='FA',Report.GetFormat('FATran.TranType'),#010;[GLTran.Module]='CM',Report.GetFormat('CMReportTranType.TranType'))</Format>
+                        <Location>376px, 0px</Location>
+                        <Size>68px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=IIf([GLTran.Module]='GL','',[GLTran.TranType])</Value>
+                    </TextBox>
+                    <TextBox Name="textBox28">
                         <Excel>
                             <column>12</column>
                         </Excel>
-                        <Location>1216px, 0px</Location>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
+                        <Location>1036px, 0px</Location>
+                        <ProcessOrder>Always</ProcessOrder>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$SettledDebit</Value>
+                        <Visible>False</Visible>
+                    </TextBox>
+                    <TextBox Name="textBox29">
+                        <Excel>
+                            <column>2</column>
+                        </Excel>
+                        <Location>128px, 0px</Location>
+                        <Size>52px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=IIf(@UseMasterCalendar=True, [GLTran.TranPeriodID], [GLTran.FinPeriodID])</Value>
+                    </TextBox>
+                    <TextBox Name="textBox30">
+                        <Excel>
+                            <column>5</column>
+                        </Excel>
+                        <Location>288px, 0px</Location>
+                        <NavigateMethod>Server</NavigateMethod>
+                        <Size>88px, 16px</Size>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[Batch.BatchNbr]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox35">
+                        <CanGrow>True</CanGrow>
+                        <Excel>
+                            <column>9</column>
+                        </Excel>
+                        <Location>632px, 0px</Location>
+                        <Size>220px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[GLTran.TranDesc]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox36">
+                        <Excel>
+                            <column>10</column>
+                        </Excel>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
+                        <Location>852px, 0px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$Debit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox37">
+                        <Excel>
+                            <column>11</column>
+                        </Excel>
+                        <Format>=[GLTran.CreditAmt.Format]</Format>
+                        <Location>944px, 0px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$Credit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox4">
+                        <Excel>
+                            <column>3</column>
+                        </Excel>
+                        <Location>184px, 0px</Location>
+                        <Size>56px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[GLTran.TranDate]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox64">
+                        <Excel>
+                            <column>13</column>
+                        </Excel>
+                        <Format>=[GLTran.CreditAmt.Format]</Format>
+                        <Location>1128px, 0px</Location>
+                        <ProcessOrder>Always</ProcessOrder>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$SettledCredit</Value>
+                        <Visible>False</Visible>
+                    </TextBox>
+                    <TextBox Name="textBox81">
+                        <Excel>
+                            <column>15</column>
+                        </Excel>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
+                        <Location>1324px, 0px</Location>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=$EndingBalance</Value>
+                    </TextBox>
+                    <TextBox Name="textBox82">
+                        <Excel>
+                            <column>15</column>
+                        </Excel>
+                        <Location>1424px, 0px</Location>
                         <Size>8px, 16px</Size>
                         <Style>
                             <Color>Red</Color>
@@ -2279,34 +2370,16 @@
                         <Value>*</Value>
                         <VisibleExpr>=[GLTran.Reclassified]=True</VisibleExpr>
                     </TextBox>
-                    <TextBox Name="textBox63">
-                        <Excel>
-                            <column>9</column>
-                        </Excel>
-                        <Location>720px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
+                    <TextBox Name="textBox86">
+                        <CanGrow>True</CanGrow>
+                        <Location>4px, 0px</Location>
+                        <Size>92px, 16px</Size>
                         <StyleName>Normal</StyleName>
-                        <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [LSLedgerSettlement.OrigDebitAmt] - $SettledDebitLine,#010;         [GLTran.CuryDebitAmt]#010;        )#010;     )</Value>
-                    </TextBox>
-                    <TextBox Name="textBox64">
-                        <Excel>
-                            <column>10</column>
-                        </Excel>
-                        <Location>820px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [LSLedgerSettlement.OrigCreditAmt] - $SettledCreditLine,#010;         [GLTran.CuryCreditAmt]#010;        )#010;     )</Value>
+                        <Value>=RTrim(Report.ExtToUI('GLTran.AccountID', @AccountCD)) + ' - ' + Report.GetDescription( 'GLTran.AccountID', @AccountCD )</Value>
                     </TextBox>
                 </Items>
             </Detail>
             <ReportFooter Name="reportFooterSection1">
-                <Expanded>False</Expanded>
                 <Height>16px</Height>
                 <Items>
                     <Panel Name="panel1">
@@ -2340,13 +2413,294 @@
                     </Panel>
                 </Items>
             </ReportFooter>
-            <Detail Name="detailsCury">
+            <ReportHeader Name="BegLineBalance">
                 <Expanded>False</Expanded>
+                <Height>8px</Height>
+            </ReportHeader>
+            <PageHeader Name="pageHeaderSection2">
+                <Height>24px</Height>
+                <StyleName>ColumnsHeaderSection</StyleName>
+                <Items>
+                    <TextBox Name="textBox2">
+                        <Excel>
+                            <column>3</column>
+                        </Excel>
+                        <Location>192px, 4px</Location>
+                        <Size>56px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Date</Value>
+                    </TextBox>
+                    <TextBox Name="textBox3">
+                        <Excel>
+                            <column>5</column>
+                        </Excel>
+                        <Location>288px, 4px</Location>
+                        <Size>88px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Batch Number</Value>
+                    </TextBox>
+                    <TextBox Name="textBox31">
+                        <Excel>
+                            <column>4</column>
+                        </Excel>
+                        <Location>248px, 4px</Location>
+                        <Size>40px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Module</Value>
+                    </TextBox>
+                    <TextBox Name="textBox32">
+                        <Excel>
+                            <column>6</column>
+                        </Excel>
+                        <Location>376px, 4px</Location>
+                        <Size>68px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Tran. Type</Value>
+                    </TextBox>
+                    <TextBox Name="textBox33">
+                        <Excel>
+                            <column>7</column>
+                        </Excel>
+                        <Location>444px, 4px</Location>
+                        <Size>100px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Ref. Number</Value>
+                    </TextBox>
+                    <TextBox Name="textBox38">
+                        <Location>68px, 4px</Location>
+                        <Size>116px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Tran/Settled Period</Value>
+                    </TextBox>
+                    <TextBox Name="textBox43">
+                        <Excel>
+                            <column>9</column>
+                        </Excel>
+                        <Location>632px, 4px</Location>
+                        <Size>220px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Description</Value>
+                    </TextBox>
+                    <TextBox Name="textBox47">
+                        <Excel>
+                            <column>8</column>
+                        </Excel>
+                        <Location>544px, 4px</Location>
+                        <Size>86px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Subaccount</Value>
+                    </TextBox>
+                    <TextBox Name="textBox5">
+                        <Excel>
+                            <column>10</column>
+                        </Excel>
+                        <Location>852px, 4px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Debit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox6">
+                        <Excel>
+                            <column>12</column>
+                        </Excel>
+                        <Location>1036px, 4px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Settled Debit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox65">
+                        <Excel>
+                            <column>11</column>
+                        </Excel>
+                        <Location>944px, 4px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Credit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox66">
+                        <Excel>
+                            <column>13</column>
+                        </Excel>
+                        <Location>1128px, 4px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Settled Credit</Value>
+                    </TextBox>
+                    <TextBox Name="textBox7">
+                        <Excel>
+                            <column>15</column>
+                        </Excel>
+                        <Location>1324px, 4px</Location>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Ending Balance</Value>
+                    </TextBox>
+                    <TextBox Name="textBox84">
+                        <Location>4px, 4px</Location>
+                        <Size>64px, 16px</Size>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Account</Value>
+                    </TextBox>
+                    <TextBox Name="textBox85">
+                        <Excel>
+                            <column>14</column>
+                        </Excel>
+                        <Location>1220px, 4px</Location>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Heading 1</StyleName>
+                        <Value>Line Ending Bal.</Value>
+                    </TextBox>
+                </Items>
+            </PageHeader>
+            <PageHeader Name="pageHeaderSection3">
+                <Expanded>False</Expanded>
+                <Height>4px</Height>
+            </PageHeader>
+            <Detail Name="details_Settlement">
+                <Height>16px</Height>
+                <PrintEmpty>False</PrintEmpty>
+                <Style>
+                    <BackColor>GradientInactiveCaption</BackColor>
+                    <Font>
+                        <Style>Italic</Style>
+                    </Font>
+                    <Padding>
+                        <Bottom>1px</Bottom>
+                        <Top>1px</Top>
+                    </Padding>
+                </Style>
+                <VisibleExpr>=$Settlement_Display And $IsVisible</VisibleExpr>
+                <Items>
+                    <TextBox Name="textBox25">
+                        <Excel>
+                            <column>15</column>
+                        </Excel>
+                        <Location>1324px, 0px</Location>
+                        <Size>100px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                    </TextBox>
+                    <TextBox Name="textBox44">
+                        <Excel>
+                            <column>12</column>
+                        </Excel>
+                        <Format>=[GLTran.DebitAmt.Format]</Format>
+                        <Location>1036px, 0px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[LSLedgerSettlement.SettledDebitAmt]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox45">
+                        <Excel>
+                            <column>2</column>
+                        </Excel>
+                        <Location>128px, 0px</Location>
+                        <Size>52px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[LSLedgerSettlement.SettledPeriodID]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox46">
+                        <Excel>
+                            <column>5</column>
+                        </Excel>
+                        <Location>288px, 0px</Location>
+                        <NavigateMethod>Server</NavigateMethod>
+                        <Size>156px, 16px</Size>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[LSLedgerSettlement.SettlementNbr]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox49">
+                        <Excel>
+                            <column>13</column>
+                        </Excel>
+                        <Format>=[GLTran.CreditAmt.Format]</Format>
+                        <Location>1128px, 0px</Location>
+                        <Size>90px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[LSLedgerSettlement.SettledCreditAmt]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox83">
+                        <Excel>
+                            <column>4</column>
+                        </Excel>
+                        <Location>248px, 0px</Location>
+                        <Size>40px, 16px</Size>
+                        <Style>
+                            <TextAlign>Center</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[LSLedgerSettlement.Module]</Value>
+                    </TextBox>
+                </Items>
+            </Detail>
+            <Detail Name="detailsCury">
                 <Height>16px</Height>
                 <ProcessOrder>Always</ProcessOrder>
                 <VisibleExpr>=([@Multicurrency]=True And [Ledger.BaseCuryID]&lt;&gt;[Batch.CuryID] And [GLTran.BatchNbr] &lt;&gt; null)</VisibleExpr>
                 <Items>
-                    <TextBox Name="textBox44">
+                    <TextBox Name="textBox39">
+                        <Excel>
+                            <column>8</column>
+                        </Excel>
+                        <Location>672px, 0px</Location>
+                        <Size>44px, 16px</Size>
+                        <StyleName>Normal</StyleName>
+                        <Value>=[Batch.CuryID]</Value>
+                    </TextBox>
+                    <TextBox Name="textBox48">
+                        <Excel>
+                            <column>9</column>
+                        </Excel>
+                        <Location>716px, 0px</Location>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=iif((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigDebitAmt] - [LSLedgerSettlement.SettledDebitAmt], [GLTran.CuryDebitAmt]))</Value>
+                    </TextBox>
+                    <TextBox Name="textBox56">
+                        <Excel>
+                            <column>10</column>
+                        </Excel>
+                        <Location>816px, 0px</Location>
+                        <Size>100px, 16px</Size>
+                        <Style>
+                            <TextAlign>Right</TextAlign>
+                        </Style>
+                        <StyleName>Normal</StyleName>
+                        <Value>=iif((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigCreditAmt] - [LSLedgerSettlement.SettledCreditAmt],[GLTran.CuryCreditAmt]))</Value>
+                    </TextBox>
+                    <TextBox Name="textBox63">
                         <Excel>
                             <column>11</column>
                         </Excel>
@@ -2361,187 +2715,11 @@
                         <Value>=$LineCuryBalance</Value>
                         <VisibleExpr>=([Account.CuryID]&lt;&gt;Null)</VisibleExpr>
                     </TextBox>
-                    <TextBox Name="textBox45">
-                        <Excel>
-                            <column>10</column>
-                        </Excel>
-                        <Location>816px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=iif((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigCreditAmt] - [LSLedgerSettlement.SettledCreditAmt],[GLTran.CuryCreditAmt]))</Value>
-                    </TextBox>
-                    <TextBox Name="textBox46">
-                        <Excel>
-                            <column>9</column>
-                        </Excel>
-                        <Location>716px, 0px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Normal</StyleName>
-                        <Value>=iif((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.CuryReclassRemainingAmt] &gt; 0 = True), [GLTran.CuryReclassRemainingAmt], IIf([GLTran.UOM] = 'YY', [LSLedgerSettlement.OrigDebitAmt] - [LSLedgerSettlement.SettledDebitAmt], [GLTran.CuryDebitAmt]))</Value>
-                    </TextBox>
-                    <TextBox Name="textBox49">
-                        <Excel>
-                            <column>8</column>
-                        </Excel>
-                        <Location>672px, 0px</Location>
-                        <Size>44px, 16px</Size>
-                        <StyleName>Normal</StyleName>
-                        <Value>=[Batch.CuryID]</Value>
-                    </TextBox>
                 </Items>
             </Detail>
-            <ReportHeader Name="BegLineBalance">
-                <Expanded>False</Expanded>
-                <Height>8px</Height>
-            </ReportHeader>
-            <PageHeader Name="pageHeaderSection2">
-                <Expanded>False</Expanded>
-                <Height>24px</Height>
-                <StyleName>ColumnsHeaderSection</StyleName>
-                <Items>
-                    <TextBox Name="textBox2">
-                        <Excel>
-                            <column>2</column>
-                        </Excel>
-                        <Location>56px, 4px</Location>
-                        <Size>56px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Date</Value>
-                    </TextBox>
-                    <TextBox Name="textBox3">
-                        <Excel>
-                            <column>4</column>
-                        </Excel>
-                        <Location>164px, 4px</Location>
-                        <Size>80px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Batch Number</Value>
-                    </TextBox>
-                    <TextBox Name="textBox31">
-                        <Excel>
-                            <column>3</column>
-                        </Excel>
-                        <Location>120px, 4px</Location>
-                        <Size>40px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Module</Value>
-                    </TextBox>
-                    <TextBox Name="textBox32">
-                        <Excel>
-                            <column>5</column>
-                        </Excel>
-                        <Location>244px, 4px</Location>
-                        <Size>68px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Tran. Type</Value>
-                    </TextBox>
-                    <TextBox Name="textBox33">
-                        <Excel>
-                            <column>6</column>
-                        </Excel>
-                        <Location>320px, 4px</Location>
-                        <Size>80px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Ref. Number</Value>
-                    </TextBox>
-                    <TextBox Name="textBox38">
-                        <Location>4px, 4px</Location>
-                        <Size>52px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Period</Value>
-                    </TextBox>
-                    <TextBox Name="textBox43">
-                        <Excel>
-                            <column>8</column>
-                        </Excel>
-                        <Location>496px, 4px</Location>
-                        <Size>220px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Description</Value>
-                    </TextBox>
-                    <TextBox Name="textBox47">
-                        <Excel>
-                            <column>7</column>
-                        </Excel>
-                        <Location>400px, 4px</Location>
-                        <Size>92px, 16px</Size>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Subaccount</Value>
-                    </TextBox>
-                    <TextBox Name="textBox5">
-                        <Excel>
-                            <column>9</column>
-                        </Excel>
-                        <Location>716px, 4px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Tran Cur. Debit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox6">
-                        <Excel>
-                            <column>11</column>
-                        </Excel>
-                        <Location>924px, 4px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Debit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox65">
-                        <Excel>
-                            <column>10</column>
-                        </Excel>
-                        <Location>820px, 4px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Tran Cur. Credit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox66">
-                        <Excel>
-                            <column>12</column>
-                        </Excel>
-                        <Location>1028px, 4px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Credit</Value>
-                    </TextBox>
-                    <TextBox Name="textBox7">
-                        <Excel>
-                            <column>13</column>
-                        </Excel>
-                        <Location>1128px, 4px</Location>
-                        <Size>100px, 16px</Size>
-                        <Style>
-                            <TextAlign>Right</TextAlign>
-                        </Style>
-                        <StyleName>Heading 1</StyleName>
-                        <Value>Ending Balance</Value>
-                    </TextBox>
-                </Items>
-            </PageHeader>
-            <PageHeader Name="pageHeaderSection3">
-                <Expanded>False</Expanded>
-                <Height>4px</Height>
-            </PageHeader>
         </Sections>
-        <Items />
+        <Items>
+        </Items>
         <Groups>
             <Group Name="Ledger_Account">
                 <Grouping>
@@ -2554,7 +2732,6 @@
                 </Grouping>
                 <Headers>
                     <Header Name="groupHeaderSection1">
-                        <Expanded>False</Expanded>
                         <GridSize>8px, 8px</GridSize>
                         <Height>16px</Height>
                         <ProcessOrder>Always</ProcessOrder>
@@ -2592,10 +2769,10 @@
                         <Items>
                             <TextBox Name="textBox34">
                                 <Excel>
-                                    <column>13</column>
+                                    <column>15</column>
                                 </Excel>
                                 <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>1116px, 0px</Location>
+                                <Location>1324px, 0px</Location>
                                 <ProcessOrder>WhilePrint</ProcessOrder>
                                 <Size>100px, 16px</Size>
                                 <Style>
@@ -2606,9 +2783,9 @@
                             </TextBox>
                             <TextBox Name="textBox42">
                                 <Excel>
-                                    <column>8</column>
+                                    <column>9</column>
                                 </Excel>
-                                <Location>496px, 0px</Location>
+                                <Location>632px, 0px</Location>
                                 <Size>220px, 16px</Size>
                                 <StyleName>Heading 1</StyleName>
                                 <Value>Beginning Balance:</Value>
@@ -2616,7 +2793,6 @@
                         </Items>
                     </Header>
                     <Header Name="groupHeaderSection2">
-                        <Expanded>False</Expanded>
                         <GridSize>8px, 8px</GridSize>
                         <Height>16px</Height>
                         <ProcessOrder>Always</ProcessOrder>
@@ -2624,19 +2800,19 @@
                         <Items>
                             <TextBox Name="textBox50">
                                 <Excel>
-                                    <column>8</column>
+                                    <column>9</column>
                                 </Excel>
-                                <Location>672px, 0px</Location>
+                                <Location>688px, 0px</Location>
                                 <Size>44px, 16px</Size>
                                 <StyleName>Normal</StyleName>
                                 <Value>=[Account.CuryID]</Value>
                             </TextBox>
                             <TextBox Name="textBox53">
                                 <Excel>
-                                    <column>11</column>
+                                    <column>15</column>
                                 </Excel>
                                 <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>916px, 0px</Location>
+                                <Location>1324px, 0px</Location>
                                 <ProcessOrder>WhilePrint</ProcessOrder>
                                 <Size>100px, 16px</Size>
                                 <Style>
@@ -2657,33 +2833,34 @@
                         <Items>
                             <Line Name="line1">
                                 <Excel>
-                                    <column>8</column>
-                                    <width>6</width>
+                                    <column>9</column>
+                                    <width>7</width>
                                 </Excel>
-                                <Location>496px, 0px</Location>
-                                <Size>730px, 1px</Size>
+                                <Location>632px, 0px</Location>
+                                <Size>794px, 1px</Size>
                             </Line>
                             <TextBox Name="textBox51">
                                 <Excel>
-                                    <column>8</column>
+                                    <column>9</column>
                                 </Excel>
-                                <Location>496px, 4px</Location>
+                                <Location>632px, 4px</Location>
                                 <Size>220px, 16px</Size>
                                 <StyleName>Heading 1</StyleName>
                                 <Value>= IIF( [@Module] = null, #010;IIF (Next([GLHistoryByPeriod.FinPeriodID.Raw]) = null, 'Account Total:', Left([GLHistoryByPeriod.FinPeriodID.Raw],4) + ' Total:')#010;, [GLHistoryByPeriod.FinPeriodID] + ' Total:')</Value>
                             </TextBox>
                             <TextBox Name="textBox52">
                                 <Excel>
-                                    <column>13</column>
+                                    <column>15</column>
                                 </Excel>
-                                <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>1116px, 4px</Location>
+                                <Format>=[GLTran.DebitAmt.Format]</Format>
+                                <Location>1324px, 4px</Location>
+                                <ProcessOrder>Always</ProcessOrder>
                                 <Size>100px, 16px</Size>
                                 <Style>
                                     <TextAlign>Right</TextAlign>
                                 </Style>
                                 <StyleName>Heading 1</StyleName>
-                                <Value>=$Grp3_TotalLineBalance</Value>
+                                <Value>=$EndingBalance</Value>
                             </TextBox>
                         </Items>
                     </Footer>
@@ -2696,7 +2873,7 @@
                         <Items>
                             <TextBox Name="textBox54">
                                 <Excel>
-                                    <column>8</column>
+                                    <column>9</column>
                                 </Excel>
                                 <Location>672px, 0px</Location>
                                 <Size>44px, 16px</Size>
@@ -2705,10 +2882,10 @@
                             </TextBox>
                             <TextBox Name="textBox55">
                                 <Excel>
-                                    <column>11</column>
+                                    <column>15</column>
                                 </Excel>
                                 <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>916px, 0px</Location>
+                                <Location>1324px, 0px</Location>
                                 <ProcessOrder>WhilePrint</ProcessOrder>
                                 <Size>100px, 16px</Size>
                                 <Style>
@@ -2737,197 +2914,61 @@
                     <Header Name="groupHeaderSection3">
                         <GridSize>8px, 8px</GridSize>
                         <Height>0px</Height>
+                        <Variables>
+                            <ReportVariable>
+                                <Name>IsVisible</Name>
+                                <ValueExpr>=[GLTran.AccountID] &lt;&gt; null And [GLTran.TranDate] &lt;= $ParmEndDate</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>Debit</Name>
+                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], [GLTran.DebitAmt])</ValueExpr>
+                            </ReportVariable>
+                            <ReportVariable>
+                                <Name>Credit</Name>
+                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),          #010;     [GLTran.ReclassRemainingAmt], [GLTran.CreditAmt])</ValueExpr>
+                            </ReportVariable>
+                        </Variables>
                         <Visible>False</Visible>
                     </Header>
                 </Headers>
                 <Footers>
                     <Footer Name="groupFooterSection3">
                         <GridSize>8px, 8px</GridSize>
-                        <Height>16px</Height>
-                        <ProcessOrder>Always</ProcessOrder>
+                        <Height>0px</Height>
+                        <Visible>False</Visible>
+                    </Footer>
+                </Footers>
+            </Group>
+            <Group Name="Settlement_GLTranKey">
+                <Grouping>
+                    <GroupExp>
+                        <DataField>=[LSLedgerSettlement.Module]</DataField>
+                    </GroupExp>
+                    <GroupExp>
+                        <DataField>=[LSLedgerSettlement.BatchNbr]</DataField>
+                    </GroupExp>
+                    <GroupExp>
+                        <DataField>=[LSLedgerSettlement.LineNbr]</DataField>
+                    </GroupExp>
+                </Grouping>
+                <Headers>
+                    <Header Name="groupHeaderSection4">
+                        <GridSize>8px, 8px</GridSize>
+                        <Height>0px</Height>
                         <Variables>
                             <ReportVariable>
-                                <Name>RptUDF</Name>
-                                <ValueExpr>=$IsVisible And ReportUDF.DisplayGLTran($ParmEndDate, [LSLedgerSettlement.SettlementNbr])</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>Visibility</Name>
-                                <ValueExpr>=$IsVisible #010;And IIf([GLTran.UOM] &lt;&gt; 'YY', #010;        $RptUDF, #010;        /* No settled record OR column of credit has value*/#010;	(IsNull([GLTran.UsrSetldCreditAmt], 0) = 0 Or $TranCredit &gt; 0) Or#010;	(IsNull([GLTran.UsrSetldDebitAmt], 0) = 0 Or $TranDebit &gt; 0)#010;        )</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>DebitAmt</Name>
-                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.DebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.DebitAmt] - IsNull([GLTran.UsrSetldDebitAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledDebit, [GLTran.DebitAmt])#010;        )#010;     )</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>CreditAmt</Name>
-                                <ValueExpr>=IIf((@IncludeReclassified = False) And ([GLTran.CreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.CreditAmt] - IsNull([GLTran.UsrSetldCreditAmt], 0),#010;         IIf($RptUDF And [LSLedgerSettlement.SettlementNbr] &lt;&gt; Null, $SettledCredit, [GLTran.CreditAmt])#010;        )#010;     )</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>Grp3_LineBalance</Name>
-                                <ValueExpr>=$Grp3_LineBalance#010;+IIf($Visibility, $SignTurn * $DebitAmt - ($SignTurn * $CreditAmt), 0)</ValueExpr>
-                            </ReportVariable>
-                            <ReportVariable>
-                                <Name>Grp3_TotalLineBalance</Name>
-                                <ValueExpr>=$Grp3_LineBalance</ValueExpr>
+                                <Name>TotalSettledBalance</Name>
+                                <ValueExpr>=Sum(IIf(IIf([LSLedgerSettlement.SettledPeriodID] &lt;&gt; Null, DateAdd(DateAdd(CDate(Format('{0}/{1}/{2}', Right([LSLedgerSettlement.SettledPeriodID], 4), Left([LSLedgerSettlement.SettledPeriodID], 2), 1)), 'M', 1), 'd', -1), $ParmStartDate) &lt;= $ParmEndDate, [LSLedgerSettlement.SettledDebitAmt] - [LSLedgerSettlement.SettledCreditAmt], 0))</ValueExpr>
                             </ReportVariable>
                         </Variables>
-                        <VisibleExpr>=$Visibility</VisibleExpr>
-                        <Items>
-                            <TextBox Name="textBox67">
-                                <Excel>
-                                    <column>10</column>
-                                </Excel>
-                                <Location>820px, 0px</Location>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryCreditAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True),           #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY', #010;         [GLTran.CuryCreditAmt] - [GLTran.UsrSetldCreditAmt],#010;         [GLTran.CuryCreditAmt]#010;        )#010;     )</Value>
-                            </TextBox>
-                            <TextBox Name="textBox68">
-                                <Excel>
-                                    <column>9</column>
-                                </Excel>
-                                <Location>720px, 0px</Location>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=IIf((@IncludeReclassified = False) And ([GLTran.CuryDebitAmt] &gt; 0 = True) And ([GLTran.ReclassRemainingAmt] &gt; 0 = True), #010;     [GLTran.ReclassRemainingAmt], #010;     IIf([GLTran.UOM] = 'YY',#010;         [GLTran.CuryDebitAmt] - [GLTran.UsrSetldDebitAmt],#010;         [GLTran.CuryDebitAmt]#010;        )#010;     )</Value>
-                            </TextBox>
-                            <TextBox Name="textBox69">
-                                <Excel>
-                                    <column>12</column>
-                                </Excel>
-                                <Location>1216px, 0px</Location>
-                                <Size>8px, 16px</Size>
-                                <Style>
-                                    <Color>Red</Color>
-                                    <Font>
-                                        <Style>Bold</Style>
-                                    </Font>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>*</Value>
-                                <VisibleExpr>=[GLTran.Reclassified]=True</VisibleExpr>
-                            </TextBox>
-                            <TextBox Name="textBox70">
-                                <CanGrow>True</CanGrow>
-                                <Excel>
-                                    <column>8</column>
-                                </Excel>
-                                <Location>496px, 0px</Location>
-                                <Size>224px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[GLTran.TranDesc]</Value>
-                            </TextBox>
-                            <TextBox Name="textBox71">
-                                <Excel>
-                                    <column>4</column>
-                                </Excel>
-                                <Location>172px, 0px</Location>
-                                <NavigateMethod>Server</NavigateMethod>
-                                <Size>70px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[Batch.BatchNbr]</Value>
-                            </TextBox>
-                            <TextBox Name="textBox72">
-                                <Location>4px, 0px</Location>
-                                <Size>52px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=IIf(@UseMasterCalendar=True, [GLTran.TranPeriodID], [GLTran.FinPeriodID])</Value>
-                            </TextBox>
-                            <TextBox Name="textBox73">
-                                <Excel>
-                                    <column>13</column>
-                                </Excel>
-                                <Format>=[GLTran.CuryDebitAmt.Format]</Format>
-                                <Location>1120px, 0px</Location>
-                                <Size>96px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=$Grp3_LineBalance</Value>
-                            </TextBox>
-                            <TextBox Name="textBox74">
-                                <Excel>
-                                    <column>12</column>
-                                </Excel>
-                                <Format>=[GLTran.CreditAmt.Format]</Format>
-                                <Location>1020px, 0px</Location>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=$CreditAmt</Value>
-                            </TextBox>
-                            <TextBox Name="textBox75">
-                                <Excel>
-                                    <column>11</column>
-                                </Excel>
-                                <Format>=[GLTran.DebitAmt.Format]</Format>
-                                <Location>920px, 0px</Location>
-                                <Size>100px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Right</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=$DebitAmt</Value>
-                            </TextBox>
-                            <TextBox Name="textBox76">
-                                <Excel>
-                                    <column>5</column>
-                                </Excel>
-                                <Format>=Switch(#010;[GLTran.Module]='AP',Report.GetFormat('APRegister.DocType'),#010;[GLTran.Module]='AR',Report.GetFormat('ARRegister.DocType'), #010;[GLTran.Module]='CA',Report.GetFormat('CATran.OrigTranType'), #010;[GLTran.Module]='IN',Report.GetFormat('INTran.TranType'),#010;[GLTran.Module]='FA',Report.GetFormat('FATran.TranType'),#010;[GLTran.Module]='CM',Report.GetFormat('CMReportTranType.TranType'))</Format>
-                                <Location>250px, 0px</Location>
-                                <Size>70px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=IIf([GLTran.Module]='GL','',[GLTran.TranType])</Value>
-                            </TextBox>
-                            <TextBox Name="textBox77">
-                                <Excel>
-                                    <column>7</column>
-                                </Excel>
-                                <Location>400px, 0px</Location>
-                                <Size>92px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[GLTran.SubID]</Value>
-                            </TextBox>
-                            <TextBox Name="textBox78">
-                                <Excel>
-                                    <column>6</column>
-                                </Excel>
-                                <Location>320px, 0px</Location>
-                                <Size>80px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[GLTran.LineNbr]#010;/*[GLTran.RefNbr]*/</Value>
-                            </TextBox>
-                            <TextBox Name="textBox79">
-                                <Excel>
-                                    <column>3</column>
-                                </Excel>
-                                <Location>126px, 0px</Location>
-                                <Size>40px, 16px</Size>
-                                <Style>
-                                    <TextAlign>Center</TextAlign>
-                                </Style>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[Batch.Module]</Value>
-                            </TextBox>
-                            <TextBox Name="textBox80">
-                                <Excel>
-                                    <column>2</column>
-                                </Excel>
-                                <Location>56px, 0px</Location>
-                                <Size>70px, 16px</Size>
-                                <StyleName>Normal</StyleName>
-                                <Value>=[GLTran.TranDate]</Value>
-                            </TextBox>
-                        </Items>
+                        <Visible>False</Visible>
+                    </Header>
+                </Headers>
+                <Footers>
+                    <Footer Name="groupFooterSection4">
+                        <GridSize>8px, 8px</GridSize>
+                        <Height>0px</Height>
+                        <Visible>False</Visible>
                     </Footer>
                 </Footers>
             </Group>

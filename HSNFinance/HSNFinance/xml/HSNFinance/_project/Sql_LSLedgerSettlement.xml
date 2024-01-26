@@ -21,6 +21,7 @@
   <col name="ProjectID" type="Int" nullable="true" />
   <col name="TaskID" type="Int" nullable="true" />
   <col name="CostCodeID" type="Int" nullable="true" />
+  <col name="SettledPeriodID" type="Char(6)" nullable="true" />
   <col name="CreatedByID" type="UniqueIdentifier" />
   <col name="CreatedByScreenID" type="Char(8)" />
   <col name="CreatedDateTime" type="DateTime" />

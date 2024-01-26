@@ -1,0 +1,45 @@
+﻿<Sql TableName="Create_v_PrepaymentMappingTable" SqlScriptPriority="10" CustomScript="#CDATA">
+    <CDATA name="CustomScript"><![CDATA[IF EXISTS
+(
+	SELECT *
+	FROM SYS.views
+	WHERE name = 'v_PrepaymentMappingTable' AND SCHEMA_ID = SCHEMA_ID('dbo')
+)
+DROP VIEW [dbo].[v_PrepaymentMappingTable]	
+GO
+CREATE VIEW v_PrepaymentMappingTable AS
+SELECT CashSales.CompanyID,
+	   payment.CustomerID,
+	   payment.RefNbr AS PrepaymentRefNbr,
+	   payment.Status AS Status,
+	   CashSales.RefNbr AS InvoiceNbr,
+	   payment.BranchID,
+	   payment.ARAccountID AS AccountID,
+	   payment.ARSubID AS SubID,
+	   payment.CuryOrigDocAmt AS PendingSettledAmt
+-- Cash Sales(Document)
+FROM ARRegister CashSales
+INNER JOIN(
+	SELECT CompanyID,TranType,RefNbr,ServiceOrderRefNbr
+	FROM FSARTran 
+	WHERE CompanyID > 0
+	  AND TranType = 'CSL'
+	GROUP BY CompanyID,TranType,RefNbr,ServiceOrderRefNbr
+) fa ON CashSales.CompanyID = fa.CompanyID
+    AND CashSales.DocType = fa.TranType
+	AND CashSales.RefNbr = fa.RefNbr
+	AND fa.CompanyID > 0
+-- Appointment prepayment
+INNER JOIN FSAdjust fsAdj ON fa.CompanyID = fsadj.CompanyID
+						 AND fa.ServiceOrderRefNbr = fsAdj.AdjdOrderNbr
+						 AND fsAdj.CompanyID > 0
+						 AND fsAdj.AdjgDocType = 'PPM'
+-- Pre-Payment							 
+INNER JOIN ARRegister payment ON fsAdj.CompanyID = payment.CompanyID
+					         AND fsAdj.AdjgRefNbr = payment.RefNbr
+					         AND payment.Status = 'N'
+					         AND payment.CompanyID > 0
+WHERE CashSales.CompanyID > 0
+  AND CashSales.DocType = 'CSL'
+  AND CashSales.Status = 'C']]></CDATA>
+</Sql>

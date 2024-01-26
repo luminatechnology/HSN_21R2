@@ -194,6 +194,13 @@ namespace HSNCustomizations.DAC
         public abstract class enableAttrOfEquipDisplayInApptDet : PX.Data.BQL.BqlBool.Field<enableAttrOfEquipDisplayInApptDet> { }
         #endregion
 
+        #region EnableMultipleInvoicesReports
+        [PXDBBool]
+        [PXUIField(DisplayName = "Enable Action Buttons in Invoices Screen for Multiple Invoices Reports")]
+        public virtual bool? EnableMultipleInvoicesReports { get; set; }
+        public abstract class enableMultipleInvoicesReports : PX.Data.BQL.BqlBool.Field<enableMultipleInvoicesReports> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

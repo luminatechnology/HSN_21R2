@@ -171,6 +171,13 @@ namespace HSNFinance.DAC
         public abstract class costCodeID : PX.Data.BQL.BqlInt.Field<costCodeID> { }
         #endregion
 
+        #region SettledPeriodID
+        [FinPeriodSelector(typeof(AccessInfo.businessDate))]
+        [PXUIField(DisplayName = "Settled Period")]
+        public virtual string SettledPeriodID { get; set; }
+        public abstract class settledPeriodID : PX.Data.BQL.BqlString.Field<settledPeriodID> { }
+        #endregion
+
         #region CreatedByID
         [PXDBCreatedByID()]
         public virtual Guid? CreatedByID { get; set; }

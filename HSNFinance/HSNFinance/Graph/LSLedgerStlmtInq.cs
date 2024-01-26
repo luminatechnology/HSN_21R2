@@ -1,6 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using PX.Data;
-using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
 using PX.Objects.GL;
 using HSNFinance.DAC;
@@ -22,32 +23,49 @@ namespace HSNFinance
 
         #endregion
 
-        #region Action
-        public PXAction<LSLedgerSettlement> Unmatch;
-        [PXProcessButton(CommitChanges = true)]
-        [PXUIField(DisplayName = "Unmatch")]
-        public virtual IEnumerable unmatch (PXAdapter adapter)
+        #region Actions
+        public PXAction<LSLedgerSettlement> unmatch;
+        [PXProcessButton(), PXUIField(DisplayName = "Unmatch")]
+        public virtual IEnumerable Unmatch(PXAdapter adapter)
         {
-            foreach (LSLedgerSettlement ls in LedgerStlmt.Cache.Updated)
+            Dictionary<GLTran, string> trans = new Dictionary<GLTran, string>();
+
+            using (PXTransactionScope ts = new PXTransactionScope())
             {
-                if (ls.Selected == true)
+                foreach (var ls in LedgerStlmt.Cache.Updated.OfType<LSLedgerSettlement>().Where(w => w.Selected == true).GroupBy(g => g.SettlementNbr).Select(s => s.First()))
                 {
-                    foreach (LSLedgerSettlement delRow in SelectFrom<LSLedgerSettlement>
-                                                                     .Where<LSLedgerSettlement.settlementNbr.IsEqual<@P.AsString>>.View.Select(this, ls.SettlementNbr))
+                    foreach (LSLedgerSettlement delRow in LedgerStlmt.Cache.Cached.OfType<LSLedgerSettlement>().Where(w => w.SettlementNbr == ls.SettlementNbr))
                     {
                         LedgerStlmt.Cache.Delete(delRow);
 
-                        GLTranView.Current = SelectFrom<GLTran>.Where<GLTran.module.IsEqual<@P.AsString>
-                                                                      .And<GLTran.batchNbr.IsEqual<@P.AsString>
-                                                                           .And<GLTran.lineNbr.IsEqual<@P.AsInt>>>>
-                                                               .View.ReadOnly.SelectSingleBound(this, null, delRow.Module, delRow.BatchNbr, delRow.LineNbr);
+                        var tran = GLTran.PK.Find(this, delRow.Module, delRow.BatchNbr, delRow.LineNbr);
 
-                        LSLedgerStlmtEntry.UpdateGLTranUOM(GLTranView.Cache, null);
+                        if (LedgerStlmt.Cache.Cached.OfType<LSLedgerSettlement>().Except((IEnumerable<LSLedgerSettlement>)LedgerStlmt.Cache.Deleted)
+                                                                                 .Where(w => w.Module == delRow.Module && w.BatchNbr == delRow.BatchNbr && w.LineNbr == delRow.LineNbr)
+                                                                                 .Any())
+                        {
+                            trans.Add(tran, LSLedgerStlmtEntry.YY_UOM);
+                        }
+                        else
+                        {
+                            trans[tran] = null;
+                        }
                     }
                 }
-            }
 
-            this.Save.Press();
+                foreach (GLTran row in trans.Keys)
+                {
+                    trans.TryGetValue(row, out string uOM);
+
+                    GLTranView.Current = row;
+
+                    LSLedgerStlmtEntry.UpdateGLTranUOM(GLTranView.Cache, uOM);
+                }
+
+                Save.Press();
+
+                ts.Complete();
+            }
 
             return adapter.Get();
         }
