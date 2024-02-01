@@ -5,11 +5,20 @@ using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using PX.Common;
+using System;
 
 namespace PX.Objects.FS
 {
     public class SMEquipmentMaint_Extension : PXGraphExtension<SMEquipmentMaint>
     {
+
+        [PXCacheName("WarrantyHistory")]
+        public SelectFrom<LUMWarrantyHistory>
+              .Where<LUMWarrantyHistory.sMEquipmentID.IsEqual<FSEquipment.SMequipmentID.FromCurrent>>
+              .View WarrantyHistory;
+
         // [Phase - II] Add a New Tab: Service Contract in Equipment & New Field in Appointment
         public PXSelectJoinGroupBy<FSServiceContract,
                 InnerJoin<FSContractPeriodDet, On<FSServiceContract.serviceContractID, Equal<FSContractPeriodDet.serviceContractID>>>,
@@ -52,6 +61,60 @@ namespace PX.Objects.FS
                 }
             }
         }
+
+        /// <summary>
+        /// Field Defaulting - LUMWarrantyHistory.lineNbr
+        /// </summary>
+        /// <param name="e"></param>
+        public virtual void _(Events.FieldDefaulting<LUMWarrantyHistory.lineNbr> e)
+        {
+            var currentList = this.WarrantyHistory.Select().RowCast<LUMWarrantyHistory>();
+            var maxLineNbr = currentList.Count() == 0 ? 0 : currentList.Max(x => x?.LineNbr ?? 0);
+            e.NewValue = maxLineNbr + 1;
+        }
+
+        /// <summary>
+        /// Field Updated - LUMWarrantyHistory.warrantyStartDate
+        /// </summary>
+        /// <param name="e"></param>
+        public virtual void _(Events.FieldUpdated<LUMWarrantyHistory.warrantyStartDate> e)
+        {
+            if (e.NewValue != null)
+            {
+                object newValue;
+                e.Cache.RaiseFieldDefaulting<LUMWarrantyHistory.warrantyEndDate>(e.Row, out newValue);
+                e.Cache.SetValueExt<LUMWarrantyHistory.warrantyEndDate>(e.Row, newValue);
+            }
+        }
+
+        /// <summary>
+        /// Field Defaulting - LUMWarrantyHistory.warrantyEndDate
+        /// </summary>
+        /// <param name="e"></param>
+        public virtual void _(Events.FieldDefaulting<LUMWarrantyHistory.warrantyEndDate> e)
+        {
+            var row = e.Row as LUMWarrantyHistory;
+            if (Base.IsContractBasedAPI)
+                e.NewValue = (row?.WarrantyStartDate ?? DateTime.Now).AddMonths(row?.WarrantyMonths ?? 0);
+
+            else
+                e.NewValue = (row?.WarrantyStartDate ?? PXContext.GetBusinessDate()).Value.AddMonths(row?.WarrantyMonths ?? 0);
+        }
+
+        /// <summary>
+        /// Field Updated - LUMWarrantyHistory.warrantyMonths
+        /// </summary>
+        /// <param name="e"></param>
+        public virtual void _(Events.FieldUpdated<LUMWarrantyHistory.warrantyMonths> e)
+        {
+            if (e.NewValue != null)
+            {
+                object newValue;
+                e.Cache.RaiseFieldDefaulting<LUMWarrantyHistory.warrantyEndDate>(e.Row, out newValue);
+                e.Cache.SetValueExt<LUMWarrantyHistory.warrantyEndDate>(e.Row, newValue);
+            }
+        }
+
         #endregion
     }
 }

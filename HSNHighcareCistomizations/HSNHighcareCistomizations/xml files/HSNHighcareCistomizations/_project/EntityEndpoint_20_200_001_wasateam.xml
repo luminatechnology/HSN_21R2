@@ -155,6 +155,7 @@
                 <Field name="Status" type="StringValue" />
                 <Field name="TargetEquipment" type="BooleanValue" />
                 <Field name="Vehicle" type="BooleanValue" />
+                <Field name="WarrantyHistory" type="WarrantyHistory[]" />
             </Fields>
             <Mappings>
                 <Mapping field="Attributes">
@@ -207,6 +208,29 @@
                 </Mapping>
                 <Mapping field="Vehicle">
                     <To object="EquipmentRecords" field="IsVehicle" />
+                </Mapping>
+                <Mapping field="WarrantyHistory">
+                    <Mapping field="WarrantySerialNbr">
+                        <To object="WarrantyHistory" field="WarrantySerialNbr" />
+                    </Mapping>
+                    <Mapping field="WarrantyEndDate">
+                        <To object="WarrantyHistory" field="WarrantyEndDate" />
+                    </Mapping>
+                    <Mapping field="WarrantyStartDate">
+                        <To object="WarrantyHistory" field="WarrantyStartDate" />
+                    </Mapping>
+                    <Mapping field="Component">
+                        <To object="WarrantyHistory" field="Component" />
+                    </Mapping>
+                    <Mapping field="Remark">
+                        <To object="WarrantyHistory" field="Remark" />
+                    </Mapping>
+                    <Mapping field="SMEquipmentID">
+                        <To object="WarrantyHistory" field="SMEquipmentID" />
+                    </Mapping>
+                    <Mapping field="WarrantyMonths">
+                        <To object="WarrantyHistory" field="WarrantyMonths" />
+                    </Mapping>
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
@@ -769,6 +793,17 @@
                 <Field name="PIN" type="StringValue" />
                 <Field name="PriceClass" type="StringValue" />
                 <Field name="StartDate" type="DateTimeValue" />
+            </Fields>
+        </Detail>
+        <Detail name="WarrantyHistory">
+            <Fields>
+                <Field name="Component" type="StringValue" />
+                <Field name="Remark" type="StringValue" />
+                <Field name="SMEquipmentID" type="IntValue" />
+                <Field name="WarrantyEndDate" type="DateTimeValue" />
+                <Field name="WarrantyMonths" type="IntValue" />
+                <Field name="WarrantySerialNbr" type="StringValue" />
+                <Field name="WarrantyStartDate" type="DateTimeValue" />
             </Fields>
         </Detail>
     </Endpoint>
