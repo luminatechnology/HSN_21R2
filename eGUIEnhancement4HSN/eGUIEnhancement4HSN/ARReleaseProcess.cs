@@ -10,13 +10,13 @@ using PX.Objects.AP;
 using PX.Objects.TX;
 using PX.Objects.FS;
 using PX.Objects.GL;
+using Newtonsoft.Json;
 using eInvoiceLib;
 using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.Graph;
 using eGUICustomization4HSN.StringList;
 using eGUICustomization4HSN.Graph_Release;
-using Newtonsoft.Json;
 
 namespace PX.Objects.AR
 {
@@ -295,13 +295,11 @@ namespace PX.Objects.AR
                 eSCPOS.SendTo("品名/數量   單價         金額\n");
                 eSCPOS.Align(0);
                 
-                bool hasSummary = false;
-                //decimal? prcAmt = 0;
-                //decimal? txbAmt = 0;
-                decimal? extAmt = 0;
-                decimal? netAmt = 0;
-                decimal? disAmt = 0;
-                decimal  fixedRate = (decimal)1.05;
+                bool     hasSummary = false;
+                decimal  fixedRate  = 1.05m;
+                decimal? extAmt = 0, netAmt = 0, disAmt = 0;
+
+                var initGraph = PXGraph.CreateInstance<PXGraph>();
 
                 ARRegister     register  = new ARRegister();
                 ARRegisterExt2 regisExt2 = new ARRegisterExt2();
@@ -309,7 +307,7 @@ namespace PX.Objects.AR
                 int rowLen;
                 foreach (ARTran aRTran in result)
                 {
-                    register = ARRegister.PK.Find(new PXGraph(), aRTran.TranType, aRTran.RefNbr);
+                    register  = ARRegister.PK.Find(initGraph, aRTran.TranType, aRTran.RefNbr);
                     regisExt2 = register.GetExtension<ARRegisterExt2>();
 
                     hasSummary = regisExt2.UsrSummaryPrint == true && !string.IsNullOrEmpty(regisExt2.UsrGUISummary);
@@ -326,7 +324,7 @@ namespace PX.Objects.AR
                         // B2C
                         if (string.IsNullOrEmpty(header[9]))
                         {
-                            if (register.TaxCalcMode == TX.TaxCalculationMode.Gross)
+                            if (register.TaxCalcMode == TaxCalculationMode.Gross)
                             {
                                 uPr = string.Format("{0:N2}", aRTran.CuryUnitPrice);
                                 ePr = string.Format("{0:N2}", aRTran.CuryExtPrice);
@@ -367,8 +365,6 @@ namespace PX.Objects.AR
                         }
                     }
 
-                    //prcAmt += aRTran.CuryUnitPrice;
-                    //txbAmt += aRTran.CuryTaxableAmt;
                     extAmt += aRTran.CuryExtPrice;
                     disAmt += aRTran.CuryDiscAmt;
                     netAmt += aRTran.CuryTranAmt;
@@ -381,7 +377,7 @@ namespace PX.Objects.AR
                     // B2C
                     if (string.IsNullOrEmpty(header[9]))
                     { 
-                        if (register.TaxCalcMode == TX.TaxCalculationMode.Gross)
+                        if (register.TaxCalcMode == TaxCalculationMode.Gross)
                         {
                             prc = ext = string.Format("{0:N2}", extAmt);
                             dis = string.Format("{0:N2}", -disAmt);
@@ -395,7 +391,7 @@ namespace PX.Objects.AR
                     // B2B
                     else
                     {
-                        if (register.TaxCalcMode == TX.TaxCalculationMode.Gross)
+                        if (register.TaxCalcMode == TaxCalculationMode.Gross)
                         {
                             prc = ext = string.Format("{0:N2}", decimal.Divide(extAmt.Value, (decimal)1.05));
                             dis = string.Format("{0:N2}", decimal.Divide(-disAmt.Value, (decimal)1.05));
@@ -409,7 +405,7 @@ namespace PX.Objects.AR
 
                     rowLen = (30 - 3 - 1 - prc.Length - ext.Length) / 2;
 
-                    eSCPOS.SendTo($"{CS.CSAttributeDetail.PK.Find(new PXGraph(), ARInvoiceEntry_Extension2.GUISummary, regisExt2.UsrGUISummary).Description}\n");
+                    eSCPOS.SendTo($"{CS.CSAttributeDetail.PK.Find(initGraph, ARInvoiceEntry_Extension2.GUISummary, regisExt2.UsrGUISummary).Description}\n");
                     eSCPOS.SendTo($"{new string(' ', 3)}1{new string(' ', rowLen)}{prc}{new string(' ', rowLen)}{ext}\n");
                     
                     if (disAmt != decimal.Zero)
@@ -424,7 +420,7 @@ namespace PX.Objects.AR
                 {
                     string net, tax;
 
-                    if (register.TaxCalcMode.Equals(TX.TaxCalculationMode.Gross))
+                    if (register.TaxCalcMode == TaxCalculationMode.Gross)
                     {
                         net = string.Format("{0:N0}", decimal.Parse(header[6]) - taxAmt);
                         tax = string.Format("{0:N0}", taxAmt);
@@ -439,9 +435,12 @@ namespace PX.Objects.AR
                     eSCPOS.SendTo(string.Format("稅  額:" + new string(' ', (30 - tax.Length - 7)) + tax + '\n'));
                 }
 
-                string total = string.Format("{0:N0}", header[6]);
+                string totalAmt = string.Format("{0:N0}", header[6]);
+                                                           // Unable to convert from child to parent probably because the "register" variable is already defined.
+                string tolalDis = string.Format("-{0:N0}", disAmt + (ARInvoice.PK.Find(initGraph, register.DocType, register.RefNbr)?.CuryDiscTot ?? 0m));
 
-                eSCPOS.SendTo("總  計:" + new string(' ', (30 - total.Length - 7)) + total + '\n');
+                eSCPOS.SendTo("總  計:" + new string(' ', 30 - totalAmt.Length - 7) + totalAmt + '\n');
+                eSCPOS.SendTo("總折扣:" + new string(' ', 30 - tolalDis.Length - 7) + tolalDis + '\n');
                 eSCPOS.SendTo(string.Format("課稅別:{0}\n", header[12]));
                 eSCPOS.SendTo(string.Format("備  註:{0}\n", header[13]));
 
