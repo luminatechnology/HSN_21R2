@@ -17,6 +17,7 @@ using HSNCustomizations.DAC;
 using HSNCustomizations.Descriptor;
 using static PX.Objects.FS.AppointmentEntry;
 using PX.Objects.FS.ParallelProcessing;
+using HSNCustomizations.Graph;
 
 namespace PX.Objects.FS
 {
@@ -1289,6 +1290,21 @@ namespace PX.Objects.FS
             {
                 SyncAppointmentLineCntr(Base);
             });
+        }
+
+        public PXAction<FSAppointment> ViewWarrantyHistory;
+        [PXButton]
+        [PXUIField(DisplayName = "WARRANTY HISTORY", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        public virtual IEnumerable viewWarrantyHistory(PXAdapter adapter)
+        {
+            var currentRow = Base.AppointmentDetails.Current;
+            if (currentRow != null)
+            {
+                var graph = PXGraph.CreateInstance<LUMWarrantyHistoryQuery>();
+                graph.Filter.Current.SMEquipmentID = currentRow?.SMEquipmentID;
+                PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
+            }
+            return adapter.Get();
         }
 
         #endregion

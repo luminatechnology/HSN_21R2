@@ -11,6 +11,7 @@ using HSNCustomizations.Descriptor;
 using PX.SM;
 using PX.Common;
 using System.Collections;
+using HSNCustomizations.Graph;
 
 namespace PX.Objects.FS
 {
@@ -262,6 +263,21 @@ namespace PX.Objects.FS
                 throw new PXRedirectRequiredException(graphAppointmentEntry, null);
             }
             return adapter.Get<FSServiceOrder>().ToList();
+        }
+
+        public PXAction<FSServiceOrder> ViewWarrantyHistory;
+        [PXButton]
+        [PXUIField(DisplayName = "WARRANTY HISTORY", MapEnableRights = PXCacheRights.Select, MapViewRights = PXCacheRights.Select)]
+        public virtual IEnumerable viewWarrantyHistory(PXAdapter adapter)
+        {
+            var currentRow = Base.ServiceOrderDetails.Current;
+            if (currentRow != null)
+            {
+                var graph = PXGraph.CreateInstance<LUMWarrantyHistoryQuery>();
+                graph.Filter.Current.SMEquipmentID = currentRow?.SMEquipmentID;
+                PXRedirectHelper.TryRedirect(graph, PXRedirectHelper.WindowMode.NewWindow);
+            }
+            return adapter.Get();
         }
 
         #endregion

@@ -138,6 +138,7 @@
         <TopLevelEntity name="FSEquipment" screen="FS205000">
             <Fields>
                 <Field name="Attributes" type="AttributeValue[]" />
+                <Field name="CompanyWarranty" type="IntValue" />
                 <Field name="CustomerCustomerID" type="StringValue" />
                 <Field name="CustomerOwnerID" type="StringValue" />
                 <Field name="Description" type="StringValue" />
@@ -234,6 +235,9 @@
                 </Mapping>
                 <Mapping field="CustomerCustomerID">
                     <To object="EquipmentRecords" field="CustomerID" />
+                </Mapping>
+                <Mapping field="CompanyWarranty">
+                    <To object="EquipmentSelected: 10" field="CpnyWarrantyValue" />
                 </Mapping>
                 <Mapping field="CustomerOwnerID">
                     <To object="EquipmentRecords" field="OwnerID" />
