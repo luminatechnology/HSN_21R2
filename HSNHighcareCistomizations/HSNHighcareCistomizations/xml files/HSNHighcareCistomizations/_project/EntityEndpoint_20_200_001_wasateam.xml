@@ -810,5 +810,90 @@
                 <Field name="WarrantyStartDate" type="DateTimeValue" />
             </Fields>
         </Detail>
+        <TopLevelEntity name="EquipmentWarranty" screen="GI770115">
+            <Fields>
+                <Field name="CustomerID" type="StringValue" />
+                <Field name="EquipmentID" type="StringValue" />
+                <Field name="EquipmentSerialNbr" type="StringValue" />
+                <Field name="EquipmentWarrantyDetails" type="EquipmentWarrantyDetail[]" />
+                <Field name="WarrantySerialNbr" type="StringValue" />
+            </Fields>
+            <Mappings>
+                <Mapping field="CustomerID">
+                    <To object="Filter" field="CustomerID" />
+                </Mapping>
+                <Mapping field="EquipmentID">
+                    <To object="Filter" field="EQPID" />
+                </Mapping>
+                <Mapping field="EquipmentSerialNbr">
+                    <To object="Filter" field="SN" />
+                </Mapping>
+                <Mapping field="WarrantySerialNbr">
+                    <To object="Filter" field="WSN" />
+                </Mapping>
+                <Mapping field="EquipmentWarrantyDetails">
+                    <Mapping field="Customer">
+                        <To object="Results" field="FSEquipment_customerID" />
+                    </Mapping>
+                    <Mapping field="SalesDate">
+                        <To object="Results" field="FSEquipment_salesDate" />
+                    </Mapping>
+                    <Mapping field="CompanyWarrantyEndDate">
+                        <To object="Results" field="FSEquipment_cpnyWarrantyEndDate" />
+                    </Mapping>
+                    <Mapping field="WarrantySerialNbr">
+                        <To object="Results" field="LUMWarrantyHistory_warrantySerialNbr" />
+                    </Mapping>
+                    <Mapping field="WarrantyStartDate">
+                        <To object="Results" field="LUMWarrantyHistory_warrantyStartDate" />
+                    </Mapping>
+                    <Mapping field="WarrantyMonths">
+                        <To object="Results" field="LUMWarrantyHistory_warrantyMonths" />
+                    </Mapping>
+                    <Mapping field="WarrantyEndDate">
+                        <To object="Results" field="LUMWarrantyHistory_warrantyEndDate" />
+                    </Mapping>
+                    <Mapping field="Remark">
+                        <To object="Results" field="LUMWarrantyHistory_remark" />
+                    </Mapping>
+                    <Mapping field="Manufacturer">
+                        <To object="Results" field="FSEquipment_manufacturerID" />
+                    </Mapping>
+                    <Mapping field="EquipmentNbr">
+                        <To object="Results" field="FSEquipment_refNbr" />
+                    </Mapping>
+                    <Mapping field="EquipmentType">
+                        <To object="Results" field="FSEquipment_equipmentTypeID" />
+                    </Mapping>
+                    <Mapping field="Status">
+                        <To object="Results" field="FSEquipment_status" />
+                    </Mapping>
+                    <Mapping field="SerialNbr">
+                        <To object="Results" field="FSEquipment_serialNumber" />
+                    </Mapping>
+                    <Mapping field="Description">
+                        <To object="Results" field="FSEquipment_descr" />
+                    </Mapping>
+                </Mapping>
+            </Mappings>
+        </TopLevelEntity>
+        <Detail name="EquipmentWarrantyDetail">
+            <Fields>
+                <Field name="CompanyWarrantyEndDate" type="DateTimeValue" />
+                <Field name="Customer" type="StringValue" />
+                <Field name="Description" type="StringValue" />
+                <Field name="EquipmentNbr" type="StringValue" />
+                <Field name="EquipmentType" type="StringValue" />
+                <Field name="Manufacturer" type="StringValue" />
+                <Field name="Remark" type="StringValue" />
+                <Field name="SalesDate" type="DateTimeValue" />
+                <Field name="SerialNbr" type="StringValue" />
+                <Field name="Status" type="StringValue" />
+                <Field name="WarrantyEndDate" type="DateTimeValue" />
+                <Field name="WarrantyMonths" type="IntValue" />
+                <Field name="WarrantySerialNbr" type="StringValue" />
+                <Field name="WarrantyStartDate" type="DateTimeValue" />
+            </Fields>
+        </Detail>
     </Endpoint>
 </EntityEndpoint>
