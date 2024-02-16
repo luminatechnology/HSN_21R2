@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="DAC\INRegisterKvExt.cs" />
     <Compile Include="DAC\LumProcessSCBPaymentRefundFilter.cs" />
+    <Compile Include="DAC\LUMWarrantyHistory.cs" />
     <Compile Include="DAC\StaffProviderRec.cs" />
     <Compile Include="DAC\v_APRegisterUDFAttir.cs" />
     <Compile Include="DAC\LUMAutoWorkflowStage.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Graph\LUMApptQuestionnaireResultMaint.cs" />
     <Compile Include="Graph\LUMCustomerStaffMaint.cs" />
     <Compile Include="Graph\LUMPrintInventoryBarcodeLabels.cs" />
+    <Compile Include="Graph\LUMWarrantyHistoryQuery.cs" />
     <Compile Include="Graph\PrintTransferPickingList.cs" />
     <Compile Include="Graph\PrintTransferDeliveryOrder.cs" />
     <Compile Include="Graph\ProcessCitiBankOutsourceCheckMaint.cs" />

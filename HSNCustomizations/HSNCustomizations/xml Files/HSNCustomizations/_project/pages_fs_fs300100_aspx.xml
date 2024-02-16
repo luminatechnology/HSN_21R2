@@ -415,4 +415,16 @@
     <PXSelector DataField="ContactID" ParentId="phG_tab_Items#0_edServiceOrder_Contact_edContactForm_edContactID" TypeFullName="PX.Web.UI.PXSelector">
         <Prop Key="FilterByAllFields" Value="True" />
     </PXSelector>
+    <PXGrid ID="PXGridDetails" ParentId="phG_tab_Items#1_PXGridDetails" TypeFullName="PX.Web.UI.PXGrid">
+        <Children Key="ActionBar.CustomItems">
+            <AddItem>
+                <PXToolBarButton TypeFullName="PX.Web.UI.PXToolBarButton">
+                    <Prop Key="Text" Value="Warranty History" />
+                    <Prop Key="AutoCallBack.Target" Value="ds" />
+                    <Prop Key="AutoCallBack.Command" Value="ViewWarrantyHistory" />
+                </PXToolBarButton>
+            </AddItem>
+            <PXToolBarButton Text="Add Items" OriginalIndex="0" />
+        </Children>
+    </PXGrid>
 </Page>
