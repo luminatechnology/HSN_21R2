@@ -7,6 +7,7 @@ using PX.Objects.AR;
 using PX.Objects.CA;
 using PX.Objects.CS;
 using PX.Objects.FS;
+using PX.Objects.TX;
 using System;
 using System.Globalization;
 using System.Collections.Generic;
@@ -14,7 +15,6 @@ using eGUICustomization4HSN.DAC;
 using eGUICustomization4HSN.Descriptor;
 using eGUICustomization4HSN.StringList;
 using Branch = PX.Objects.GL.Branch;
-using PX.Objects.TX;
 
 namespace eGUICustomization4HSN.Graph
 {
@@ -295,12 +295,21 @@ namespace eGUICustomization4HSN.Graph
         /// </summary>
         protected void UpdatePrintCount()
         {
-            ViewGUITrans.Current.PrintCount = ViewGUITrans.Current.PrintCount?? 0;
-            ViewGUITrans.Current.PrintCount += 1;
+            //ViewGUITrans.Current.PrintCount = ViewGUITrans.Current.PrintCount?? 0;
+            //ViewGUITrans.Current.PrintCount += 1;
+            //ViewGUITrans.Cache.Update(ViewGUITrans.Current);
+            //this.Actions.PressSave();
+            ///<remarks>
+            /// Tried a lot of ways to update value but it still can't save to DB.
+            ///</remarks>
+            var current = ViewGUITrans.Current;
 
-            ViewGUITrans.Cache.Update(ViewGUITrans.Current);
-
-            this.Actions.PressSave();
+            PXUpdate<Set<TWNGUITrans.printCount, Required<TWNGUITrans.printCount>>,
+                     TWNGUITrans,
+                     Where<TWNGUITrans.gUIFormatcode, Equal<Required<TWNGUITrans.gUIFormatcode>>,
+                           And<TWNGUITrans.gUINbr, Equal<Required<TWNGUITrans.gUINbr>>,
+                               And<TWNGUITrans.sequenceNo, Equal<Required<TWNGUITrans.sequenceNo>>>>>>
+                     .Update(this, (current.PrintCount ?? 0) + 1, current.GUIFormatcode, current.GUINbr, current.SequenceNo);
         }
 
         /// <summary>
