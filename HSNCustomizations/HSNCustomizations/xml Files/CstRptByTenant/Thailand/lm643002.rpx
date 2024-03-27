@@ -406,17 +406,6 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
       </Links>
       <ParentName>ARInvoice</ParentName>
     </ReportRelation>
-    <ReportRelation>
-      <ChildAlias>BranchLocation</ChildAlias>
-      <ChildName>Location</ChildName>
-      <Links>
-        <RelationRow>
-          <ChildField>LocationID</ChildField>
-          <ParentField>DefLocationID</ParentField>
-        </RelationRow>
-      </Links>
-      <ParentName>BAccount</ParentName>
-    </ReportRelation>
   </Relations>
   <SchemaUrl>https://uat-hsnerp.hsnservice.com/HSN_UAT/</SchemaUrl>
   <Sorting>
@@ -4847,11 +4836,10 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
     <ViewerField Name="ARInvoice.CuryLineTotal"></ViewerField>
     <ViewerField Name="SOOrder.CustomerOrderNbr"></ViewerField>
   </ViewerFields>
-  <Width>793.8px</Width>
+  <Width>792px</Width>
   <Sections>
     <PageHeader Name="pageHeaderSection1">
-      <Expanded>False</Expanded>
-      <Height>80px</Height>
+      <Height>0px</Height>
       <Visible>False</Visible>
     </PageHeader>
     <Detail Name="detailSection1">
@@ -5088,9 +5076,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
       <Headers>
         <Header Name="groupHeaderSection1">
           <Height>464px</Height>
-          <PrintForEmptyGroup>True</PrintForEmptyGroup>
           <PrintOnEveryPage>True</PrintOnEveryPage>
-          <ProcessOrder>Always</ProcessOrder>
           <Items>
             <Panel Name="panel1">
               <Location>0px, 150px</Location>
@@ -5113,7 +5099,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Size>1px, 130px</Size>
                 </Line>
                 <TextBox Name="textBox19">
-                  <Location>8px, 24px</Location>
+                  <Location>404px, 24px</Location>
                   <Size>383px, 100px</Size>
                   <Style>
                     <Font>
@@ -5122,7 +5108,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     </Font>
                   </Style>
                   <StyleName>RecepientCompany</StyleName>
-                  <Value>=IIf([ARInvoice.CustomerID]&lt;&gt;null,     [ARInvoice.CustomerID] + ' ', '') + '{br}'#010;+IIf([BillingContact.FullName]&lt;&gt;null,     [BillingContact.FullName] + '{br}', '')#010;+IIf([BillingAddress.AddressLine1]&lt;&gt;null,[BillingAddress.AddressLine1]+'{br}','')#010;+IIf([BillingAddress.AddressLine2]&lt;&gt;null,[BillingAddress.AddressLine2]+'{br}','')#010;+IIf([BillingAddress.AddressLine3]&lt;&gt;null,[BillingAddress.AddressLine3]+'{br}','')#010;+IIf([BillingAddress.City]&lt;&gt;null,        [BillingAddress.City]+' ', '')#010;+IIf([BillingAddress.State]&lt;&gt;null,       [BillingAddress.State]+' ','')#010;+IIf([BillingAddress.PostalCode]&lt;&gt;null,  [BillingAddress.PostalCode]+' ','')#010;+IIf([BillingAddress.CountryID]&lt;&gt;null,   [BillingAddress.CountryID_Country_Description], '')#010;+IIf([BillingAddress.City]&lt;&gt;null OR [BillingAddress.State]&lt;&gt;null OR [BillingAddress.PostalCode]&lt;&gt;null,'{br}','') #010;+IIf([BillingContact.Attention]&lt;&gt;null,   'Attn: ' + [BillingContact.Attention], '')</Value>
+                  <Value>=IIf([ShippingContact.FullName]&lt;&gt;null,    [ShippingContact.FullName]+'{br}','') #010;+IIf([ShippingAddress.AddressLine1]&lt;&gt;null,[ShippingAddress.AddressLine1]+'{br}','')#010;+IIf([ShippingAddress.AddressLine2]&lt;&gt;null,[ShippingAddress.AddressLine2]+'{br}','')#010;+IIf([ShippingAddress.AddressLine3]&lt;&gt;null,[ShippingAddress.AddressLine3]+'{br}','')#010;+IIf([ShippingAddress.City]&lt;&gt;null,        [ShippingAddress.City]+' ','')#010;+IIf([ShippingAddress.State]&lt;&gt;null,       [ShippingAddress.State]+' ','')#010;+IIf([ShippingAddress.PostalCode]&lt;&gt;null,  [ShippingAddress.PostalCode]+' ','')#010;+IIf([ShippingAddress.CountryID]&lt;&gt;null,   [ShippingAddress.CountryID_Country_Description],'')#010;+IIf([ShippingAddress.City]&lt;&gt;null OR [ShippingAddress.State]&lt;&gt;null OR [ShippingAddress.PostalCode]&lt;&gt;null,'{br}','')#010;+IIf([ShippingContact.Attention]&lt;&gt;null,  'Attn: ' + [ShippingContact.Attention],'')</Value>
                 </TextBox>
                 <TextBox Name="textBox22">
                   <Location>0px, 0px</Location>
@@ -5141,7 +5127,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <StyleName>Heading1BCColored</StyleName>
                   <Value>SOLD TO:</Value>
                 </TextBox>
-                <TextBox Name="textBox26">
+                <TextBox Name="textBox23">
                   <Location>398px, 0px</Location>
                   <Size>396px, 16px</Size>
                   <Style>
@@ -5158,8 +5144,8 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <StyleName>Heading1BCColored</StyleName>
                   <Value>SHIP TO:</Value>
                 </TextBox>
-                <TextBox Name="textBox27">
-                  <Location>406px, 24px</Location>
+                <TextBox Name="textBox26">
+                  <Location>6px, 24px</Location>
                   <Size>383px, 100px</Size>
                   <Style>
                     <Font>
@@ -5168,14 +5154,13 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     </Font>
                   </Style>
                   <StyleName>RecepientCompany</StyleName>
-                  <Value>=IIf([ShippingContact.FullName]&lt;&gt;null,    [ShippingContact.FullName]+'{br}','') #010;+IIf([ShippingAddress.AddressLine1]&lt;&gt;null,[ShippingAddress.AddressLine1]+'{br}','')#010;+IIf([ShippingAddress.AddressLine2]&lt;&gt;null,[ShippingAddress.AddressLine2]+'{br}','')#010;+IIf([ShippingAddress.AddressLine3]&lt;&gt;null,[ShippingAddress.AddressLine3]+'{br}','')#010;+IIf([ShippingAddress.City]&lt;&gt;null,        [ShippingAddress.City]+' ','')#010;+IIf([ShippingAddress.State]&lt;&gt;null,       [ShippingAddress.State]+' ','')#010;+IIf([ShippingAddress.PostalCode]&lt;&gt;null,  [ShippingAddress.PostalCode]+' ','')#010;+IIf([ShippingAddress.CountryID]&lt;&gt;null,   [ShippingAddress.CountryID_Country_Description],'')#010;+IIf([ShippingAddress.City]&lt;&gt;null OR [ShippingAddress.State]&lt;&gt;null OR [ShippingAddress.PostalCode]&lt;&gt;null,'{br}','')#010;+IIf([ShippingContact.Attention]&lt;&gt;null,  'Attn: ' + [ShippingContact.Attention],'')</Value>
+                  <Value>=IIf([ARInvoice.CustomerID]&lt;&gt;null,     [ARInvoice.CustomerID] + ' ', '') + '{br}'#010;+IIf([BillingContact.FullName]&lt;&gt;null,     [BillingContact.FullName] + '{br}', '')#010;+IIf([BillingAddress.AddressLine1]&lt;&gt;null,[BillingAddress.AddressLine1]+'{br}','')#010;+IIf([BillingAddress.AddressLine2]&lt;&gt;null,[BillingAddress.AddressLine2]+'{br}','')#010;+IIf([BillingAddress.AddressLine3]&lt;&gt;null,[BillingAddress.AddressLine3]+'{br}','')#010;+IIf([BillingAddress.City]&lt;&gt;null,        [BillingAddress.City]+' ', '')#010;+IIf([BillingAddress.State]&lt;&gt;null,       [BillingAddress.State]+' ','')#010;+IIf([BillingAddress.PostalCode]&lt;&gt;null,  [BillingAddress.PostalCode]+' ','')#010;+IIf([BillingAddress.CountryID]&lt;&gt;null,   [BillingAddress.CountryID_Country_Description], '')#010;+IIf([BillingAddress.City]&lt;&gt;null OR [BillingAddress.State]&lt;&gt;null OR [BillingAddress.PostalCode]&lt;&gt;null,'{br}','') #010;+IIf([BillingContact.Attention]&lt;&gt;null,   'Attn: ' + [BillingContact.Attention], '')</Value>
                 </TextBox>
               </Items>
             </Panel>
             <Panel Name="panel2">
               <Location>0px, 280px</Location>
-              <ProcessOrder>Always</ProcessOrder>
-              <Size>793px, 72px</Size>
+              <Size>796px, 70px</Size>
               <Style>
                 <BorderColor>
                   <Bottom>Black</Bottom>
@@ -5196,12 +5181,31 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <Items>
                 <Line Name="line4">
                   <Direction>Vertical</Direction>
-                  <Location>560px, 0px</Location>
+                  <Location>561px, 0px</Location>
                   <Size>8px, 71px</Size>
                 </Line>
-                <TextBox Name="textBox10">
-                  <Location>320px, 4px</Location>
-                  <Size>96px, 20px</Size>
+                <TextBox Name="textBox27">
+                  <Location>401px, 24px</Location>
+                  <Size>154px, 16px</Size>
+                  <Style>
+                    <BorderStyle>
+                      <Bottom>Solid</Bottom>
+                    </BorderStyle>
+                    <BorderWidth>
+                      <Bottom>1px</Bottom>
+                    </BorderWidth>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Center</TextAlign>
+                    <VerticalAlign>Bottom</VerticalAlign>
+                  </Style>
+                  <Value>=IIf([CustomerLocation.TaxRegistrationID]&lt;&gt;null, [CustomerLocation.TaxRegistrationID],'')</Value>
+                </TextBox>
+                <TextBox Name="textBox31">
+                  <Location>153px, 4px</Location>
+                  <Size>40px, 20px</Size>
                   <Style>
                     <Font>
                       <Name>Arial</Name>
@@ -5210,63 +5214,11 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     </Font>
                     <TextAlign>Right</TextAlign>
                   </Style>
-                  <Value>Invoice No:</Value>
-                </TextBox>
-                <TextBox Name="textBox11">
-                  <Location>152px, 24px</Location>
-                  <Size>130px, 16px</Size>
-                  <Style>
-                    <BorderStyle>
-                      <Bottom>Solid</Bottom>
-                    </BorderStyle>
-                    <BorderWidth>
-                      <Bottom>1px</Bottom>
-                    </BorderWidth>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Center</TextAlign>
-                    <VerticalAlign>Bottom</VerticalAlign>
-                  </Style>
-                  <Value>=IIf([ARTran.SOOrderNbr]&lt;&gt;null Or [ARTran.SOShipmentNbr]&lt;&gt;null,[SOOrder.CustomerOrderNbr],'')</Value>
-                </TextBox>
-                <TextBox Name="textBox2">
-                  <Location>16px, 4px</Location>
-                  <Size>72px, 20px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                      <Style>Bold</Style>
-                    </Font>
-                    <TextAlign>Left</TextAlign>
-                  </Style>
-                  <Value>Page No:</Value>
-                </TextBox>
-                <TextBox Name="textBox3">
-                  <Format>dd-MMM-yyyy</Format>
-                  <Location>192px, 4px</Location>
-                  <Size>122px, 16px</Size>
-                  <Style>
-                    <BorderStyle>
-                      <Bottom>Solid</Bottom>
-                    </BorderStyle>
-                    <BorderWidth>
-                      <Bottom>1px</Bottom>
-                    </BorderWidth>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Center</TextAlign>
-                    <VerticalAlign>Bottom</VerticalAlign>
-                  </Style>
-                  <Value>=[ARInvoice.DocDate]</Value>
+                  <Value>Date:</Value>
                 </TextBox>
                 <TextBox Name="textBox35">
-                  <Location>282px, 24px</Location>
-                  <Size>118px, 20px</Size>
+                  <Location>17px, 24px</Location>
+                  <Size>136px, 20px</Size>
                   <Style>
                     <Font>
                       <Name>Arial</Name>
@@ -5275,23 +5227,29 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     </Font>
                     <TextAlign>Left</TextAlign>
                   </Style>
-                  <Value>Customer Tax ID:</Value>
+                  <Value>Customer P/O No:</Value>
                 </TextBox>
                 <TextBox Name="textBox36">
-                  <Location>16px, 44px</Location>
-                  <Size>80px, 20px</Size>
+                  <Location>417px, 4px</Location>
+                  <Size>138px, 16px</Size>
                   <Style>
+                    <BorderStyle>
+                      <Bottom>Solid</Bottom>
+                    </BorderStyle>
+                    <BorderWidth>
+                      <Bottom>1px</Bottom>
+                    </BorderWidth>
                     <Font>
                       <Name>Arial</Name>
                       <Size>14px</Size>
-                      <Style>Bold</Style>
                     </Font>
-                    <TextAlign>Left</TextAlign>
+                    <TextAlign>Center</TextAlign>
+                    <VerticalAlign>Bottom</VerticalAlign>
                   </Style>
-                  <Value>Branch No:</Value>
+                  <Value>=[ARInvoice.RefNbr]</Value>
                 </TextBox>
                 <TextBox Name="textBox37">
-                  <Location>88px, 4px</Location>
+                  <Location>89px, 4px</Location>
                   <ProcessOrder>Always</ProcessOrder>
                   <Size>60px, 16px</Size>
                   <Style>
@@ -5311,7 +5269,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>=IIf([PageOf] &lt;&gt; null, [PageOf], '')</Value>
                 </TextBox>
                 <TextBox Name="textBox38">
-                  <Location>96px, 44px</Location>
+                  <Location>97px, 44px</Location>
                   <Size>104px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5330,7 +5288,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>=[ARInvoice.CustomerLocationID_description]</Value>
                 </TextBox>
                 <TextBox Name="textBox39">
-                  <Location>200px, 44px</Location>
+                  <Location>201px, 44px</Location>
                   <Size>56px, 20px</Size>
                   <Style>
                     <Font>
@@ -5342,27 +5300,8 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   </Style>
                   <Value>S/O No:</Value>
                 </TextBox>
-                <TextBox Name="textBox4">
-                  <Location>416px, 4px</Location>
-                  <Size>138px, 16px</Size>
-                  <Style>
-                    <BorderStyle>
-                      <Bottom>Solid</Bottom>
-                    </BorderStyle>
-                    <BorderWidth>
-                      <Bottom>1px</Bottom>
-                    </BorderWidth>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Center</TextAlign>
-                    <VerticalAlign>Bottom</VerticalAlign>
-                  </Style>
-                  <Value>=[ARInvoice.RefNbr]</Value>
-                </TextBox>
                 <TextBox Name="textBox40">
-                  <Location>256px, 44px</Location>
+                  <Location>257px, 44px</Location>
                   <Size>101px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5381,7 +5320,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>=IIf([ARTran.SOOrderNbr]&lt;&gt;null Or [ARTran.SOShipmentNbr]&lt;&gt;null,[ARTran.SOOrderNbr],'')</Value>
                 </TextBox>
                 <TextBox Name="textBox41">
-                  <Location>364px, 44px</Location>
+                  <Location>365px, 44px</Location>
                   <Size>60px, 20px</Size>
                   <Style>
                     <Font>
@@ -5394,7 +5333,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>D/O No:</Value>
                 </TextBox>
                 <TextBox Name="textBox43">
-                  <Location>424px, 44px</Location>
+                  <Location>425px, 44px</Location>
                   <Size>130px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5413,7 +5352,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>=IIf([ARTran.SOShipmentNbr] &lt;&gt; null And [ARTran.SOShipmentNbr] &lt;&gt; '&lt;NEW&gt;', [ARTran.SOShipmentNbr], '')</Value>
                 </TextBox>
                 <TextBox Name="textBox44">
-                  <Location>568px, 4px</Location>
+                  <Location>569px, 4px</Location>
                   <Size>120px, 20px</Size>
                   <Style>
                     <Font>
@@ -5426,7 +5365,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>SHIP FROM:</Value>
                 </TextBox>
                 <TextBox Name="textBox45">
-                  <Location>696px, 4px</Location>
+                  <Location>697px, 4px</Location>
                   <Size>81px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5445,7 +5384,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>='THAILAND'</Value>
                 </TextBox>
                 <TextBox Name="textBox46">
-                  <Location>568px, 26px</Location>
+                  <Location>569px, 26px</Location>
                   <Size>120px, 20px</Size>
                   <Style>
                     <Font>
@@ -5458,7 +5397,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>SHIP VIA:</Value>
                 </TextBox>
                 <TextBox Name="textBox47">
-                  <Location>696px, 26px</Location>
+                  <Location>697px, 26px</Location>
                   <Size>81px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5477,7 +5416,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>=[SOFD.ShipVia]</Value>
                 </TextBox>
                 <TextBox Name="textBox48">
-                  <Location>568px, 48px</Location>
+                  <Location>569px, 48px</Location>
                   <Size>120px, 20px</Size>
                   <Style>
                     <Font>
@@ -5490,7 +5429,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>PAYMENT TERM:</Value>
                 </TextBox>
                 <TextBox Name="textBox49">
-                  <Location>696px, 48px</Location>
+                  <Location>697px, 48px</Location>
                   <Size>81px, 16px</Size>
                   <Style>
                     <BorderStyle>
@@ -5508,9 +5447,9 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   </Style>
                   <Value>=[ARInvoice.TermsID]</Value>
                 </TextBox>
-                <TextBox Name="textBox6">
-                  <Location>16px, 24px</Location>
-                  <Size>136px, 20px</Size>
+                <TextBox Name="textBox50">
+                  <Location>17px, 44px</Location>
+                  <Size>80px, 20px</Size>
                   <Style>
                     <Font>
                       <Name>Arial</Name>
@@ -5519,24 +5458,25 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     </Font>
                     <TextAlign>Left</TextAlign>
                   </Style>
-                  <Value>Customer P/O No:</Value>
+                  <Value>Branch No:</Value>
                 </TextBox>
-                <TextBox Name="textBox7">
-                  <Location>152px, 4px</Location>
-                  <Size>40px, 20px</Size>
+                <TextBox Name="textBox51">
+                  <Location>283px, 24px</Location>
+                  <Size>118px, 20px</Size>
                   <Style>
                     <Font>
                       <Name>Arial</Name>
                       <Size>14px</Size>
                       <Style>Bold</Style>
                     </Font>
-                    <TextAlign>Right</TextAlign>
+                    <TextAlign>Left</TextAlign>
                   </Style>
-                  <Value>Date:</Value>
+                  <Value>Customer Tax ID:</Value>
                 </TextBox>
-                <TextBox Name="textBox8">
-                  <Location>400px, 24px</Location>
-                  <Size>154px, 16px</Size>
+                <TextBox Name="textBox52">
+                  <Format>dd-MMM-yyyy</Format>
+                  <Location>193px, 4px</Location>
+                  <Size>122px, 16px</Size>
                   <Style>
                     <BorderStyle>
                       <Bottom>Solid</Bottom>
@@ -5551,7 +5491,52 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     <TextAlign>Center</TextAlign>
                     <VerticalAlign>Bottom</VerticalAlign>
                   </Style>
-                  <Value>=IIf([CustomerLocation.TaxRegistrationID]&lt;&gt;null, [CustomerLocation.TaxRegistrationID],'')</Value>
+                  <Value>=[ARInvoice.DocDate]</Value>
+                </TextBox>
+                <TextBox Name="textBox65">
+                  <Location>17px, 4px</Location>
+                  <Size>72px, 20px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                      <Style>Bold</Style>
+                    </Font>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                  <Value>Page No:</Value>
+                </TextBox>
+                <TextBox Name="textBox66">
+                  <Location>153px, 24px</Location>
+                  <Size>130px, 16px</Size>
+                  <Style>
+                    <BorderStyle>
+                      <Bottom>Solid</Bottom>
+                    </BorderStyle>
+                    <BorderWidth>
+                      <Bottom>1px</Bottom>
+                    </BorderWidth>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Center</TextAlign>
+                    <VerticalAlign>Bottom</VerticalAlign>
+                  </Style>
+                  <Value>=IIf([ARTran.SOOrderNbr]&lt;&gt;null Or [ARTran.SOShipmentNbr]&lt;&gt;null,[SOOrder.CustomerOrderNbr],'')</Value>
+                </TextBox>
+                <TextBox Name="textBox67">
+                  <Location>321px, 4px</Location>
+                  <Size>96px, 20px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                      <Style>Bold</Style>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <Value>Invoice No:</Value>
                 </TextBox>
               </Items>
             </Panel>
@@ -5571,7 +5556,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               </Style>
               <Items>
                 <TextBox Name="textBox70">
-                  <Location>0px, 24px</Location>
+                  <Location>0px, 25px</Location>
                   <Size>272px, 56px</Size>
                   <Style>
                     <Font>
@@ -5581,7 +5566,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                     <TextAlign>Left</TextAlign>
                     <VerticalAlign>Top</VerticalAlign>
                   </Style>
-                  <Value>='Goods according to this Delivery Order belong to ' +'{br}'+'Highpoint Service Network (Thailand) Co.,Ltd.' + '{br}' + 'until purchaser settle the payment'</Value>
+                  <Value>='Goods according to this Tax Invoice belong to' +'{br}'+'Highpoint Service Network (Thailand) Co.,Ltd.' + '{br}' + 'until purchaser settle the payment'</Value>
                 </TextBox>
               </Items>
             </Panel>
@@ -5595,17 +5580,51 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <Value>=[Organization.LogoNameReport]</Value>
             </PictureBox>
             <TextBox Name="textBox1">
-              <Location>8px, 42px</Location>
-              <Size>262px, 26px</Size>
+              <Location>500px, 88px</Location>
+              <Size>293px, 24px</Size>
               <Style>
                 <Font>
-                  <Name>cordia new</Name>
-                  <Size>20px</Size>
+                  <Name>Arial</Name>
+                  <Size>13px</Size>
+                  <Style>Bold</Style>
                 </Font>
+                <TextAlign>Right</TextAlign>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+              <Value>=IIf([OrganizationBAccount.TaxRegistrationID]&lt;&gt;null,'TAX ID:'+[OrganizationBAccount.TaxRegistrationID],'')</Value>
+            </TextBox>
+            <TextBox Name="textBox10">
+              <Location>0px, 0px</Location>
+              <Size>400px, 32px</Size>
+              <Style>
+                <BackColor>Black</BackColor>
+                <Color>White</Color>
+                <Font>
+                  <Name>angsana new</Name>
+                  <Size>22px</Size>
+                  <Style>Bold</Style>
+                </Font>
+                <Padding>
+                  <Left>30px</Left>
+                </Padding>
                 <TextAlign>Left</TextAlign>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
-              <Value>='ต้นฉบับใบส่งสินค้า'</Value>
+              <Value>='ORIGINAL TAX INVOICE'</Value>
+            </TextBox>
+            <TextBox Name="textBox11">
+              <Location>500px, 26px</Location>
+              <Size>293px, 62px</Size>
+              <Style>
+                <Font>
+                  <Name>Arial</Name>
+                  <Size>13px</Size>
+                </Font>
+                <TextAlign>Right</TextAlign>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+              <StyleName>SenderCompany</StyleName>
+              <Value>=#010;IIf([OrganizationAddr.AddressLine1]&lt;&gt; null, [OrganizationAddr.AddressLine1] + '{br}', '')#010;+IIf([OrganizationAddr.AddressLine2]&lt;&gt;null,[OrganizationAddr.AddressLine2] + '{br}','')#010;+IIf([OrganizationAddr.AddressLine3]&lt;&gt; null,[OrganizationAddr.AddressLine3] + '{br}','')#010;+IIf([OrganizationAddr.City]&lt;&gt;null, [OrganizationAddr.City],'')#010;+IIf([OrganizationAddr.City]&lt;&gt;null And [OrganizationAddr.State]&lt;&gt;null, ', ', '')#010;+IIf([OrganizationAddr.State]&lt;&gt;null,[OrganizationAddr.State],'')#010;+IIf([OrganizationAddr.PostalCode]&lt;&gt;null And [OrganizationAddr.State]&lt;&gt;null, ', ', ' ')#010;+IIf([OrganizationAddr.PostalCode]&lt;&gt;null,[OrganizationAddr.PostalCode],'')#010;+ ' (Head Office)' + '{br}'#010;+IIf([CompanyContact.Phone1] &lt;&gt;null,[CompanyContact.Phone1Type]+': ' + [CompanyContact.Phone1]+ '{br}','')#010;+IIf([CompanyContact.Phone2] &lt;&gt;null,[CompanyContact.Phone2Type]+': ' + [CompanyContact.Phone2]+ '{br}','')#010;+IIf([CompanyContact.Phone3] &lt;&gt;null,[CompanyContact.Phone3Type]+': ' + [CompanyContact.Phone3]+ '{br}','')#010;+IIf([OrganizationContact.WebSite]&lt;&gt;null,'Web: '+[OrganizationContact.WebSite]+ '{br}','')</Value>
             </TextBox>
             <TextBox Name="textBox12">
               <Location>190px, 440px</Location>
@@ -5622,19 +5641,45 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <StyleName>Heading1BCColoredRightBorder</StyleName>
               <Value>DESCRIPTION</Value>
             </TextBox>
+            <TextBox Name="textBox13">
+              <Location>8px, 42px</Location>
+              <Size>262px, 26px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>20px</Size>
+                </Font>
+                <TextAlign>Left</TextAlign>
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+              <Value>='ต้นฉบับใบส่งสินค้า'</Value>
+            </TextBox>
             <TextBox Name="textBox18">
-              <Location>500px, 26px</Location>
-              <Size>293px, 62px</Size>
+              <Location>0px, 352px</Location>
+              <Size>200px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>angsana new</Name>
+                  <Size>16px</Size>
+                  <Style>Bold</Style>
+                </Font>
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+              <Value>='Important Notice:'</Value>
+            </TextBox>
+            <TextBox Name="textBox2">
+              <Location>500px, 0px</Location>
+              <Size>293px, 26px</Size>
               <Style>
                 <Font>
                   <Name>Arial</Name>
                   <Size>13px</Size>
+                  <Style>Bold</Style>
                 </Font>
                 <TextAlign>Right</TextAlign>
-                <VerticalAlign>Top</VerticalAlign>
+                <VerticalAlign>Bottom</VerticalAlign>
               </Style>
-              <StyleName>SenderCompany</StyleName>
-              <Value>=#010;IIf([OrganizationAddr.AddressLine1]&lt;&gt; null, [OrganizationAddr.AddressLine1] + '{br}', '')#010;+IIf([OrganizationAddr.AddressLine2]&lt;&gt;null,[OrganizationAddr.AddressLine2] + '{br}','')#010;+IIf([OrganizationAddr.AddressLine3]&lt;&gt; null,[OrganizationAddr.AddressLine3] + '{br}','')#010;+IIf([OrganizationAddr.City]&lt;&gt;null, [OrganizationAddr.City],'')#010;+IIf([OrganizationAddr.City]&lt;&gt;null And [OrganizationAddr.State]&lt;&gt;null, ', ', '')#010;+IIf([OrganizationAddr.State]&lt;&gt;null,[OrganizationAddr.State],'')#010;+IIf([OrganizationAddr.PostalCode]&lt;&gt;null And [OrganizationAddr.State]&lt;&gt;null, ', ', ' ')#010;+IIf([OrganizationAddr.PostalCode]&lt;&gt;null,[OrganizationAddr.PostalCode],'')#010;+ ' (Head Office)' + '{br}'#010;+IIf([CompanyContact.Phone1] &lt;&gt;null,[CompanyContact.Phone1Type]+': ' + [CompanyContact.Phone1]+ '{br}','')#010;+IIf([CompanyContact.Phone2] &lt;&gt;null,[CompanyContact.Phone2Type]+': ' + [CompanyContact.Phone2]+ '{br}','')#010;+IIf([CompanyContact.Phone3] &lt;&gt;null,[CompanyContact.Phone3Type]+': ' + [CompanyContact.Phone3]+ '{br}','')#010;+IIf([OrganizationContact.WebSite]&lt;&gt;null,'Web: '+[OrganizationContact.WebSite]+ '{br}','')</Value>
+              <Value>=IIf([OrganizationContact.FullName]&lt;&gt; null, [OrganizationContact.FullName] + '{br}','')</Value>
             </TextBox>
             <TextBox Name="textBox20">
               <Location>690px, 440px</Location>
@@ -5666,25 +5711,6 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <StyleName>Heading1BCColoredRightBorder</StyleName>
               <Value>PART NUMBER</Value>
             </TextBox>
-            <TextBox Name="textBox23">
-              <Location>0px, 0px</Location>
-              <Size>400px, 32px</Size>
-              <Style>
-                <BackColor>Black</BackColor>
-                <Color>White</Color>
-                <Font>
-                  <Name>angsana new</Name>
-                  <Size>22px</Size>
-                  <Style>Bold</Style>
-                </Font>
-                <Padding>
-                  <Left>30px</Left>
-                </Padding>
-                <TextAlign>Left</TextAlign>
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-              <Value>='ORIGINAL DELIVERY ORDER'</Value>
-            </TextBox>
             <TextBox Name="textBox24">
               <Location>590px, 440px</Location>
               <Size>100px, 24px</Size>
@@ -5715,20 +5741,48 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <StyleName>Heading1BCColoredRightBorder</StyleName>
               <Value>QTY.</Value>
             </TextBox>
-            <TextBox Name="textBox31">
-              <Location>480px, 118px</Location>
-              <Size>176px, 30px</Size>
+            <TextBox Name="textBox3">
+              <Location>328px, 56px</Location>
+              <Size>152px, 34px</Size>
               <Style>
                 <Font>
-                  <Name>cordia new</Name>
+                  <Name>angsana new</Name>
+                  <Size>22px</Size>
+                  <Style>Bold</Style>
+                </Font>
+              </Style>
+              <Value>=IIf([ARInvoice.DocType]='CRM','CREDIT NOTE','')</Value>
+            </TextBox>
+            <TextBox Name="textBox4">
+              <Location>656px, 118px</Location>
+              <Size>136px, 30px</Size>
+              <Style>
+                <Font>
+                  <Name>Arial</Name>
                   <Size>13px</Size>
                   <Style>Bold</Style>
                 </Font>
+                <TextAlign>Right</TextAlign>
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
-              <Value>='สาขาที่ออกใบกำกับภาษี คือ สาขาที่'</Value>
+              <Value>=IIF([BAccount2.LegalName] &lt;&gt; Null, [BAccount2.LegalName], '') </Value>
             </TextBox>
-            <TextBox Name="textBox50">
+            <TextBox Name="textBox53">
+              <Location>0px, 440px</Location>
+              <Size>40px, 24px</Size>
+              <Style>
+                <BackColor>Black</BackColor>
+                <Color>White</Color>
+                <Padding>
+                  <Left>2px</Left>
+                </Padding>
+                <TextAlign>Center</TextAlign>
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+              <StyleName>Heading1BCColoredRightBorder</StyleName>
+              <Value>NO.</Value>
+            </TextBox>
+            <TextBox Name="textBox6">
               <Location>0px, 376px</Location>
               <Size>519px, 56px</Size>
               <Style>
@@ -5751,21 +5805,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               </Style>
               <Value>='1. Please settle by crossed cheque marked "A/C Payee Only" payable to {br}Highpoint Service Network (Thailand) Co.,Ltd. and refer Invoice NO.{br}'#010;+ '2. 1.25% per 30 days interest will be charged on overdue accounts.{br}'#010;+ '3. Goods return is subjected to 5% service fee and be charged 100% on any missing part.'</Value>
             </TextBox>
-            <TextBox Name="textBox51">
-              <Location>8px, 70px</Location>
-              <Size>262px, 26px</Size>
-              <Style>
-                <Color>Red</Color>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>20px</Size>
-                </Font>
-                <TextAlign>Left</TextAlign>
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-              <Value>='ไม่ใช่ใบกำกับภาษี'</Value>
-            </TextBox>
-            <TextBox Name="textBox52">
+            <TextBox Name="textBox7">
               <Location>8px, 98px</Location>
               <Size>262px, 26px</Size>
               <Style>
@@ -5777,75 +5817,6 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
               <Value>='เอกสารออกเป็นชุด'</Value>
-            </TextBox>
-            <TextBox Name="textBox53">
-              <Location>0px, 440px</Location>
-              <Size>40px, 24px</Size>
-              <Style>
-                <BackColor>Black</BackColor>
-                <Color>White</Color>
-                <Padding>
-                  <Left>2px</Left>
-                </Padding>
-                <TextAlign>Center</TextAlign>
-                <VerticalAlign>Middle</VerticalAlign>
-              </Style>
-              <StyleName>Heading1BCColoredRightBorder</StyleName>
-              <Value>NO.</Value>
-            </TextBox>
-            <TextBox Name="textBox72">
-              <Location>656px, 118px</Location>
-              <Size>136px, 30px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>13px</Size>
-                  <Style>Bold</Style>
-                </Font>
-                <TextAlign>Right</TextAlign>
-                <VerticalAlign>Top</VerticalAlign>
-              </Style>
-              <Value>=IIF([BAccount2.LegalName] &lt;&gt; Null, [BAccount2.LegalName], '') </Value>
-            </TextBox>
-            <TextBox Name="textBox73">
-              <Location>328px, 56px</Location>
-              <Size>152px, 34px</Size>
-              <Style>
-                <Font>
-                  <Name>angsana new</Name>
-                  <Size>22px</Size>
-                  <Style>Bold</Style>
-                </Font>
-              </Style>
-              <Value>=IIf([ARInvoice.DocType]='CRM','CREDIT NOTE','')</Value>
-            </TextBox>
-            <TextBox Name="textBox74">
-              <Location>500px, 0px</Location>
-              <Size>293px, 26px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>13px</Size>
-                  <Style>Bold</Style>
-                </Font>
-                <TextAlign>Right</TextAlign>
-                <VerticalAlign>Bottom</VerticalAlign>
-              </Style>
-              <Value>=IIf([OrganizationContact.FullName]&lt;&gt; null, [OrganizationContact.FullName] + '{br}','')</Value>
-            </TextBox>
-            <TextBox Name="textBox75">
-              <Location>500px, 88px</Location>
-              <Size>293px, 30px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>13px</Size>
-                  <Style>Bold</Style>
-                </Font>
-                <TextAlign>Right</TextAlign>
-                <VerticalAlign>Top</VerticalAlign>
-              </Style>
-              <Value>=IIf([OrganizationBAccount.TaxRegistrationID]&lt;&gt;null,'TAX ID:'+[OrganizationBAccount.TaxRegistrationID],'')</Value>
             </TextBox>
             <TextBox Name="textBox76">
               <Location>530px, 440px</Location>
@@ -5862,18 +5833,32 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <StyleName>Heading1BCColoredRightBorder</StyleName>
               <Value>DISC.</Value>
             </TextBox>
-            <TextBox Name="textBox9">
-              <Location>0px, 352px</Location>
-              <Size>200px, 24px</Size>
+            <TextBox Name="textBox8">
+              <Location>8px, 70px</Location>
+              <Size>262px, 26px</Size>
               <Style>
+                <Color>Red</Color>
                 <Font>
-                  <Name>Arial</Name>
-                  <Size>16px</Size>
-                  <Style>Bold</Style>
+                  <Name>cordia new</Name>
+                  <Size>20px</Size>
                 </Font>
+                <TextAlign>Left</TextAlign>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
-              <Value>='Important Notice:'</Value>
+              <Value>='ไม่ใช่ใบกำกับภาษี'</Value>
+            </TextBox>
+            <TextBox Name="textBox9">
+              <Location>448px, 112px</Location>
+              <Size>208px, 36px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>13px</Size>
+                  <Style>Bold</Style>
+                </Font>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+              <Value>สาขาที่ออกใบกำกับภาษี คือ สาขาที่</Value>
             </TextBox>
           </Items>
         </Header>
@@ -5882,7 +5867,6 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
         <Footer Name="groupFooterSection1">
           <Height>8px</Height>
           <PrintOnEveryPage>True</PrintOnEveryPage>
-          <VisibleExpr>=IIF([PageIndex]&lt;&gt;[PageCount],false,true)</VisibleExpr>
           <Items>
             <Line Name="line2">
               <LineColor>LightGray</LineColor>
@@ -5891,110 +5875,10 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
             </Line>
           </Items>
         </Footer>
-        <Footer Name="groupFooterSection3">
-          <Height>176px</Height>
+        <Footer Name="groupFooterSection2">
+          <Height>184px</Height>
           <Items>
-            <Panel Name="panel3">
-              <Location>0px, 112px</Location>
-              <Size>794px, 56px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                  <Left>Solid</Left>
-                  <Right>Solid</Right>
-                  <Top>Solid</Top>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>1px</Bottom>
-                  <Left>1px</Left>
-                  <Right>1px</Right>
-                  <Top>1px</Top>
-                </BorderWidth>
-              </Style>
-              <Items>
-                <TextBox Name="textBox28">
-                  <Location>690px, 8px</Location>
-                  <ProcessOrder>WhilePrint</ProcessOrder>
-                  <Size>100px, 16px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <Value>=[ARInvoice.CuryLineTotal]</Value>
-                </TextBox>
-                <TextBox Name="textBox29">
-                  <Location>590px, 40px</Location>
-                  <Size>88px, 16px</Size>
-                  <Style>
-                    <BackColor>Transparent</BackColor>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <StyleName>Heading 1</StyleName>
-                  <Value>='TOTAL(' + [ARInvoice.CuryID] + ')'</Value>
-                </TextBox>
-                <TextBox Name="textBox71">
-                  <Location>590px, 24px</Location>
-                  <Size>88px, 16px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <StyleName>Heading 1</StyleName>
-                  <Value>='VAT ' + IIf([ARTT.TaxRate] &lt;&gt; null, CInt([ARTT.TaxRate]),'') + '.00%'</Value>
-                </TextBox>
-                <TextBox Name="textBox78">
-                  <Location>590px, 8px</Location>
-                  <Size>88px, 16px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <StyleName>Heading 1</StyleName>
-                  <Value>='SUB TOTAL'</Value>
-                  <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
-                </TextBox>
-                <TextBox Name="textBox79">
-                  <Location>690px, 24px</Location>
-                  <ProcessOrder>WhilePrint</ProcessOrder>
-                  <Size>100px, 16px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <Value>=[ARInvoice.CuryTaxTotal]</Value>
-                </TextBox>
-                <TextBox Name="textBox80">
-                  <Location>690px, 40px</Location>
-                  <ProcessOrder>WhilePrint</ProcessOrder>
-                  <Size>100px, 16px</Size>
-                  <Style>
-                    <Font>
-                      <Name>Arial</Name>
-                      <Size>14px</Size>
-                    </Font>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                  <Value>=[ARInvoice.CuryOrigDocAmt]</Value>
-                </TextBox>
-              </Items>
-            </Panel>
-            <Panel Name="panel6">
+            <Panel Name="panel4">
               <Location>0px, 0px</Location>
               <Size>794px, 106px</Size>
               <Style>
@@ -6018,7 +5902,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                 </BorderWidth>
               </Style>
               <Items>
-                <TextBox Name="textBox81">
+                <TextBox Name="textBox74">
                   <Location>0px, 0px</Location>
                   <Size>50px, 24px</Size>
                   <Style>
@@ -6035,7 +5919,7 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                   <Value>NOTE: </Value>
                   <VisibleExpr>=[InvoiceNote.NoteText] &lt;&gt; null and [InvoiceNote.NoteText] &lt;&gt; ''</VisibleExpr>
                 </TextBox>
-                <TextBox Name="textBox82">
+                <TextBox Name="textBox75">
                   <Location>50px, 0px</Location>
                   <Size>740px, 96px</Size>
                   <Style>
@@ -6055,14 +5939,114 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
                 </TextBox>
               </Items>
             </Panel>
+            <Panel Name="panel7">
+              <Location>0px, 112px</Location>
+              <Size>794px, 56px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                  <Left>Solid</Left>
+                  <Right>Solid</Right>
+                  <Top>Solid</Top>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>1px</Bottom>
+                  <Left>1px</Left>
+                  <Right>1px</Right>
+                  <Top>1px</Top>
+                </BorderWidth>
+              </Style>
+              <Items>
+                <TextBox Name="textBox83">
+                  <Location>690px, 8px</Location>
+                  <ProcessOrder>WhilePrint</ProcessOrder>
+                  <Size>100px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <Value>=[ARInvoice.CuryLineTotal]</Value>
+                </TextBox>
+                <TextBox Name="textBox84">
+                  <Location>590px, 40px</Location>
+                  <Size>88px, 16px</Size>
+                  <Style>
+                    <BackColor>Transparent</BackColor>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>='TOTAL(' + [ARInvoice.CuryID] + ')'</Value>
+                </TextBox>
+                <TextBox Name="textBox85">
+                  <Location>590px, 24px</Location>
+                  <Size>88px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>='VAT ' + IIf([ARTT.TaxRate] &lt;&gt; null, CInt([ARTT.TaxRate]),'') + '.00%'</Value>
+                </TextBox>
+                <TextBox Name="textBox86">
+                  <Location>590px, 8px</Location>
+                  <Size>88px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <StyleName>Heading 1</StyleName>
+                  <Value>='SUB TOTAL'</Value>
+                  <VisibleExpr>=([PageIndex]=[PageCount])</VisibleExpr>
+                </TextBox>
+                <TextBox Name="textBox87">
+                  <Location>690px, 24px</Location>
+                  <ProcessOrder>WhilePrint</ProcessOrder>
+                  <Size>100px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <Value>=[ARInvoice.CuryTaxTotal]</Value>
+                </TextBox>
+                <TextBox Name="textBox88">
+                  <Location>690px, 40px</Location>
+                  <ProcessOrder>WhilePrint</ProcessOrder>
+                  <Size>100px, 16px</Size>
+                  <Style>
+                    <Font>
+                      <Name>Arial</Name>
+                      <Size>14px</Size>
+                    </Font>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                  <Value>=[ARInvoice.CuryOrigDocAmt]</Value>
+                </TextBox>
+              </Items>
+            </Panel>
           </Items>
         </Footer>
-        <Footer Name="groupFooterSection2">
-          <Height>216px</Height>
+        <Footer Name="groupFooterSection3">
+          <Height>232px</Height>
           <PrintOnEveryPage>True</PrintOnEveryPage>
           <Items>
             <PictureBox Name="pictureBox2">
-              <Location>552px, 144px</Location>
+              <Location>552px, 152px</Location>
               <MimeType>image/png</MimeType>
               <QRCodeSettings></QRCodeSettings>
               <Size>160px, 32px</Size>
@@ -6070,205 +6054,20 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               <Source>Embedded</Source>
               <Value>image_signature</Value>
             </PictureBox>
-            <TextBox Name="textBox13">
-              <Location>12px, 44px</Location>
-              <Size>444px, 20px</Size>
+            <TextBox Name="textBox28">
+              <Location>11px, 80px</Location>
+              <Size>389px, 20px</Size>
               <Style>
                 <Font>
-                  <Name>codia new</Name>
-                  <Size>11px</Size>
-                </Font>
-                <VerticalAlign>Top</VerticalAlign>
-              </Style>
-              <Value>มิฉะนั้นบริษัทฯ จะถือว่าเอกสารดังกล่าวถูกต้องสมบูรณ์ทุกรายการ</Value>
-            </TextBox>
-            <TextBox Name="textBox30">
-              <Location>12px, 30px</Location>
-              <Size>444px, 14px</Size>
-              <Style>
-                <Font>
-                  <Name>codia new</Name>
-                  <Size>11px</Size>
+                  <Name>Arial</Name>
+                  <Size>13px</Size>
                 </Font>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
-              <Value>ให้บริษัทฯ ทราบภายใน 7 วัน นับจากวันที่ในใบส่งสินค้า/ใบกำกับสินค้า/ใบกำกับภาษี/ใบเสร็จรับเงิน</Value>
+              <Value>='Received the above goods in good order and condition.'</Value>
             </TextBox>
-            <TextBox Name="textBox34">
-              <Location>11px, 10px</Location>
-              <Size>445px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>codia new</Name>
-                  <Size>11px</Size>
-                </Font>
-                <VerticalAlign>Bottom</VerticalAlign>
-              </Style>
-              <Value>หากมีข้อความใดๆ  ในใบส่งสินค้า/ใบกำกับสินค้า/ใบกำกับภาษี/ใบเสร็จรับเงิน ผิด กรุณาแจ้ง E. &amp; O.E.</Value>
-            </TextBox>
-            <TextBox Name="textBox54">
-              <Location>11px, 96px</Location>
-              <Size>117px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>codia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='ชื่อผู้รับ/Received by'</Value>
-            </TextBox>
-            <TextBox Name="textBox55">
-              <Location>128px, 96px</Location>
-              <Size>272px, 16px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>1px</Bottom>
-                </BorderWidth>
-              </Style>
-            </TextBox>
-            <TextBox Name="textBox56">
-              <Location>408px, 96px</Location>
-              <Size>56px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='(ตัวบรรจง)'</Value>
-            </TextBox>
-            <TextBox Name="textBox57">
-              <Location>408px, 144px</Location>
-              <Size>56px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='(ตัวบรรจง)'</Value>
-            </TextBox>
-            <TextBox Name="textBox58">
-              <Location>128px, 120px</Location>
-              <Size>272px, 16px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>1px</Bottom>
-                </BorderWidth>
-              </Style>
-            </TextBox>
-            <TextBox Name="textBox59">
-              <Location>11px, 120px</Location>
-              <Size>117px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='วันที่/Date'</Value>
-            </TextBox>
-            <TextBox Name="textBox60">
-              <Location>128px, 144px</Location>
-              <Size>272px, 16px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>1px</Bottom>
-                </BorderWidth>
-              </Style>
-            </TextBox>
-            <TextBox Name="textBox61">
-              <Location>11px, 144px</Location>
-              <Size>117px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='ชื่อผู้ส่ง/Delivered by'</Value>
-            </TextBox>
-            <TextBox Name="textBox62">
-              <Location>128px, 168px</Location>
-              <Size>272px, 16px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>1px</Bottom>
-                </BorderWidth>
-              </Style>
-            </TextBox>
-            <TextBox Name="textBox63">
-              <Location>11px, 168px</Location>
-              <Size>117px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>cordia new</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='วันที่/Date'</Value>
-            </TextBox>
-            <TextBox Name="textBox64">
-              <Location>11px, 188px</Location>
-              <Size>218px, 24px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>16px</Size>
-                  <Style>Bold</Style>
-                </Font>
-              </Style>
-              <Value>='( 1:FINANCE )'</Value>
-            </TextBox>
-            <TextBox Name="textBox65">
-              <Location>472px, 88px</Location>
-              <Size>176px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>13px</Size>
-                </Font>
-              </Style>
-              <Value>='For and on behalf of'</Value>
-            </TextBox>
-            <TextBox Name="textBox66">
-              <Location>472px, 112px</Location>
-              <Size>320px, 20px</Size>
-              <Style>
-                <Font>
-                  <Name>Arial</Name>
-                  <Size>13px</Size>
-                  <Style>Bold</Style>
-                </Font>
-              </Style>
-              <Value>='Highpoint Service Network (Thailand) Co., Ltd.'</Value>
-            </TextBox>
-            <TextBox Name="textBox67">
-              <Location>472px, 176px</Location>
-              <Size>320px, 8px</Size>
-              <Style>
-                <BorderStyle>
-                  <Bottom>Solid</Bottom>
-                </BorderStyle>
-                <BorderWidth>
-                  <Bottom>2px</Bottom>
-                </BorderWidth>
-              </Style>
-            </TextBox>
-            <TextBox Name="textBox68">
-              <Location>472px, 184px</Location>
+            <TextBox Name="textBox29">
+              <Location>472px, 200px</Location>
               <Size>320px, 32px</Size>
               <Style>
                 <Font>
@@ -6280,17 +6079,202 @@ FZj1EkRpakMhUNZAb04EIDHKMsJrN6QFFeKkpAxkiIHMoV5zhcluAlISiqBNwA4uSgFF/YV7XPv60XBj
               </Style>
               <Value>='AUTHORIZED SIGNATURE'</Value>
             </TextBox>
-            <TextBox Name="textBox69">
-              <Location>11px, 72px</Location>
-              <Size>389px, 20px</Size>
+            <TextBox Name="textBox30">
+              <Location>472px, 184px</Location>
+              <Size>320px, 8px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>2px</Bottom>
+                </BorderWidth>
+              </Style>
+            </TextBox>
+            <TextBox Name="textBox32">
+              <Location>472px, 120px</Location>
+              <Size>320px, 20px</Size>
+              <Style>
+                <Font>
+                  <Name>Arial</Name>
+                  <Size>13px</Size>
+                  <Style>Bold</Style>
+                </Font>
+              </Style>
+              <Value>='Highpoint Service Network (Thailand) Co., Ltd.'</Value>
+            </TextBox>
+            <TextBox Name="textBox33">
+              <Location>472px, 96px</Location>
+              <Size>176px, 20px</Size>
               <Style>
                 <Font>
                   <Name>Arial</Name>
                   <Size>13px</Size>
                 </Font>
+              </Style>
+              <Value>='For and on behalf of'</Value>
+            </TextBox>
+            <TextBox Name="textBox34">
+              <Location>11px, 0px</Location>
+              <Size>445px, 30px</Size>
+              <Style>
+                <Font>
+                  <Name>codia new</Name>
+                  <Size>11px</Size>
+                </Font>
+                <VerticalAlign>Bottom</VerticalAlign>
+              </Style>
+              <Value>หากมีข้อความใดๆ  ในใบส่งสินค้า/ใบกำกับสินค้า/ใบกำกับภาษี/ใบเสร็จรับเงิน ผิด กรุณาแจ้ง E. &amp; O.E. </Value>
+            </TextBox>
+            <TextBox Name="textBox54">
+              <Location>11px, 104px</Location>
+              <Size>117px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>codia new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='ชื่อผู้รับ/Received by'</Value>
+            </TextBox>
+            <TextBox Name="textBox55">
+              <Location>128px, 112px</Location>
+              <Size>272px, 16px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>1px</Bottom>
+                </BorderWidth>
+              </Style>
+            </TextBox>
+            <TextBox Name="textBox56">
+              <Location>408px, 104px</Location>
+              <Size>56px, 20px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='(ตัวบรรจง)'</Value>
+            </TextBox>
+            <TextBox Name="textBox57">
+              <Location>408px, 152px</Location>
+              <Size>56px, 20px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='(ตัวบรรจง)'</Value>
+            </TextBox>
+            <TextBox Name="textBox58">
+              <Location>128px, 136px</Location>
+              <Size>272px, 16px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>1px</Bottom>
+                </BorderWidth>
+              </Style>
+            </TextBox>
+            <TextBox Name="textBox59">
+              <Location>11px, 128px</Location>
+              <Size>117px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='วันที่/Date'</Value>
+            </TextBox>
+            <TextBox Name="textBox60">
+              <Location>128px, 160px</Location>
+              <Size>272px, 16px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>1px</Bottom>
+                </BorderWidth>
+              </Style>
+            </TextBox>
+            <TextBox Name="textBox61">
+              <Location>11px, 152px</Location>
+              <Size>117px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>cordia new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='ชื่อผู้ส่ง/Delivered by'</Value>
+            </TextBox>
+            <TextBox Name="textBox62">
+              <Location>128px, 184px</Location>
+              <Size>272px, 16px</Size>
+              <Style>
+                <BorderStyle>
+                  <Bottom>Solid</Bottom>
+                </BorderStyle>
+                <BorderWidth>
+                  <Bottom>1px</Bottom>
+                </BorderWidth>
+              </Style>
+            </TextBox>
+            <TextBox Name="textBox63">
+              <Location>11px, 176px</Location>
+              <Size>117px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>angsana new</Name>
+                  <Size>13px</Size>
+                </Font>
+              </Style>
+              <Value>='วันที่/Date'</Value>
+            </TextBox>
+            <TextBox Name="textBox64">
+              <Location>11px, 208px</Location>
+              <Size>218px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>Arial</Name>
+                  <Size>16px</Size>
+                  <Style>Bold</Style>
+                </Font>
+              </Style>
+              <Value>='( 2:CUSTOMER )'</Value>
+            </TextBox>
+            <TextBox Name="textBox72">
+              <Location>12px, 30px</Location>
+              <Size>444px, 18px</Size>
+              <Style>
+                <Font>
+                  <Name>codia new</Name>
+                  <Size>11px</Size>
+                </Font>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
-              <Value>='Received the above goods in good order and condition.'</Value>
+              <Value>ให้บริษัทฯ ทราบภายใน 7 วัน นับจากวันที่ในใบส่งสินค้า/ใบกำกับสินค้า/ใบกำกับภาษี/ใบเสร็จรับเงิน </Value>
+            </TextBox>
+            <TextBox Name="textBox73">
+              <Location>12px, 48px</Location>
+              <Size>444px, 24px</Size>
+              <Style>
+                <Font>
+                  <Name>codia new</Name>
+                  <Size>11px</Size>
+                </Font>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+              <Value>มิฉะนั้นบริษัทฯ จะถือว่าเอกสารดังกล่าวถูกต้องสมบูรณ์ทุกรายการ</Value>
             </TextBox>
           </Items>
         </Footer>

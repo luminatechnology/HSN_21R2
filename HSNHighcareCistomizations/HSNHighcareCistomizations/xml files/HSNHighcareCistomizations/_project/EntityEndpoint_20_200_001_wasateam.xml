@@ -810,7 +810,7 @@
                 <Field name="WarrantyStartDate" type="DateTimeValue" />
             </Fields>
         </Detail>
-        <TopLevelEntity name="EquipmentWarranty" screen="GI770115">
+        <TopLevelEntity name="EquipmentWarranty" screen="GI770122">
             <Fields>
                 <Field name="CustomerID" type="StringValue" />
                 <Field name="EquipmentID" type="StringValue" />

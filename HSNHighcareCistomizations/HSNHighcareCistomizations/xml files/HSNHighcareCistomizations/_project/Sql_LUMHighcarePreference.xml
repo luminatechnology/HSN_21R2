@@ -3,6 +3,12 @@
   <col name="CompanyID" type="Int" default="Zero" />
   <col name="ReturnUrl" type="NVarChar(1024)" nullable="true" />
   <col name="SecretKey" type="NVarChar(1024)" nullable="true" />
+  <col name="LoginTokenUrl" type="NVarChar(1024)" nullable="true" />
+  <col name="ShowCouponUrl" type="NVarChar(1024)" nullable="true" />
+  <col name="RedeemCouponUrl" type="NVarChar(1024)" nullable="true" />
+  <col name="Email" type="NVarChar(256)" nullable="true" />
+  <col name="Password" type="NVarChar(256)" nullable="true" />
+  <col name="ExpiresTime" type="DateTime" nullable="true" />
   <index name="PK_LUMHighcarePreference" clustered="true" primary="true" unique="true">
     <col name="CompanyID" />
   </index>

@@ -1,6 +1,7 @@
 ﻿using HSNHighcareCistomizations.DAC;
 using HSNHighcareCistomizations.Entity;
 using Newtonsoft.Json;
+using PX.Common;
 using PX.Data;
 using PX.Data.BQL;
 using PX.Data.BQL.Fluent;
@@ -67,6 +68,107 @@ namespace HSNHighcareCistomizations.Descriptor
                 }
             }
         }
+
+        /// <summary> Get WasaTeam API Token </summary>
+        public WasateamAPITokenEntity GetAccessToken()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var preference = GetHighcarePreference();
+                    WasatemAPILoginEntity loginEntity = new WasatemAPILoginEntity()
+                    {
+                        email = preference?.Email,
+                        password = preference?.Password
+                    };
+                    // 尚未過期，直接回傳
+                    if (DateTime.Now <= preference?.ExpiresTime)
+                    {
+                        return new WasateamAPITokenEntity()
+                        {
+                            expires_at = preference?.ExpiresTime,
+                            access_token = preference?.SecretKey
+                        };
+                    }
+                    client.DefaultRequestHeaders.Add("User-Agent", "Acumatica");
+                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, preference?.LoginTokenUrl);
+                    requestMessage.Content = new StringContent(JsonConvert.SerializeObject(loginEntity), Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.SendAsync(requestMessage).GetAwaiter().GetResult();
+                    var result = JsonConvert.DeserializeObject<WasateamAPITokenEntity>(response.Content.ReadAsStringAsync().Result);
+                    if (result != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        // Update Highcare preference info
+                        PXDatabase.Update<LUMHighcarePreference>(
+                            new PXDataFieldAssign<LUMHighcarePreference.secretKey>(result?.access_token),
+                            new PXDataFieldAssign<LUMHighcarePreference.expiresTime>(result?.expires_at));
+                    }
+                    return result;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary> 驗證折扣法是否存在(合法) </summary>
+        public bool ValidHihgcareDiscountCoupon(string customerID, string code)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var preference = GetHighcarePreference();
+                    // 尚未過期，直接回傳
+                    client.DefaultRequestHeaders.Add("User-Agent", "Acumatica");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {preference.SecretKey}");
+                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{preference?.ShowCouponUrl}/{code}?customer_id={customerID}");
+                    //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, $"{preference?.ShowCouponUrl}/{code}");
+                    HttpResponseMessage response = client.SendAsync(requestMessage).GetAwaiter().GetResult();
+                    var result = JsonConvert.DeserializeObject<WasateamCouponEntity>(response.Content.ReadAsStringAsync().Result);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK && result?.data?.status?.ToUpper() == "AVAILABLE")
+                        return true;
+                }
+                catch (Exception ex)
+                {
+                    PXTrace.WriteVerbose($"Highcare Valid Coupon Error:{ex.Message}");
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        /// <summary> Redeem Highcare Discount Coupon </summary>
+        public bool RedeemHighcareDiscountCoupon(string code)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var preference = GetHighcarePreference();
+                    // 尚未過期，直接回傳
+                    client.DefaultRequestHeaders.Add("User-Agent", "Acumatica");
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {preference.SecretKey}");
+                    HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{preference?.RedeemCouponUrl}/{code}/redeem");
+                    //requestMessage.Content = new StringContent(@"""customer_id"":{customerID}", Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.SendAsync(requestMessage).GetAwaiter().GetResult();
+                    //var result = JsonConvert.DeserializeObject<WasteamAPITokenEntity>(response.Content.ReadAsStringAsync().Result);
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        return true;
+                }
+                catch (Exception ex)
+                {
+                    PXTrace.WriteVerbose($"Highcare Redeem Coupon Error:{code}_{ex.Message}");
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public LUMHighcarePreference GetHighcarePreference()
+            => SelectFrom<LUMHighcarePreference>.View.Select(new PXGraph()).TopFirst;
     }
 
     public class HighcareClassAttr : PX.Data.BQL.BqlString.Constant<HighcareClassAttr>

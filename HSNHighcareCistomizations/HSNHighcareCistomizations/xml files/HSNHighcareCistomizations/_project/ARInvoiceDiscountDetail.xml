@@ -1,0 +1,3 @@
+﻿<Table TableName="ARInvoiceDiscountDetail">
+    <Column TableName="ARInvoiceDiscountDetail" ColumnName="ExtDiscCode" ColumnType="string" AllowNull="True" MaxLength="50" DecimalPrecision="0" DecimalLength="0" IsUnicode="True" />
+</Table>
