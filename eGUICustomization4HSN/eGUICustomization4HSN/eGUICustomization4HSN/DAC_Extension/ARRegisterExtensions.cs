@@ -114,6 +114,7 @@ namespace PX.Objects.AR
         #region UsrCarrierID
         [PXDBString(64, IsUnicode = true)]
         [PXUIField(DisplayName = "Carrier ID")]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         public virtual string UsrCarrierID { get; set; }
         public abstract class usrCarrierID : PX.Data.BQL.BqlString.Field<usrCarrierID> { }
         #endregion
@@ -122,6 +123,7 @@ namespace PX.Objects.AR
         [PXDBString(10, IsUnicode = true)]
         [PXUIField(DisplayName = "NPO Nbr", Visibility = PXUIVisibility.SelectorVisible, IsDirty = true)]
         [NPONbrSelector]
+        [PXDefault(PersistingCheck = PXPersistingCheck.Nothing)]
         public virtual string UsrNPONbr { get; set; }
         public abstract class usrNPONbr : PX.Data.BQL.BqlString.Field<usrNPONbr> { }
         #endregion

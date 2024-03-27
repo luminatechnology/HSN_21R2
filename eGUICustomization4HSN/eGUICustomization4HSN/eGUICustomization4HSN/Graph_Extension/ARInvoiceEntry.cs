@@ -141,6 +141,9 @@ namespace PX.Objects.AR
                 {
                     e.Cache.RaiseExceptionHandling<ARRegisterExt.usrVATOutCode>(e.Row, regisExt.UsrVATOutCode, new PXSetPropertyException(TWMessages.ReminderMesg));
                 }
+
+                PXDefaultAttribute.SetPersistingCheck<ARRegisterExt.usrCarrierID>(e.Cache, e.Row, regisExt.UsrB2CType == TWNB2CType.MC && string.IsNullOrEmpty(regisExt.UsrCarrierID) ? PXPersistingCheck.NullOrBlank : PXPersistingCheck.Nothing);
+                PXDefaultAttribute.SetPersistingCheck<ARRegisterExt.usrNPONbr>(e.Cache, e.Row, regisExt.UsrB2CType == TWNB2CType.NPO && string.IsNullOrEmpty(regisExt.UsrNPONbr) ? PXPersistingCheck.NullOrBlank : PXPersistingCheck.Nothing);
             }
         }
 
@@ -175,6 +178,9 @@ namespace PX.Objects.AR
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrVATOutCode>(e.Cache, e.Row, string.IsNullOrEmpty(registerExt.UsrGUINo));
             // According to [JIRA] (HSN-34)
             PXUIFieldAttribute.SetEnabled<ARRegisterExt.usrCreditAction>(e.Cache, e.Row, !statusClosed);
+
+            //PXDefaultAttribute.SetPersistingCheck<ARRegisterExt.usrCarrierID>(e.Cache, e.Row, registerExt.UsrB2CType == TWNB2CType.MC && string.IsNullOrEmpty(registerExt.UsrCarrierID) ? PXPersistingCheck.NullOrBlank : PXPersistingCheck.Nothing);
+            //PXDefaultAttribute.SetPersistingCheck<ARRegisterExt.usrNPONbr>(e.Cache, e.Row, registerExt.UsrB2CType == TWNB2CType.NPO && string.IsNullOrEmpty(registerExt.UsrNPONbr) ? PXPersistingCheck.NullOrBlank : PXPersistingCheck.Nothing);
         }
 
         protected void _(Events.RowInserting<ARInvoice> e)
